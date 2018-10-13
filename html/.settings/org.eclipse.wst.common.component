@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-modules id="moduleCoreId" project-version="1.5.0">
-	<wb-module deploy-name="testGDXGame-html">
+	<wb-module deploy-name="adventuresOfGame-html">
 		<property name="context-root" value="html"/>
 		<wb-resource deploy-path="/WEB-INF/classes" source-path="src"/>
 		<wb-resource deploy-path="/" source-path="webapp"/>
-		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/resource/testGDXGame-core/testGDXGame-core">
+		<dependent-module deploy-path="/WEB-INF/lib" handle="module:/resource/adventuresOfGame-core/adventuresOfGame-core">
 			<dependency-type>uses</dependency-type>
 		</dependent-module>
 	</wb-module>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>testGDXGame-desktop</name>
-	<comment>Project testGDXGame-desktop created by Buildship.</comment>
+	<name>adventuresOfGame-desktop</name>
+	<comment>Project adventuresOfGame-desktop created by Buildship.</comment>
 	<projects>
 	</projects>
 	<buildSpec>
@@ -27,4 +27,14 @@
 			<locationURI>PARENT-1-PROJECT_LOC/core/assets</locationURI>
 		</link>
 	</linkedResources>
+	<variableList>
+		<variable>
+			<name>copy_PARENT</name>
+			<value>$%7BPARENT-3-PROJECT_LOC%7D/Documents/GameDev/Java/AdventuresOf</value>
+		</variable>
+		<variable>
+			<name>copy_PARENT1</name>
+			<value>$%7BPARENT-2-copy_PARENT%7D/Documents/GameDev/Java/AdventuresOf</value>
+		</variable>
+	</variableList>
 </projectDescription>
