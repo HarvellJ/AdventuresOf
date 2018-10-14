@@ -3,7 +3,9 @@ package com.mygdx.game;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -26,8 +28,11 @@ import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
+import com.mygdx.UI.PlayerHUD;
+import com.mygdx.game.Entity;
 
-public class testGDXGame extends ApplicationAdapter implements InputProcessor {
+
+public class testGDXGame extends ApplicationAdapter implements InputProcessor, Screen {
 	    Texture img;
 	    TiledMap tiledMap;
 	    OrthographicCamera camera;
@@ -37,9 +42,24 @@ public class testGDXGame extends ApplicationAdapter implements InputProcessor {
 	    Texture texture;
 	    Sprite sprite;
 	    
+	    private OrthographicCamera _hudCamera = null;
+	    private InputMultiplexer _multiplexer;
+	    private static PlayerHUD _playerHUD;
+		private Entity _player;
+	    
 	    // the object layer ID
         int objectLayerId = 1;
 	    
+    	public static class VIEWPORT {
+    		public static float viewportWidth;
+    		public static float viewportHeight;
+    		public static float virtualWidth;
+    		public static float virtualHeight;
+    		public static float physicalWidth;
+    		public static float physicalHeight;
+    		public static float aspectRatio;
+    	}
+        
 	    @Override public void create () {
 	        float w = Gdx.graphics.getWidth();
 	        float h = Gdx.graphics.getHeight();
@@ -57,6 +77,14 @@ public class testGDXGame extends ApplicationAdapter implements InputProcessor {
 	        sb = new SpriteBatch();
 	        texture = new Texture(Gdx.files.internal("run.gif"));
 	        sprite = new Sprite(texture);
+	        
+	        _hudCamera = new OrthographicCamera();
+	        _hudCamera.setToOrtho(false, VIEWPORT.physicalWidth, VIEWPORT.physicalHeight);
+	        _playerHUD = new PlayerHUD(_hudCamera, _player);
+	        _multiplexer = new InputMultiplexer();
+	        _multiplexer.addProcessor(_playerHUD.getStage());
+	        _multiplexer.addProcessor(_player.getInputProcessor());
+	        Gdx.input.setInputProcessor(_multiplexer);
 	    }
 
 	    public void render () {
@@ -153,6 +181,24 @@ public class testGDXGame extends ApplicationAdapter implements InputProcessor {
 	    @Override public boolean scrolled(int amount) {
 	        return false;
 	    }
+
+		@Override
+		public void show() {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void render(float delta) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void hide() {
+			// TODO Auto-generated method stub
+			
+		}
 	}
 	 
 
