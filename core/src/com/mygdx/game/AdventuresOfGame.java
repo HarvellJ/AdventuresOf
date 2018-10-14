@@ -27,7 +27,7 @@ import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
-public class testGDXGame extends ApplicationAdapter implements InputProcessor {
+public class AdventuresOfGame extends ApplicationAdapter implements InputProcessor {
 	    Texture img;
 	    TiledMap tiledMap;
 	    OrthographicCamera camera;
