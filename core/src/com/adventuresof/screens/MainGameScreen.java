@@ -81,8 +81,7 @@ public class MainGameScreen  implements Screen, InputProcessor {
 		
 		game.spriteBatch.setProjectionMatrix(camera.combined);
 		game.spriteBatch.begin();
-		player.drawPlayer(game.spriteBatch);
-		player.update();
+		player.update(game.spriteBatch);
 		game.spriteBatch.end();
 		
 	}		
