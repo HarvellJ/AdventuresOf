@@ -1,5 +1,7 @@
 package com.adventuresof.screens;
 
+import com.adventuresof.game.GameCharacter;
+import com.adventuresof.game.NPC;
 import com.adventuresof.game.Player;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -40,6 +42,7 @@ public class MainGameScreen  implements Screen, InputProcessor {
 
 	AdventuresOfGame game; 
 	Player player;
+	NPC NPCTest;
 	
 	// the object layer ID
 	int objectLayerId = 1;
@@ -65,6 +68,7 @@ public class MainGameScreen  implements Screen, InputProcessor {
 		// object renderer
 		shapeRenderer = new ShapeRenderer();
 		this.player = new Player();
+		this.NPCTest = new NPC();
 	}
 
 	@Override
@@ -81,7 +85,11 @@ public class MainGameScreen  implements Screen, InputProcessor {
 		
 		game.spriteBatch.setProjectionMatrix(camera.combined);
 		game.spriteBatch.begin();
-		player.update(game.spriteBatch);
+		player.update();
+		player.render(game.spriteBatch);
+		NPCTest.move();
+		NPCTest.update();
+		NPCTest.render(game.spriteBatch);
 		game.spriteBatch.end();
 		
 	}		
