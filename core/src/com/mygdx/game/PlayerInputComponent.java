@@ -3,7 +3,7 @@ package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector3;
-import com.mygdx.game.testGDXGame;
+import com.mygdx.screens.MainGameScreen;
 
 public class PlayerInputComponent extends InputComponent {
 
