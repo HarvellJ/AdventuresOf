@@ -32,6 +32,8 @@ import com.mygdx.game.AdventuresOfGame;
 import com.mygdx.game.Entity;
 
 public class MainGameScreen  implements Screen, InputProcessor {
+	
+	private static final String TAG = MainGameScreen.class.getSimpleName();
 
 	Texture img;
 	TiledMap tiledMap;
@@ -49,6 +51,7 @@ public class MainGameScreen  implements Screen, InputProcessor {
 		public static float aspectRatio;
 	}
 	
+	 protected OrthographicCamera _camera = null; 
 	 private OrthographicCamera _hudCamera = null;
 	 private InputMultiplexer _multiplexer;
 	 private static PlayerHUD _playerHUD;
@@ -63,6 +66,13 @@ public class MainGameScreen  implements Screen, InputProcessor {
 
 	public MainGameScreen(AdventuresOfGame game) {
 		this.game = game;
+		
+		//_camera setup
+		setupViewport(10, 10);
+
+		//get the current size
+		_camera = new OrthographicCamera();
+		_camera.setToOrtho(false, VIEWPORT.viewportWidth, VIEWPORT.viewportHeight);
 		
 		 _hudCamera = new OrthographicCamera();
 		 _hudCamera.setToOrtho(
@@ -133,27 +143,9 @@ public class MainGameScreen  implements Screen, InputProcessor {
 	
 	@Override
 	public void resize(int width, int height) {
-
-	}
-
-	@Override
-	public void pause() {
-
-	}
-
-	@Override
-	public void resume() {
-
-	}
-
-	@Override
-	public void hide() {
-
-	}
-
-	@Override
-	public void dispose() {
-
+		setupViewport(10, 10);
+		_camera.setToOrtho(false, VIEWPORT.viewportWidth, VIEWPORT.viewportHeight);
+		_playerHUD.resize((int) VIEWPORT.physicalWidth, (int) VIEWPORT.physicalHeight);
 	}
 
 	@Override
@@ -219,4 +211,59 @@ public class MainGameScreen  implements Screen, InputProcessor {
 		return false;
 	}
 
+	private void setupViewport(int width, int height){
+		//Make the viewport a percentage of the total display area
+		VIEWPORT.virtualWidth = width;
+		VIEWPORT.virtualHeight = height;
+
+		//Current viewport dimensions
+		VIEWPORT.viewportWidth = VIEWPORT.virtualWidth;
+		VIEWPORT.viewportHeight = VIEWPORT.virtualHeight;
+
+		//pixel dimensions of display
+		VIEWPORT.physicalWidth = Gdx.graphics.getWidth();
+		VIEWPORT.physicalHeight = Gdx.graphics.getHeight();
+
+		//aspect ratio for current viewport
+		VIEWPORT.aspectRatio = (VIEWPORT.virtualWidth / VIEWPORT.virtualHeight);
+
+		//update viewport if there could be skewing
+		if( VIEWPORT.physicalWidth / VIEWPORT.physicalHeight >= VIEWPORT.aspectRatio){
+			//Letterbox left and right
+			VIEWPORT.viewportWidth = VIEWPORT.viewportHeight * (VIEWPORT.physicalWidth/VIEWPORT.physicalHeight);
+			VIEWPORT.viewportHeight = VIEWPORT.virtualHeight;
+		}else{
+			//letterbox above and below
+			VIEWPORT.viewportWidth = VIEWPORT.virtualWidth;
+			VIEWPORT.viewportHeight = VIEWPORT.viewportWidth * (VIEWPORT.physicalHeight/VIEWPORT.physicalWidth);
+		}
+
+		Gdx.app.debug(TAG, "WorldRenderer: virtual: (" + VIEWPORT.virtualWidth + "," + VIEWPORT.virtualHeight + ")" );
+		Gdx.app.debug(TAG, "WorldRenderer: viewport: (" + VIEWPORT.viewportWidth + "," + VIEWPORT.viewportHeight + ")" );
+		Gdx.app.debug(TAG, "WorldRenderer: physical: (" + VIEWPORT.physicalWidth + "," + VIEWPORT.physicalHeight + ")" );
+	}
+
+	@Override
+	public void pause() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void resume() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void hide() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void dispose() {
+		// TODO Auto-generated method stub
+		
+	}
 }
