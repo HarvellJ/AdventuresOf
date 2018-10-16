@@ -59,7 +59,7 @@ public class MainGameScreen  implements Screen, InputProcessor {
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false,w,h);
 		camera.update();
-		tiledMap = new TmxMapLoader().load("TestMap.tmx");
+		tiledMap = new TmxMapLoader().load("map1.tmx");
 		tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
 
 		// object renderer
