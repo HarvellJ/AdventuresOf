@@ -31,10 +31,9 @@ public class PlayerHUD implements Screen,  ProfileObserver {
 		// TODO Auto-generated constructor stub
 	}
 
-	public InputProcessor getStage() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public Stage getStage() {
+        return _stage;
+    }
 
 	@Override
 	public void show() {
