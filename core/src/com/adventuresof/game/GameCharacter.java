@@ -6,6 +6,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapObjects;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
 public class GameCharacter extends GameObject {
@@ -30,23 +36,38 @@ public class GameCharacter extends GameObject {
     private Animation<TextureRegion> runDownAnimation;
     private Animation<TextureRegion> attackAnimation;
     private boolean isIdle;
-    
     private static final String animationSheetName = "animation_sheet.png";
     private static final int FRAME_COLS = 8, FRAME_ROWS = 5;
     private float stateTime;
 
+    // collision stuff
+    private Rectangle boundingRectangle;
+    
     public GameCharacter() {
     	// create the sprite textures
     	this.initiateCharacterTextures();
 
+    	// instantiate position as a blank vector3
     	currentPosition = new Vector3();
     	
+    	// create animations
 		stateTime = 0f;
     	this.createAnimations();
+    	
+    	// create objects required for collisions
+    	setBoundingRectangle(new Rectangle());
     }
+    
+	public Rectangle getBoundingRectangle() {
+		return boundingRectangle;
+	}
 
+
+	public void setBoundingRectangle(Rectangle boundingRectangle) {
+		this.boundingRectangle = boundingRectangle;
+	}
   
-    public void update() {
+    public void update(TiledMapTileLayer accessibleTiles) {
     	
     	if(pointToMoveTo != null) {
     		// first, work out the direction in which the character should be facing
@@ -71,9 +92,17 @@ public class GameCharacter extends GameObject {
     		}
     		else
     		{
-    			currentPosition.x = currentPosition.x + (float) nextX;
-    			currentPosition.y = currentPosition.y + (float) nextY;   
-    			isIdle = false;
+    			// check if the next position is an accessible cell, if so, move there. If not, stop moving, character at edge of accessible layer.
+    			// the / 32 is dividing the current position co-ordinates by the tile sizes
+    			if(accessibleTiles.getCell(((int) currentPosition.x + (int) nextX) / 32, ((int) currentPosition.y + (int) nextY) / 32) == null) {
+    				pointToMoveTo = null;
+        			isIdle = true;
+    			}else {
+    				currentPosition.x = currentPosition.x + (float) nextX;
+        			currentPosition.y = currentPosition.y + (float) nextY;   
+        			isIdle = false;
+    			}
+    			
     		} 		
     	}
     }
