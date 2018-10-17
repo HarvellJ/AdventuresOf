@@ -1,5 +1,7 @@
 package com.adventuresof.screens;
 
+import com.adventuresof.game.GameCharacter;
+import com.adventuresof.game.NPC;
 import com.adventuresof.game.Player;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -20,6 +22,7 @@ import com.badlogic.gdx.maps.objects.CircleMapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Circle;
@@ -40,12 +43,18 @@ public class MainGameScreen  implements Screen, InputProcessor {
 
 	AdventuresOfGame game; 
 	Player player;
+	NPC NPCTest;
 	
-	// the object layer ID
-	int objectLayerId = 1;
+	// Collision code
+	int objectLayerId = 1; //layer number on which game objects exist
+	int accessibleMapLayerID = 0;
+	int inaccessibleMapLayerID = 5; //layer number on which tiles exist that cannot be moved onto, e.g. water, lava
+	MapLayer collisionObjectLayer; //Actually contains the collision object layer
+	MapObjects objects ;
+	TiledMapTileLayer accessibleMapLayer; //Actually contains the collision object layer
 
 	public MainGameScreen(AdventuresOfGame game) {
-		this.game = game;		
+		this.game = game;				 	
 	}
 
 	@Override
@@ -62,9 +71,15 @@ public class MainGameScreen  implements Screen, InputProcessor {
 		tiledMap = new TmxMapLoader().load("map1.tmx");
 		tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
 
+		// load collision objects
+	    collisionObjectLayer = (MapLayer)tiledMap.getLayers().get(objectLayerId);
+	    objects = collisionObjectLayer.getObjects();
+		accessibleMapLayer = (TiledMapTileLayer)tiledMap.getLayers().get(accessibleMapLayerID);
+		
 		// object renderer
 		shapeRenderer = new ShapeRenderer();
 		this.player = new Player();
+		this.NPCTest = new NPC();
 	}
 
 	@Override
@@ -81,10 +96,25 @@ public class MainGameScreen  implements Screen, InputProcessor {
 		
 		game.spriteBatch.setProjectionMatrix(camera.combined);
 		game.spriteBatch.begin();
-		player.update(game.spriteBatch);
-		game.spriteBatch.end();
-		
+		player.update(accessibleMapLayer);
+		player.render(game.spriteBatch);
+	 	NPCTest.move();
+		NPCTest.update(accessibleMapLayer);
+		NPCTest.render(game.spriteBatch);
+		this.detectObjectCollisions();
+		game.spriteBatch.end();		
 	}		
+	
+	private void detectObjectCollisions() {
+		for (RectangleMapObject rectangleObject : objects.getByType(RectangleMapObject.class)) {
+
+			Rectangle rectangle = rectangleObject.getRectangle();
+			if (Intersector.overlaps(rectangle, player.getBoundingRectangle())) {
+				// collision occurred
+				break;
+			}	     
+		}	  	
+	}
 
 	private void renderGameObjects() {
 		// render any map objects 
@@ -166,8 +196,6 @@ public class MainGameScreen  implements Screen, InputProcessor {
 		this.player.setTargetLocation(newPosition);
 		return false;
 	}
-
-	
 	
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
