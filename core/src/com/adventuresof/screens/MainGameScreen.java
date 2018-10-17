@@ -98,12 +98,23 @@ public class MainGameScreen  implements Screen, InputProcessor {
 		game.spriteBatch.begin();
 		player.update(accessibleMapLayer);
 		player.render(game.spriteBatch);
-	//	NPCTest.move();
-		//NPCTest.update(accessibleMapLayer);
-		//NPCTest.render(game.spriteBatch);
-		game.spriteBatch.end();
-		
+	 	NPCTest.move();
+		NPCTest.update(accessibleMapLayer);
+		NPCTest.render(game.spriteBatch);
+		this.detectObjectCollisions();
+		game.spriteBatch.end();		
 	}		
+	
+	private void detectObjectCollisions() {
+		for (RectangleMapObject rectangleObject : objects.getByType(RectangleMapObject.class)) {
+
+			Rectangle rectangle = rectangleObject.getRectangle();
+			if (Intersector.overlaps(rectangle, player.getBoundingRectangle())) {
+				// collision occurred
+				break;
+			}	     
+		}	  	
+	}
 
 	private void renderGameObjects() {
 		// render any map objects 

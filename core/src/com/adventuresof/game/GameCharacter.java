@@ -55,7 +55,7 @@ public class GameCharacter extends GameObject {
     	this.createAnimations();
     	
     	// create objects required for collisions
-    	setBoundingRectangle(new Rectangle());
+    	this.boundingRectangle = new Rectangle();
     }
     
 	public Rectangle getBoundingRectangle() {
@@ -67,7 +67,7 @@ public class GameCharacter extends GameObject {
 		this.boundingRectangle = boundingRectangle;
 	}
   
-    public void update(TiledMapTileLayer accessibleTiles) {
+    public void update(TiledMapTileLayer accessibleTiles) {    	
     	
     	if(pointToMoveTo != null) {
     		// first, work out the direction in which the character should be facing
@@ -105,6 +105,8 @@ public class GameCharacter extends GameObject {
     			
     		} 		
     	}
+    	//following any positional moves, update the characters bounding record
+    	this.boundingRectangle.setPosition(currentPosition.x, currentPosition.y);
     }
     
     /**
