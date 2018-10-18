@@ -12,7 +12,7 @@ public abstract class GameObject {
 	/**
 	 * Updates the objects values for the current frame
 	 */
-	public abstract void update(TiledMapTileLayer accessibleTiles);
+	public abstract void update();
 	
 	/**
 	 * Renders the objects values to the current frame

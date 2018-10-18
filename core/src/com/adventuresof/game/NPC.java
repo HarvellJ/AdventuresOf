@@ -2,13 +2,15 @@ package com.adventuresof.game;
 
 import java.util.Random;
 
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector3;
 
 public class NPC extends GameCharacter {
 
 	private Random r;
 	
-	public NPC() {
+	public NPC(TiledMapTileLayer accessibleTiles) {
+		super(accessibleTiles);
 		this.r = new Random();
 	}
 	

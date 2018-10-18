@@ -39,23 +39,27 @@ public class GameCharacter extends GameObject {
     private static final String animationSheetName = "animation_sheet.png";
     private static final int FRAME_COLS = 8, FRAME_ROWS = 5;
     private float stateTime;
-
+  
     // collision stuff
     private Rectangle boundingRectangle;
+    TiledMapTileLayer accessibleTiles; // represents the tiles that are accessible by the character
     
-    public GameCharacter() {
+    public GameCharacter(TiledMapTileLayer accessibleTiles) {
     	// create the sprite textures
     	this.initiateCharacterTextures();
 
-    	// instantiate position as a blank vector3
-    	currentPosition = new Vector3();
-    	
     	// create animations
 		stateTime = 0f;
     	this.createAnimations();
     	
     	// create objects required for collisions
     	this.boundingRectangle = new Rectangle();
+    	
+    	this.accessibleTiles = accessibleTiles;
+
+    	// instantiate position as a blank vector3
+    	currentPosition = new Vector3((float) 800, (float) 900, 0);
+    	 	
     }
     
 	public Rectangle getBoundingRectangle() {
@@ -67,7 +71,7 @@ public class GameCharacter extends GameObject {
 		this.boundingRectangle = boundingRectangle;
 	}
   
-    public void update(TiledMapTileLayer accessibleTiles) {    	
+    public void update() {    	
     	
     	if(pointToMoveTo != null) {
     		// first, work out the direction in which the character should be facing
@@ -94,14 +98,14 @@ public class GameCharacter extends GameObject {
     		{
     			// check if the next position is an accessible cell, if so, move there. If not, stop moving, character at edge of accessible layer.
     			// the / 32 is dividing the current position co-ordinates by the tile sizes
-    			if(accessibleTiles.getCell(((int) currentPosition.x + (int) nextX) / 32, ((int) currentPosition.y + (int) nextY) / 32) == null) {
-    				pointToMoveTo = null;
-        			isIdle = true;
-    			}else {
+    			//if(accessibleTiles.getCell(((int) currentPosition.x + (int) nextX) / 16, ((int) currentPosition.y + (int) nextY) / 16) == null) {
+    				//pointToMoveTo = null;
+        			//isIdle = true;
+    			//}else {
     				currentPosition.x = currentPosition.x + (float) nextX;
         			currentPosition.y = currentPosition.y + (float) nextY;   
         			isIdle = false;
-    			}
+    			//}
     			
     		} 		
     	}
@@ -123,7 +127,7 @@ public class GameCharacter extends GameObject {
     	}
 
     	// Draw the frame at the current position
-    	spriteBatch.draw(currentFrame, currentPosition.x, currentPosition.y); // Draw current frame 
+    	spriteBatch.draw(currentFrame, currentPosition.x - 40, currentPosition.y); // Draw current frame 
     }
     
     /**

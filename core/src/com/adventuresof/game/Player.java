@@ -36,5 +36,9 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
 public class Player extends GameCharacter{
-    
+	
+	public Player(TiledMapTileLayer accessibleTiles) {
+		super(accessibleTiles);
+	}
+	
 }

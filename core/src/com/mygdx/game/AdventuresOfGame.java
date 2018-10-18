@@ -31,12 +31,8 @@ import com.badlogic.gdx.math.Vector3;
 
 public class AdventuresOfGame extends Game {
 
-	public SpriteBatch spriteBatch;
-
-
 	@Override public void create () {
-		spriteBatch = new SpriteBatch();
-		this.setScreen(new MainGameScreen(this));
+		this.setScreen(new MainGameScreen());
 	}
 
 	public void render () {
