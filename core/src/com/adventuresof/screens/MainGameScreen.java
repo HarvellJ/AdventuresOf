@@ -45,7 +45,7 @@ public class MainGameScreen  implements Screen {
 	// for inventory
 	private OrthographicCamera hudCamera = null;    
     private InputMultiplexer multiplexer;  
-	private static PlayerHUD playerHUD;
+	private PlayerHUD playerHUD;
 	
 	public MainGameScreen() {		
 		this.gameWorld = new GameWorld();
@@ -71,6 +71,7 @@ public class MainGameScreen  implements Screen {
 	public void render(float delta) {
 		this.gameWorld.update(delta);
 		this.gameRenderer.render();
+		this.playerHUD.render(delta);
 	}		
 	
 	@Override
