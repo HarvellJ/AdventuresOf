@@ -5,12 +5,13 @@ import com.adventuresof.game.character.NPC;
 import com.adventuresof.game.character.Player;
 import com.adventuresof.game.world.GameRenderer;
 import com.adventuresof.game.world.GameWorld;
-import com.adventuresof.helpers.InputController;
+import com.adventuresof.helpers.PlayerController;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -41,10 +42,24 @@ public class MainGameScreen  implements Screen {
 	private GameWorld gameWorld;
 	private GameRenderer gameRenderer;
 	
+	// for inventory
+	private OrthographicCamera hudCamera = null;    
+    private InputMultiplexer multiplexer;  
+	private static PlayerHUD playerHUD;
+	
 	public MainGameScreen() {		
 		this.gameWorld = new GameWorld();
 		this.gameRenderer = new GameRenderer(gameWorld);
-		Gdx.input.setInputProcessor(new InputController(gameWorld, gameRenderer));
+		
+		hudCamera = new OrthographicCamera();
+		hudCamera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		playerHUD = new PlayerHUD(hudCamera);
+		multiplexer = new InputMultiplexer(); 
+		multiplexer.addProcessor(playerHUD.stage);
+		multiplexer.addProcessor(new PlayerController(gameWorld, gameRenderer)); 
+		Gdx.input.setInputProcessor(multiplexer); 
+		
+		//Gdx.input.setInputProcessor(new PlayerController(gameWorld, gameRenderer));
 	}
 
 	@Override
@@ -54,13 +69,13 @@ public class MainGameScreen  implements Screen {
 
 	@Override
 	public void render(float delta) {
-		this.gameWorld.update();
+		this.gameWorld.update(delta);
 		this.gameRenderer.render();
 	}		
 	
 	@Override
 	public void resize(int width, int height) {
-
+		this.gameRenderer.resize(width, height);
 	}
 
 	@Override

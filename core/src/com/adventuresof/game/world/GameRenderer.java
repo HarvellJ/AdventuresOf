@@ -2,7 +2,9 @@ package com.adventuresof.game.world;
 
 import com.adventuresof.game.character.NPC;
 import com.adventuresof.game.character.Player;
-import com.adventuresof.helpers.InputController;
+import com.adventuresof.game.inventory.Inventory;
+import com.adventuresof.game.inventory.InventoryActor;
+import com.adventuresof.helpers.PlayerController;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -18,38 +20,34 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 
 public class GameRenderer {
 	
-	private ShapeRenderer shapeRenderer;
-	private OrthographicCamera camera;
-
-	private SpriteBatch spriteBatch;
+	private ShapeRenderer shapeRenderer; // renders shapes on the map
 	
-	private GameWorld gameWorld;
-	
+	private OrthographicCamera camera; // the camera (orthographic renders everything on one pane, regardless of distance)
+	private SpriteBatch spriteBatch; // the sprite batch to use for the game
+	private GameWorld gameWorld; // the game world
+		
 	public GameRenderer(GameWorld gameWorld) {
 		
-		this.gameWorld = gameWorld;
-		
+		//game world
+		this.gameWorld = gameWorld;		
 		this.spriteBatch = new SpriteBatch();
+		this.shapeRenderer = new ShapeRenderer();
 		
-		// object renderer
-		shapeRenderer = new ShapeRenderer();
-		
-		// called when screen first appears
+		// get the width/height of the window
 		float w = Gdx.graphics.getWidth();
 		float h = Gdx.graphics.getHeight();
 
+		// sort out the camera
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false,w,h);
 		camera.update();
-		camera.position.set(gameWorld.getPlayer().getCurrentPosition().x, gameWorld.getPlayer().getCurrentPosition().y, 0f);
-
-
-		// object renderer
-		shapeRenderer = new ShapeRenderer();
-		
+		camera.position.set(gameWorld.getPlayer().getCurrentPosition().x, gameWorld.getPlayer().getCurrentPosition().y, 0f);	 
 	}
 	
 	public OrthographicCamera getCamera() {
@@ -82,22 +80,29 @@ public class GameRenderer {
 		spriteBatch.end();		
 	}
 	
+	
+
+	
+	public void resize(int width, int height) {
+	}
+	
 	private void renderGameObjects() {
 		// render any map objects 
-				shapeRenderer.setProjectionMatrix(camera.combined);
-				for (MapObject object : gameWorld.getMap().getTiledMap().getLayers().get("collisionLayer").getObjects()) {
-					if(object instanceof RectangleMapObject) {
-						Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
-						shapeRenderer.begin(ShapeType.Filled);
-						shapeRenderer.rect(rectangle.x,  rectangle.y,  rectangle.width,   rectangle.height);
-						shapeRenderer.end();
-					}
-					else if(object instanceof CircleMapObject) {
-						Circle circle = ((CircleMapObject) object).getCircle();
-						shapeRenderer.begin(ShapeType.Filled);
-						shapeRenderer.circle(circle.x,  circle.y,  circle.radius);
-						shapeRenderer.end();
-					}	        	
-				}
+		shapeRenderer.setProjectionMatrix(camera.combined);
+		for (MapObject object : gameWorld.getMap().getTiledMap().getLayers().get("collisionLayer").getObjects()) {
+			if(object instanceof RectangleMapObject) {
+				Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
+				shapeRenderer.begin(ShapeType.Filled);
+				shapeRenderer.rect(rectangle.x,  rectangle.y,  rectangle.width,   rectangle.height);
+				shapeRenderer.end();
+			}
+			else if(object instanceof CircleMapObject) {
+				Circle circle = ((CircleMapObject) object).getCircle();
+				shapeRenderer.begin(ShapeType.Filled);
+				shapeRenderer.circle(circle.x,  circle.y,  circle.radius);
+				shapeRenderer.end();
+			}	        	
+		}
 	}
+
 }
