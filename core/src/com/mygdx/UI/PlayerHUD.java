@@ -20,16 +20,13 @@ public class PlayerHUD implements Screen,  ProfileObserver {
 	 private StatusUI _statusUI;
 	 private InventoryUI _inventoryUI;
 	 
-	 public PlayerHUD(Camera camera, Entity player) {
-	 _viewport = new ScreenViewport(_camera);
+	 public PlayerHUD(Camera camera) {
+     _viewport = new ScreenViewport(camera);
 	 _stage = new Stage(_viewport);
 	 _statusUI = new StatusUI();
 	 _inventoryUI = new InventoryUI();
 	 }
-	
-	public PlayerHUD(OrthographicCamera _hudCamera, Entity _player) {
-		// TODO Auto-generated constructor stub
-	}
+
 
     public Stage getStage() {
         return _stage;
