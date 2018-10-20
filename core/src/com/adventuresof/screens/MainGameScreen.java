@@ -45,7 +45,7 @@ public class MainGameScreen  implements Screen {
 	
 	 private OrthographicCamera _hudCamera = null; 
 	 private InputMultiplexer _multiplexer;  
-	 private static PlayerHUD _playerHUD;
+	 private PlayerHUD _playerHUD;
 	
 	public MainGameScreen() {		
 		this.gameWorld = new GameWorld();
