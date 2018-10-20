@@ -1,18 +1,18 @@
 package com.adventuresof.helpers;
 
-import com.adventuresof.game.Player;
-import com.adventuresof.gameworld.GameRenderer;
-import com.adventuresof.gameworld.GameWorld;
+import com.adventuresof.game.character.Player;
+import com.adventuresof.game.world.GameRenderer;
+import com.adventuresof.game.world.GameWorld;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector3;
 
-public class InputHandler implements InputProcessor{
+public class InputController implements InputProcessor{
 
 	private GameWorld gameWorld;
 	private GameRenderer gameRenderer;
 
-	public InputHandler(GameWorld gameWorld, GameRenderer gameRenderer) {
+	public InputController(GameWorld gameWorld, GameRenderer gameRenderer) {
 		this.gameWorld = gameWorld;
 		this.gameRenderer = gameRenderer;
 	}
@@ -28,9 +28,9 @@ public class InputHandler implements InputProcessor{
 		if(keycode == Input.Keys.DOWN)
 			gameRenderer.getCamera().translate(0,-45);
 		if(keycode == Input.Keys.NUM_1)
-			gameWorld.getTiledMap().getLayers().get(0).setVisible(!gameWorld.getTiledMap().getLayers().get(0).isVisible());
+			gameWorld.getMap().getTiledMap().getLayers().get(0).setVisible(!gameWorld.getMap().getTiledMap().getLayers().get(0).isVisible());
 		if(keycode == Input.Keys.NUM_2)
-			gameWorld.getTiledMap().getLayers().get(1).setVisible(!gameWorld.getTiledMap().getLayers().get(1).isVisible());		
+			gameWorld.getMap().getTiledMap().getLayers().get(1).setVisible(!gameWorld.getMap().getTiledMap().getLayers().get(1).isVisible());		
 		return false;
 	}
 

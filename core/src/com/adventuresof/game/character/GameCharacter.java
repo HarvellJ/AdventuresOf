@@ -1,4 +1,4 @@
-package com.adventuresof.game;
+package com.adventuresof.game.character;
 
 import com.adventuresof.helpers.AnimationFactory;
 import com.badlogic.gdx.Gdx;
@@ -40,6 +40,9 @@ public class GameCharacter extends GameObject {
     private static final int FRAME_COLS = 8, FRAME_ROWS = 5;
     private float stateTime;
   
+    
+	protected GameCharacter target; // the characters current target
+    
     // collision stuff
     private Rectangle boundingRectangle;
     TiledMapTileLayer accessibleTiles; // represents the tiles that are accessible by the character
@@ -62,6 +65,22 @@ public class GameCharacter extends GameObject {
     	 	
     }
     
+	public GameCharacter getTarget() {
+		return target;
+	}
+
+	public void setTarget(GameCharacter target) {
+		this.target = target;
+	}
+    
+	public Vector3 getCurrentPosition() {
+		return currentPosition;
+	}
+
+	public void setCurrentPosition(Vector3 currentPosition) {
+		this.currentPosition = currentPosition;
+	}
+
 	public Rectangle getBoundingRectangle() {
 		return boundingRectangle;
 	}
