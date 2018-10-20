@@ -5,7 +5,7 @@ import com.adventuresof.game.character.NPC;
 import com.adventuresof.game.character.Player;
 import com.adventuresof.game.world.GameRenderer;
 import com.adventuresof.game.world.GameWorld;
-import com.adventuresof.helpers.InputController;
+import com.adventuresof.helpers.PlayerController;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
@@ -33,7 +33,6 @@ import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
-import com.mygdx.UI.PlayerHUD;
 import com.mygdx.game.AdventuresOfGame;
 
 import javafx.util.Pair;
@@ -43,22 +42,26 @@ public class MainGameScreen  implements Screen {
 	private GameWorld gameWorld;
 	private GameRenderer gameRenderer;
 	
-	 private OrthographicCamera _hudCamera = null; 
-	 private InputMultiplexer _multiplexer;  
-	 private static PlayerHUD _playerHUD;
+	// for inventory
+	private OrthographicCamera hudCamera = null;    
+    private InputMultiplexer multiplexer;  
+	private PlayerHUD playerHUD;
 	
 	public MainGameScreen() {		
 		this.gameWorld = new GameWorld();
 		this.gameRenderer = new GameRenderer(gameWorld);
 		
-		 _hudCamera = new OrthographicCamera();  
-		 _hudCamera.setToOrtho(false,  Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		 _playerHUD = new PlayerHUD(_hudCamera);
-		 _multiplexer = new InputMultiplexer();  
-		 _multiplexer.addProcessor(_playerHUD.getStage());  
-		 _multiplexer.addProcessor(new InputController(gameWorld, gameRenderer)); 
-		 Gdx.input.setInputProcessor(_multiplexer); 
-		 //Gdx.input.setInputProcessor(new InputController(gameWorld, gameRenderer));
+
+		hudCamera = new OrthographicCamera();
+		hudCamera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		playerHUD = new PlayerHUD(hudCamera);
+		multiplexer = new InputMultiplexer(); 
+		multiplexer.addProcessor(playerHUD.stage);
+		multiplexer.addProcessor(new PlayerController(gameWorld, gameRenderer)); 
+		Gdx.input.setInputProcessor(multiplexer); 
+		
+		//Gdx.input.setInputProcessor(new PlayerController(gameWorld, gameRenderer));
+
 	}
 
 	@Override
@@ -68,14 +71,14 @@ public class MainGameScreen  implements Screen {
 
 	@Override
 	public void render(float delta) {
-		this.gameWorld.update();
+		this.gameWorld.update(delta);
 		this.gameRenderer.render();
-		this._playerHUD.render(delta);
+		this.playerHUD.render(delta);
 	}		
 	
 	@Override
 	public void resize(int width, int height) {
-
+		this.gameRenderer.resize(width, height);
 	}
 
 	@Override

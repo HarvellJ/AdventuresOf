@@ -55,7 +55,7 @@ public class GameWorld {
 		this.player = player;
 	}
 	
-	public void update() {
+	public void update(float delta) {
 		//this.detectObjectCollisions();
 		player.update();
 	 	NPCTest.move();
