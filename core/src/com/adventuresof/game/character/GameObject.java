@@ -1,4 +1,4 @@
-package com.adventuresof.game;
+package com.adventuresof.game.character;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapLayer;

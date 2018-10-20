@@ -1,11 +1,11 @@
 package com.adventuresof.screens;
 
-import com.adventuresof.game.GameCharacter;
-import com.adventuresof.game.NPC;
-import com.adventuresof.game.Player;
-import com.adventuresof.gameworld.GameRenderer;
-import com.adventuresof.gameworld.GameWorld;
-import com.adventuresof.helpers.InputHandler;
+import com.adventuresof.game.character.GameCharacter;
+import com.adventuresof.game.character.NPC;
+import com.adventuresof.game.character.Player;
+import com.adventuresof.game.world.GameRenderer;
+import com.adventuresof.game.world.GameWorld;
+import com.adventuresof.helpers.InputController;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
@@ -41,18 +41,10 @@ public class MainGameScreen  implements Screen {
 	private GameWorld gameWorld;
 	private GameRenderer gameRenderer;
 	
-	// Collision code
-	int objectLayerId = 1; //layer number on which game objects exist
-	int accessibleMapLayerID = 1;
-	int inaccessibleMapLayerID = 2; //layer number on which tiles exist that cannot be moved onto, e.g. water, lava
-	MapLayer collisionObjectLayer; //Actually contains the collision object layer
-	MapObjects objects ;
-	TiledMapTileLayer accessibleMapLayer; //Actually contains the collision object layer
-
 	public MainGameScreen() {		
 		this.gameWorld = new GameWorld();
 		this.gameRenderer = new GameRenderer(gameWorld);
-		Gdx.input.setInputProcessor(new InputHandler(gameWorld, gameRenderer));
+		Gdx.input.setInputProcessor(new InputController(gameWorld, gameRenderer));
 	}
 
 	@Override

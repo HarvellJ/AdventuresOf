@@ -1,8 +1,8 @@
-package com.adventuresof.gameworld;
+package com.adventuresof.game.world;
 
-import com.adventuresof.game.NPC;
-import com.adventuresof.game.Player;
-import com.adventuresof.helpers.InputHandler;
+import com.adventuresof.game.character.NPC;
+import com.adventuresof.game.character.Player;
+import com.adventuresof.helpers.InputController;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -44,6 +44,8 @@ public class GameRenderer {
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false,w,h);
 		camera.update();
+		camera.position.set(gameWorld.getPlayer().getCurrentPosition().x, gameWorld.getPlayer().getCurrentPosition().y, 0f);
+
 
 		// object renderer
 		shapeRenderer = new ShapeRenderer();
@@ -63,16 +65,18 @@ public class GameRenderer {
 		Gdx.gl.glClearColor(1, 0, 0, 1);
 		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		camera.position.set(gameWorld.getPlayer().getCurrentPosition().x, gameWorld.getPlayer().getCurrentPosition().y, 0f);
 		camera.update();
-		gameWorld.getTiledMapRenderer().setView(camera);
-		gameWorld.getTiledMapRenderer().render();
+		gameWorld.getMap().getTiledMapRenderer().setView(camera);
+		gameWorld.getMap().getTiledMapRenderer().render();
 
 		//this.renderGameObjects();		
 		
 		spriteBatch.setProjectionMatrix(camera.combined);
 		spriteBatch.begin();
 		gameWorld.getPlayer().render(spriteBatch);
-		
+		gameWorld.getPlayerCompanion().render(spriteBatch);
+
 		//NPCTest.render(spriteBatch);
 		
 		spriteBatch.end();		
@@ -81,7 +85,7 @@ public class GameRenderer {
 	private void renderGameObjects() {
 		// render any map objects 
 				shapeRenderer.setProjectionMatrix(camera.combined);
-				for (MapObject object : gameWorld.getTiledMap().getLayers().get("collisionLayer").getObjects()) {
+				for (MapObject object : gameWorld.getMap().getTiledMap().getLayers().get("collisionLayer").getObjects()) {
 					if(object instanceof RectangleMapObject) {
 						Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
 						shapeRenderer.begin(ShapeType.Filled);
