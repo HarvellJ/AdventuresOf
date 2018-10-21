@@ -1,20 +1,13 @@
 package com.adventuresof.game.character;
 
 import com.adventuresof.helpers.AnimationFactory;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
-public class PlayerCompanion extends NPC {
+public class Enemy extends NPC {
 
-	public PlayerCompanion(TiledMapTileLayer accessibleTiles, GameCharacter characterToFollow) {
-		super(accessibleTiles, "animation_sheet.png", 8, 5, 1700, 1300);
-		this.setTarget(characterToFollow);
-		// when companion is created, send welcome message to player
-		super.addMessageToMessageQueue("Hello there! Welcome to the tutorial");
-		super.addMessageToMessageQueue("I am here to guide you through your adventures.");
-		super.addMessageToMessageQueue("Lets start by moving around. Right click anywhere on the island to move to that location");
-		super.addMessageToMessageQueue("And dont worry, you can't fall off into the ocean (I know you was wondering).");
+	public Enemy(TiledMapTileLayer accessibleTiles, String textureSheet, float startX, float startY) {
+		super(accessibleTiles, textureSheet, 4, 2, startX, startY);
+		super.setCharacterDirection(Direction.left);
 	}
 
 	protected void createAnimations() {

@@ -1,5 +1,8 @@
 package com.adventuresof.game.world;
 
+import com.adventuresof.game.character.Direction;
+import com.adventuresof.game.character.Enemy;
+import com.adventuresof.game.character.Guard;
 import com.adventuresof.game.character.NPC;
 import com.adventuresof.game.character.Player;
 import com.adventuresof.game.character.PlayerCompanion;
@@ -29,7 +32,20 @@ public class GameWorld {
 
 	private Player player;
 	private PlayerCompanion playerCompanion;
-	private NPC NPCTest;
+	private Guard startZoneGuard1;
+	private Guard startZoneGuard2;
+	public Guard itemZoneGuard1;
+	public Guard itemZoneGuard2;
+	public Guard itemZoneGuard3;
+	public Guard itemZoneGuard4;
+	
+	public Enemy enemy1;
+	public Enemy enemy2;
+	public Enemy enemy3;
+	public Enemy enemy4;
+	public Enemy enemy5;
+
+	
 	private Item[] items;// an array of in-game items - representing the items that exist in the world
 	
 	public GameWorld() {
@@ -39,13 +55,34 @@ public class GameWorld {
 		
 		// load the players
 		this.setPlayer(new Player(map.getAccessibleMapLayer()));
-		this.NPCTest = new NPC(map.getAccessibleMapLayer());
+		
+		// load the guard NPCs
+		this.loadGuardNPCs();
+		
+		this.loadEnemyNPCs();
+		
 		this.setPlayerCompanion(new PlayerCompanion(map.getAccessibleMapLayer(), this.player));
 		
 		// load map items
 		this.setItems(new Item[] {Item.values()[0], Item.values()[1], Item.values()[2]});		
 	}	
 	
+	public Guard getStartZoneGuard1() {
+		return startZoneGuard1;
+	}
+
+	public void setStartZoneGuard1(Guard startZoneGuard1) {
+		this.startZoneGuard1 = startZoneGuard1;
+	}
+
+	public Guard getStartZoneGuard2() {
+		return startZoneGuard2;
+	}
+
+	public void setStartZoneGuard2(Guard startZoneGuard2) {
+		this.startZoneGuard2 = startZoneGuard2;
+	}
+
 	public Item[] getItems() {
 		return items;
 	}
@@ -72,15 +109,82 @@ public class GameWorld {
 	
 	public void update(float delta) {
 		//this.detectObjectCollisions();
+		// move player
 		player.update();
-	 	NPCTest.move();
-		NPCTest.update();
+		// move player companion
 		playerCompanion.move();
 		playerCompanion.update();
+		// move guard NPCs
+		startZoneGuard1.update();
+		startZoneGuard2.update();
+		itemZoneGuard1.update();
+		itemZoneGuard2.update();
+		itemZoneGuard3.update();
+		itemZoneGuard4.update();
+		// move enemies
+		enemy1.move();
+		enemy2.move();
+		enemy3.move();
+		enemy4.move();
+		enemy5.move();
+		enemy1.update();
+		enemy2.update();
+		enemy3.update();
+		enemy4.update();
+		enemy5.update();
+
 		this.detectCollectionOfItemObjects();
 		this.detectCollisionWithTriggers();
 	}
 
+	private void loadEnemyNPCs() {
+		for (RectangleMapObject rectangleObject : this.map.getEnemySpawnObjects().getByType(RectangleMapObject.class)) {
+			Rectangle rectangle = rectangleObject.getRectangle();
+				if (rectangleObject.getName().equals("enemySpawn1")) {
+					this.enemy1 = new Enemy(map.getAccessibleMapLayer(), "knight_animation_sheet.png", rectangle.x, rectangle.y);
+				}
+				else if(rectangleObject.getName().equals("enemySpawn2")) {
+					this.enemy2 = new Enemy(map.getAccessibleMapLayer(), "knight_animation_sheet.png", rectangle.x, rectangle.y);
+				}	
+				else if(rectangleObject.getName().equals("enemySpawn3")) {
+					this.enemy3 = new Enemy(map.getAccessibleMapLayer(), "knight_animation_sheet.png", rectangle.x, rectangle.y);
+				}	
+				else if(rectangleObject.getName().equals("enemySpawn4")) {
+					this.enemy4 = new Enemy(map.getAccessibleMapLayer(), "knight_animation_sheet.png", rectangle.x, rectangle.y);
+				}	
+				else if(rectangleObject.getName().equals("enemySpawn5")) {
+					this.enemy5 = new Enemy(map.getAccessibleMapLayer(), "knight_animation_sheet.png", rectangle.x, rectangle.y);
+				}	
+		}
+	}
+	
+	private void loadGuardNPCs() {
+		for (RectangleMapObject rectangleObject : this.map.getGuardSpawnObjects().getByType(RectangleMapObject.class)) {
+			Rectangle rectangle = rectangleObject.getRectangle();
+				if (rectangleObject.getName().equals("guardSpawn1_StartZone")) {
+					this.startZoneGuard1 = new Guard(map.getAccessibleMapLayer(), "knight_animation_sheet.png", rectangle.x, rectangle.y, Direction.left);
+				}
+				else if(rectangleObject.getName().equals("guardSpawn2_StartZone")) {
+					this.startZoneGuard2 = new Guard(map.getAccessibleMapLayer(), "knight_animation_sheet.png", rectangle.x, rectangle.y, Direction.left);
+				}		
+				else if (rectangleObject.getName().equals("guardSpawn1_StartZone")) {
+					this.startZoneGuard1 = new Guard(map.getAccessibleMapLayer(), "knight_animation_sheet.png", rectangle.x, rectangle.y, Direction.left);
+				}
+				else if(rectangleObject.getName().equals("guardSpawn1_ItemZone")) {
+					this.itemZoneGuard1 = new Guard(map.getAccessibleMapLayer(), "knight_animation_sheet.png", rectangle.x, rectangle.y, Direction.down);
+				}
+				else if(rectangleObject.getName().equals("guardSpawn2_ItemZone")) {
+					this.itemZoneGuard2 = new Guard(map.getAccessibleMapLayer(), "knight_animation_sheet.png", rectangle.x, rectangle.y, Direction.down);
+				}
+				else if(rectangleObject.getName().equals("guardSpawn3_ItemZone")) {
+					this.itemZoneGuard3 = new Guard(map.getAccessibleMapLayer(), "knight_animation_sheet.png", rectangle.x, rectangle.y, Direction.right);
+				}
+				else if(rectangleObject.getName().equals("guardSpawn4_ItemZone")) {
+					this.itemZoneGuard4 = new Guard(map.getAccessibleMapLayer(), "knight_animation_sheet.png", rectangle.x, rectangle.y, Direction.right);
+				}
+		}
+	}
+	
 	private void detectCollisionWithTriggers() {
 		for (RectangleMapObject rectangleObject : this.map.getTriggerObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();

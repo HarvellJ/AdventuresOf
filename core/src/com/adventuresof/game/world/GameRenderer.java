@@ -86,6 +86,19 @@ public class GameRenderer {
 		// render the player
 		gameWorld.getPlayer().render(spriteBatch);
 		gameWorld.getPlayerCompanion().render(spriteBatch);
+		// render NPCs
+		gameWorld.getStartZoneGuard1().render(spriteBatch);
+		gameWorld.getStartZoneGuard2().render(spriteBatch);
+		gameWorld.itemZoneGuard1.render(spriteBatch);
+		gameWorld.itemZoneGuard2.render(spriteBatch);
+		gameWorld.itemZoneGuard3.render(spriteBatch);
+		gameWorld.itemZoneGuard4.render(spriteBatch);
+		gameWorld.enemy1.render(spriteBatch);
+		gameWorld.enemy2.render(spriteBatch);
+		gameWorld.enemy3.render(spriteBatch);
+		gameWorld.enemy4.render(spriteBatch);
+		gameWorld.enemy5.render(spriteBatch);
+		
 		// dispose of sprite batch
 		spriteBatch.end();		
 	}

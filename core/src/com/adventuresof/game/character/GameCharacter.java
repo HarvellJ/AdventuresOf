@@ -17,40 +17,45 @@ import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
-public class GameCharacter extends GameObject {
+public abstract class GameCharacter extends GameObject {
 	
 	protected Vector3 pointToMoveTo;
 	protected Vector3 currentPosition;
     
     //private Sprite sprite;
-    private enum Direction { up, down, left, right};
     private Direction currentCharacterOrientation;
     
     // the different character orientations
-	private Texture textureBack;
-    private Texture textureFront;
-    private Texture textureFacingLeft;
-    private Texture textureFacingRight;
+    protected Texture textureBack;
+    protected Texture textureFront;
+    protected Texture textureFacingLeft;
+    protected Texture textureFacingRight;
     
     // animation stuff
     // movement
-    private Animation<TextureRegion> runRightAnimation;
-    private Animation<TextureRegion> runLeftAnimation;
-    private Animation<TextureRegion> runUpAnimation;
-    private Animation<TextureRegion> runDownAnimation;
+    protected Animation<TextureRegion> runRightAnimation;
+    protected Animation<TextureRegion> runLeftAnimation;
+    protected Animation<TextureRegion> runUpAnimation;
+    protected Animation<TextureRegion> runDownAnimation;
     // combat
-    private Animation<TextureRegion> attackDownAnimation;
-    private Animation<TextureRegion> attackUpAnimation;
-    private Animation<TextureRegion> attackLeftAnimation;
-    private Animation<TextureRegion> attackRightAnimation;
+    protected Animation<TextureRegion> attackDownAnimation;
+    protected Animation<TextureRegion> attackUpAnimation;
+    protected Animation<TextureRegion> attackLeftAnimation;
+    protected Animation<TextureRegion> attackRightAnimation;
+    // idle
+    protected Animation<TextureRegion> idleUpAnimation;
+    protected Animation<TextureRegion> idleDownAnimation;
+    protected Animation<TextureRegion> idleRightAnimation;
+    protected Animation<TextureRegion> idleLeftAnimation;
+    
     private boolean performAttack = false;
     private float attackStartedTime; // stores the state time of when the attack animation was initiated
     private Direction attackDirection; // locks the player in their current direction for the duration of the attack duration (avoids animation complications)
     
     private boolean isIdle;
-    private static final String animationSheetName = "animation_sheet.png";
-    private static final int FRAME_COLS = 8, FRAME_ROWS = 5;
-    private float stateTime;
+    protected String animationSheetName;
+    protected int frameCols = 8, frameRows = 5;
+    protected float stateTime;
   
     private ArrayList<String> messageQueue; // used to queue messages that will be displayed in game by the character
     private float timeLastMessageDisplayed;
@@ -61,11 +66,9 @@ public class GameCharacter extends GameObject {
     private Rectangle boundingRectangle;
     TiledMapTileLayer accessibleTiles; // represents the tiles that are accessible by the character
     
-    public GameCharacter(TiledMapTileLayer accessibleTiles) {
-    	// create the sprite textures
-    	this.initiateCharacterTextures();
-
+    public GameCharacter(TiledMapTileLayer accessibleTiles, String animationSheetName, int animationSheetCols, int animationSheetRows, float startX, float startY) {
     	// create animations
+    	this.animationSheetName = animationSheetName;
 		stateTime = 0f;
     	this.createAnimations();
     	
@@ -75,10 +78,12 @@ public class GameCharacter extends GameObject {
     	this.accessibleTiles = accessibleTiles;
 
     	// instantiate position as a blank vector3
-    	currentPosition = new Vector3((float) 800, (float) 900, 0);
+    	currentPosition = new Vector3(startX, startY, 0);
     	 	
     	// Instantiate the message queue
     	this.messageQueue = new ArrayList<String>();
+    	
+    	isIdle = true;
     }
     
 	public GameCharacter getTarget() {
@@ -118,7 +123,6 @@ public class GameCharacter extends GameObject {
 	}
 	
     public void update() {    	
-    	
     	if(pointToMoveTo != null) {
     		// first, work out the direction in which the character should be facing
 			this.calculateCharacterDirection();    			
@@ -164,7 +168,8 @@ public class GameCharacter extends GameObject {
     public void render(SpriteBatch spriteBatch) {
     	TextureRegion currentFrame;
     	if(this.isIdle) {
-    		currentFrame = new TextureRegion(this.getRelevantIdleTexture());
+    		stateTime += Gdx.graphics.getDeltaTime();
+    		currentFrame = this.getRelevantIdleTexture();
     	}
     	else {
     		stateTime += Gdx.graphics.getDeltaTime();
@@ -230,19 +235,8 @@ public class GameCharacter extends GameObject {
     	}
     }
     
-    private void createAnimations() {
-    	this.runRightAnimation = AnimationFactory.createAnimation(animationSheetName, FRAME_COLS, FRAME_ROWS, 5, 15, 0.08f);
-    	this.runLeftAnimation = AnimationFactory.createAnimation(animationSheetName, FRAME_COLS, FRAME_ROWS, 5, 21, 0.08f);
-    	this.runDownAnimation = AnimationFactory.createAnimation(animationSheetName, FRAME_COLS, FRAME_ROWS, 4, 5, 0.08f);
-    	this.runUpAnimation = AnimationFactory.createAnimation(animationSheetName, FRAME_COLS, FRAME_ROWS, 4, 10, 0.08f);
-   
-    	this.attackDownAnimation = AnimationFactory.createAnimation(animationSheetName, FRAME_COLS, FRAME_ROWS, 3, 27, 1f);
-    	this.attackUpAnimation = AnimationFactory.createAnimation(animationSheetName, FRAME_COLS, FRAME_ROWS, 3, 30, 1f);
-    	this.attackRightAnimation = AnimationFactory.createAnimation(animationSheetName, FRAME_COLS, FRAME_ROWS, 3, 33, 1f);
-    	this.attackLeftAnimation = AnimationFactory.createAnimation(animationSheetName, FRAME_COLS, FRAME_ROWS, 3, 36, 1f);
-    }    
-     
-    
+    protected abstract void createAnimations();
+    	 
     /**
      * gets the next animation frame for the direction the character is facing
      * @return
@@ -287,8 +281,7 @@ public class GameCharacter extends GameObject {
     			performAttack = false;
     			attackStartedTime = 0;
     		}
-    	}
-    		    	
+    	}	    	
     	// if we reach here, player not performing attack, return standard movement animation frame
     	if(currentCharacterOrientation == Direction.up) {
     		return runUpAnimation.getKeyFrame(stateTime, true);
@@ -303,38 +296,25 @@ public class GameCharacter extends GameObject {
     		return runLeftAnimation.getKeyFrame(stateTime, true);
     	}
     }   
-
-
+    
 	/**
      * Simply returns the relevant texture for when the character is idle, based on their current direction
      * @return The character texture for the current direction
      */
-    private Texture getRelevantIdleTexture() {
+    private TextureRegion getRelevantIdleTexture() {
     	if(currentCharacterOrientation == Direction.up) {
-        	return textureBack;
+    		return idleUpAnimation.getKeyFrame(stateTime, true);
     	}
-    	else if(currentCharacterOrientation == Direction.left) {
-    		return textureFacingLeft;
+    	else if(currentCharacterOrientation == Direction.down) {
+    		return idleDownAnimation.getKeyFrame(stateTime, true);
     	}
     	else if(currentCharacterOrientation == Direction.right) {
-        	return textureFacingRight;
+    		return idleRightAnimation.getKeyFrame(stateTime, true);
     	}
     	else {
-    		return textureFront;      
+    		return idleLeftAnimation.getKeyFrame(stateTime, true);
     	}
     }
-    
-    
-    /**
-     * Instantiates the character (idle) textures
-     */
-    private void initiateCharacterTextures() {
-    	textureBack = new Texture(Gdx.files.internal("knight_back.png"));
-    	textureFront = new Texture(Gdx.files.internal("knight_front.png"));
-    	textureFacingLeft = new Texture(Gdx.files.internal("knight_face_left.png"));
-    	textureFacingRight = new Texture(Gdx.files.internal("knight_face_right.png"));  	
-    }
-    
     
     /**
      * Calculates the character's current direction based on movement
@@ -361,8 +341,8 @@ public class GameCharacter extends GameObject {
     		yDistanceToTravel = pointToMoveTo.y - currentPosition.y  ;
     		directionY = Direction.up;
     	}
-
-    	if(xDistanceToTravel > yDistanceToTravel ) {
+    	
+    	if(xDistanceToTravel > yDistanceToTravel) {
     		this.setCharacterDirection(directionX);
 
     	}else {
