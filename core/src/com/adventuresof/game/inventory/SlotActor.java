@@ -19,13 +19,8 @@ public class SlotActor extends ImageButton implements SlotListener {
 	        this.slot = slot;
 	        this.skin = skin;
 
-	        // this actor has to be notified when the slot itself changes
+	        // notify actor when the slot changes
 	        slot.addListener(this);
-
-	        // ignore this for now, it will be explained in part IV
-	        //SlotTooltip tooltip = new SlotTooltip(slot, skin);
-	        //InventoryScreen.stage.addActor(tooltip);
-	        //addListener(new TooltipListener(tooltip, true));
 	    }
 
 	    /**
@@ -35,10 +30,8 @@ public class SlotActor extends ImageButton implements SlotListener {
 	        TextureAtlas icons = new TextureAtlas("icons.atlas");
 	        TextureRegion image;
 	        if (slot.getItem() != null) {
-	            //image = icons.findRegion(slot.getItem().getTextureRegion());
 	        	image = new TextureRegion(new Texture(Gdx.files.internal(slot.getItem().getTextureRegion())));
 	        } else {
-              // we have a special "empty" region in our atlas file, which is just black
 	            image = icons.findRegion("nothing");
 	        }
 	        ImageButtonStyle style = new ImageButtonStyle(skin.get(ButtonStyle.class));
@@ -50,7 +43,7 @@ public class SlotActor extends ImageButton implements SlotListener {
 
 	    @Override
 	    public void hasChanged(Slot slot) {
-	        // when the slot changes, we switch the icon via a new style
+	        // when the slot changes, switch icon
 	        setStyle(createStyle(skin, slot));
 	    }
 
