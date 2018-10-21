@@ -217,7 +217,7 @@ public class GameWorld {
 					if(!this.player.hasDiscoveredZone(GameZone.COMBATARENA)) {
 						this.player.addDiscoveredZone(GameZone.COMBATARENA);
 						this.playerCompanion.addMessageToMessageQueue("This is the combat arena. Here you can practice your combat skills.");
-						this.playerCompanion.addMessageToMessageQueue("For melee attack, press 1. For range attack, press 2");
+						this.playerCompanion.addMessageToMessageQueue("For melee attack, press 1.");
 
 					}
 				}

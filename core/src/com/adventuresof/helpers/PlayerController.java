@@ -30,10 +30,10 @@ public class PlayerController implements InputProcessor{
 			gameRenderer.getCamera().translate(0,-45);
 		if(keycode == Input.Keys.NUM_1)
 			gameWorld.getPlayer().setPerformAttack(true);
-		if(keycode == Input.Keys.NUM_2)
-			gameWorld.getMap().getTiledMap().getLayers().get(1).setVisible(!gameWorld.getMap().getTiledMap().getLayers().get(1).isVisible());	
-		if(keycode == Input.Keys.NUM_3)
-			gameWorld.getMap().getTiledMap().getLayers().get(0).setVisible(!gameWorld.getMap().getTiledMap().getLayers().get(0).isVisible());
+		//if(keycode == Input.Keys.NUM_2)
+			//gameWorld.getMap().getTiledMap().getLayers().get(1).setVisible(!gameWorld.getMap().getTiledMap().getLayers().get(1).isVisible());	
+		//if(keycode == Input.Keys.NUM_3)
+			//gameWorld.getMap().getTiledMap().getLayers().get(0).setVisible(!gameWorld.getMap().getTiledMap().getLayers().get(0).isVisible());
 		//if(keycode == Input.Keys.I)
 		//	gameRenderer.toggleInventory();
 		

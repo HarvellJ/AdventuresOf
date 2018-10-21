@@ -10,7 +10,7 @@ public class InventoryActor extends Window {
 	    public InventoryActor(Inventory inventory, DragAndDrop dragAndDrop, Skin skin) {
 	        super("Inventory", skin);
 
-	        // basic layout
+	        // layout
 	        setPosition(0, 0);
 	        defaults().space(8);
 	        row().fill().expandX();
@@ -20,13 +20,9 @@ public class InventoryActor extends Window {
 	        for (Slot slot : inventory.getSlots()) {
 	            SlotActor slotActor = new SlotActor(skin, slot);
 	            add(slotActor);
-
-	           // ignored for now 
-	           //dragAndDrop.addSource(new SlotSource(slotActor));
-	           //dragAndDrop.addTarget(new SlotTarget(slotActor));
-
+	         
 	            i++;
-	            // every 5 cells, we are going to jump to a new row
+	            // every 5 cells, jump to a new row
 	            if (i % 5 == 0) {
 	                row();
 	            }
@@ -34,7 +30,7 @@ public class InventoryActor extends Window {
 
 	        pack();
 
-	        // it is shown by default
+	        // show by default
 	        setVisible(true);
 	    }
 	}
