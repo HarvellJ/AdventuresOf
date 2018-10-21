@@ -85,15 +85,23 @@ public class GameWorld {
 		for (RectangleMapObject rectangleObject : this.map.getTriggerObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
 			if (Intersector.overlaps(rectangle, player.getBoundingRectangle())) {
-				if (rectangleObject.getName().equals("itemZoneTrigger")) {
+				if (rectangleObject.getName().equals("startZoneMovementTrigger")) {
+					// render guidance text to screen
+					if(!this.player.hasDiscoveredZone(GameZone.STARTZONE)) {
+						this.player.addDiscoveredZone(GameZone.STARTZONE);
+						this.playerCompanion.addMessageToMessageQueue("Good. Now lets move east.");
+					}
+				}
+				else if (rectangleObject.getName().equals("itemZoneTrigger")) {
 					// render guidance text to screen
 					if(!this.player.hasDiscoveredZone(GameZone.ITEMZONE)) {
 						this.player.addDiscoveredZone(GameZone.ITEMZONE);
 						this.playerCompanion.addMessageToMessageQueue("On this part of the island, you will find items to collect.");
 						this.playerCompanion.addMessageToMessageQueue("To collect an item, run over it. It will then appear in your inventory.");
+						this.playerCompanion.addMessageToMessageQueue("You can move the inventory around the screen by clicking and dragging it.");
 					}
 				}
-				if (rectangleObject.getName().equals("itemZoneCompleteTrigger")) {
+				else if (rectangleObject.getName().equals("itemZoneCompleteTrigger")) {
 					// render guidance text to screen
 					if(!this.player.hasDiscoveredZone(GameZone.ITEMZONECOMPLETIONZONE)) {
 						this.player.addDiscoveredZone(GameZone.ITEMZONECOMPLETIONZONE);

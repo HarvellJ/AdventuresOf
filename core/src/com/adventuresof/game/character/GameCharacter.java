@@ -185,7 +185,8 @@ public class GameCharacter extends GameObject {
     		if(timeLastMessageDisplayed == 0) {   			
     			timeLastMessageDisplayed = stateTime;
     		}
-    		if(timeLastMessageDisplayed < stateTime - 5) {
+    		// show the message for a duration depending on its length
+    		if(timeLastMessageDisplayed < stateTime - messageQueue.get(0).length() * 0.08) {
     			// dequeue item - display period expired
     			messageQueue.remove(0);
     			timeLastMessageDisplayed = 0;
