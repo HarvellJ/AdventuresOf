@@ -1,5 +1,7 @@
 package com.adventuresof.game.inventory;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
@@ -33,9 +35,10 @@ public class SlotActor extends ImageButton implements SlotListener {
 	        TextureAtlas icons = new TextureAtlas("icons.atlas");
 	        TextureRegion image;
 	        if (slot.getItem() != null) {
-	            image = icons.findRegion(slot.getItem().getTextureRegion());
+	            //image = icons.findRegion(slot.getItem().getTextureRegion());
+	        	image = new TextureRegion(new Texture(Gdx.files.internal(slot.getItem().getTextureRegion())));
 	        } else {
-	            // we have a special "empty" region in our atlas file, which is just black
+              // we have a special "empty" region in our atlas file, which is just black
 	            image = icons.findRegion("nothing");
 	        }
 	        ImageButtonStyle style = new ImageButtonStyle(skin.get(ButtonStyle.class));

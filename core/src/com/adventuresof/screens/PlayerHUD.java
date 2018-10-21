@@ -1,5 +1,6 @@
 package com.adventuresof.screens;
 
+import com.adventuresof.game.character.Player;
 import com.adventuresof.game.inventory.Inventory;
 import com.adventuresof.game.inventory.InventoryActor;
 import com.badlogic.gdx.Gdx;
@@ -17,12 +18,12 @@ public class PlayerHUD implements Screen{
 	public  Stage stage;
 	private Viewport viewport;
 	
-	public PlayerHUD(Camera camera) {
+	public PlayerHUD(Camera camera, Player player) {
 		viewport = new ScreenViewport(camera);
 		stage = new Stage(viewport);
 		DragAndDrop dragAndDrop = new DragAndDrop();
 		Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
-		inventoryActor = new InventoryActor(new Inventory(), dragAndDrop, skin);
+		inventoryActor = new InventoryActor(player.getInventory(), dragAndDrop, skin);
 		stage.addActor(inventoryActor);
 	}
 

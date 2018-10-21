@@ -1,17 +1,15 @@
 package com.adventuresof.game.inventory;
 
 public enum Item {
-    CRYSTAL_RED("redcrystal"), CRYSTAL_BLUE("bluecrystal"), CRYSTAL_GREEN("greencrystal"),
-    CRYSTAL_YELLOW("yellowcrystal"), CRYSTAL_MAGENTA("magentacrystal"),
-    CRYSTAL_CYAN("cyancrystal"), CRYSTAL_ORANGE("orangecrystal");
+    SHIELD("shield.png"), SWORD("sword.png"), ARMOR("armor.png");
 
-    private String textureRegion;
+    private String texture;
 
-    private Item(String textureRegion) {
-        this.textureRegion = textureRegion;
+    private Item(String texture) {
+        this.texture = texture;
     }
 
     public String getTextureRegion() {
-        return textureRegion;
+        return texture;
     }
 }
