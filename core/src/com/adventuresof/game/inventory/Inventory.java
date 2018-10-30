@@ -1,6 +1,5 @@
 package com.adventuresof.game.inventory;
 
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 
 public class Inventory {
@@ -28,13 +27,13 @@ public class Inventory {
 
 	    public boolean store(Item item, int amount) {
 	        // first check for a slot with the same item type
-	        Slot itemSlot = firstSlotWithItem(item);
+	        Slot itemSlot = this.firstSlotWithItem(item);
 	        if (itemSlot != null) {
 	            itemSlot.add(item, amount);
 	            return true;
 	        } else {
 	            // now check for an available empty slot
-	            Slot emptySlot = firstSlotWithItem(null);
+	            Slot emptySlot = this.firstSlotWithItem(null);
 	            if (emptySlot != null) {
 	                emptySlot.add(item, amount);
 	                return true;

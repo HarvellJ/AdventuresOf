@@ -2,7 +2,7 @@ package com.adventuresof.helpers;
 
 import com.adventuresof.game.character.Player;
 import com.adventuresof.game.world.GameRenderer;
-import com.adventuresof.game.world.GameWorld;
+import com.adventuresof.game.world.TutorialIsland;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.InputProcessor;
@@ -10,10 +10,10 @@ import com.badlogic.gdx.math.Vector3;
 
 public class PlayerController implements InputProcessor{
 
-	private GameWorld gameWorld;
+	private TutorialIsland gameWorld;
 	private GameRenderer gameRenderer;
 
-	public PlayerController(GameWorld gameWorld, GameRenderer gameRenderer) {
+	public PlayerController(TutorialIsland gameWorld, GameRenderer gameRenderer) {
 		this.gameWorld = gameWorld;
 		this.gameRenderer = gameRenderer;
 	}

@@ -23,7 +23,7 @@ public class Slot {
         if (this.item == item || this.item == null) {
             this.item = item;
             this.amount += amount;
-            notifyListeners();
+            this.notifyListeners();
             return true;
         }
 
@@ -36,7 +36,7 @@ public class Slot {
             if (this.amount == 0) {
                 item = null;
             }
-            notifyListeners();
+            this.notifyListeners();
             return true;
         }
 

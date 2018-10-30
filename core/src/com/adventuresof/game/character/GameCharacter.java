@@ -17,19 +17,18 @@ import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
+/**
+ *
+ */
 public abstract class GameCharacter extends GameObject {
 	
-	protected Vector3 pointToMoveTo;
-	protected Vector3 currentPosition;
+	// movement variables
+	protected Vector3 pointToMoveTo; // used to move the character to a point
+	protected Vector3 currentPosition; // stores current position of character
+	protected boolean isStatic; // used to determine if the character is static on the map or whether they move around
     
     //private Sprite sprite;
-    private Direction currentCharacterOrientation;
-    
-    // the different character orientations
-    protected Texture textureBack;
-    protected Texture textureFront;
-    protected Texture textureFacingLeft;
-    protected Texture textureFacingRight;
+    private Direction currentCharacterDirection;
     
     // animation stuff
     // movement
@@ -54,7 +53,7 @@ public abstract class GameCharacter extends GameObject {
     
     private boolean isIdle;
     protected String animationSheetName;
-    protected int frameCols = 8, frameRows = 5;
+    protected int frameCols, frameRows;
     protected float stateTime;
   
     private ArrayList<String> messageQueue; // used to queue messages that will be displayed in game by the character
@@ -63,27 +62,32 @@ public abstract class GameCharacter extends GameObject {
 	protected GameCharacter target; // the characters current target
     
     // collision stuff
-    private Rectangle boundingRectangle;
-    TiledMapTileLayer accessibleTiles; // represents the tiles that are accessible by the character
+    private Rectangle boundingRectangle; // a mesh used to detect collisions with the character
+    private TiledMapTileLayer accessibleTiles; // represents the tiles that are accessible by the character
     
     public GameCharacter(TiledMapTileLayer accessibleTiles, String animationSheetName, int animationSheetCols, int animationSheetRows, float startX, float startY) {
-    	// create animations
+    	
+    	// set all values that are used for animations
     	this.animationSheetName = animationSheetName;
-		stateTime = 0f;
+    	this.frameCols = animationSheetCols;
+    	this.frameRows = animationSheetRows;
+		this.stateTime = 0f;
     	this.createAnimations();
     	
-    	// create objects required for collisions
-    	this.boundingRectangle = new Rectangle();
-    	
+    	// create objects required for collision logic
+    	this.boundingRectangle = new Rectangle(); 	
     	this.accessibleTiles = accessibleTiles;
 
-    	// instantiate position as a blank vector3
+    	// instantiate characters' current position as a blank vector3
     	currentPosition = new Vector3(startX, startY, 0);
     	 	
     	// Instantiate the message queue
     	this.messageQueue = new ArrayList<String>();
     	
+    	// Default the character to idle state (prevents them running on the spot)
     	isIdle = true;
+    	
+    	
     }
     
 	public GameCharacter getTarget() {
@@ -117,16 +121,25 @@ public abstract class GameCharacter extends GameObject {
 	public void setBoundingRectangle(Rectangle boundingRectangle) {
 		this.boundingRectangle = boundingRectangle;
 	}
-  
+		
+    protected abstract void createAnimations();
+
 	public void addMessageToMessageQueue(String message) {
 		this.messageQueue.add(message);
 	}
 	
+    /* (non-Javadoc)
+     * @see com.adventuresof.game.character.GameObject#update()
+     */
     public void update() {    	
+		stateTime += Gdx.graphics.getDeltaTime(); // increment state time
+    	
+    	// check the point to move to value is set, if not, there is no need to move this frame.
     	if(pointToMoveTo != null) {
-    		// first, work out the direction in which the character should be facing
+    		// first, work out the direction in which the character should be facing (so we can use relevant animations)
 			this.calculateCharacterDirection();    			
 
+			// Algorithm for performing (gradual) character movement
     		double destinationX = pointToMoveTo.x - currentPosition.x;
     		double destinationY = pointToMoveTo.y - currentPosition.y;
 
@@ -139,8 +152,10 @@ public abstract class GameCharacter extends GameObject {
 
     		double distanceTravelled = Math.sqrt(nextX * nextX + nextY * nextY);
 
+    		// check if the character has arrived at desired location
     		if ( distanceTravelled > distanceToTravel )
     		{
+    			// stop them moving and set them to idle
     			pointToMoveTo = null;
     			isIdle = true;
     		}
@@ -164,44 +179,23 @@ public abstract class GameCharacter extends GameObject {
     
     /**
      * Renders the up-to-date character to the screen
+     * Called every screen following the call to "update"
      */
     public void render(SpriteBatch spriteBatch) {
-    	TextureRegion currentFrame;
+    	// get the relevant animation frame (based on current character direction)
+    	TextureRegion currentAnimationFrame;
     	if(this.isIdle) {
-    		stateTime += Gdx.graphics.getDeltaTime();
-    		currentFrame = this.getRelevantIdleTexture();
+    		currentAnimationFrame = this.getRelevantIdleTexture();
     	}
     	else {
-    		stateTime += Gdx.graphics.getDeltaTime();
-        	currentFrame = this.getRelevantDirectionAnimationFrame();
+    		currentAnimationFrame = this.getRelevantDirectionAnimationFrame();
     	}
 
-    	// Draw the frame at the current position
-    	spriteBatch.draw(currentFrame, currentPosition.x - 40, currentPosition.y); // Draw current frame  	
+    	// Draw the character frame at the current position
+    	spriteBatch.draw(currentAnimationFrame, currentPosition.x - 40, currentPosition.y); // Draw current frame (-40 is used because character sprite is a box, and without the -40 the corner of the box would move to the desired location and not the character itself)
     	
     	// handle any text
     	this.displayMessage(spriteBatch);
-    }
-    
-    public void displayMessage(SpriteBatch spriteBatch) {
-    	// check if any messages in queue
-    	if(messageQueue.size() > 0) {
-    		// check if a message has been displayed
-    		if(timeLastMessageDisplayed == 0) {   			
-    			timeLastMessageDisplayed = stateTime;
-    		}
-    		// show the message for a duration depending on its length
-    		if(timeLastMessageDisplayed < stateTime - messageQueue.get(0).length() * 0.08) {
-    			// dequeue item - display period expired
-    			messageQueue.remove(0);
-    			timeLastMessageDisplayed = 0;
-    		}
-    		// re-check message queue size
-    		if(messageQueue.size() > 0) {
-    		BitmapFont font = new BitmapFont(); 
-        	font.draw(spriteBatch, messageQueue.get(0), currentPosition.x - messageQueue.get(0).length()*6/2, currentPosition.y + 100);
-    		}
-    	}   	
     }
     
     /**
@@ -217,26 +211,10 @@ public abstract class GameCharacter extends GameObject {
      * @param direction
      */
     public void setCharacterDirection(Direction direction) {
-    	if(direction == Direction.up) {
-    		// render character sprites up
-    		currentCharacterOrientation = Direction.up;
-    	}
-    	else if(direction == Direction.down) {
-    		// render character sprites down
-    		currentCharacterOrientation = Direction.down;
-    	}
-    	else if(direction == Direction.right) {
-    		// render character sprites right
-    		currentCharacterOrientation = Direction.right;
-    	}
-    	else if(direction == Direction.left) {
-    		// render character sprites left
-    		currentCharacterOrientation = Direction.left;
-    	}
+    	currentCharacterDirection = direction;
     }
     
-    protected abstract void createAnimations();
-    	 
+
     /**
      * gets the next animation frame for the direction the character is facing
      * @return
@@ -245,25 +223,11 @@ public abstract class GameCharacter extends GameObject {
     	// check whether to perform combat animation
     	if (performAttack) {
     		if (this.attackStartedTime == 0) {
-    			if(currentCharacterOrientation == Direction.up) {
-    				this.attackDirection = Direction.up;
-    				this.attackStartedTime = stateTime;		  
-    			}
-    			else if(currentCharacterOrientation == Direction.down) {
-    				this.attackDirection = Direction.down;
-    				this.attackStartedTime = stateTime;		  
-    			}
-    			else if(currentCharacterOrientation == Direction.right) {
-    				this.attackDirection = Direction.right;
-    				this.attackStartedTime = stateTime;		  
-    			}
-    			else {
-    				this.attackDirection = Direction.left;
-    				this.attackStartedTime = stateTime;		  
-    			}
+    			this.attackStartedTime = stateTime;		  
+    			this.attackDirection = currentCharacterDirection;
     		}
 
-    		if (attackStartedTime > stateTime -0.25f) {
+    		if (attackStartedTime > stateTime -0.25f) // > stateTime - 0.25f is just the attack animation length{
     			if(attackDirection == Direction.up) {
     				return attackUpAnimation.getKeyFrame(stateTime, true);
     			}
@@ -276,39 +240,40 @@ public abstract class GameCharacter extends GameObject {
     			else {
     				return attackLeftAnimation.getKeyFrame(stateTime, true);
     			}
-    		}
-    		else {
-    			performAttack = false;
-    			attackStartedTime = 0;
-    		}
-    	}	    	
+    	}
+    	else {
+    		performAttack = false;
+    		attackStartedTime = 0;
+    	}
+
     	// if we reach here, player not performing attack, return standard movement animation frame
-    	if(currentCharacterOrientation == Direction.up) {
+    	if(currentCharacterDirection == Direction.up) {
     		return runUpAnimation.getKeyFrame(stateTime, true);
     	}
-    	else if(currentCharacterOrientation == Direction.down) {
+    	else if(currentCharacterDirection == Direction.down) {
     		return runDownAnimation.getKeyFrame(stateTime, true);
     	}
-    	else if(currentCharacterOrientation == Direction.right) {
+    	else if(currentCharacterDirection == Direction.right) {
     		return runRightAnimation.getKeyFrame(stateTime, true);
     	}
     	else {
     		return runLeftAnimation.getKeyFrame(stateTime, true);
     	}
     }   
+
     
 	/**
      * Simply returns the relevant texture for when the character is idle, based on their current direction
      * @return The character texture for the current direction
      */
     private TextureRegion getRelevantIdleTexture() {
-    	if(currentCharacterOrientation == Direction.up) {
+    	if(currentCharacterDirection == Direction.up) {
     		return idleUpAnimation.getKeyFrame(stateTime, true);
     	}
-    	else if(currentCharacterOrientation == Direction.down) {
+    	else if(currentCharacterDirection == Direction.down) {
     		return idleDownAnimation.getKeyFrame(stateTime, true);
     	}
-    	else if(currentCharacterOrientation == Direction.right) {
+    	else if(currentCharacterDirection == Direction.right) {
     		return idleRightAnimation.getKeyFrame(stateTime, true);
     	}
     	else {
@@ -348,5 +313,30 @@ public abstract class GameCharacter extends GameObject {
     	}else {
     		this.setCharacterDirection(directionY);
     	}   		
+    }
+    
+    /**
+     * @param spriteBatch the SpriteBatch object used to render the message to screen
+     * renders the next message in the message queue
+     */
+    private void displayMessage(SpriteBatch spriteBatch) {
+    	// check if any messages in queue
+    	if(messageQueue.size() > 0) {
+    		// check if a message has been displayed
+    		if(timeLastMessageDisplayed == 0) {   			
+    			timeLastMessageDisplayed = stateTime;
+    		}
+    		// show the message for a duration depending on its length
+    		if(timeLastMessageDisplayed < stateTime - messageQueue.get(0).length() * 0.08) {
+    			// dequeue item - display period expired
+    			messageQueue.remove(0);
+    			timeLastMessageDisplayed = 0;
+    		}
+    		// re-check message queue size
+    		if(messageQueue.size() > 0) {
+    		BitmapFont font = new BitmapFont(); 
+        	font.draw(spriteBatch, messageQueue.get(0), currentPosition.x - messageQueue.get(0).length()*6/2, currentPosition.y + 100);
+    		}
+    	}   	
     }
 }

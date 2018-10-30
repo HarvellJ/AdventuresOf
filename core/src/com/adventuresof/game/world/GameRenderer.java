@@ -1,37 +1,19 @@
 package com.adventuresof.game.world;
 
 import com.adventuresof.game.character.NPC;
-import com.adventuresof.game.character.Player;
-import com.adventuresof.game.inventory.Inventory;
-import com.adventuresof.game.inventory.InventoryActor;
 import com.adventuresof.game.inventory.Item;
-import com.adventuresof.helpers.PlayerController;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.CircleMapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
-import com.badlogic.gdx.maps.objects.TextureMapObject;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Circle;
-import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton.ImageButtonStyle;
-import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 public class GameRenderer {
 	
@@ -39,9 +21,9 @@ public class GameRenderer {
 	
 	private OrthographicCamera camera; // the camera (orthographic renders everything on one pane, regardless of distance)
 	private SpriteBatch spriteBatch; // the sprite batch to use for the game
-	private GameWorld gameWorld; // the game world
+	private TutorialIsland gameWorld; // the game world
 		
-	public GameRenderer(GameWorld gameWorld) {
+	public GameRenderer(TutorialIsland gameWorld) {
 		
 		//game world
 		this.gameWorld = gameWorld;		
@@ -81,26 +63,23 @@ public class GameRenderer {
 		// create the sprite batch
 		spriteBatch.setProjectionMatrix(camera.combined);
 		spriteBatch.begin();		
+		
 		// render the items in the game world
 		this.renderGameItems();
-		// render the player
+		
+		// render the characters
 		gameWorld.getPlayer().render(spriteBatch);
 		gameWorld.getPlayerCompanion().render(spriteBatch);
-		// render NPCs
-		gameWorld.getStartZoneGuard1().render(spriteBatch);
-		gameWorld.getStartZoneGuard2().render(spriteBatch);
-		gameWorld.itemZoneGuard1.render(spriteBatch);
-		gameWorld.itemZoneGuard2.render(spriteBatch);
-		gameWorld.itemZoneGuard3.render(spriteBatch);
-		gameWorld.itemZoneGuard4.render(spriteBatch);
-		gameWorld.enemy1.render(spriteBatch);
-		gameWorld.enemy2.render(spriteBatch);
-		gameWorld.enemy3.render(spriteBatch);
-		gameWorld.enemy4.render(spriteBatch);
-		gameWorld.enemy5.render(spriteBatch);
+		this.renderNPCs();
 		
 		// dispose of sprite batch
 		spriteBatch.end();		
+	}
+	
+	private void renderNPCs() {
+		for (NPC npc : this.gameWorld.getNPCs()) {
+			npc.render(spriteBatch);
+		}
 	}
 
 	private void renderGameItems() {
@@ -141,6 +120,7 @@ public class GameRenderer {
 
 	
 	public void resize(int width, int height) {
+		
 	}
 	
 	private void renderGameObjects() {

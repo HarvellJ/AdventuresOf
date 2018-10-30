@@ -4,7 +4,7 @@ import com.adventuresof.game.character.GameCharacter;
 import com.adventuresof.game.character.NPC;
 import com.adventuresof.game.character.Player;
 import com.adventuresof.game.world.GameRenderer;
-import com.adventuresof.game.world.GameWorld;
+import com.adventuresof.game.world.TutorialIsland;
 import com.adventuresof.helpers.PlayerController;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -39,7 +39,7 @@ import javafx.util.Pair;
 
 public class MainGameScreen  implements Screen {
 
-	private GameWorld gameWorld;
+	private TutorialIsland gameWorld;
 	private GameRenderer gameRenderer;
 	
 	// for inventory
@@ -48,18 +48,19 @@ public class MainGameScreen  implements Screen {
 	private PlayerHUD playerHUD;
 	
 	public MainGameScreen() {		
-		this.gameWorld = new GameWorld();
+		this.gameWorld = new TutorialIsland();
 		this.gameRenderer = new GameRenderer(gameWorld);
 		
-
+		// setup camera
 		hudCamera = new OrthographicCamera();
 		hudCamera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		playerHUD = new PlayerHUD(hudCamera, gameWorld.getPlayer());
+		
+		// handle inputs - multiplexer used so HUD and game world can both respond to inputs
 		multiplexer = new InputMultiplexer(); 
 		multiplexer.addProcessor(playerHUD.stage);
 		multiplexer.addProcessor(new PlayerController(gameWorld, gameRenderer)); 
 		Gdx.input.setInputProcessor(multiplexer); 
-		
 	}
 
 	@Override
