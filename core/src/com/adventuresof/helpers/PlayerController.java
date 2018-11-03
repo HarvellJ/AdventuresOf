@@ -1,5 +1,6 @@
 package com.adventuresof.helpers;
 
+import com.adventuresof.game.character.NPC;
 import com.adventuresof.game.character.Player;
 import com.adventuresof.game.world.GameRenderer;
 import com.adventuresof.game.world.TutorialIsland;
@@ -55,8 +56,17 @@ public class PlayerController implements InputProcessor{
 		if(button == Buttons.RIGHT){
 		Vector3 clickCoordinates = new Vector3(screenX,screenY,0);
 		Vector3 newPosition = gameRenderer.getCamera().unproject(clickCoordinates);
-		this.gameWorld.getPlayer().setTargetLocation(newPosition);
+		
+		// check if player has selected a position containing an NPC
+		NPC npc = this.gameWorld.targetLocationContainsNPC(newPosition);
+		if(npc == null) {
+			this.gameWorld.getPlayer().setTarget(null);
+			this.gameWorld.getPlayer().setTargetLocation(newPosition);
+		}else {
+			this.gameWorld.getPlayer().setTarget(npc);
 		}
+		}
+		
 		return false;
 	}
 

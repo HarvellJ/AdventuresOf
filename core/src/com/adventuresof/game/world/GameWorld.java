@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import com.adventuresof.game.character.NPC;
 import com.adventuresof.game.character.Player;
 import com.adventuresof.game.inventory.Item;
+import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector3;
 
 public abstract class GameWorld {
 		protected Map map; // The map for this game world
@@ -58,4 +61,16 @@ public abstract class GameWorld {
 		public abstract void update(float delta);		
 		
 		protected abstract void spawnNPCs();
+		
+		public NPC targetLocationContainsNPC(Vector3 location) {
+			Rectangle rectangle = new Rectangle();
+			rectangle.set(location.x, location.y, this.player.getBoundingRectangle().width, this.player.getBoundingRectangle().height);
+			for(NPC npc : this.NPCs) {
+				if (Intersector.overlaps(npc.getBoundingRectangle(), rectangle)) {
+					return npc;
+				}	
+			}	
+			// no npc found at target location, return null
+			return null;
+		}
 }

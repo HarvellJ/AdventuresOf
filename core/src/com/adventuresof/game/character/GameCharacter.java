@@ -133,7 +133,11 @@ public abstract class GameCharacter extends GameObject {
      */
     public void update() {    	
 		stateTime += Gdx.graphics.getDeltaTime(); // increment state time
-    	
+		if(target != null) {
+			//move to target location
+			this.setTargetLocation(new Vector3((float)target.getCurrentPosition().x - 40, (float)target.getCurrentPosition().y + 40, 0));
+		}
+		
     	// check the point to move to value is set, if not, there is no need to move this frame.
     	if(pointToMoveTo != null) {
     		// first, work out the direction in which the character should be facing (so we can use relevant animations)
@@ -174,7 +178,7 @@ public abstract class GameCharacter extends GameObject {
     		} 		
     	}
     	//following any positional moves, update the characters bounding record
-    	this.boundingRectangle.setPosition(currentPosition.x, currentPosition.y);
+    	this.boundingRectangle.set(currentPosition.x, currentPosition.y, 50, 50);
     }
     
     /**
