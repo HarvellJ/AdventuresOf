@@ -103,7 +103,7 @@ public class TutorialIsland extends GameWorld{
 	private void detectCollisionWithTriggers() {
 		for (RectangleMapObject rectangleObject : this.map.getTriggerObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
-			if (Intersector.overlaps(rectangle, player.getBoundingRectangle())) {
+			if (Intersector.overlaps(rectangle, player.getHitBox())) {
 				if (rectangleObject.getName().equals("startZoneMovementTrigger")) {
 					// render guidance text to screen
 					if(!this.player.hasDiscoveredZone(GameZone.STARTZONE)) {
@@ -144,7 +144,7 @@ public class TutorialIsland extends GameWorld{
 	private void detectCollectionOfItemObjects() {
 		for (RectangleMapObject rectangleObject : this.map.getSpawnPointObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
-			if (Intersector.overlaps(rectangle, player.getBoundingRectangle())) {
+			if (Intersector.overlaps(rectangle, player.getHitBox())) {
 				// check each of the spawns
 				if(rectangleObject.getName().equals("shieldSpawn")){
 					// check if the item exists in the game world
@@ -184,7 +184,7 @@ public class TutorialIsland extends GameWorld{
 		for (RectangleMapObject rectangleObject : map.getImpassibleObjects().getByType(RectangleMapObject.class)) {
 
 			Rectangle rectangle = rectangleObject.getRectangle();
-			if (Intersector.overlaps(rectangle, player.getBoundingRectangle())) {
+			if (Intersector.overlaps(rectangle, player.getHitBox())) {
 				if(rectangleObject.getName().equals("shieldSpawn")){
 					for(int i = 0; i < items.size(); i++) {
 						if(items.get(i).equals(Item.SHIELD)) {

@@ -7,12 +7,15 @@ import com.adventuresof.game.world.TutorialIsland;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector3;
 
 public class PlayerController implements InputProcessor{
 
 	private TutorialIsland gameWorld;
 	private GameRenderer gameRenderer;
+	
+	private boolean freezeSpellActivated;
 
 	public PlayerController(TutorialIsland gameWorld, GameRenderer gameRenderer) {
 		this.gameWorld = gameWorld;
@@ -31,8 +34,17 @@ public class PlayerController implements InputProcessor{
 			gameRenderer.getCamera().translate(0,-45);
 		if(keycode == Input.Keys.NUM_1)
 			gameWorld.getPlayer().setPerformAttack(true);
-		//if(keycode == Input.Keys.NUM_2)
-			//gameWorld.getMap().getTiledMap().getLayers().get(1).setVisible(!gameWorld.getMap().getTiledMap().getLayers().get(1).isVisible());	
+		if(keycode == Input.Keys.NUM_2) {
+			if(!freezeSpellActivated) {
+				this.gameRenderer.setShowTargetCircle(true, 120);
+				this.freezeSpellActivated = true;
+			}else {
+				this.gameRenderer.setShowTargetCircle(false, 0);
+				this.freezeSpellActivated = false;
+			}
+		
+		}
+		
 		//if(keycode == Input.Keys.NUM_3)
 			//gameWorld.getMap().getTiledMap().getLayers().get(0).setVisible(!gameWorld.getMap().getTiledMap().getLayers().get(0).isVisible());
 		//if(keycode == Input.Keys.I)
@@ -66,6 +78,15 @@ public class PlayerController implements InputProcessor{
 			this.gameWorld.getPlayer().setTarget(npc);
 		}
 		}
+		else if (button == Buttons.LEFT) {
+			// check active spells
+			if(freezeSpellActivated) {
+				Vector3 coordinates = new Vector3(this.gameRenderer.getTargetCircleX(), this.gameRenderer.getTargetCircleY(), 0);
+				Vector3 positionInGame = gameRenderer.getCamera().unproject(coordinates);
+
+				this.gameWorld.performIceSpellCast(new Circle(positionInGame.x,positionInGame.y, this.gameRenderer.getTargetCircleSize()));
+			}
+		}
 		
 		return false;
 	}
@@ -82,6 +103,12 @@ public class PlayerController implements InputProcessor{
 
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
+		// if the player has activated freeze spell, show targeting circle
+		if(freezeSpellActivated)		
+		{
+			this.gameRenderer.setTargetingCircleLocation(screenX, screenY);
+		}
+		
 		return false;
 	}
 

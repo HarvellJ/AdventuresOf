@@ -1,14 +1,20 @@
 package com.adventuresof.game.character;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import com.adventuresof.helpers.AnimationFactory;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
@@ -59,13 +65,22 @@ public abstract class GameCharacter extends GameObject {
     private ArrayList<String> messageQueue; // used to queue messages that will be displayed in game by the character
     private float timeLastMessageDisplayed;
     
-	protected GameCharacter target; // the characters current target
-    
+	protected GameCharacter target; // the characters current target. This can be friendly or hostile
+    protected boolean isHostile; // toggles whether the character can be attacked or is passive
+	
     // collision stuff
-    private Rectangle boundingRectangle; // a mesh used to detect collisions with the character
+    private Rectangle hitBox; // a mesh used to detect collisions with the character
     private TiledMapTileLayer accessibleTiles; // represents the tiles that are accessible by the character
+    protected int characterHeight; // the character's height - used to draw the bounding rectangle (hit box)
+    protected int characterWidth; // the character's width - used to draw the bounding rectangle (hit box)
     
-    public GameCharacter(TiledMapTileLayer accessibleTiles, String animationSheetName, int animationSheetCols, int animationSheetRows, float startX, float startY) {
+    // combat stuff
+    private int health;
+	private boolean isFrozen;
+	private float frozenTime;
+    
+    public GameCharacter(TiledMapTileLayer accessibleTiles, String animationSheetName, int animationSheetCols, int animationSheetRows, float startX, float startY,
+    		boolean isHostile, int characterWidth, int characterHeight) {
     	
     	// set all values that are used for animations
     	this.animationSheetName = animationSheetName;
@@ -74,19 +89,29 @@ public abstract class GameCharacter extends GameObject {
 		this.stateTime = 0f;
     	this.createAnimations();
     	
-    	// create objects required for collision logic
-    	this.boundingRectangle = new Rectangle(); 	
-    	this.accessibleTiles = accessibleTiles;
-
     	// instantiate characters' current position as a blank vector3
     	currentPosition = new Vector3(startX, startY, 0);
     	 	
+    	// create objects required for collision logic
+    	this.characterHeight = characterHeight;
+    	this.characterWidth = characterWidth;
+    	this.hitBox = new Rectangle(); 	
+    	this.hitBox.set(startX, startY, this.characterWidth, this.characterHeight);
+    	this.accessibleTiles = accessibleTiles;
+    	
     	// Instantiate the message queue
     	this.messageQueue = new ArrayList<String>();
     	
     	// Default the character to idle state (prevents them running on the spot)
-    	isIdle = true;
+    	this.isIdle = true;
     	
+    	// set the target's hostility
+    	this.isHostile = isHostile;
+    	
+    	// default health to 100
+    	this.health = 100;
+    	this.isFrozen = false;
+    	this.frozenTime = 0;
     	
     }
     
@@ -106,8 +131,8 @@ public abstract class GameCharacter extends GameObject {
 		this.currentPosition = currentPosition;
 	}
 
-	public Rectangle getBoundingRectangle() {
-		return boundingRectangle;
+	public Rectangle getHitBox() {
+		return hitBox;
 	}
 	
     public boolean isPerformAttack() {
@@ -118,8 +143,8 @@ public abstract class GameCharacter extends GameObject {
 		this.performAttack = performAttack;
 	}
 
-	public void setBoundingRectangle(Rectangle boundingRectangle) {
-		this.boundingRectangle = boundingRectangle;
+	public void setHitBox(Rectangle boundingRectangle) {
+		this.hitBox = boundingRectangle;
 	}
 		
     protected abstract void createAnimations();
@@ -131,75 +156,100 @@ public abstract class GameCharacter extends GameObject {
     /* (non-Javadoc)
      * @see com.adventuresof.game.character.GameObject#update()
      */
-    public void update() {    	
+	public void update() {    	
 		stateTime += Gdx.graphics.getDeltaTime(); // increment state time
-		if(target != null) {
-			//move to target location
-			this.setTargetLocation(new Vector3((float)target.getCurrentPosition().x - 40, (float)target.getCurrentPosition().y + 40, 0));
+
+		// check for any spells that may block movement
+		if(!(isFrozen && this.frozenTime > this.stateTime - 5)) {	
+			this.isFrozen = false;
+			// if player can move, then do so accordingly
+			if(target != null) {
+				//move to target location
+				this.setTargetLocation(new Vector3((float)target.getCurrentPosition().x - 40, (float)target.getCurrentPosition().y + 40, 0));
+			}
+
+			// check the point to move to value is set, if not, there is no need to move this frame.
+			if(pointToMoveTo != null) {
+				// first, work out the direction in which the character should be facing (so we can use relevant animations)
+				this.calculateCharacterDirection();    			
+
+				// Algorithm for performing (gradual) character movement
+				double destinationX = pointToMoveTo.x - currentPosition.x;
+				double destinationY = pointToMoveTo.y - currentPosition.y;
+
+				double distanceToTravel = Math.sqrt(destinationX * destinationX + destinationY * destinationY);
+				destinationX = destinationX / distanceToTravel;
+				destinationY = destinationY / distanceToTravel;
+
+				double nextX = destinationX * 3;
+				double nextY = destinationY * 3;
+
+				double distanceTravelled = Math.sqrt(nextX * nextX + nextY * nextY);
+
+				// check if the character has arrived at desired location
+				if ( distanceTravelled > distanceToTravel )
+				{
+					// stop them moving and set them to idle
+					pointToMoveTo = null;
+					isIdle = true;
+				}
+				else
+				{
+					// check if the next position is an accessible cell, if so, move there. If not, stop moving, character at edge of accessible layer.
+					// the / 32 is dividing the current position co-ordinates by the tile sizes
+					if(accessibleTiles.getCell(((int) currentPosition.x + (int) nextX) / 32, ((int) currentPosition.y + (int) nextY) / 32) == null) {
+						pointToMoveTo = null;
+						isIdle = true;
+					}else {
+						currentPosition.x = currentPosition.x + (float) nextX;
+						currentPosition.y = currentPosition.y + (float) nextY;   
+						isIdle = false;
+					}    			
+				} 		
+			}
 		}
-		
-    	// check the point to move to value is set, if not, there is no need to move this frame.
-    	if(pointToMoveTo != null) {
-    		// first, work out the direction in which the character should be facing (so we can use relevant animations)
-			this.calculateCharacterDirection();    			
-
-			// Algorithm for performing (gradual) character movement
-    		double destinationX = pointToMoveTo.x - currentPosition.x;
-    		double destinationY = pointToMoveTo.y - currentPosition.y;
-
-    		double distanceToTravel = Math.sqrt(destinationX * destinationX + destinationY * destinationY);
-    		destinationX = destinationX / distanceToTravel;
-    		destinationY = destinationY / distanceToTravel;
-
-    		double nextX = destinationX * 3;
-    		double nextY = destinationY * 3;
-
-    		double distanceTravelled = Math.sqrt(nextX * nextX + nextY * nextY);
-
-    		// check if the character has arrived at desired location
-    		if ( distanceTravelled > distanceToTravel )
-    		{
-    			// stop them moving and set them to idle
-    			pointToMoveTo = null;
-    			isIdle = true;
-    		}
-    		else
-    		{
-    			// check if the next position is an accessible cell, if so, move there. If not, stop moving, character at edge of accessible layer.
-    			// the / 32 is dividing the current position co-ordinates by the tile sizes
-    			if(accessibleTiles.getCell(((int) currentPosition.x + (int) nextX) / 32, ((int) currentPosition.y + (int) nextY) / 32) == null) {
-    				pointToMoveTo = null;
-        			isIdle = true;
-    			}else {
-    				currentPosition.x = currentPosition.x + (float) nextX;
-        			currentPosition.y = currentPosition.y + (float) nextY;   
-        			isIdle = false;
-    			}    			
-    		} 		
-    	}
-    	//following any positional moves, update the characters bounding record
-    	this.boundingRectangle.set(currentPosition.x, currentPosition.y, 50, 50);
+		//following any positional moves, update the characters bounding record
+		this.updateHitBox();
     }
     
     /**
      * Renders the up-to-date character to the screen
      * Called every screen following the call to "update"
      */
-    public void render(SpriteBatch spriteBatch) {
-    	// get the relevant animation frame (based on current character direction)
-    	TextureRegion currentAnimationFrame;
-    	if(this.isIdle) {
-    		currentAnimationFrame = this.getRelevantIdleTexture();
-    	}
-    	else {
-    		currentAnimationFrame = this.getRelevantDirectionAnimationFrame();
-    	}
+	public void render(SpriteBatch spriteBatch) {
+		
+		// get the relevant animation frame (based on current character direction)
+		TextureRegion currentAnimationFrame;
+		if(this.isIdle) {
+			currentAnimationFrame = this.getRelevantIdleTexture();
+		}
+		else {
+			currentAnimationFrame = this.getRelevantDirectionAnimationFrame();
+		}
 
-    	// Draw the character frame at the current position
-    	spriteBatch.draw(currentAnimationFrame, currentPosition.x - 40, currentPosition.y); // Draw current frame (-40 is used because character sprite is a box, and without the -40 the corner of the box would move to the desired location and not the character itself)
-    	
-    	// handle any text
-    	this.displayMessage(spriteBatch);
+		// Draw the character frame at the current position
+		spriteBatch.draw(currentAnimationFrame, currentPosition.x - 40, currentPosition.y); // Draw current frame (-40 is used because character sprite is a box, and without the -40 the corner of the box would move to the desired location and not the character itself)
+
+		// handle any text
+		this.displayMessage(spriteBatch);
+		
+	}
+
+	public void renderSpellAnimations(ShapeRenderer shapeRenderer) {
+
+		// see if character is frozen (if so draw transparent shape to indicate ice block)
+				if(isFrozen) {
+					Gdx.gl.glEnable(GL20.GL_BLEND);
+				    Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+					shapeRenderer.begin(ShapeType.Filled);
+					shapeRenderer.setColor(new Color(0, 0.5f, 0.5f, 0.5f));				
+					shapeRenderer.rect(this.hitBox.x - this.hitBox.width/2, this.hitBox.y, this.hitBox.width, this.hitBox.height + 50);
+					shapeRenderer.end();	
+				}
+	}
+	
+    public void inflictDamage(int amount) {
+    	this.health -= amount;
     }
     
     /**
@@ -218,7 +268,21 @@ public abstract class GameCharacter extends GameObject {
     	currentCharacterDirection = direction;
     }
     
+    public int generateRandomDamageAmount() {
+    	// TODO - Make this damage based on some sort of input parameters. Right now its just randomly choosing between 0 and 100.
+    	Random r = new Random();
+    	return r.nextInt(100);
+    }
 
+    public void freeze() {
+    	this.isFrozen = true;
+    	this.frozenTime = stateTime;
+    }
+   
+    private void updateHitBox() {
+    	this.hitBox.set(this.currentPosition.x, this.currentPosition.y, this.characterHeight, this.characterWidth);
+    }
+    
     /**
      * gets the next animation frame for the direction the character is facing
      * @return

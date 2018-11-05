@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.adventuresof.game.character.NPC;
 import com.adventuresof.game.character.Player;
 import com.adventuresof.game.inventory.Item;
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
@@ -64,13 +65,21 @@ public abstract class GameWorld {
 		
 		public NPC targetLocationContainsNPC(Vector3 location) {
 			Rectangle rectangle = new Rectangle();
-			rectangle.set(location.x, location.y, this.player.getBoundingRectangle().width, this.player.getBoundingRectangle().height);
+			rectangle.set(location.x, location.y, this.player.getHitBox().width, this.player.getHitBox().height);
 			for(NPC npc : this.NPCs) {
-				if (Intersector.overlaps(npc.getBoundingRectangle(), rectangle)) {
+				if (Intersector.overlaps(npc.getHitBox(), rectangle)) {
 					return npc;
 				}	
 			}	
 			// no npc found at target location, return null
 			return null;
+		}
+		
+		public void performIceSpellCast(Circle targetingCircle) {
+			for(NPC npc : this.NPCs) {
+				if (Intersector.overlaps(targetingCircle, npc.getHitBox())) {
+					this.player.performIceSpell(npc);
+				}	
+			}	
 		}
 }
