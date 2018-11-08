@@ -11,11 +11,13 @@ import com.badlogic.gdx.math.Vector3;
 public abstract class NPC extends GameCharacter {
 
 	private Random r;
+	public boolean isTalkative;
 	
 	public NPC(TiledMapTileLayer accessibleTiles, String animationSheetName, int animationSheetCols,
-			int animationSheetRows, float startX, float startY, boolean isStatic, boolean isHostile, int characterWidth, int characterHeight) {
+			int animationSheetRows, float startX, float startY, boolean isStatic, boolean isHostile, int characterWidth, int characterHeight, boolean isTalkative) {
 		super(accessibleTiles, animationSheetName, animationSheetCols, animationSheetRows, startX, startY, isHostile, characterWidth, characterHeight);
 		this.isStatic = isStatic;
+		this.isTalkative = isTalkative;
 		r = new Random();
 	}
 	
