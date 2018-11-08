@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import com.adventuresof.game.character.Player;
-import com.adventuresof.game.dialogue.DialogueActor;
 import com.adventuresof.game.inventory.Inventory;
 import com.adventuresof.game.inventory.InventoryActor;
 import com.badlogic.gdx.Gdx;
@@ -21,7 +20,6 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 public class PlayerHUD implements Screen{
 
 	private InventoryActor inventoryActor;
-	private DialogueActor dialogueActor;
 	public  Stage stage;
 	private Viewport viewport;
 	private ArrayList<String> conversation = new ArrayList<String>();
@@ -33,7 +31,6 @@ public class PlayerHUD implements Screen{
 		DragAndDrop dragAndDrop = new DragAndDrop();
 		Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
 		inventoryActor = new InventoryActor(player.getInventory(), dragAndDrop, skin);
-		dialogueActor = new DialogueActor(skin);
 		stage.addActor(inventoryActor);
 		
 	}
