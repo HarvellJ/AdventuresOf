@@ -1,9 +1,14 @@
 package com.adventuresof.helpers;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 import com.adventuresof.game.character.NPC;
 import com.adventuresof.game.character.Player;
 import com.adventuresof.game.world.GameRenderer;
 import com.adventuresof.game.world.TutorialIsland;
+import com.adventuresof.screens.MainGameScreen;
+import com.adventuresof.screens.PlayerHUD;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.InputProcessor;
@@ -14,12 +19,14 @@ public class PlayerController implements InputProcessor{
 
 	private TutorialIsland gameWorld;
 	private GameRenderer gameRenderer;
+	private PlayerHUD playerHUD;
 	
 	private boolean freezeSpellActivated;
 
-	public PlayerController(TutorialIsland gameWorld, GameRenderer gameRenderer) {
+	public PlayerController(TutorialIsland gameWorld, GameRenderer gameRenderer, PlayerHUD playerHUD) {
 		this.gameWorld = gameWorld;
 		this.gameRenderer = gameRenderer;
+		this.playerHUD = playerHUD;
 	}
 	
 	@Override
@@ -44,6 +51,9 @@ public class PlayerController implements InputProcessor{
 			}
 		
 		}
+		if(keycode == Input.Keys.SPACE) {
+			this.playerHUD.displayChat();
+		}
 		
 		//if(keycode == Input.Keys.NUM_3)
 			//gameWorld.getMap().getTiledMap().getLayers().get(0).setVisible(!gameWorld.getMap().getTiledMap().getLayers().get(0).isVisible());
@@ -66,17 +76,24 @@ public class PlayerController implements InputProcessor{
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		if(button == Buttons.RIGHT){
-		Vector3 clickCoordinates = new Vector3(screenX,screenY,0);
-		Vector3 newPosition = gameRenderer.getCamera().unproject(clickCoordinates);
-		
-		// check if player has selected a position containing an NPC
-		NPC npc = this.gameWorld.targetLocationContainsNPC(newPosition);
-		if(npc == null) {
-			this.gameWorld.getPlayer().setTarget(null);
-			this.gameWorld.getPlayer().setTargetLocation(newPosition);
-		}else {
-			this.gameWorld.getPlayer().setTarget(npc);
-		}
+			Vector3 clickCoordinates = new Vector3(screenX,screenY,0);
+			Vector3 newPosition = gameRenderer.getCamera().unproject(clickCoordinates);
+			
+			// check if player has selected a position containing an NPC
+			NPC npc = this.gameWorld.targetLocationContainsNPC(newPosition);
+			if(npc == null) {
+				this.gameWorld.getPlayer().setTarget(null);
+				this.gameWorld.getPlayer().setTargetLocation(newPosition);
+			}else {
+				
+				this.gameWorld.getPlayer().setTarget(npc);
+				if (npc.isTalkative) {
+					
+					npc.addMessageToMessageQueue("test");
+					npc.addMessageToMessageQueue("test1");
+					
+				}
+			}
 		}
 		else if (button == Buttons.LEFT) {
 			// check active spells
