@@ -8,7 +8,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 public class PlayerCompanion extends NPC {
 
 	public PlayerCompanion(TiledMapTileLayer accessibleTiles, GameCharacter characterToFollow) {
-		super(accessibleTiles, "animation_sheet.png", 8, 5, 1700, 1300, false);
+		super(accessibleTiles, "animation_sheet.png", 8, 5, 1700, 1300, false, false, 50, 50);
 		this.setTarget(characterToFollow);
 		// when companion is created, send welcome message to player
 		this.addMessageToMessageQueue("Hello there! Welcome to the tutorial");

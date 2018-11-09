@@ -10,15 +10,15 @@ import com.badlogic.gdx.math.Vector3;
  */
 public abstract class NPC extends GameCharacter {
 
+	private Random r;
+	
 	public NPC(TiledMapTileLayer accessibleTiles, String animationSheetName, int animationSheetCols,
-			int animationSheetRows, float startX, float startY, boolean isStatic) {
-		super(accessibleTiles, animationSheetName, animationSheetCols, animationSheetRows, startX, startY);
+			int animationSheetRows, float startX, float startY, boolean isStatic, boolean isHostile, int characterWidth, int characterHeight) {
+		super(accessibleTiles, animationSheetName, animationSheetCols, animationSheetRows, startX, startY, isHostile, characterWidth, characterHeight);
 		this.isStatic = isStatic;
 		r = new Random();
 	}
-
-	private Random r;
-		
+	
 	/**
 	 * Algorithm to move the NPC randomly
 	 * Works by randomly setting the NPC's target location

@@ -78,7 +78,7 @@ public class TutorialIsland extends GameWorld{
 	protected void detectCollisionWithTriggers() {
 		for (RectangleMapObject rectangleObject : this.map.getTriggerObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
-			if (Intersector.overlaps(rectangle, player.getBoundingRectangle())) {
+			if (Intersector.overlaps(rectangle, player.getHitBox())) {
 				if (rectangleObject.getName().equals("startZoneMovementTrigger")) {
 					// render guidance text to screen
 					if(!this.player.hasDiscoveredZone(GameZone.STARTZONE)) {
@@ -119,14 +119,8 @@ public class TutorialIsland extends GameWorld{
 		for (RectangleMapObject rectangleObject : map.getImpassibleObjects().getByType(RectangleMapObject.class)) {
 
 			Rectangle rectangle = rectangleObject.getRectangle();
-			if (Intersector.overlaps(rectangle, player.getBoundingRectangle())) {
-				if(rectangleObject.getName().equals("shieldSpawn")){
-					for(int i = 0; i < items.size(); i++) {
-						if(items.get(i).equals(ItemEnum.SHIELD)) {
-							items.remove(i);
-						}
-					}
-				}
+			if (Intersector.overlaps(rectangle, player.getHitBox())) {
+				// do something
 			}	     
 		}	  	
 	}

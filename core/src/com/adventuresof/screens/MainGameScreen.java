@@ -37,7 +37,7 @@ import com.mygdx.game.AdventuresOfGame;
 
 import javafx.util.Pair;
 
-public class MainGameScreen  implements Screen {
+public class MainGameScreen implements Screen {
 
 	private TutorialIsland gameWorld;
 	private GameRenderer gameRenderer;

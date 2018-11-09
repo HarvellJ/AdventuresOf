@@ -15,7 +15,7 @@ public class Player extends GameCharacter{
 	private ArrayList<GameZone> discoveredZones; // Stores a list of discovered zones. Used for measuring player progress
 
 	public Player(TiledMapTileLayer accessibleTiles) {
-		super(accessibleTiles, "animation_sheet.png", 8, 5, 1700, 1300);
+		super(accessibleTiles, "animation_sheet.png", 8, 5, 1700, 1300, false, 50, 50);
 		this.inventory = new Inventory();
 		this.discoveredZones = new ArrayList<GameZone>();
 	}
@@ -51,6 +51,12 @@ public class Player extends GameCharacter{
 				return true;		
 		}
 		return false;
+	}
+	
+	public void performIceSpell(NPC npc) {
+		// inflict damage
+		npc.inflictDamage(this.generateRandomDamageAmount());
+		npc.freeze();
 	}
 
 	protected void createAnimations() {

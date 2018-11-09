@@ -5,9 +5,10 @@ import java.util.ArrayList;
 import com.adventuresof.game.character.NPC;
 import com.adventuresof.game.character.Player;
 import com.adventuresof.game.inventory.Item;
-import com.adventuresof.game.inventory.ItemEnum;
+
 import com.adventuresof.game.item.ItemFactory;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
@@ -81,9 +82,9 @@ public abstract class GameWorld {
 		
 		public NPC targetLocationContainsNPC(Vector3 location) {
 			Rectangle rectangle = new Rectangle();
-			rectangle.set(location.x, location.y, this.player.getBoundingRectangle().width, this.player.getBoundingRectangle().height);
+			rectangle.set(location.x, location.y, this.player.getHitBox().width, this.player.getHitBox().height);
 			for(NPC npc : this.NPCs) {
-				if (Intersector.overlaps(npc.getBoundingRectangle(), rectangle)) {
+				if (Intersector.overlaps(npc.getHitBox(), rectangle)) {
 					return npc;
 				}	
 			}	
@@ -94,7 +95,7 @@ public abstract class GameWorld {
 		// detect player collision with items. If detection occurs, move from world inventory into player inventory
 		private void detectCollectionOfItemObjects() {
 			for (int i = 0; i < items.size(); i++) {
-				if (Intersector.overlaps(this.items.get(i).getHitbox(), player.getBoundingRectangle())) {
+				if (Intersector.overlaps(this.items.get(i).getHitbox(), player.getHitBox())) {
 					// check each of the spawns
 				    this.collectItemFromMap(i);
 				}	 
@@ -131,5 +132,13 @@ public abstract class GameWorld {
 			for (NPC npc : this.NPCs) {
 				npc.update();
 			}
+		}
+		
+		public void performIceSpellCast(Circle targetingCircle) {
+			for(NPC npc : this.NPCs) {
+				if (Intersector.overlaps(targetingCircle, npc.getHitBox())) {
+					this.player.performIceSpell(npc);
+				}	
+			}	
 		}
 }

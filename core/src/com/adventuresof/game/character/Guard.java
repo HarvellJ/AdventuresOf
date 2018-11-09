@@ -8,7 +8,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 public class Guard extends NPC{
 
 	public Guard(TiledMapTileLayer accessibleTiles, String textureSheet, float startX, float startY, Direction startingDirection) {
-		super(accessibleTiles, textureSheet, 8, 5, startX, startY, true);
+		super(accessibleTiles, textureSheet, 8, 5, startX, startY, true, false, 50, 50);
 		this.setCharacterDirection(startingDirection);
 	}
 

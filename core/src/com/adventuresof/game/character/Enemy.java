@@ -6,7 +6,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 public class Enemy extends NPC {
 
 	public Enemy(TiledMapTileLayer accessibleTiles, String textureSheet, float startX, float startY) {
-		super(accessibleTiles, textureSheet, 8, 5, startX, startY, false);
+		super(accessibleTiles, textureSheet, 8, 5, startX, startY, false, true, 50, 50);
 		this.setCharacterDirection(Direction.left);
 	}
 
