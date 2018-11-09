@@ -21,8 +21,8 @@ public class Map {
 	private MapObjects impassibleObjects;
 	
 	// Spawn point object layer
-	private MapLayer spawnPointObjectLayer; // Contains the objects representing item spawn points on the map
-	private MapObjects spawnPointObjects; // Contains the objects representing item spawn points on the map
+	private MapLayer itemSpawnPointObjectLayer; // Contains the objects representing item spawn points on the map
+	private MapObjects itemSpawnPointObjects; // Contains the objects representing item spawn points on the map
 	
 	// Trigger object layer
 	private MapLayer triggerObjectLayer; // Contains the objects representing trigger areas on the map
@@ -64,8 +64,8 @@ public class Map {
 	    impassibleObjects = collisionObjectLayer.getObjects();
 	
 		// store item spawn point objects and layers
-	    setSpawnPointObjectLayer((MapLayer)tiledMap.getLayers().get(ITEM_SPAWN_LAYER));
-	    setSpawnPointObjects(spawnPointObjectLayer.getObjects());	   
+	    setItemSpawnPointObjectLayer((MapLayer)tiledMap.getLayers().get(ITEM_SPAWN_LAYER));
+	    setItemSpawnPointObjects(itemSpawnPointObjectLayer.getObjects());	   
 	    
 	    // store trigger objects and layers
 	    setTriggerObjectLayer((MapLayer)tiledMap.getLayers().get(TRIGGER_LAYER));
@@ -128,13 +128,13 @@ public class Map {
 		this.triggerObjects = triggerObjects;
 	}
 
-	public MapLayer getSpawnPointObjectLayer() {
-		return spawnPointObjectLayer;
+	public MapLayer getItemSpawnPointObjectLayer() {
+		return itemSpawnPointObjectLayer;
 	}
 
 
-	public void setSpawnPointObjectLayer(MapLayer spawnPointObjectLayer) {
-		this.spawnPointObjectLayer = spawnPointObjectLayer;
+	public void setItemSpawnPointObjectLayer(MapLayer spawnPointObjectLayer) {
+		this.itemSpawnPointObjectLayer = spawnPointObjectLayer;
 	}
 
 	
@@ -178,13 +178,13 @@ public class Map {
 	}
 
 
-	public MapObjects getSpawnPointObjects() {
-		return spawnPointObjects;
+	public MapObjects getItemSpawnPointObjects() {
+		return itemSpawnPointObjects;
 	}
 
 
-	public void setSpawnPointObjects(MapObjects spawnPointObjects) {
-		this.spawnPointObjects = spawnPointObjects;
+	public void setItemSpawnPointObjects(MapObjects spawnPointObjects) {
+		this.itemSpawnPointObjects = spawnPointObjects;
 	}
 	
 }

@@ -1,15 +1,47 @@
 package com.adventuresof.game.inventory;
 
-public enum Item {
-    SHIELD("shield.png"), SWORD("sword.png"), ARMOR("armor.png");
+import com.badlogic.gdx.math.Rectangle;
 
-    private String texture;
+public class Item {
 
-    private Item(String texture) {
-        this.texture = texture;
-    }
+		private ItemEnum item;
+	    private float positionX;
+	    private float positionY;
+	    private Rectangle hitbox;
+	    
+	    public Item(ItemEnum item) {
+	    	this.setItem(item); 
+	    }
 
-    public String getTextureRegion() {
-        return texture;
-    }
+		public float getPositionX() {
+			return positionX;
+		}
+
+		public void setPositionX(float x) {
+			this.positionX = x;
+		}
+
+		public float getPositionY() {
+			return positionY;
+		}
+
+		public void setPositionY(float positionY) {
+			this.positionY = positionY;
+		}
+
+		public Rectangle getHitbox() {
+			return hitbox;
+		}
+		
+		public void setHitbox(Rectangle hitbox) {
+			this.hitbox = hitbox;
+		}
+
+		public ItemEnum getItem() {
+			return item;
+		}
+
+		public void setItem(ItemEnum item) {
+			this.item = item;
+		}
 }

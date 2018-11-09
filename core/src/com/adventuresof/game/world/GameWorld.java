@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import com.adventuresof.game.character.NPC;
 import com.adventuresof.game.character.Player;
 import com.adventuresof.game.inventory.Item;
+import com.adventuresof.game.inventory.ItemEnum;
+import com.adventuresof.game.item.ItemFactory;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
@@ -24,6 +27,8 @@ public abstract class GameWorld {
 			
 			// instantiate map item list
 			items = new ArrayList<Item>();
+			
+			this.spawnChanceItemsIntoWorld();
 		}
 		
 		public ArrayList<NPC> getNPCs() {
@@ -58,9 +63,21 @@ public abstract class GameWorld {
 			this.items = items;
 		}
 		
-		public abstract void update(float delta);		
-		
+		public void update(float delta) {
+			//this.detectObjectCollisions();
+			// move player
+			player.update();
+		    // move and update NPCs
+			this.moveNPCs();
+			this.updateNPCs();
+			// now check for any collisions following update calls to characters
+			this.detectCollectionOfItemObjects();
+			this.detectCollisionWithTriggers();
+		}
+				
 		protected abstract void spawnNPCs();
+		
+		protected abstract void detectCollisionWithTriggers();
 		
 		public NPC targetLocationContainsNPC(Vector3 location) {
 			Rectangle rectangle = new Rectangle();
@@ -72,5 +89,47 @@ public abstract class GameWorld {
 			}	
 			// no npc found at target location, return null
 			return null;
+		}
+		
+		// detect player collision with items. If detection occurs, move from world inventory into player inventory
+		private void detectCollectionOfItemObjects() {
+			for (int i = 0; i < items.size(); i++) {
+				if (Intersector.overlaps(this.items.get(i).getHitbox(), player.getBoundingRectangle())) {
+					// check each of the spawns
+				    this.collectItemFromMap(i);
+				}	 
+			}	    
+		}
+		
+		private void collectItemFromMap(int itemIndex) {
+			this.player.addItemToInventory(this.items.get(itemIndex));
+			this.items.remove(itemIndex);
+		}
+		
+		private void spawnChanceItemsIntoWorld() {
+			for (RectangleMapObject rectangleObject : this.map.getItemSpawnPointObjects().getByType(RectangleMapObject.class)) {
+				Rectangle rectangle = rectangleObject.getRectangle();
+				// generate a random by chance item from the drop table
+				Item item = ItemFactory.spawnItemForMap();
+				if(item != null) {
+					item.setPositionX(rectangle.x);
+					item.setPositionY(rectangle.y);
+					item.setHitbox(new Rectangle(rectangle.x, rectangle.y, 50f, 50f));
+					this.items.add(item);
+				}							
+
+			}	    			
+		}
+		
+		private void moveNPCs() {
+			for (NPC npc : this.NPCs) {
+				npc.move();
+			}
+		}
+		
+		private void updateNPCs() {
+			for (NPC npc : this.NPCs) {
+				npc.update();
+			}
 		}
 }

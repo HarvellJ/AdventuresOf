@@ -4,6 +4,7 @@ package com.adventuresof.game.character;
 import java.util.ArrayList;
 import com.adventuresof.game.inventory.Inventory;
 import com.adventuresof.game.inventory.Item;
+import com.adventuresof.game.inventory.ItemEnum;
 import com.adventuresof.game.world.GameZone;
 import com.adventuresof.helpers.AnimationFactory;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;

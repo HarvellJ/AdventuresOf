@@ -30,7 +30,7 @@ public class SlotActor extends ImageButton implements SlotListener {
 	        TextureAtlas icons = new TextureAtlas("icons.atlas");
 	        TextureRegion image;
 	        if (slot.getItem() != null) {
-	        	image = new TextureRegion(new Texture(Gdx.files.internal(slot.getItem().getTextureRegion())));
+	        	image = new TextureRegion(new Texture(Gdx.files.internal(slot.getItem().getItem().getTextureRegion())));
 	        } else {
 	            image = icons.findRegion("nothing");
 	        }
