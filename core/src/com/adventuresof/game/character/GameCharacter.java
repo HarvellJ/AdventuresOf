@@ -33,8 +33,13 @@ public abstract class GameCharacter extends GameObject {
 	protected Vector3 currentPosition; // stores current position of character
 	protected boolean isStatic; // used to determine if the character is static on the map or whether they move around
     
-    //private Sprite sprite;
+   
     private Direction currentCharacterDirection;
+    
+    // death stuff
+    private boolean isDying;
+    private boolean isDead;
+    private float stateTimeOfDeath; // used to calculate time required for death animation
     
     // animation stuff
     // movement
@@ -52,6 +57,11 @@ public abstract class GameCharacter extends GameObject {
     protected Animation<TextureRegion> idleDownAnimation;
     protected Animation<TextureRegion> idleRightAnimation;
     protected Animation<TextureRegion> idleLeftAnimation;
+    // death
+    protected Animation<TextureRegion> deathUpAnimation;
+    protected Animation<TextureRegion> deathDownAnimation;
+    protected Animation<TextureRegion> deathRightAnimation;
+    protected Animation<TextureRegion> deathLeftAnimation;
     
     private boolean performAttack = false;
     private float attackStartedTime; // stores the state time of when the attack animation was initiated
@@ -64,6 +74,8 @@ public abstract class GameCharacter extends GameObject {
   
     private ArrayList<String> messageQueue; // used to queue messages that will be displayed in game by the character
     private float timeLastMessageDisplayed;
+    private ArrayList<String> damageMessageQueue;
+    private float timeLastDamagedMessageDisplayed;
     
 	protected GameCharacter target; // the characters current target. This can be friendly or hostile
     protected boolean isHostile; // toggles whether the character can be attacked or is passive
@@ -91,7 +103,11 @@ public abstract class GameCharacter extends GameObject {
     	
     	// instantiate characters' current position as a blank vector3
     	currentPosition = new Vector3(startX, startY, 0);
-    	 	
+    	 
+    	// they are alive...
+    	this.isDying = false;
+    	this.setDead(false);
+    	
     	// create objects required for collision logic
     	this.characterHeight = characterHeight;
     	this.characterWidth = characterWidth;
@@ -101,7 +117,7 @@ public abstract class GameCharacter extends GameObject {
     	
     	// Instantiate the message queue
     	this.messageQueue = new ArrayList<String>();
-    	
+    	this.damageMessageQueue = new ArrayList<String>();
     	// Default the character to idle state (prevents them running on the spot)
     	this.isIdle = true;
     	
@@ -153,12 +169,23 @@ public abstract class GameCharacter extends GameObject {
 		this.messageQueue.add(message);
 	}
 	
+	public void addMessageToDamageQueue(String message) {
+		this.damageMessageQueue.add(message);
+	}
+	
+	
     /* (non-Javadoc)
      * @see com.adventuresof.game.character.GameObject#update()
      */
 	public void update() {    	
 		stateTime += Gdx.graphics.getDeltaTime(); // increment state time
-
+		
+		if(isDying) {
+			if (stateTimeOfDeath < this.stateTime - 2) {
+				this.setDead(true);
+			}
+		}
+		else {
 		// check for any spells that may block movement
 		if(!(isFrozen && this.frozenTime > this.stateTime - 5)) {	
 			this.isFrozen = false;
@@ -210,6 +237,7 @@ public abstract class GameCharacter extends GameObject {
 		}
 		//following any positional moves, update the characters bounding record
 		this.updateHitBox();
+		}
     }
     
     /**
@@ -220,7 +248,10 @@ public abstract class GameCharacter extends GameObject {
 		
 		// get the relevant animation frame (based on current character direction)
 		TextureRegion currentAnimationFrame;
-		if(this.isIdle) {
+		if(this.isDying) {
+			currentAnimationFrame = this.getRelevantDeathAnimationFrame();
+		}
+		else if(this.isIdle) {
 			currentAnimationFrame = this.getRelevantIdleTexture();
 		}
 		else {
@@ -232,6 +263,7 @@ public abstract class GameCharacter extends GameObject {
 
 		// handle any text
 		this.displayMessage(spriteBatch);
+		this.displayDamange(spriteBatch);
 		
 	}
 
@@ -271,12 +303,21 @@ public abstract class GameCharacter extends GameObject {
     public int generateRandomDamageAmount() {
     	// TODO - Make this damage based on some sort of input parameters. Right now its just randomly choosing between 0 and 100.
     	Random r = new Random();
-    	return r.nextInt(100);
+    	return r.nextInt(30);
     }
 
     public void freeze() {
     	this.isFrozen = true;
     	this.frozenTime = stateTime;
+    }
+    
+    public void damage(int damage) {
+    	this.inflictDamage(damage);
+		this.addMessageToDamageQueue(Integer.toString(damage));
+		if(this.health <= 0) {
+			this.isDying = true;
+			this.stateTimeOfDeath = this.stateTime;
+		}
     }
    
     private void updateHitBox() {
@@ -329,6 +370,26 @@ public abstract class GameCharacter extends GameObject {
     	}
     }   
 
+    
+	/**
+     * Simply returns the relevant texture for when the character is idle, based on their current direction
+     * @return The character texture for the current direction
+     */
+    private TextureRegion getRelevantDeathAnimationFrame() {
+    	if(currentCharacterDirection == Direction.up) {
+    		return deathUpAnimation.getKeyFrame(stateTime, true);
+    	}
+    	else if(currentCharacterDirection == Direction.down) {
+    		return deathDownAnimation.getKeyFrame(stateTime, true);
+    	}
+    	else if(currentCharacterDirection == Direction.right) {
+    		return deathRightAnimation.getKeyFrame(stateTime, true);
+    	}
+    	else {
+    		return deathLeftAnimation.getKeyFrame(stateTime, true);
+    	}
+    }
+    
     
 	/**
      * Simply returns the relevant texture for when the character is idle, based on their current direction
@@ -407,4 +468,43 @@ public abstract class GameCharacter extends GameObject {
     		}
     	}   	
     }
+    
+    
+    /**
+     * @param spriteBatch the SpriteBatch object used to render the message to screen
+     * renders the next message in the damage message queue
+     */
+    private void displayDamange(SpriteBatch spriteBatch) {
+    	// check if any messages in queue
+    	if(damageMessageQueue.size() > 0) {
+    		// check if a message has been displayed
+    		if(timeLastDamagedMessageDisplayed == 0) {   			
+    			timeLastDamagedMessageDisplayed = stateTime;
+    		}
+    		// show the message for a duration depending on its length
+    		if(timeLastDamagedMessageDisplayed < stateTime - 2) {
+    			// dequeue item - display period expired
+    			damageMessageQueue.remove(0);
+    			timeLastDamagedMessageDisplayed = 0;
+    		}
+    		// re-check message queue size
+    		if(damageMessageQueue.size() > 0) {
+    		BitmapFont font = new BitmapFont(); 
+    		if(Integer.parseInt(damageMessageQueue.get(0)) >= 20){
+        		font.setColor(new Color(Color.RED));
+    		}else {
+    			font.setColor(new Color(Color.YELLOW));
+    		}
+        	font.draw(spriteBatch, damageMessageQueue.get(0), this.hitBox.x + 50, this.hitBox.y + 100);
+    		}
+    	}   	
+    }
+
+	public boolean isDead() {
+		return isDead;
+	}
+
+	public void setDead(boolean isDead) {
+		this.isDead = isDead;
+	}
 }

@@ -111,15 +111,8 @@ public abstract class GameWorld {
 			for (RectangleMapObject rectangleObject : this.map.getItemSpawnPointObjects().getByType(RectangleMapObject.class)) {
 				Rectangle rectangle = rectangleObject.getRectangle();
 				// generate a random by chance item from the drop table
-				Item item = ItemFactory.spawnItemForMap();
-				if(item != null) {
-					item.setPositionX(rectangle.x);
-					item.setPositionY(rectangle.y);
-					item.setHitbox(new Rectangle(rectangle.x, rectangle.y, 50f, 50f));
-					this.items.add(item);
-				}							
-
-			}	    			
+				this.spawnItem(rectangle);
+				}									    			
 		}
 		
 		private void moveNPCs() {
@@ -129,9 +122,27 @@ public abstract class GameWorld {
 		}
 		
 		private void updateNPCs() {
-			for (NPC npc : this.NPCs) {
-				npc.update();
+			for (int i = 0; i < this.NPCs.size(); i++) {
+				// check if they're dead - if so, remove them from game world
+				if(this.NPCs.get(i).isDead()) {
+					// spawn a relevant drop based on NPC
+					this.spawnItem(this.NPCs.get(i).getHitBox());
+					this.NPCs.remove(i);
+				}else {
+			    // if they are still alive, update them
+					this.NPCs.get(i).update();
+				}
 			}
+		}
+		
+		private void spawnItem(Rectangle rectangle) {
+			Item item = ItemFactory.spawnItemForMap();
+			if(item != null) {
+				item.setPositionX(rectangle.x);
+				item.setPositionY(rectangle.y);
+				item.setHitbox(new Rectangle(rectangle.x, rectangle.y, 50f, 50f));
+				this.items.add(item);
+			}	
 		}
 		
 		public void performIceSpellCast(Circle targetingCircle) {

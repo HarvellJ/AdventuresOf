@@ -8,7 +8,6 @@ import com.adventuresof.game.character.Guard;
 import com.adventuresof.game.character.NPC;
 import com.adventuresof.game.character.Player;
 import com.adventuresof.game.character.PlayerCompanion;
-import com.adventuresof.game.inventory.ItemEnum;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;

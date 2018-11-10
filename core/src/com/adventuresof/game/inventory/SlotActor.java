@@ -37,7 +37,7 @@ public class SlotActor extends ImageButton implements SlotListener {
 	        ImageButtonStyle style = new ImageButtonStyle(skin.get(ButtonStyle.class));
 	        style.imageUp = new TextureRegionDrawable(image);
 	        style.imageDown = new TextureRegionDrawable(image);
-
+	       
 	        return style;
 	    }
 
@@ -46,6 +46,8 @@ public class SlotActor extends ImageButton implements SlotListener {
 	        // when the slot changes, switch icon
 	        setStyle(createStyle(skin, slot));
 	    }
+	    
+	    
 
 	    public Slot getSlot() {
 	        return slot;
