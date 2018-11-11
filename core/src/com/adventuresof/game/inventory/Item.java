@@ -8,6 +8,7 @@ public class Item {
 	    private float positionX;
 	    private float positionY;
 	    private Rectangle hitbox;
+		private String textureRegion;
 	    
 	    public Item(ItemEnum item) {
 	    	this.setItem(item); 
@@ -43,5 +44,13 @@ public class Item {
 
 		public void setItem(ItemEnum item) {
 			this.item = item;
+		}
+
+		private Item(String textureRegion) {
+			this.textureRegion = textureRegion;
+		}
+
+		public String getTextureRegion() {
+			return textureRegion;
 		}
 }

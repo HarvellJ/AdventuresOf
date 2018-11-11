@@ -1,9 +1,11 @@
 package com.adventuresof.game.inventory;
 
+import com.adventuresof.screens.PlayerHUD;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -14,14 +16,18 @@ public class SlotActor extends ImageButton implements SlotListener {
 
 	    private Skin skin;
 
-	    public SlotActor(Skin skin, Slot slot) {
-	        super(createStyle(skin, slot));
-	        this.slot = slot;
-	        this.skin = skin;
+		public SlotActor(Skin skin, Slot slot) {
+			super(createStyle(skin, slot));
+			this.slot = slot;
+			this.skin = skin;
 
-	        // notify actor when the slot changes
-	        slot.addListener(this);
-	    }
+			slot.addListener(this);
+
+			SlotTooltip tooltip = new SlotTooltip(slot, skin);
+			tooltip.setTouchable(Touchable.disabled); // allows for mouse to hit tooltips in the top-right corner of the screen without flashing
+			PlayerHUD.stage.addActor(tooltip);
+			addListener(new TooltipListener(tooltip, true));
+		}
 
 	    /**
 	     * This will create a new style for our image button, with the correct image for the item type.

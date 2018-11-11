@@ -15,7 +15,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 public class PlayerHUD implements Screen{
 
 	private InventoryActor inventoryActor;
-	public  Stage stage;
+	public  static Stage stage;
 	private Viewport viewport;
 	
 	public PlayerHUD(Camera camera, Player player) {
