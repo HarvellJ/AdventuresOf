@@ -12,9 +12,16 @@ public abstract class NPC extends GameCharacter {
 
 	private Random r;
 	
-	public NPC(TiledMapTileLayer accessibleTiles, String animationSheetName, int animationSheetCols,
-			int animationSheetRows, float startX, float startY, boolean isStatic, boolean isHostile, int characterWidth, int characterHeight) {
-		super(accessibleTiles, animationSheetName, animationSheetCols, animationSheetRows, startX, startY, isHostile, characterWidth, characterHeight);
+	public NPC(
+			TiledMapTileLayer accessibleTiles, 
+			float startX, float startY,
+			boolean isStatic,
+			boolean isHostile,
+			int characterWidth, int characterHeight,
+			CharacterAnimation characterAnimation
+			)
+	{
+		super(accessibleTiles, startX, startY, isHostile, characterWidth, characterHeight, characterAnimation);
 		this.isStatic = isStatic;
 		r = new Random();
 	}
@@ -25,11 +32,7 @@ public abstract class NPC extends GameCharacter {
 	 */
 	public void move() {
 		if(!isStatic) {
-			if(super.target != null) {
-				//move to target location
-				super.setTargetLocation(new Vector3((float)target.getCurrentPosition().x - 40, (float)target.getCurrentPosition().y + 40, 0));
-			}
-			else {
+			if(super.target == null) {				
 				if(this.pointToMoveTo == null) {		
 					int moveThisFrame = r.nextInt(1000);
 					if (moveThisFrame <= 5) {

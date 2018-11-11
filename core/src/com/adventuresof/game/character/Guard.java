@@ -7,30 +7,70 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
 public class Guard extends NPC{
 
+	// texture sheets
+		private static final String MOVEMENT_SPRITE_SHEET = "characters//knight.png";
+		private static final String DEATH_SPRITE_SHEET = "characters//knight.png";
+		private static final String COMBAT_SPRITE_SHEET = "characters//knight.png";
+
+		// texture sheet sizes
+		private static final int MOVEMENT_SPRITE_SHEET_COLS = 8;
+		private static final int MOVEMENT_SPRITE_SHEET_ROWS = 5;
+		private static final int DEATH_SPRITE_SHEET_COLS = 8;
+		private static final int DEATH_SPRITE_SHEET_ROWS = 5;
+		private static final int COMBAT_SPRITE_SHEET_COLS = 8;
+		private static final int COMBAT_SPRITE_SHEET_ROWS = 5;
+		// movement values
+		private static final int MOVE_LEFT_START_FRAME = 21;
+		private static final int MOVE_LEFT_FRAMES = 5;
+		private static final int MOVE_RIGHT_START_FRAME = 15;
+		private static final int MOVE_RIGHT_FRAMES = 5;
+		private static final int MOVE_DOWN_START_FRAME = 5;
+		private static final int MOVE_DOWN_FRAMES = 4;
+		private static final int MOVE_UP_START_FRAME = 10;
+		private static final int MOVE_UP_FRAMES = 4;
+
+		// idle values
+		private static final int IDLE_LEFT_START_FRAME = 23;
+		private static final int IDLE_RIGHT_START_FRAME = 14;
+		private static final int IDLE_DOWN_START_FRAME = 1;
+		private static final int IDLE_UP_START_FRAME = 29;
+
+		// combat values
+		private static final int ATTACK_LEFT_START_FRAME = 36;
+		private static final int ATTCK_LEFT_FRAMES = 3;
+		private static final int ATTACK_RIGHT_START_FRAME = 33;
+		private static final int ATTACK_RIGHT_FRAMES = 3;
+		private static final int ATTACK_DOWN_START_FRAME = 27;
+		private static final int ATTACK_DOWN_FRAMES = 3;
+		private static final int ATTACK_UP_START_FRAME = 30;
+		private static final int ATTACK_UP_FRAMES = 3;
+
+		// death values
+		private static final int DEATH_ANIMATION_START_FRAME = 27;
+		private static final int DEATH_ANIMATION_FRAMES = 3;
+	
 	public Guard(TiledMapTileLayer accessibleTiles, String textureSheet, float startX, float startY) {
-		super(accessibleTiles, textureSheet, 8, 5, startX, startY, true, false, 50, 50);
+		super(
+				accessibleTiles, 
+				startX, startY, 
+				true, 
+				false,
+				50, 50,				
+				new CharacterAnimation(MOVEMENT_SPRITE_SHEET, COMBAT_SPRITE_SHEET, DEATH_SPRITE_SHEET,
+						MOVEMENT_SPRITE_SHEET_ROWS, MOVEMENT_SPRITE_SHEET_COLS,
+						COMBAT_SPRITE_SHEET_ROWS, COMBAT_SPRITE_SHEET_COLS,
+						DEATH_SPRITE_SHEET_ROWS, DEATH_SPRITE_SHEET_COLS,
+						MOVE_LEFT_START_FRAME, MOVE_LEFT_FRAMES,
+						MOVE_RIGHT_START_FRAME, MOVE_RIGHT_FRAMES,
+						MOVE_DOWN_START_FRAME, MOVE_DOWN_FRAMES,
+						MOVE_UP_START_FRAME, MOVE_UP_FRAMES,
+						IDLE_LEFT_START_FRAME, IDLE_RIGHT_START_FRAME, IDLE_DOWN_START_FRAME, IDLE_UP_START_FRAME,
+						ATTACK_LEFT_START_FRAME, ATTCK_LEFT_FRAMES, 
+						ATTACK_RIGHT_START_FRAME, ATTACK_RIGHT_FRAMES,
+						ATTACK_DOWN_START_FRAME, ATTACK_DOWN_FRAMES,
+						ATTACK_UP_START_FRAME, ATTACK_UP_FRAMES,
+						DEATH_ANIMATION_START_FRAME, DEATH_ANIMATION_FRAMES
+						));
 	}
-
-	protected void createAnimations() {
-		this.runRightAnimation = AnimationFactory.createAnimation(this.animationSheetName, frameCols, frameRows, 1, 1, 0.08f);
-		this.runLeftAnimation = AnimationFactory.createAnimation(this.animationSheetName, frameCols, frameRows, 1, 1, 0.08f);
-		this.runDownAnimation = AnimationFactory.createAnimation(this.animationSheetName, frameCols, frameRows, 1, 1, 0.08f);
-		this.runUpAnimation = AnimationFactory.createAnimation(this.animationSheetName, frameCols, frameRows, 1, 1, 0.08f);
-
-		this.attackDownAnimation = AnimationFactory.createAnimation(this.animationSheetName, frameCols, frameRows, 1, 1, 0.08f);
-		this.attackUpAnimation = AnimationFactory.createAnimation(this.animationSheetName, frameCols, frameRows, 1, 1, 0.08f);
-		this.attackRightAnimation = AnimationFactory.createAnimation(this.animationSheetName, frameCols, frameRows, 1, 1, 0.08f);
-		this.attackLeftAnimation = AnimationFactory.createAnimation(this.animationSheetName, frameCols, frameRows, 1, 1, 0.08f);
-		
-		this.idleUpAnimation = AnimationFactory.createAnimation(this.animationSheetName, frameCols, frameRows, 1, 29, 0.08f);
-		this.idleDownAnimation = AnimationFactory.createAnimation(this.animationSheetName, frameCols, frameRows, 1, 1, 0.08f);
-		this.idleLeftAnimation = AnimationFactory.createAnimation(this.animationSheetName, frameCols, frameRows, 1, 23, 0.08f);
-		this.idleRightAnimation = AnimationFactory.createAnimation(this.animationSheetName, frameCols, frameRows, 1, 14, 0.08f);
-		
-		this.deathDownAnimation = AnimationFactory.createAnimation(this.animationSheetName, frameCols, frameRows, 3, 27, 1f);
-		this.deathUpAnimation = AnimationFactory.createAnimation(this.animationSheetName, frameCols, frameRows, 3, 30, 1f);
-		this.deathRightAnimation = AnimationFactory.createAnimation(this.animationSheetName, frameCols, frameRows, 3, 33, 1f);
-		this.deathLeftAnimation = AnimationFactory.createAnimation(this.animationSheetName, frameCols, frameRows, 3, 36, 1f);
-	}    
 	
 }
