@@ -2,6 +2,7 @@ package com.adventuresof.game.world;
 
 import java.util.ArrayList;
 
+import com.adventuresof.game.character.Enemy;
 import com.adventuresof.game.character.NPC;
 import com.adventuresof.game.character.Player;
 import com.adventuresof.game.inventory.Item;
@@ -23,8 +24,10 @@ public abstract class GameWorld {
 			
 			map = new Map(mapPath);
 			
+			this.spawnNPCs();
+			
 			// load the player
-			this.setPlayer(new Player(map.getAccessibleMapLayer()));
+			this.spawnPlayer();
 			
 			// instantiate map item list
 			items = new ArrayList<Item>();
@@ -79,6 +82,15 @@ public abstract class GameWorld {
 		protected abstract void spawnNPCs();
 		
 		protected abstract void detectCollisionWithTriggers();
+		
+		public void spawnPlayer() {
+			for (RectangleMapObject rectangleObject : this.map.getPlayerSpawnObjects().getByType(RectangleMapObject.class)) {
+				Rectangle rectangle = rectangleObject.getRectangle();
+				// spawn in an 'enemy'
+				this.setPlayer(new Player(map.getAccessibleMapLayer(), rectangle.x, rectangle.y));
+				break;
+			}
+		}
 		
 		public NPC targetLocationContainsNPC(Vector3 location) {
 			Rectangle rectangle = new Rectangle();

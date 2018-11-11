@@ -3,7 +3,7 @@ package com.adventuresof.game.inventory;
 import com.badlogic.gdx.math.Rectangle;
 
 public enum ItemEnum {
-    SHIELD("shield.png"), SWORD("sword.png"), ARMOR("armor.png");
+    SHIELD("items//shield.png"), SWORD("items//sword.png"), ARMOR("items//armor.png");
 
     private String texture;
     

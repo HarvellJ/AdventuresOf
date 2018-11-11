@@ -224,7 +224,7 @@ public abstract class GameCharacter extends GameObject {
 				{
 					// check if the next position is an accessible cell, if so, move there. If not, stop moving, character at edge of accessible layer.
 					// the / 32 is dividing the current position co-ordinates by the tile sizes
-					if(accessibleTiles.getCell(((int) currentPosition.x + (int) nextX) / 32, ((int) currentPosition.y + (int) nextY) / 32) == null) {
+					if(accessibleTiles.getCell(((int) currentPosition.x + (int) nextX) / 16, ((int) currentPosition.y + (int) nextY) / 16) == null) {
 						pointToMoveTo = null;
 						isIdle = true;
 					}else {

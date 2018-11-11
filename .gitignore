@@ -1,1 +1,4 @@
 /.gradle/
+core/assets/characters/knightsAnimationSheet.png
+core/assets/map/DarkTiles.tsx
+core/assets/map/tf_darkdimension_sheet.png

@@ -2,11 +2,9 @@ package com.adventuresof.game.world;
 
 import java.util.ArrayList;
 
-import com.adventuresof.game.character.Direction;
 import com.adventuresof.game.character.Enemy;
 import com.adventuresof.game.character.Guard;
 import com.adventuresof.game.character.NPC;
-import com.adventuresof.game.character.Player;
 import com.adventuresof.game.character.PlayerCompanion;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Intersector;
@@ -17,13 +15,7 @@ public class TutorialIsland extends GameWorld{
 	protected PlayerCompanion playerCompanion;
 	
 	public TutorialIsland() {
-		super("Map.tmx");
-		
-		// load the players
-		this.setPlayer(new Player(map.getAccessibleMapLayer()));
-		
-		// load the guard NPCs
-		this.spawnNPCs();
+		super("map//MainWorld.tmx");
 		
 		this.setPlayerCompanion(new PlayerCompanion(map.getAccessibleMapLayer(), this.player));
 		
@@ -50,7 +42,7 @@ public class TutorialIsland extends GameWorld{
 		for (RectangleMapObject rectangleObject : this.map.getEnemySpawnObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
 			// spawn in an 'enemy'
-			this.NPCs.add(new Enemy(map.getAccessibleMapLayer(), "knight_animation_sheet.png", rectangle.x, rectangle.y));							
+			this.NPCs.add(new Enemy(map.getAccessibleMapLayer(), "characters//knight.png", rectangle.x, rectangle.y));							
 		}
 	}
 	
@@ -60,17 +52,8 @@ public class TutorialIsland extends GameWorld{
 	private void spawnGuards() {
 		for (RectangleMapObject rectangleObject : this.map.getGuardSpawnObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
-				// if statement used because direction of guards depends on spawn zone
-				if (rectangleObject.getName().equals("guardSpawn1_StartZone") || rectangleObject.getName().equals("guardSpawn2_StartZone")
-						|| rectangleObject.getName().equals("guardSpawn1_StartZone")) {
-					this.NPCs.add(new Guard(map.getAccessibleMapLayer(), "knight_animation_sheet.png", rectangle.x, rectangle.y, Direction.left));
-				}	
-				else if(rectangleObject.getName().equals("guardSpawn1_ItemZone") || rectangleObject.getName().equals("guardSpawn2_ItemZone")) {
-					this.NPCs.add(new Guard(map.getAccessibleMapLayer(), "knight_animation_sheet.png", rectangle.x, rectangle.y, Direction.down));
-				}			
-				else if(rectangleObject.getName().equals("guardSpawn3_ItemZone") || rectangleObject.getName().equals("guardSpawn4_ItemZone")) {
-					this.NPCs.add(new Guard(map.getAccessibleMapLayer(), "knight_animation_sheet.png", rectangle.x, rectangle.y, Direction.right));
-				}
+				// if statement used because direction of guards depends on spawn zone			
+					this.NPCs.add(new Guard(map.getAccessibleMapLayer(), "characters//knight.png", rectangle.x, rectangle.y));							
 		}
 	}
 	

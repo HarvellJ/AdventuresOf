@@ -36,18 +36,23 @@ public class Map {
     private MapLayer enemySpawnObjectLayer; // Contains the objects representing spawn areas for enemy NPCs on the map
     private MapObjects enemySpawnObjects; // Contains the objects representing spawn areas for enemy NPCs on the map
 	
+ // Guard spawn object layer
+    private MapLayer playerSpawnObjectLayer; // Contains the objects representing spawn areas for enemy NPCs on the map
+    private MapObjects playerSpawnObjects; // Contains the objects representing spawn areas for enemy NPCs on the map
+    
 	private TiledMapTileLayer accessibleMapLayer; // Contains accessible tiles
 	
 	
-	// Collision layers/ object layers
-	private final static int MAP_OBJECT_LAYER = 1; //layer number on which game objects exist
-	private final static int ITEM_SPAWN_LAYER = 0; //layer number on which game objects exist
-	private final static int TRIGGER_LAYER = 6; // layer number on which game objects exist
-	private final static int GUARD_SPAWNS = 7; // The layer containing spawn points for the guard NPC
-	private final static int ENEMY_SPAWNS = 8; // The layer containing spawn points for the enemy NPC
-	
-	private int ACCESSIBLE_MAP_LAYER = 3;
-	private int IN_ACCESSIBLE_MAP_LAYER = 2; //layer number on which tiles exist that cannot be moved onto, e.g. water, lava
+	// Map layers
+	private final static int MAP_OBJECT_LAYER = 0; //layer number on which game objects exist
+	private final static int ITEM_SPAWN_LAYER = 2; //layer number on which game objects exist
+	private final static int TRIGGER_LAYER = 1; // layer number on which game objects exist
+	private final static int GUARD_SPAWNS = 3; // The layer containing spawn points for the guard NPC
+	private final static int ENEMY_SPAWNS = 2; // The layer containing spawn points for the enemy NPC
+	private final static int PLAYER_SPAWNS = 4; //layer number on which game objects exist
+
+	private int ACCESSIBLE_MAP_LAYER = 7;
+	private int IN_ACCESSIBLE_MAP_LAYER = 1; //layer number on which tiles exist that cannot be moved onto, e.g. water, lava
 		
 		
 	public Map(String mapName) {
@@ -77,7 +82,11 @@ public class Map {
 	    
 	    // store enemy spawn objects and layers
 	    setEnemySpawnObjectLayer((MapLayer)tiledMap.getLayers().get(ENEMY_SPAWNS));
-	    setEnemySpawnObjects(enemySpawnObjectLayer.getObjects());	
+	    setEnemySpawnObjects(enemySpawnObjectLayer.getObjects());	 
+	    
+	    // store enemy spawn objects and layers
+	    setPlayerSpawnObjectLayer((MapLayer)tiledMap.getLayers().get(PLAYER_SPAWNS));
+	    setPlayerSpawnObjects(playerSpawnObjectLayer.getObjects());	
 	}
 
 	public MapObjects getEnemySpawnObjects() {
@@ -185,6 +194,22 @@ public class Map {
 
 	public void setItemSpawnPointObjects(MapObjects spawnPointObjects) {
 		this.itemSpawnPointObjects = spawnPointObjects;
+	}
+
+	public MapLayer getPlayerSpawnObjectLayer() {
+		return playerSpawnObjectLayer;
+	}
+
+	public void setPlayerSpawnObjectLayer(MapLayer playerSpawnObjectLayer) {
+		this.playerSpawnObjectLayer = playerSpawnObjectLayer;
+	}
+
+	public MapObjects getPlayerSpawnObjects() {
+		return playerSpawnObjects;
+	}
+
+	public void setPlayerSpawnObjects(MapObjects playerSpawnObjects) {
+		this.playerSpawnObjects = playerSpawnObjects;
 	}
 	
 }
