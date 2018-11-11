@@ -51,8 +51,8 @@ public class Map {
 	private final static int ENEMY_SPAWNS = 2; // The layer containing spawn points for the enemy NPC
 	private final static int PLAYER_SPAWNS = 4; //layer number on which game objects exist
 
-	private int ACCESSIBLE_MAP_LAYER = 7;
-	private int IN_ACCESSIBLE_MAP_LAYER = 1; //layer number on which tiles exist that cannot be moved onto, e.g. water, lava
+	private int ACCESSIBLE_MAP_LAYER = 5;
+	private int IN_ACCESSIBLE_MAP_LAYER = 7; //layer number on which tiles exist that cannot be moved onto, e.g. water, lava
 		
 		
 	public Map(String mapName) {
