@@ -22,7 +22,7 @@ public abstract class NPC extends GameCharacter {
 			CharacterAnimation characterAnimation, CharacterSpeed speed
 			)
 	{
-		super(accessibleTiles, startX, startY, isHostile, characterWidth, characterHeight, characterAnimation, speed, false);
+		super(accessibleTiles, startX, startY, isHostile, characterWidth, characterHeight, characterAnimation, varySpeed(speed.getSpeed()), false);
 		this.isStatic = isStatic;
 		r = new Random();
 	}
@@ -76,6 +76,12 @@ public abstract class NPC extends GameCharacter {
 
 				}
 			}
-		}
+		}	
 	}	
+	
+	private static float varySpeed(float speed) {
+		// slightly varies the speed for the NPC. Used to stop NPC's from stacking on one of another as often
+		Random r = new Random();
+		return speed - 10 + r.nextFloat() * (speed + 30 - speed - 10);
+	}
 }

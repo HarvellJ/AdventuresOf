@@ -33,7 +33,7 @@ public abstract class GameCharacter extends GameObject {
 	protected Vector3 currentPosition; // stores current position of character
 	protected boolean isStatic; // used to determine if the character is static on the map or whether they move around
     protected Vector3 spawnLocation; // used for things such as calculating distance travelled and respawn points 
-	protected CharacterSpeed speed;
+	protected float speed;
 	protected boolean canRespawn;
     private Direction currentCharacterDirection;
     
@@ -76,7 +76,7 @@ public abstract class GameCharacter extends GameObject {
     		boolean isHostile,
     		int characterWidth, int characterHeight,
     		CharacterAnimation characterAnimation,
-    		CharacterSpeed speed, boolean canRespawn) {
+    		float speed, boolean canRespawn) {
     	
     	this.characterAnimation = characterAnimation;
     	this.speed = speed;
@@ -200,8 +200,8 @@ public abstract class GameCharacter extends GameObject {
 				destinationX = destinationX / distanceToTravel;
 				destinationY = destinationY / distanceToTravel;
 
-				double nextX = destinationX * speed.getSpeed() * Gdx.graphics.getDeltaTime();
-				double nextY = destinationY * speed.getSpeed() * Gdx.graphics.getDeltaTime();
+				double nextX = destinationX * speed * Gdx.graphics.getDeltaTime();
+				double nextY = destinationY * speed * Gdx.graphics.getDeltaTime();
 
 				double distanceTravelled = Math.sqrt(nextX * nextX + nextY * nextY);
 
