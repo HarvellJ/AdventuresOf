@@ -1,5 +1,6 @@
 package com.adventuresof.game.character;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -12,12 +13,16 @@ public abstract class NPC extends GameCharacter {
 
 	private Random r;
 	public boolean isTalkative;
+	private ArrayList<String> conversation;
+	private int conversationIndex = 0;
+	
 	
 	public NPC(TiledMapTileLayer accessibleTiles, String animationSheetName, int animationSheetCols,
-			int animationSheetRows, float startX, float startY, boolean isStatic, boolean isHostile, int characterWidth, int characterHeight, boolean isTalkative) {
-		super(accessibleTiles, animationSheetName, animationSheetCols, animationSheetRows, startX, startY, isHostile, characterWidth, characterHeight);
+			int animationSheetRows, float startX, float startY, boolean isStatic, boolean isHostile, int characterWidth, int characterHeight, boolean isTalkative, ArrayList<String> conversation, String name) {
+		super(accessibleTiles, animationSheetName, animationSheetCols, animationSheetRows, startX, startY, isHostile, characterWidth, characterHeight , name);
 		this.isStatic = isStatic;
 		this.isTalkative = isTalkative;
+		this.conversation = conversation;
 		r = new Random();
 	}
 	
@@ -59,5 +64,17 @@ public abstract class NPC extends GameCharacter {
 				}
 			}
 		}
-	}	
+	}
+	
+	public ArrayList<String> getConversation () {
+		return this.conversation;
+	}
+	
+	public int getConversationIndex () {
+		return this.conversationIndex;
+	}
+	
+	public void setConversationIndex (int conversationIndex) {
+		this.conversationIndex = conversationIndex;
+	}
 }

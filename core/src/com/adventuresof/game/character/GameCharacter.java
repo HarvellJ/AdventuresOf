@@ -28,6 +28,8 @@ import com.badlogic.gdx.math.Vector3;
  */
 public abstract class GameCharacter extends GameObject {
 	
+	private String name;
+	
 	// movement variables
 	protected Vector3 pointToMoveTo; // used to move the character to a point
 	protected Vector3 currentPosition; // stores current position of character
@@ -80,7 +82,7 @@ public abstract class GameCharacter extends GameObject {
 	private float frozenTime;
     
     public GameCharacter(TiledMapTileLayer accessibleTiles, String animationSheetName, int animationSheetCols, int animationSheetRows, float startX, float startY,
-    		boolean isHostile, int characterWidth, int characterHeight) {
+    		boolean isHostile, int characterWidth, int characterHeight, String name) {
     	
     	// set all values that are used for animations
     	this.animationSheetName = animationSheetName;
@@ -88,6 +90,7 @@ public abstract class GameCharacter extends GameObject {
     	this.frameRows = animationSheetRows;
 		this.stateTime = 0f;
     	this.createAnimations();
+    	this.name = name;
     	
     	// instantiate characters' current position as a blank vector3
     	currentPosition = new Vector3(startX, startY, 0);
@@ -407,4 +410,12 @@ public abstract class GameCharacter extends GameObject {
     		}
     	}   	
     }
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 }

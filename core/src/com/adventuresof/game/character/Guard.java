@@ -1,5 +1,7 @@
 package com.adventuresof.game.character;
 
+import java.util.ArrayList;
+
 import com.adventuresof.helpers.AnimationFactory;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -7,8 +9,8 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
 public class Guard extends NPC{
 
-	public Guard(TiledMapTileLayer accessibleTiles, String textureSheet, float startX, float startY, Direction startingDirection, boolean isTalkative) {
-		super(accessibleTiles, textureSheet, 8, 5, startX, startY, true, false, 50, 50, isTalkative);
+	public Guard(TiledMapTileLayer accessibleTiles, String textureSheet, float startX, float startY, Direction startingDirection, boolean isTalkative, ArrayList<String> conversation, String name) {
+		super(accessibleTiles, textureSheet, 8, 5, startX, startY, true, false, 50, 50, isTalkative, conversation, name);
 		this.setCharacterDirection(startingDirection);
 	}
 

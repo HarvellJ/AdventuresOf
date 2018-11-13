@@ -21,7 +21,7 @@ public abstract class GameWorld {
 			map = new Map(mapPath);
 			
 			// load the player
-			this.setPlayer(new Player(map.getAccessibleMapLayer()));
+			this.setPlayer(new Player(map.getAccessibleMapLayer(), "You"));
 			
 			// instantiate map item list
 			items = new ArrayList<Item>();

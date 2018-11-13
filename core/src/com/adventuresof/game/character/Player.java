@@ -13,8 +13,8 @@ public class Player extends GameCharacter{
 	private Inventory inventory; // Stores items the player has collected
 	private ArrayList<GameZone> discoveredZones; // Stores a list of discovered zones. Used for measuring player progress
 
-	public Player(TiledMapTileLayer accessibleTiles) {
-		super(accessibleTiles, "animation_sheet.png", 8, 5, 1700, 1300, false, 50, 50);
+	public Player(TiledMapTileLayer accessibleTiles, String name) {
+		super(accessibleTiles, "animation_sheet.png", 8, 5, 1700, 1300, false, 50, 50, name);
 		this.inventory = new Inventory();
 		this.discoveredZones = new ArrayList<GameZone>();
 	}

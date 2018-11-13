@@ -1,6 +1,7 @@
 package com.adventuresof.game.world;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import com.adventuresof.game.character.Direction;
 import com.adventuresof.game.character.Enemy;
@@ -21,12 +22,12 @@ public class TutorialIsland extends GameWorld{
 		super("Map.tmx");
 		
 		// load the players
-		this.setPlayer(new Player(map.getAccessibleMapLayer()));
+		this.setPlayer(new Player(map.getAccessibleMapLayer(), "You"));
 		
 		// load the guard NPCs
 		this.spawnNPCs();
 		
-		this.setPlayerCompanion(new PlayerCompanion(map.getAccessibleMapLayer(), this.player));
+		this.setPlayerCompanion(new PlayerCompanion(map.getAccessibleMapLayer(), this.player, "Companion"));
 		
 		// add map items
 		this.items.add(Item.values()[0]);
@@ -76,7 +77,7 @@ public class TutorialIsland extends GameWorld{
 		for (RectangleMapObject rectangleObject : this.map.getEnemySpawnObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
 			// spawn in an 'enemy'
-			this.NPCs.add(new Enemy(map.getAccessibleMapLayer(), "knight_animation_sheet.png", rectangle.x, rectangle.y, false));							
+			this.NPCs.add(new Enemy(map.getAccessibleMapLayer(), "knight_animation_sheet.png", rectangle.x, rectangle.y, false, null, "Jeff"));							
 		}
 	}
 	
@@ -84,18 +85,23 @@ public class TutorialIsland extends GameWorld{
 	 * Instantiates the guard NPC's into the game
 	 */
 	private void spawnGuards() {
+		
+		ArrayList<String> conversation = new ArrayList<String>(Arrays.asList("London", "Tokyo", "New York"));
+		ArrayList<String> converstion = new ArrayList<String>(Arrays.asList("Stockholm", "Cairo", "Berlin"));
+		ArrayList<String> conversation1 = new ArrayList<String>(Arrays.asList("Paris", "Madrid", "Glasgow"));
+		
 		for (RectangleMapObject rectangleObject : this.map.getGuardSpawnObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
 				// if statement used because direction of guards depends on spawn zone
 				if (rectangleObject.getName().equals("guardSpawn1_StartZone") || rectangleObject.getName().equals("guardSpawn2_StartZone")
 						|| rectangleObject.getName().equals("guardSpawn1_StartZone")) {
-					this.NPCs.add(new Guard(map.getAccessibleMapLayer(), "knight_animation_sheet.png", rectangle.x, rectangle.y, Direction.left, true));
+					this.NPCs.add(new Guard(map.getAccessibleMapLayer(), "knight_animation_sheet.png", rectangle.x, rectangle.y, Direction.left, true, conversation, "Phil"));
 				}	
 				else if(rectangleObject.getName().equals("guardSpawn1_ItemZone") || rectangleObject.getName().equals("guardSpawn2_ItemZone")) {
-					this.NPCs.add(new Guard(map.getAccessibleMapLayer(), "knight_animation_sheet.png", rectangle.x, rectangle.y, Direction.down, true));
+					this.NPCs.add(new Guard(map.getAccessibleMapLayer(), "knight_animation_sheet.png", rectangle.x, rectangle.y, Direction.down, true, conversation1, "Bob"));
 				}			
 				else if(rectangleObject.getName().equals("guardSpawn3_ItemZone") || rectangleObject.getName().equals("guardSpawn4_ItemZone")) {
-					this.NPCs.add(new Guard(map.getAccessibleMapLayer(), "knight_animation_sheet.png", rectangle.x, rectangle.y, Direction.right, true));
+					this.NPCs.add(new Guard(map.getAccessibleMapLayer(), "knight_animation_sheet.png", rectangle.x, rectangle.y, Direction.right, true, conversation, "Jack"));
 				}
 		}
 	}

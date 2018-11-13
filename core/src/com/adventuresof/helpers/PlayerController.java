@@ -14,6 +14,10 @@ import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 public class PlayerController implements InputProcessor{
 
@@ -51,14 +55,22 @@ public class PlayerController implements InputProcessor{
 			}
 		
 		}
-		if(keycode == Input.Keys.SPACE) {
-			this.playerHUD.displayChat();
-		}
 		
-		//if(keycode == Input.Keys.NUM_3)
-			//gameWorld.getMap().getTiledMap().getLayers().get(0).setVisible(!gameWorld.getMap().getTiledMap().getLayers().get(0).isVisible());
-		//if(keycode == Input.Keys.I)
-		//	gameRenderer.toggleInventory();
+//		if(keycode == Input.Keys.SPACE) {
+//			this.playerHUD.displayChat("jifdjgkfsvhgfhgfhgfhgfdhgfhgfhgf"
+//					+ "gfhgfhgfhgfhgfhgfhgfhgdhgfghgf"
+//					+ "hgfgfhgfhgfhhgfhfdghgfhgfhgfhgfhgf"
+//					+ "hgfdgfhgfhgfhgfhgfhgfhrd");
+//		}
+//		
+//		if(keycode == Input.Keys.ENTER) {
+//			this.playerHUD.displayChat("test");
+//		}
+//		
+//		//if(keycode == Input.Keys.NUM_3)
+//			//gameWorld.getMap().getTiledMap().getLayers().get(0).setVisible(!gameWorld.getMap().getTiledMap().getLayers().get(0).isVisible());
+//		//if(keycode == Input.Keys.I)
+//		//	gameRenderer.toggleInventory();
 		
 		return false;
 	}
@@ -80,18 +92,49 @@ public class PlayerController implements InputProcessor{
 			Vector3 newPosition = gameRenderer.getCamera().unproject(clickCoordinates);
 			
 			// check if player has selected a position containing an NPC
-			NPC npc = this.gameWorld.targetLocationContainsNPC(newPosition);
+			final NPC npc = this.gameWorld.targetLocationContainsNPC(newPosition);
+			PlayerHUD hud = this.playerHUD;
+
 			if(npc == null) {
 				this.gameWorld.getPlayer().setTarget(null);
 				this.gameWorld.getPlayer().setTargetLocation(newPosition);
+	    		hud.displayText("");
+	    		
 			}else {
 				
 				this.gameWorld.getPlayer().setTarget(npc);
+				
 				if (npc.isTalkative) {
-					
-					npc.addMessageToMessageQueue("test");
-					npc.addMessageToMessageQueue("test1");
-					
+									 
+					hud.displayChat(npc);
+			    
+//					final TextButton continueButton = hud.getButton();
+//			    	continueButton.setVisible(true);
+//
+//					continueButton.addListener( new ClickListener() {
+//					    @Override
+//					    public void clicked(InputEvent event, float x, float y) {
+//					    						    						    	
+//					    	npc.setConversationIndex(npc.getConversationIndex() + 1);
+//					    	System.out.println("Index " + npc.getConversationIndex());
+//					    	System.out.println("Size " + npc.getConversation().size());
+//					    	
+//					    	if (npc.getConversationIndex() < npc.getConversation().size()) {
+//
+//					    		hud.displayChat(npc.getConversation().get(npc.getConversationIndex()));					    		
+//
+//					    	} else if (npc.getConversationIndex() == npc.getConversation().size()) {
+//					    		System.out.println("hit");
+//					    		hud.displayChat("");
+//					    		//chatBox.;
+//					    		continueButton.setVisible(false);
+//						    	npc.setConversationIndex(0);
+//
+//					    	}
+//					    }
+//					} );
+				} else {
+					hud.displayText("This person doesn't look interested in talking right now.");					    		
 				}
 			}
 		}

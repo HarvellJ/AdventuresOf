@@ -1,12 +1,14 @@
 package com.adventuresof.game.character;
 
+import java.util.ArrayList;
+
 import com.adventuresof.helpers.AnimationFactory;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
 public class Enemy extends NPC {
 
-	public Enemy(TiledMapTileLayer accessibleTiles, String textureSheet, float startX, float startY, boolean isTalkative) {
-		super(accessibleTiles, textureSheet, 8, 5, startX, startY, false, true, 50, 50, isTalkative);
+	public Enemy(TiledMapTileLayer accessibleTiles, String textureSheet, float startX, float startY, boolean isTalkative, ArrayList<String> conversation, String name) {
+		super(accessibleTiles, textureSheet, 8, 5, startX, startY, false, true, 50, 50, isTalkative, conversation, name);
 		this.setCharacterDirection(Direction.left);
 	}
 
