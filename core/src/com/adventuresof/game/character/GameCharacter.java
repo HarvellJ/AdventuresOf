@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -42,34 +43,13 @@ public abstract class GameCharacter extends GameObject {
     private float stateTimeOfDeath; // used to calculate time required for death animation
     
     // animation stuff
-    // movement
-    protected Animation<TextureRegion> runRightAnimation;
-    protected Animation<TextureRegion> runLeftAnimation;
-    protected Animation<TextureRegion> runUpAnimation;
-    protected Animation<TextureRegion> runDownAnimation;
-    // combat
-    protected Animation<TextureRegion> attackDownAnimation;
-    protected Animation<TextureRegion> attackUpAnimation;
-    protected Animation<TextureRegion> attackLeftAnimation;
-    protected Animation<TextureRegion> attackRightAnimation;
-    // idle
-    protected Animation<TextureRegion> idleUpAnimation;
-    protected Animation<TextureRegion> idleDownAnimation;
-    protected Animation<TextureRegion> idleRightAnimation;
-    protected Animation<TextureRegion> idleLeftAnimation;
-    // death
-    protected Animation<TextureRegion> deathUpAnimation;
-    protected Animation<TextureRegion> deathDownAnimation;
-    protected Animation<TextureRegion> deathRightAnimation;
-    protected Animation<TextureRegion> deathLeftAnimation;
+    protected CharacterAnimation characterAnimation;
     
     private boolean performAttack = false;
     private float attackStartedTime; // stores the state time of when the attack animation was initiated
     private Direction attackDirection; // locks the player in their current direction for the duration of the attack duration (avoids animation complications)
     
     private boolean isIdle;
-    protected String animationSheetName;
-    protected int frameCols, frameRows;
     protected float stateTime;
   
     private ArrayList<String> messageQueue; // used to queue messages that will be displayed in game by the character
@@ -90,16 +70,23 @@ public abstract class GameCharacter extends GameObject {
     private int health;
 	private boolean isFrozen;
 	private float frozenTime;
+	
+	//health bar
+	private HealthBar healthBar;
     
-    public GameCharacter(TiledMapTileLayer accessibleTiles, String animationSheetName, int animationSheetCols, int animationSheetRows, float startX, float startY,
-    		boolean isHostile, int characterWidth, int characterHeight) {
+    public GameCharacter(
+    		TiledMapTileLayer accessibleTiles,
+    	    float startX, float startY,
+    		boolean isHostile,
+    		int characterWidth, int characterHeight,
+    		CharacterAnimation characterAnimation) {
     	
-    	// set all values that are used for animations
-    	this.animationSheetName = animationSheetName;
-    	this.frameCols = animationSheetCols;
-    	this.frameRows = animationSheetRows;
-		this.stateTime = 0f;
-    	this.createAnimations();
+		healthBar = new HealthBar(this, new Texture("healthBackground.png"),
+				new Texture("healthForeground.png"));
+    	
+    	this.characterAnimation = characterAnimation;
+    	
+		this.stateTime = 0f;		
     	
     	// instantiate characters' current position as a blank vector3
     	currentPosition = new Vector3(startX, startY, 0);
@@ -163,7 +150,9 @@ public abstract class GameCharacter extends GameObject {
 		this.hitBox = boundingRectangle;
 	}
 		
-    protected abstract void createAnimations();
+    protected void createAnimations() {
+    	
+    }
 
 	public void addMessageToMessageQueue(String message) {
 		this.messageQueue.add(message);
@@ -192,7 +181,7 @@ public abstract class GameCharacter extends GameObject {
 			// if player can move, then do so accordingly
 			if(target != null) {
 				//move to target location
-				this.setTargetLocation(new Vector3((float)target.getCurrentPosition().x - 40, (float)target.getCurrentPosition().y + 40, 0));
+				this.setTargetLocation(new Vector3((float)target.getCurrentPosition().x - 30, (float)target.getCurrentPosition().y, 0));
 			}
 
 			// check the point to move to value is set, if not, there is no need to move this frame.
@@ -224,7 +213,7 @@ public abstract class GameCharacter extends GameObject {
 				{
 					// check if the next position is an accessible cell, if so, move there. If not, stop moving, character at edge of accessible layer.
 					// the / 32 is dividing the current position co-ordinates by the tile sizes
-					if(accessibleTiles.getCell(((int) currentPosition.x + (int) nextX) / 32, ((int) currentPosition.y + (int) nextY) / 32) == null) {
+					if(accessibleTiles.getCell(((int) currentPosition.x + (int) nextX) / 16, ((int) currentPosition.y + (int) nextY) / 16) == null) {
 						pointToMoveTo = null;
 						isIdle = true;
 					}else {
@@ -238,6 +227,8 @@ public abstract class GameCharacter extends GameObject {
 		//following any positional moves, update the characters bounding record
 		this.updateHitBox();
 		}
+		
+		healthBar.update();
     }
     
     /**
@@ -264,7 +255,8 @@ public abstract class GameCharacter extends GameObject {
 		// handle any text
 		this.displayMessage(spriteBatch);
 		this.displayDamange(spriteBatch);
-		
+
+		healthBar.render(spriteBatch);
 	}
 
 	public void renderSpellAnimations(ShapeRenderer shapeRenderer) {
@@ -338,16 +330,16 @@ public abstract class GameCharacter extends GameObject {
 
     		if (attackStartedTime > stateTime -0.25f) // > stateTime - 0.25f is just the attack animation length{
     			if(attackDirection == Direction.up) {
-    				return attackUpAnimation.getKeyFrame(stateTime, true);
+    				return this.characterAnimation.getAttackUpAnimation().getKeyFrame(stateTime, true);
     			}
     			else if(attackDirection == Direction.down) {
-    				return attackDownAnimation.getKeyFrame(stateTime, true);
+    				return this.characterAnimation.getAttackDownAnimation().getKeyFrame(stateTime, true);
     			}
     			else if(attackDirection == Direction.right) {
-    				return attackRightAnimation.getKeyFrame(stateTime, true);
+    				return this.characterAnimation.getAttackRightAnimation().getKeyFrame(stateTime, true);
     			}
     			else {
-    				return attackLeftAnimation.getKeyFrame(stateTime, true);
+    				return this.characterAnimation.getAttackLeftAnimation().getKeyFrame(stateTime, true);
     			}
     	}
     	else {
@@ -357,16 +349,16 @@ public abstract class GameCharacter extends GameObject {
 
     	// if we reach here, player not performing attack, return standard movement animation frame
     	if(currentCharacterDirection == Direction.up) {
-    		return runUpAnimation.getKeyFrame(stateTime, true);
+    		return this.characterAnimation.getRunUpAnimation().getKeyFrame(stateTime, true);
     	}
     	else if(currentCharacterDirection == Direction.down) {
-    		return runDownAnimation.getKeyFrame(stateTime, true);
+    		return this.characterAnimation.getRunDownAnimation().getKeyFrame(stateTime, true);
     	}
     	else if(currentCharacterDirection == Direction.right) {
-    		return runRightAnimation.getKeyFrame(stateTime, true);
+    		return this.characterAnimation.getRunRightAnimation().getKeyFrame(stateTime, true);
     	}
     	else {
-    		return runLeftAnimation.getKeyFrame(stateTime, true);
+    		return this.characterAnimation.getRunLeftAnimation().getKeyFrame(stateTime, true);
     	}
     }   
 
@@ -377,16 +369,16 @@ public abstract class GameCharacter extends GameObject {
      */
     private TextureRegion getRelevantDeathAnimationFrame() {
     	if(currentCharacterDirection == Direction.up) {
-    		return deathUpAnimation.getKeyFrame(stateTime, true);
+    		return this.characterAnimation.getDeathUpAnimation().getKeyFrame(stateTime, true);
     	}
     	else if(currentCharacterDirection == Direction.down) {
-    		return deathDownAnimation.getKeyFrame(stateTime, true);
+    		return this.characterAnimation.getDeathDownAnimation().getKeyFrame(stateTime, true);
     	}
     	else if(currentCharacterDirection == Direction.right) {
-    		return deathRightAnimation.getKeyFrame(stateTime, true);
+    		return this.characterAnimation.getDeathRightAnimation().getKeyFrame(stateTime, true);
     	}
     	else {
-    		return deathLeftAnimation.getKeyFrame(stateTime, true);
+    		return this.characterAnimation.getDeathLeftAnimation().getKeyFrame(stateTime, true);
     	}
     }
     
@@ -397,16 +389,16 @@ public abstract class GameCharacter extends GameObject {
      */
     private TextureRegion getRelevantIdleTexture() {
     	if(currentCharacterDirection == Direction.up) {
-    		return idleUpAnimation.getKeyFrame(stateTime, true);
+    		return this.characterAnimation.getIdleUpAnimation().getKeyFrame(stateTime, true);
     	}
     	else if(currentCharacterDirection == Direction.down) {
-    		return idleDownAnimation.getKeyFrame(stateTime, true);
+    		return this.characterAnimation.getIdleDownAnimation().getKeyFrame(stateTime, true);
     	}
     	else if(currentCharacterDirection == Direction.right) {
-    		return idleRightAnimation.getKeyFrame(stateTime, true);
+    		return this.characterAnimation.getIdleRightAnimation().getKeyFrame(stateTime, true);
     	}
     	else {
-    		return idleLeftAnimation.getKeyFrame(stateTime, true);
+    		return this.characterAnimation.getIdleLeftAnimation().getKeyFrame(stateTime, true);
     	}
     }
     
@@ -419,29 +411,55 @@ public abstract class GameCharacter extends GameObject {
     	Direction directionX;
     	Direction directionY;
 
-    	//calculate x distance
-    	if(currentPosition.x > pointToMoveTo.x) {
-    		xDistanceToTravel = currentPosition.x - pointToMoveTo.x;
-    		directionX = Direction.left;
-    	}else {
-    		xDistanceToTravel = pointToMoveTo.x - currentPosition.x;
-    		directionX = Direction.right;
-    	}
-    	//calculate y distance
-    	if(currentPosition.y > pointToMoveTo.y) {
-    		yDistanceToTravel = currentPosition.y - pointToMoveTo.y;
-    		directionY = Direction.down;
-    	}else {
-    		yDistanceToTravel = pointToMoveTo.y - currentPosition.y  ;
-    		directionY = Direction.up;
-    	}
-    	
-    	if(xDistanceToTravel > yDistanceToTravel) {
-    		this.setCharacterDirection(directionX);
+    	if(target != null) {
+    		//calculate x distance
+    		if(currentPosition.x > this.target.getCurrentPosition().x) {
+    			xDistanceToTravel = currentPosition.x - this.target.getCurrentPosition().x;
+    			directionX = Direction.left;
+    		}else {
+    			xDistanceToTravel = this.target.getCurrentPosition().x - currentPosition.x;
+    			directionX = Direction.right;
+    		}
+    		//calculate y distance
+    		if(currentPosition.y > this.target.getCurrentPosition().y) {
+    			yDistanceToTravel = currentPosition.y - this.target.getCurrentPosition().y;
+    			directionY = Direction.down;
+    		}else {
+    			yDistanceToTravel = this.target.getCurrentPosition().y - currentPosition.y  ;
+    			directionY = Direction.up;
+    		}
 
+    		if(xDistanceToTravel > yDistanceToTravel) {
+    			this.setCharacterDirection(directionX);
+
+    		}else {
+    			this.setCharacterDirection(directionY);
+    		} 
     	}else {
-    		this.setCharacterDirection(directionY);
-    	}   		
+    		//calculate x distance
+    		if(currentPosition.x > pointToMoveTo.x) {
+    			xDistanceToTravel = currentPosition.x - pointToMoveTo.x;
+    			directionX = Direction.left;
+    		}else {
+    			xDistanceToTravel = pointToMoveTo.x - currentPosition.x;
+    			directionX = Direction.right;
+    		}
+    		//calculate y distance
+    		if(currentPosition.y > pointToMoveTo.y) {
+    			yDistanceToTravel = currentPosition.y - pointToMoveTo.y;
+    			directionY = Direction.down;
+    		}else {
+    			yDistanceToTravel = pointToMoveTo.y - currentPosition.y  ;
+    			directionY = Direction.up;
+    		}
+
+    		if(xDistanceToTravel > yDistanceToTravel) {
+    			this.setCharacterDirection(directionX);
+
+    		}else {
+    			this.setCharacterDirection(directionY);
+    		}   
+    	}
     }
     
     /**
@@ -506,5 +524,40 @@ public abstract class GameCharacter extends GameObject {
 
 	public void setDead(boolean isDead) {
 		this.isDead = isDead;
+	}
+	
+private class HealthBar {
+		
+		private Sprite healthBackground;
+		private Sprite healthForeground;
+		private GameCharacter owner;
+		private final short buffer = 20;
+		
+		public HealthBar(GameCharacter owner, Texture healthBG, Texture healthFG) {
+			this.owner = owner;
+			
+			healthBackground = new Sprite(healthBackground);
+			healthForeground = new Sprite(healthForeground);
+
+			healthBackground.setX(owner.getCurrentPosition().x);
+			healthBackground.setY(owner.getCurrentPosition().y + buffer);
+
+			healthForeground.setX(owner.getCurrentPosition().x);
+			healthForeground.setY(owner.getCurrentPosition().y + buffer);
+			healthForeground.setOrigin(0,0);
+			
+	}
+		public void update() {
+			healthBackground.setX(owner.getCurrentPosition().x);
+			healthBackground.setY(owner.getCurrentPosition().y + buffer);
+
+			healthForeground.setX(owner.getCurrentPosition().x);
+			healthForeground.setY(owner.getCurrentPosition().y + buffer);
+		}
+		
+		public void render(SpriteBatch spriteBatch) {
+			healthBackground.draw(spriteBatch);
+			healthForeground.draw(spriteBatch);
+		}
 	}
 }
