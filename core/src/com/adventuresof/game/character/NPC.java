@@ -11,7 +11,7 @@ import com.badlogic.gdx.math.Vector3;
 public abstract class NPC extends GameCharacter {
 
 	private Random r;
-	
+
 	public NPC(
 			TiledMapTileLayer accessibleTiles, 
 			float startX, float startY,
@@ -25,7 +25,7 @@ public abstract class NPC extends GameCharacter {
 		this.isStatic = isStatic;
 		r = new Random();
 	}
-	
+
 	/**
 	 * Algorithm to move the NPC randomly
 	 * Works by randomly setting the NPC's target location
@@ -39,24 +39,34 @@ public abstract class NPC extends GameCharacter {
 						boolean isPositiveX = r.nextBoolean();
 						boolean isPositiveY = r.nextBoolean();
 
-						int moveX = r.nextInt(300);
-						int moveY = r.nextInt(300);
+						int moveX = r.nextInt(40);
+						int moveY = r.nextInt(40);
+
 
 						if (isPositiveX) {
 							if (isPositiveY) {
-								this.setTargetLocation(new Vector3(currentPosition.x + moveX, currentPosition.y + moveY, 0));
+								// only move if they haven't gone beyond allowed boundary (from spawn)
+								if((currentPosition.x + moveX) < (spawnLocation.x + 50) || (currentPosition.y + moveY) < (spawnLocation.y + 50)) {
+									this.setTargetLocation(new Vector3(currentPosition.x + moveX, currentPosition.y + moveY, 0));
+								}
 							}else {
-								this.setTargetLocation(new Vector3(currentPosition.x + moveX, currentPosition.y - moveY, 0));
-
+								if((currentPosition.x + moveX) < (spawnLocation.x + 50) || (currentPosition.y - moveY) > (spawnLocation.y - 50)) {
+									this.setTargetLocation(new Vector3(currentPosition.x + moveX, currentPosition.y - moveY, 0));
+								}
 							}
 						}else {
 							if (isPositiveY) {
-								this.setTargetLocation(new Vector3(currentPosition.x - moveX, currentPosition.y + moveY, 0));
+								if((currentPosition.x - moveX) > (spawnLocation.x - 50) || (currentPosition.y + moveY) < (spawnLocation.y + 50)) {
+									this.setTargetLocation(new Vector3(currentPosition.x - moveX, currentPosition.y + moveY, 0));
+								}
 							}else {
-								this.setTargetLocation(new Vector3(currentPosition.x - moveX, currentPosition.y - moveY, 0));
+								if((currentPosition.x - moveX) > (spawnLocation.x - 50) || (currentPosition.y - moveY) < (spawnLocation.y + 50)) {
+									this.setTargetLocation(new Vector3(currentPosition.x - moveX, currentPosition.y - moveY, 0));
+								}
 							}
 						}
-					}		
+					}												
+
 				}
 			}
 		}

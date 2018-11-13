@@ -32,7 +32,8 @@ public abstract class GameCharacter extends GameObject {
 	protected Vector3 pointToMoveTo; // used to move the character to a point
 	protected Vector3 currentPosition; // stores current position of character
 	protected boolean isStatic; // used to determine if the character is static on the map or whether they move around
-     
+    protected Vector3 spawnLocation; // used for things such as calculating distance travelled and respawn points 
+	
     private Direction currentCharacterDirection;
     
     // death stuff
@@ -81,7 +82,8 @@ public abstract class GameCharacter extends GameObject {
     	
     	// instantiate characters' current position as a blank vector3
     	currentPosition = new Vector3(startX, startY, 0);
-    	 
+    	this.spawnLocation = currentPosition;
+    	
     	// they are alive...
     	this.isDying = false;
     	this.setDead(false);
