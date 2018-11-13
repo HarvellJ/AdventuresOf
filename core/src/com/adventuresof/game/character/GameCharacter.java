@@ -32,8 +32,7 @@ public abstract class GameCharacter extends GameObject {
 	protected Vector3 pointToMoveTo; // used to move the character to a point
 	protected Vector3 currentPosition; // stores current position of character
 	protected boolean isStatic; // used to determine if the character is static on the map or whether they move around
-    
-   
+     
     private Direction currentCharacterDirection;
     
     // death stuff
@@ -43,10 +42,6 @@ public abstract class GameCharacter extends GameObject {
     
     // animation stuff
     protected CharacterAnimation characterAnimation;
-    
-    private boolean performAttack = false;
-    private float attackStartedTime; // stores the state time of when the attack animation was initiated
-    private Direction attackDirection; // locks the player in their current direction for the duration of the attack duration (avoids animation complications)
     
     private boolean isIdle;
     protected float stateTime;
@@ -69,8 +64,11 @@ public abstract class GameCharacter extends GameObject {
     private int health;
 	private boolean isFrozen;
 	private float frozenTime;
-    
-    public GameCharacter(
+	private float attackInterval = 4; // a time interval representing the attack speed of this character - defaults to 2
+	private float lungeForwardPerformed;
+	private float lungeBackwardPerformed;
+	
+	public GameCharacter(
     		TiledMapTileLayer accessibleTiles,
     	    float startX, float startY,
     		boolean isHostile,
@@ -116,7 +114,7 @@ public abstract class GameCharacter extends GameObject {
 	}
 
 	public void setTarget(GameCharacter target) {
-		this.target = target;
+		this.target = target;	
 	}
     
 	public Vector3 getCurrentPosition() {
@@ -129,15 +127,7 @@ public abstract class GameCharacter extends GameObject {
 
 	public Rectangle getHitBox() {
 		return hitBox;
-	}
-	
-    public boolean isPerformAttack() {
-		return performAttack;
-	}
-
-	public void setPerformAttack(boolean performAttack) {
-		this.performAttack = performAttack;
-	}
+	}	
 
 	public void setHitBox(Rectangle boundingRectangle) {
 		this.hitBox = boundingRectangle;
@@ -168,14 +158,15 @@ public abstract class GameCharacter extends GameObject {
 			}
 		}
 		else {
-		// check for any spells that may block movement
-		if(!(isFrozen && this.frozenTime > this.stateTime - 5)) {	
-			this.isFrozen = false;
-			// if player can move, then do so accordingly
-			if(target != null) {
-				//move to target location
-				this.setTargetLocation(new Vector3((float)target.getCurrentPosition().x - 30, (float)target.getCurrentPosition().y, 0));
-			}
+			// check for any spells that may block movement
+			if(!(isFrozen && this.frozenTime > this.stateTime - 5)) {	
+				this.isFrozen = false;
+				// if player can move, then do so accordingly
+				if(target != null) {
+					//move to target location
+					this.setTargetLocation(new Vector3((float)target.getCurrentPosition().x - 30, (float)target.getCurrentPosition().y, 0));
+					this.performAttack();
+				}
 
 			// check the point to move to value is set, if not, there is no need to move this frame.
 			if(pointToMoveTo != null) {
@@ -221,8 +212,51 @@ public abstract class GameCharacter extends GameObject {
 		this.updateHitBox();
 		}
     }
-    
-    /**
+
+	private void performAttack() {
+		if(lungeForwardPerformed - this.stateTime <= 0) {
+			this.lungeForward();	
+			this.lungeForwardPerformed = this.stateTime + attackInterval;
+			this.target.damage(20);
+		}
+		else if(lungeBackwardPerformed + 0.5 - this.stateTime <= 0) {
+			this.lungeBackward();	
+			this.lungeBackwardPerformed = this.stateTime + attackInterval;
+		}
+	}
+	
+	private void lungeForward() {    	
+		if(currentCharacterDirection == Direction.up) {
+			this.currentPosition.y += 20;
+		}
+		else if(currentCharacterDirection == Direction.down) {
+			this.currentPosition.y -= 20;
+		}
+		else if(currentCharacterDirection == Direction.right) {
+			this.currentPosition.x += 20;
+		}
+		else {
+			this.currentPosition.x -= 20;
+		}
+	}
+
+	private void lungeBackward() {
+
+		if(currentCharacterDirection == Direction.up) {
+			this.currentPosition.y -= 20;
+		}
+		else if(currentCharacterDirection == Direction.down) {
+			this.currentPosition.y += 20;
+		}
+		else if(currentCharacterDirection == Direction.right) {
+			this.currentPosition.x -= 20;
+		}
+		else {
+			this.currentPosition.x += 20;
+		}		
+	}
+
+	/**
      * Renders the up-to-date character to the screen
      * Called every screen following the call to "update"
      */
@@ -241,7 +275,7 @@ public abstract class GameCharacter extends GameObject {
 		}
 
 		// Draw the character frame at the current position
-		spriteBatch.draw(currentAnimationFrame, currentPosition.x - 40, currentPosition.y); // Draw current frame (-40 is used because character sprite is a box, and without the -40 the corner of the box would move to the desired location and not the character itself)
+		spriteBatch.draw(currentAnimationFrame, currentPosition.x -15, currentPosition.y - 10); // Draw current frame ()
 
 		// handle any text
 		this.displayMessage(spriteBatch);
@@ -311,32 +345,6 @@ public abstract class GameCharacter extends GameObject {
      * @return
      */
     private TextureRegion getRelevantDirectionAnimationFrame() {
-    	// check whether to perform combat animation
-    	if (performAttack) {
-    		if (this.attackStartedTime == 0) {
-    			this.attackStartedTime = stateTime;		  
-    			this.attackDirection = currentCharacterDirection;
-    		}
-
-    		if (attackStartedTime > stateTime -0.25f) // > stateTime - 0.25f is just the attack animation length{
-    			if(attackDirection == Direction.up) {
-    				return this.characterAnimation.getAttackUpAnimation().getKeyFrame(stateTime, true);
-    			}
-    			else if(attackDirection == Direction.down) {
-    				return this.characterAnimation.getAttackDownAnimation().getKeyFrame(stateTime, true);
-    			}
-    			else if(attackDirection == Direction.right) {
-    				return this.characterAnimation.getAttackRightAnimation().getKeyFrame(stateTime, true);
-    			}
-    			else {
-    				return this.characterAnimation.getAttackLeftAnimation().getKeyFrame(stateTime, true);
-    			}
-    	}
-    	else {
-    		performAttack = false;
-    		attackStartedTime = 0;
-    	}
-
     	// if we reach here, player not performing attack, return standard movement animation frame
     	if(currentCharacterDirection == Direction.up) {
     		return this.characterAnimation.getRunUpAnimation().getKeyFrame(stateTime, true);
@@ -503,7 +511,7 @@ public abstract class GameCharacter extends GameObject {
     		}else {
     			font.setColor(new Color(Color.YELLOW));
     		}
-        	font.draw(spriteBatch, damageMessageQueue.get(0), this.hitBox.x + 50, this.hitBox.y + 100);
+        	font.draw(spriteBatch, damageMessageQueue.get(0), this.hitBox.x - 5, this.hitBox.y + 15);
     		}
     	}   	
     }
@@ -514,5 +522,13 @@ public abstract class GameCharacter extends GameObject {
 
 	public void setDead(boolean isDead) {
 		this.isDead = isDead;
+	}
+
+	public float getAttackInterval() {
+		return attackInterval;
+	}
+
+	public void setAttackInterval(float attackInterval) {
+		this.attackInterval = attackInterval;
 	}
 }

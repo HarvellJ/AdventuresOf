@@ -3,7 +3,8 @@ package com.adventuresof.game.world;
 import java.util.ArrayList;
 
 import com.adventuresof.game.character.Enemy;
-import com.adventuresof.game.character.Guard;
+import com.adventuresof.game.character.LavaCastleGuard;
+import com.adventuresof.game.character.MudCastleGuard;
 import com.adventuresof.game.character.NPC;
 import com.adventuresof.game.character.PlayerCompanion;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
@@ -31,15 +32,20 @@ public class TutorialIsland extends GameWorld{
 	public void update(float delta) {
 		super.update(delta);
 		// move player companion
-		playerCompanion.move();
-		playerCompanion.update();
+		//playerCompanion.move();
+		//playerCompanion.update();
 	}
 	
 	/**
 	 * Instantiates the enemy NPCs into the game
 	 */
 	private void spawnEnemies() {
-		for (RectangleMapObject rectangleObject : this.map.getEnemySpawnObjects().getByType(RectangleMapObject.class)) {
+		for (RectangleMapObject rectangleObject : this.map.getEnemySpawnLevel1Objects().getByType(RectangleMapObject.class)) {
+			Rectangle rectangle = rectangleObject.getRectangle();
+			// spawn in an 'enemy'
+			this.NPCs.add(new Enemy(map.getAccessibleMapLayer(), "characters//knight.png", rectangle.x, rectangle.y));							
+		}
+		for (RectangleMapObject rectangleObject : this.map.getEnemySpawnLeve12Objects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
 			// spawn in an 'enemy'
 			this.NPCs.add(new Enemy(map.getAccessibleMapLayer(), "characters//knight.png", rectangle.x, rectangle.y));							
@@ -50,10 +56,15 @@ public class TutorialIsland extends GameWorld{
 	 * Instantiates the guard NPC's into the game
 	 */
 	private void spawnGuards() {
-		for (RectangleMapObject rectangleObject : this.map.getGuardSpawnObjects().getByType(RectangleMapObject.class)) {
+		for (RectangleMapObject rectangleObject : this.map.getGuardSpawnStartCasleSpawnObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
 				// if statement used because direction of guards depends on spawn zone			
-					this.NPCs.add(new Guard(map.getAccessibleMapLayer(), "characters//knight.png", rectangle.x, rectangle.y));							
+					this.NPCs.add(new LavaCastleGuard(map.getAccessibleMapLayer(), rectangle.x, rectangle.y));							
+		}
+		for (RectangleMapObject rectangleObject : this.map.getGuardSpawnMudBaseCasleSpawnObjects().getByType(RectangleMapObject.class)) {
+			Rectangle rectangle = rectangleObject.getRectangle();
+				// if statement used because direction of guards depends on spawn zone			
+					this.NPCs.add(new MudCastleGuard(map.getAccessibleMapLayer(), rectangle.x, rectangle.y));							
 		}
 	}
 	

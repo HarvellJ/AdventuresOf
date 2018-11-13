@@ -101,7 +101,7 @@ public class GameRenderer {
 		Gdx.gl.glClear( GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT );
 	   
 		// set camera
-		camera.position.set(gameWorld.getPlayer().getCurrentPosition().x, gameWorld.getPlayer().getCurrentPosition().y, 0f);
+		camera.position.set((int)gameWorld.getPlayer().getCurrentPosition().x,(int) gameWorld.getPlayer().getCurrentPosition().y, 0f);
 		camera.update();
 		// render the map
 		gameWorld.getMap().getTiledMapRenderer().setView(camera);
