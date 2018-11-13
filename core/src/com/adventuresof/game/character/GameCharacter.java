@@ -167,7 +167,12 @@ public abstract class GameCharacter extends GameObject {
 				if(target != null) {
 					//move to target location
 					this.setTargetLocation(new Vector3((float)target.getCurrentPosition().x - 30, (float)target.getCurrentPosition().y, 0));
-					this.performAttack();
+					// check distance from target before attacking
+					if(Math.sqrt(Math.pow((Math.max(target.getCurrentPosition().x, this.getCurrentPosition().x) - Math.min(target.getCurrentPosition().x, this.getCurrentPosition().x)), 2) + Math.pow((Math.max(target.getCurrentPosition().y, this.getCurrentPosition().y) - Math.min(target.getCurrentPosition().y, this.getCurrentPosition().y)), 2)) < 35)
+					{
+						// target is within distance, attack
+						this.performAttack();
+					}
 				}
 
 			// check the point to move to value is set, if not, there is no need to move this frame.
