@@ -4,6 +4,7 @@ package com.adventuresof.game.character;
 import java.util.ArrayList;
 import com.adventuresof.game.inventory.Inventory;
 import com.adventuresof.game.inventory.Item;
+import com.adventuresof.game.inventory.ItemEnum;
 import com.adventuresof.game.world.GameZone;
 import com.adventuresof.helpers.AnimationFactory;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -13,8 +14,72 @@ public class Player extends GameCharacter{
 	private Inventory inventory; // Stores items the player has collected
 	private ArrayList<GameZone> discoveredZones; // Stores a list of discovered zones. Used for measuring player progress
 
-	public Player(TiledMapTileLayer accessibleTiles, String name) {
-		super(accessibleTiles, "animation_sheet.png", 8, 5, 1700, 1300, false, 50, 50, name);
+	// texture sheets
+	private static final String MOVEMENT_SPRITE_SHEET = "characters//blueWizard.png";
+	private static final String DEATH_SPRITE_SHEET = "characters//blueWizard.png";
+	private static final String COMBAT_SPRITE_SHEET = "characters//blueWizard.png";
+
+	// texture sheet sizes
+	private static final int MOVEMENT_SPRITE_SHEET_COLS = 4;
+	private static final int MOVEMENT_SPRITE_SHEET_ROWS = 4;
+	private static final int DEATH_SPRITE_SHEET_COLS = 4;
+	private static final int DEATH_SPRITE_SHEET_ROWS = 4;
+	private static final int COMBAT_SPRITE_SHEET_COLS = 4;
+	private static final int COMBAT_SPRITE_SHEET_ROWS = 4;
+	// movement values
+	private static final int MOVE_LEFT_START_FRAME = 5;
+	private static final int MOVE_LEFT_FRAMES = 3;
+	private static final int MOVE_RIGHT_START_FRAME = 9;
+	private static final int MOVE_RIGHT_FRAMES = 3;
+	private static final int MOVE_DOWN_START_FRAME = 0;
+	private static final int MOVE_DOWN_FRAMES = 3;
+	private static final int MOVE_UP_START_FRAME = 13;
+	private static final int MOVE_UP_FRAMES = 3;
+
+	// idle values
+	private static final int IDLE_LEFT_START_FRAME = 5;
+	private static final int IDLE_RIGHT_START_FRAME = 9;
+	private static final int IDLE_DOWN_START_FRAME = 0;
+	private static final int IDLE_UP_START_FRAME = 13;
+
+	// combat values
+	private static final int ATTACK_LEFT_START_FRAME = 5;
+	private static final int ATTCK_LEFT_FRAMES = 3;
+	private static final int ATTACK_RIGHT_START_FRAME = 9;
+	private static final int ATTACK_RIGHT_FRAMES = 3;
+	private static final int ATTACK_DOWN_START_FRAME = 0;
+	private static final int ATTACK_DOWN_FRAMES = 3;
+	private static final int ATTACK_UP_START_FRAME = 13;
+	private static final int ATTACK_UP_FRAMES = 3;
+
+	// death values
+	private static final int DEATH_ANIMATION_START_FRAME = 0;
+	private static final int DEATH_ANIMATION_FRAMES = 3;
+	
+	public Player(TiledMapTileLayer accessibleTiles, float startPosX, float startPosY) {
+		super(
+				accessibleTiles,
+				startPosX, startPosY,
+				false,
+				50, 50,
+				new CharacterAnimation(MOVEMENT_SPRITE_SHEET, COMBAT_SPRITE_SHEET, DEATH_SPRITE_SHEET,
+				MOVEMENT_SPRITE_SHEET_ROWS, MOVEMENT_SPRITE_SHEET_COLS,
+				COMBAT_SPRITE_SHEET_ROWS, COMBAT_SPRITE_SHEET_COLS,
+				DEATH_SPRITE_SHEET_ROWS, DEATH_SPRITE_SHEET_COLS,
+				MOVE_LEFT_START_FRAME, MOVE_LEFT_FRAMES,
+				MOVE_RIGHT_START_FRAME, MOVE_RIGHT_FRAMES,
+				MOVE_DOWN_START_FRAME, MOVE_DOWN_FRAMES,
+				MOVE_UP_START_FRAME, MOVE_UP_FRAMES,
+				IDLE_LEFT_START_FRAME, IDLE_RIGHT_START_FRAME, IDLE_DOWN_START_FRAME, IDLE_UP_START_FRAME,
+				ATTACK_LEFT_START_FRAME, ATTCK_LEFT_FRAMES, 
+				ATTACK_RIGHT_START_FRAME, ATTACK_RIGHT_FRAMES,
+				ATTACK_DOWN_START_FRAME, ATTACK_DOWN_FRAMES,
+				ATTACK_UP_START_FRAME, ATTACK_UP_FRAMES,
+				DEATH_ANIMATION_START_FRAME, DEATH_ANIMATION_FRAMES
+				), CharacterSpeed.NORMAL_FAST.getSpeed(), true);
+		
+		
+		
 		this.inventory = new Inventory();
 		this.discoveredZones = new ArrayList<GameZone>();
 	}
@@ -54,24 +119,8 @@ public class Player extends GameCharacter{
 	
 	public void performIceSpell(NPC npc) {
 		// inflict damage
-		npc.inflictDamage(this.generateRandomDamageAmount());
+		int damageAmount = this.generateRandomDamageAmount();
+		npc.damage(damageAmount);
 		npc.freeze();
-	}
-
-	protected void createAnimations() {
-		this.runRightAnimation = AnimationFactory.createAnimation(this.animationSheetName, frameCols, frameRows, 5, 15, 0.08f);
-		this.runLeftAnimation = AnimationFactory.createAnimation(this.animationSheetName, frameCols, frameRows, 5, 21, 0.08f);
-		this.runDownAnimation = AnimationFactory.createAnimation(this.animationSheetName, frameCols, frameRows, 4, 5, 0.08f);
-		this.runUpAnimation = AnimationFactory.createAnimation(this.animationSheetName, frameCols, frameRows, 4, 10, 0.08f);
-
-		this.attackDownAnimation = AnimationFactory.createAnimation(this.animationSheetName, frameCols, frameRows, 3, 27, 1f);
-		this.attackUpAnimation = AnimationFactory.createAnimation(this.animationSheetName, frameCols, frameRows, 3, 30, 1f);
-		this.attackRightAnimation = AnimationFactory.createAnimation(this.animationSheetName, frameCols, frameRows, 3, 33, 1f);
-		this.attackLeftAnimation = AnimationFactory.createAnimation(this.animationSheetName, frameCols, frameRows, 3, 36, 1f);
-		
-		this.idleUpAnimation = AnimationFactory.createAnimation(this.animationSheetName, frameCols, frameRows, 1, 29, 0.08f);
-		this.idleDownAnimation = AnimationFactory.createAnimation(this.animationSheetName, frameCols, frameRows, 1, 1, 0.08f);
-		this.idleLeftAnimation = AnimationFactory.createAnimation(this.animationSheetName, frameCols, frameRows, 1, 23, 0.08f);
-		this.idleRightAnimation = AnimationFactory.createAnimation(this.animationSheetName, frameCols, frameRows, 1, 14, 0.08f);
-	}    
+	}  
 }

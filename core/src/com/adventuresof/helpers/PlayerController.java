@@ -43,8 +43,7 @@ public class PlayerController implements InputProcessor{
 			gameRenderer.getCamera().translate(0,45);
 		if(keycode == Input.Keys.DOWN)
 			gameRenderer.getCamera().translate(0,-45);
-		if(keycode == Input.Keys.NUM_1)
-			gameWorld.getPlayer().setPerformAttack(true);
+		
 		if(keycode == Input.Keys.NUM_2) {
 			if(!freezeSpellActivated) {
 				this.gameRenderer.setShowTargetCircle(true, 120);

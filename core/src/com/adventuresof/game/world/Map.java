@@ -21,33 +21,44 @@ public class Map {
 	private MapObjects impassibleObjects;
 	
 	// Spawn point object layer
-	private MapLayer spawnPointObjectLayer; // Contains the objects representing item spawn points on the map
-	private MapObjects spawnPointObjects; // Contains the objects representing item spawn points on the map
+	private MapLayer itemSpawnPointObjectLayer; // Contains the objects representing item spawn points on the map
+	private MapObjects itemSpawnPointObjects; // Contains the objects representing item spawn points on the map
 	
 	// Trigger object layer
 	private MapLayer triggerObjectLayer; // Contains the objects representing trigger areas on the map
 	private MapObjects triggerObjects; // Contains the objects representing triggers
 	
 	// Guard spawn object layer
-	private MapLayer guardSpawnObjectLayer; // Contains the objects representing spawn areas for guard NPCs on the map
-	private MapObjects guardSpawnObjects; // Contains the objects representing spawn areas for guard NPCs on the map
+	private MapLayer guardSpawnStartCasleObjectLayer; // Contains the objects representing spawn areas for guard NPCs on the map
+	private MapObjects guardSpawnStartCasleSpawnObjects; // Contains the objects representing spawn areas for guard NPCs on the map
+	private MapLayer guardSpawnMudBaseCasleObjectLayer; // Contains the objects representing spawn areas for guard NPCs on the map
+	private MapObjects guardSpawnMudBaseCasleSpawnObjects; // Contains the objects representing spawn areas for guard NPCs on the map
 	
-	// Guard spawn object layer
-    private MapLayer enemySpawnObjectLayer; // Contains the objects representing spawn areas for enemy NPCs on the map
-    private MapObjects enemySpawnObjects; // Contains the objects representing spawn areas for enemy NPCs on the map
-	
+	// Enemy spawn object layer
+    private MapLayer enemySpawnLevel1ObjectLayer; // Contains the objects representing spawn areas for enemy NPCs on the map
+    private MapObjects enemySpawnLevel1Objects; // Contains the objects representing spawn areas for enemy NPCs on the map
+    private MapLayer enemySpawnLevel2ObjectLayer; // Contains the objects representing spawn areas for enemy NPCs on the map
+    private MapObjects enemySpawnLeve12Objects; // Contains the objects representing spawn areas for enemy NPCs on the map
+    
+    // Guard spawn object layer
+    private MapLayer playerSpawnObjectLayer; // Contains the objects representing spawn areas for enemy NPCs on the map
+    private MapObjects playerSpawnObjects; // Contains the objects representing spawn areas for enemy NPCs on the map
+    
 	private TiledMapTileLayer accessibleMapLayer; // Contains accessible tiles
 	
 	
-	// Collision layers/ object layers
-	private final static int MAP_OBJECT_LAYER = 1; //layer number on which game objects exist
-	private final static int ITEM_SPAWN_LAYER = 0; //layer number on which game objects exist
+	// Map layers
+	private final static int ITEM_SPAWN_LAYER = 11; //layer number on which game objects exist
+	private final static int ENEMY_SPAWNS_LEVEL_2 = 10; // The layer containing spawn points for the enemy NPC
+	private final static int ENEMY_SPAWNS_LEVEL_1 = 9; // The layer containing spawn points for the enemy NPC
+	private final static int GUARD_SPAWNS_MUD_BASE = 8; // The layer containing spawn points for the guard NPC
+	private final static int GUARD_SPAWNS_START_CASTLE = 7; // The layer containing spawn points for the guard NPC
 	private final static int TRIGGER_LAYER = 6; // layer number on which game objects exist
-	private final static int GUARD_SPAWNS = 7; // The layer containing spawn points for the guard NPC
-	private final static int ENEMY_SPAWNS = 8; // The layer containing spawn points for the enemy NPC
-	
-	private int ACCESSIBLE_MAP_LAYER = 3;
-	private int IN_ACCESSIBLE_MAP_LAYER = 2; //layer number on which tiles exist that cannot be moved onto, e.g. water, lava
+	private final static int MAP_OBJECT_LAYER = 5; //layer number on which game objects exist
+	private final static int PLAYER_SPAWNS = 4; //layer number on which game objects exist
+
+	private int ACCESSIBLE_MAP_LAYER = 0;
+	private int IN_ACCESSIBLE_MAP_LAYER = 1; //layer number on which tiles exist that cannot be moved onto, e.g. water, lava
 		
 		
 	public Map(String mapName) {
@@ -64,52 +75,30 @@ public class Map {
 	    impassibleObjects = collisionObjectLayer.getObjects();
 	
 		// store item spawn point objects and layers
-	    setSpawnPointObjectLayer((MapLayer)tiledMap.getLayers().get(ITEM_SPAWN_LAYER));
-	    setSpawnPointObjects(spawnPointObjectLayer.getObjects());	   
+	    setItemSpawnPointObjectLayer((MapLayer)tiledMap.getLayers().get(ITEM_SPAWN_LAYER));
+	    setItemSpawnPointObjects(itemSpawnPointObjectLayer.getObjects());	   
 	    
 	    // store trigger objects and layers
 	    setTriggerObjectLayer((MapLayer)tiledMap.getLayers().get(TRIGGER_LAYER));
 	    setTriggerObjects(triggerObjectLayer.getObjects());	
 	    	    
 	    // store guard spawn objects and layers
-	    setGuardSpawnObjectLayer((MapLayer)tiledMap.getLayers().get(GUARD_SPAWNS));
-	    setGuardSpawnObjects(guardSpawnObjectLayer.getObjects());	
+	    setGuardSpawnMudBaseCasleObjectLayer((MapLayer)tiledMap.getLayers().get(GUARD_SPAWNS_MUD_BASE));
+	    setGuardSpawnMudBaseCasleSpawnObjects(guardSpawnMudBaseCasleObjectLayer.getObjects());	
+	    
+	    setGuardSpawnStartCasleObjectLayer((MapLayer)tiledMap.getLayers().get(GUARD_SPAWNS_START_CASTLE));
+	    setGuardSpawnStartCasleSpawnObjects(guardSpawnStartCasleObjectLayer.getObjects());	
 	    
 	    // store enemy spawn objects and layers
-	    setEnemySpawnObjectLayer((MapLayer)tiledMap.getLayers().get(ENEMY_SPAWNS));
-	    setEnemySpawnObjects(enemySpawnObjectLayer.getObjects());	
-	}
-
-	public MapObjects getEnemySpawnObjects() {
-		return enemySpawnObjects;
-	}
-
-	public void setEnemySpawnObjects(MapObjects enemySpawnObjects) {
-		this.enemySpawnObjects = enemySpawnObjects;
-	}
-
-	public MapLayer getEnemySpawnObjectLayer() {
-		return enemySpawnObjectLayer;
-	}
-
-	public void setEnemySpawnObjectLayer(MapLayer enemySpawnObjectLayer) {
-		this.enemySpawnObjectLayer = enemySpawnObjectLayer;
-	}
-
-	public MapObjects getGuardSpawnObjects() {
-		return guardSpawnObjects;
-	}
-
-	public void setGuardSpawnObjects(MapObjects guardSpawnObjects) {
-		this.guardSpawnObjects = guardSpawnObjects;
-	}
-
-	public MapLayer getGuardSpawnObjectLayer() {
-		return guardSpawnObjectLayer;
-	}
-
-	public void setGuardSpawnObjectLayer(MapLayer guardSpawnObjectLayer) {
-		this.guardSpawnObjectLayer = guardSpawnObjectLayer;
+	    setEnemySpawnLevel1ObjectLayer((MapLayer)tiledMap.getLayers().get(ENEMY_SPAWNS_LEVEL_1));
+	    setEnemySpawnLevel1Objects(enemySpawnLevel1ObjectLayer.getObjects());	 
+	    
+	    setEnemySpawnLevel2ObjectLayer((MapLayer)tiledMap.getLayers().get(ENEMY_SPAWNS_LEVEL_2));
+	    setEnemySpawnLeve12Objects(enemySpawnLevel2ObjectLayer.getObjects());	 
+	    
+	    // store enemy spawn objects and layers
+	    setPlayerSpawnObjectLayer((MapLayer)tiledMap.getLayers().get(PLAYER_SPAWNS));
+	    setPlayerSpawnObjects(playerSpawnObjectLayer.getObjects());	
 	}
 
 	public MapLayer getTriggerObjectLayer() {
@@ -128,13 +117,13 @@ public class Map {
 		this.triggerObjects = triggerObjects;
 	}
 
-	public MapLayer getSpawnPointObjectLayer() {
-		return spawnPointObjectLayer;
+	public MapLayer getItemSpawnPointObjectLayer() {
+		return itemSpawnPointObjectLayer;
 	}
 
 
-	public void setSpawnPointObjectLayer(MapLayer spawnPointObjectLayer) {
-		this.spawnPointObjectLayer = spawnPointObjectLayer;
+	public void setItemSpawnPointObjectLayer(MapLayer spawnPointObjectLayer) {
+		this.itemSpawnPointObjectLayer = spawnPointObjectLayer;
 	}
 
 	
@@ -178,13 +167,93 @@ public class Map {
 	}
 
 
-	public MapObjects getSpawnPointObjects() {
-		return spawnPointObjects;
+	public MapObjects getItemSpawnPointObjects() {
+		return itemSpawnPointObjects;
 	}
 
 
-	public void setSpawnPointObjects(MapObjects spawnPointObjects) {
-		this.spawnPointObjects = spawnPointObjects;
+	public void setItemSpawnPointObjects(MapObjects spawnPointObjects) {
+		this.itemSpawnPointObjects = spawnPointObjects;
+	}
+
+	public MapLayer getPlayerSpawnObjectLayer() {
+		return playerSpawnObjectLayer;
+	}
+
+	public void setPlayerSpawnObjectLayer(MapLayer playerSpawnObjectLayer) {
+		this.playerSpawnObjectLayer = playerSpawnObjectLayer;
+	}
+
+	public MapObjects getPlayerSpawnObjects() {
+		return playerSpawnObjects;
+	}
+
+	public void setPlayerSpawnObjects(MapObjects playerSpawnObjects) {
+		this.playerSpawnObjects = playerSpawnObjects;
+	}
+
+	public MapLayer getGuardSpawnStartCasleObjectLayer() {
+		return guardSpawnStartCasleObjectLayer;
+	}
+
+	public void setGuardSpawnStartCasleObjectLayer(MapLayer guardSpawnStartCasleObjectLayer) {
+		this.guardSpawnStartCasleObjectLayer = guardSpawnStartCasleObjectLayer;
+	}
+
+	public MapObjects getGuardSpawnStartCasleSpawnObjects() {
+		return guardSpawnStartCasleSpawnObjects;
+	}
+
+	public void setGuardSpawnStartCasleSpawnObjects(MapObjects guardSpawnStartCasleSpawnObjects) {
+		this.guardSpawnStartCasleSpawnObjects = guardSpawnStartCasleSpawnObjects;
+	}
+
+	public MapLayer getGuardSpawnMudBaseCasleObjectLayer() {
+		return guardSpawnMudBaseCasleObjectLayer;
+	}
+
+	public void setGuardSpawnMudBaseCasleObjectLayer(MapLayer guardSpawnMudBaseCasleObjectLayer) {
+		this.guardSpawnMudBaseCasleObjectLayer = guardSpawnMudBaseCasleObjectLayer;
+	}
+
+	public MapObjects getGuardSpawnMudBaseCasleSpawnObjects() {
+		return guardSpawnMudBaseCasleSpawnObjects;
+	}
+
+	public void setGuardSpawnMudBaseCasleSpawnObjects(MapObjects guardSpawnMudBaseCasleSpawnObjects) {
+		this.guardSpawnMudBaseCasleSpawnObjects = guardSpawnMudBaseCasleSpawnObjects;
+	}
+
+	public MapLayer getEnemySpawnLevel1ObjectLayer() {
+		return enemySpawnLevel1ObjectLayer;
+	}
+
+	public void setEnemySpawnLevel1ObjectLayer(MapLayer enemySpawnLevel1ObjectLayer) {
+		this.enemySpawnLevel1ObjectLayer = enemySpawnLevel1ObjectLayer;
+	}
+
+	public MapObjects getEnemySpawnLevel1Objects() {
+		return enemySpawnLevel1Objects;
+	}
+
+	public void setEnemySpawnLevel1Objects(MapObjects enemySpawnLevel1Objects) {
+		this.enemySpawnLevel1Objects = enemySpawnLevel1Objects;
+	}
+
+	public MapLayer getEnemySpawnLevel2ObjectLayer() {
+		return enemySpawnLevel2ObjectLayer;
+	}
+
+	public void setEnemySpawnLevel2ObjectLayer(MapLayer enemySpawnLevel2ObjectLayer) {
+		this.enemySpawnLevel2ObjectLayer = enemySpawnLevel2ObjectLayer;
+	}
+
+	public MapObjects getEnemySpawnLeve12Objects() {
+		return enemySpawnLeve12Objects;
+	}
+
+	public void setEnemySpawnLeve12Objects(MapObjects enemySpawnLeve12Objects) {
+		this.enemySpawnLeve12Objects = enemySpawnLeve12Objects;
 	}
 	
 }

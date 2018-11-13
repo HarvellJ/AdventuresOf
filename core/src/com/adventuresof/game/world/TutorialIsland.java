@@ -3,13 +3,11 @@ package com.adventuresof.game.world;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import com.adventuresof.game.character.Direction;
 import com.adventuresof.game.character.Enemy;
-import com.adventuresof.game.character.Guard;
+import com.adventuresof.game.character.LavaCastleGuard;
+import com.adventuresof.game.character.MudCastleGuard;
 import com.adventuresof.game.character.NPC;
-import com.adventuresof.game.character.Player;
 import com.adventuresof.game.character.PlayerCompanion;
-import com.adventuresof.game.inventory.Item;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
@@ -19,50 +17,12 @@ public class TutorialIsland extends GameWorld{
 	protected PlayerCompanion playerCompanion;
 	
 	public TutorialIsland() {
-		super("Map.tmx");
+		super("map//MainWorld.tmx");
 		
-		// load the players
-		this.setPlayer(new Player(map.getAccessibleMapLayer(), "You"));
+		this.setPlayerCompanion(new PlayerCompanion(map.getAccessibleMapLayer(), this.player));
 		
-		// load the guard NPCs
-		this.spawnNPCs();
-		
-		this.setPlayerCompanion(new PlayerCompanion(map.getAccessibleMapLayer(), this.player, "Companion"));
-		
-		// add map items
-		this.items.add(Item.values()[0]);
-		this.items.add(Item.values()[1]);
-		this.items.add(Item.values()[2]);
 	}	
 	
-	public void update(float delta) {
-		//this.detectObjectCollisions();
-		// move player
-		player.update();
-		// move player companion
-		playerCompanion.move();
-		playerCompanion.update();
-		// move guard NPCs
-		this.updateGuards();
-		// move and update enemies
-		this.moveNPCs();
-		this.updateGuards();
-		// now check for any collisions following update calls to characters
-		this.detectCollectionOfItemObjects();
-		this.detectCollisionWithTriggers();
-	}
-	
-	private void moveNPCs() {
-		for (NPC npc : this.NPCs) {
-			npc.move();
-		}
-	}
-	
-	private void updateGuards() {
-		for (NPC npc : this.NPCs) {
-			npc.update();
-		}
-	}
 
 	protected void spawnNPCs() {
 		this.NPCs = new ArrayList<NPC>();
@@ -70,14 +30,26 @@ public class TutorialIsland extends GameWorld{
 		this.spawnGuards();
 	}
 	
+	public void update(float delta) {
+		super.update(delta);
+		// move player companion
+		//playerCompanion.move();
+		//playerCompanion.update();
+	}
+	
 	/**
 	 * Instantiates the enemy NPCs into the game
 	 */
 	private void spawnEnemies() {
-		for (RectangleMapObject rectangleObject : this.map.getEnemySpawnObjects().getByType(RectangleMapObject.class)) {
+		for (RectangleMapObject rectangleObject : this.map.getEnemySpawnLevel1Objects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
 			// spawn in an 'enemy'
-			this.NPCs.add(new Enemy(map.getAccessibleMapLayer(), "knight_animation_sheet.png", rectangle.x, rectangle.y, false, null, "Jeff"));							
+			this.NPCs.add(new Enemy(map.getAccessibleMapLayer(), "characters//knight.png", rectangle.x, rectangle.y));							
+		}
+		for (RectangleMapObject rectangleObject : this.map.getEnemySpawnLeve12Objects().getByType(RectangleMapObject.class)) {
+			Rectangle rectangle = rectangleObject.getRectangle();
+			// spawn in an 'enemy'
+			this.NPCs.add(new Enemy(map.getAccessibleMapLayer(), "characters//knight.png", rectangle.x, rectangle.y));							
 		}
 	}
 	
@@ -85,28 +57,19 @@ public class TutorialIsland extends GameWorld{
 	 * Instantiates the guard NPC's into the game
 	 */
 	private void spawnGuards() {
-		
-		ArrayList<String> conversation = new ArrayList<String>(Arrays.asList("London", "Tokyo", "New York"));
-		ArrayList<String> converstion = new ArrayList<String>(Arrays.asList("Stockholm", "Cairo", "Berlin"));
-		ArrayList<String> conversation1 = new ArrayList<String>(Arrays.asList("Paris", "Madrid", "Glasgow"));
-		
-		for (RectangleMapObject rectangleObject : this.map.getGuardSpawnObjects().getByType(RectangleMapObject.class)) {
+		for (RectangleMapObject rectangleObject : this.map.getGuardSpawnStartCasleSpawnObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
-				// if statement used because direction of guards depends on spawn zone
-				if (rectangleObject.getName().equals("guardSpawn1_StartZone") || rectangleObject.getName().equals("guardSpawn2_StartZone")
-						|| rectangleObject.getName().equals("guardSpawn1_StartZone")) {
-					this.NPCs.add(new Guard(map.getAccessibleMapLayer(), "knight_animation_sheet.png", rectangle.x, rectangle.y, Direction.left, true, conversation, "Phil"));
-				}	
-				else if(rectangleObject.getName().equals("guardSpawn1_ItemZone") || rectangleObject.getName().equals("guardSpawn2_ItemZone")) {
-					this.NPCs.add(new Guard(map.getAccessibleMapLayer(), "knight_animation_sheet.png", rectangle.x, rectangle.y, Direction.down, true, conversation1, "Bob"));
-				}			
-				else if(rectangleObject.getName().equals("guardSpawn3_ItemZone") || rectangleObject.getName().equals("guardSpawn4_ItemZone")) {
-					this.NPCs.add(new Guard(map.getAccessibleMapLayer(), "knight_animation_sheet.png", rectangle.x, rectangle.y, Direction.right, true, conversation, "Jack"));
-				}
+				// if statement used because direction of guards depends on spawn zone			
+					this.NPCs.add(new LavaCastleGuard(map.getAccessibleMapLayer(), rectangle.x, rectangle.y));							
+		}
+		for (RectangleMapObject rectangleObject : this.map.getGuardSpawnMudBaseCasleSpawnObjects().getByType(RectangleMapObject.class)) {
+			Rectangle rectangle = rectangleObject.getRectangle();
+				// if statement used because direction of guards depends on spawn zone			
+					this.NPCs.add(new MudCastleGuard(map.getAccessibleMapLayer(), rectangle.x, rectangle.y));							
 		}
 	}
 	
-	private void detectCollisionWithTriggers() {
+	protected void detectCollisionWithTriggers() {
 		for (RectangleMapObject rectangleObject : this.map.getTriggerObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
 			if (Intersector.overlaps(rectangle, player.getHitBox())) {
@@ -146,58 +109,12 @@ public class TutorialIsland extends GameWorld{
 		}
 	}
 	
-	// detect player collision with items. If detection occurs, move from world inventory into player inventory
-	private void detectCollectionOfItemObjects() {
-		for (RectangleMapObject rectangleObject : this.map.getSpawnPointObjects().getByType(RectangleMapObject.class)) {
-			Rectangle rectangle = rectangleObject.getRectangle();
-			if (Intersector.overlaps(rectangle, player.getHitBox())) {
-				// check each of the spawns
-				if(rectangleObject.getName().equals("shieldSpawn")){
-					// check if the item exists in the game world
-					for(int i = 0; i < items.size(); i++) {
-						if(items.get(i) != null && items.get(i).equals(Item.SHIELD)) {
-							// add it to inventory and remove from game world
-							player.addItemToInventory(items.get(i));
-							items.remove(i);
-						}				
-					}
-				}
-				else if(rectangleObject.getName().equals("armorSpawn")){
-					// check if the item exists in the game world
-					for(int i = 0; i < items.size(); i++) {
-						if(items.get(i) != null && items.get(i).equals(Item.ARMOR)) {
-							// add it to inventory and remove from game world
-							player.addItemToInventory(items.get(i));
-							items.remove(i);
-						}
-					}
-				}
-				else if(rectangleObject.getName().equals("swordSpawn")){
-					// check if the item exists in the game world
-					for(int i = 0; i < items.size(); i++) {
-						if(items.get(i) != null && items.get(i).equals(Item.SWORD)) {
-							// add it to inventory and remove from game world
-							player.addItemToInventory(items.get(i));
-							items.remove(i);
-						}
-					}
-				}
-			}	 
-		}	    
-	}
-	
 	private void detectImpassibleObjectCollisions() {
 		for (RectangleMapObject rectangleObject : map.getImpassibleObjects().getByType(RectangleMapObject.class)) {
 
 			Rectangle rectangle = rectangleObject.getRectangle();
 			if (Intersector.overlaps(rectangle, player.getHitBox())) {
-				if(rectangleObject.getName().equals("shieldSpawn")){
-					for(int i = 0; i < items.size(); i++) {
-						if(items.get(i).equals(Item.SHIELD)) {
-							items.remove(i);
-						}
-					}
-				}
+				// do something
 			}	     
 		}	  	
 	}

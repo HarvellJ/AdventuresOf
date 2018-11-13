@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector3;
 
 /**
@@ -12,69 +13,78 @@ import com.badlogic.gdx.math.Vector3;
 public abstract class NPC extends GameCharacter {
 
 	private Random r;
-	public boolean isTalkative;
-	private ArrayList<String> conversation;
-	private int conversationIndex = 0;
-	
-	
-	public NPC(TiledMapTileLayer accessibleTiles, String animationSheetName, int animationSheetCols,
-			int animationSheetRows, float startX, float startY, boolean isStatic, boolean isHostile, int characterWidth, int characterHeight, boolean isTalkative, ArrayList<String> conversation, String name) {
-		super(accessibleTiles, animationSheetName, animationSheetCols, animationSheetRows, startX, startY, isHostile, characterWidth, characterHeight , name);
+
+	public NPC(
+			TiledMapTileLayer accessibleTiles, 
+			float startX, float startY,
+			boolean isStatic,
+			boolean isHostile,
+			int characterWidth, int characterHeight,
+			CharacterAnimation characterAnimation, CharacterSpeed speed
+			)
+	{
+		super(accessibleTiles, startX, startY, isHostile, characterWidth, characterHeight, characterAnimation, varySpeed(speed.getSpeed()), false);
 		this.isStatic = isStatic;
 		this.isTalkative = isTalkative;
 		this.conversation = conversation;
 		r = new Random();
 	}
-	
+
 	/**
 	 * Algorithm to move the NPC randomly
 	 * Works by randomly setting the NPC's target location
 	 */
-	public void move() {
+	public void move(Player player) {
 		if(!isStatic) {
-			if(super.target != null) {
-				//move to target location
-				super.setTargetLocation(new Vector3((float)target.getCurrentPosition().x - 40, (float)target.getCurrentPosition().y + 40, 0));
-			}
-			else {
+			if(super.target == null) {		
+				// check for nearby player if hostile
+				if(super.isHostile) {
+					if (Intersector.overlaps(super.getHitBox(), player.getHitBox())) {
+					this.setTarget(player);
+					}
+				}
 				if(this.pointToMoveTo == null) {		
 					int moveThisFrame = r.nextInt(1000);
 					if (moveThisFrame <= 5) {
 						boolean isPositiveX = r.nextBoolean();
 						boolean isPositiveY = r.nextBoolean();
 
-						int moveX = r.nextInt(300);
-						int moveY = r.nextInt(300);
+						int moveX = r.nextInt(40);
+						int moveY = r.nextInt(40);
+
 
 						if (isPositiveX) {
 							if (isPositiveY) {
-								this.setTargetLocation(new Vector3(currentPosition.x + moveX, currentPosition.y + moveY, 0));
+								// only move if they haven't gone beyond allowed boundary (from spawn)
+								if((currentPosition.x + moveX) < (spawnLocation.x + 50) || (currentPosition.y + moveY) < (spawnLocation.y + 50)) {
+									this.setTargetLocation(new Vector3(currentPosition.x + moveX, currentPosition.y + moveY, 0));
+								}
 							}else {
-								this.setTargetLocation(new Vector3(currentPosition.x + moveX, currentPosition.y - moveY, 0));
-
+								if((currentPosition.x + moveX) < (spawnLocation.x + 50) || (currentPosition.y - moveY) > (spawnLocation.y - 50)) {
+									this.setTargetLocation(new Vector3(currentPosition.x + moveX, currentPosition.y - moveY, 0));
+								}
 							}
 						}else {
 							if (isPositiveY) {
-								this.setTargetLocation(new Vector3(currentPosition.x - moveX, currentPosition.y + moveY, 0));
+								if((currentPosition.x - moveX) > (spawnLocation.x - 50) || (currentPosition.y + moveY) < (spawnLocation.y + 50)) {
+									this.setTargetLocation(new Vector3(currentPosition.x - moveX, currentPosition.y + moveY, 0));
+								}
 							}else {
-								this.setTargetLocation(new Vector3(currentPosition.x - moveX, currentPosition.y - moveY, 0));
+								if((currentPosition.x - moveX) > (spawnLocation.x - 50) || (currentPosition.y - moveY) < (spawnLocation.y + 50)) {
+									this.setTargetLocation(new Vector3(currentPosition.x - moveX, currentPosition.y - moveY, 0));
+								}
 							}
 						}
-					}		
+					}												
+
 				}
 			}
-		}
-	}
+		}	
+	}	
 	
-	public ArrayList<String> getConversation () {
-		return this.conversation;
-	}
-	
-	public int getConversationIndex () {
-		return this.conversationIndex;
-	}
-	
-	public void setConversationIndex (int conversationIndex) {
-		this.conversationIndex = conversationIndex;
+	private static float varySpeed(float speed) {
+		// slightly varies the speed for the NPC. Used to stop NPC's from stacking on one of another as often
+		Random r = new Random();
+		return speed - 10 + r.nextFloat() * (speed + 30 - speed - 10);
 	}
 }

@@ -2,6 +2,7 @@ package com.adventuresof.game.world;
 
 import com.adventuresof.game.character.NPC;
 import com.adventuresof.game.inventory.Item;
+import com.adventuresof.game.inventory.ItemEnum;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -100,7 +101,7 @@ public class GameRenderer {
 		Gdx.gl.glClear( GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT );
 	   
 		// set camera
-		camera.position.set(gameWorld.getPlayer().getCurrentPosition().x, gameWorld.getPlayer().getCurrentPosition().y, 0f);
+		camera.position.set((int)gameWorld.getPlayer().getCurrentPosition().x,(int) gameWorld.getPlayer().getCurrentPosition().y, 0f);
 		camera.update();
 		// render the map
 		gameWorld.getMap().getTiledMapRenderer().setView(camera);
@@ -156,39 +157,11 @@ public class GameRenderer {
 	}
 	
 	private void renderGameItems() {
-		for (RectangleMapObject rectangleObject : gameWorld.getMap().getSpawnPointObjects().getByType(RectangleMapObject.class)) {
-			Rectangle rectangle = rectangleObject.getRectangle();
-
-			// spawn shield
-			if(rectangleObject.getName().equals("shieldSpawn")) {
-				for(Item item : gameWorld.getItems()) {
-					if(item == Item.SHIELD) {
-						Texture image = new Texture(Gdx.files.internal(item.getTextureRegion()));
-						spriteBatch.draw(image, rectangle.x, rectangle.y); // draw the item at the spawn location
-					}
-				}
-			}
-
-			// spawn sword
-			if(rectangleObject.getName().equals("swordSpawn")) {
-				for(Item item : gameWorld.getItems()) {
-					if(item == Item.SWORD) {
-						Texture image = new Texture(Gdx.files.internal(item.getTextureRegion()));
-						spriteBatch.draw(image, rectangle.x, rectangle.y); // draw the item at the spawn location
-					}
-				}
-			}
-
-			// spawn armor
-			if(rectangleObject.getName().equals("armorSpawn")) {
-				for(Item item : gameWorld.getItems()) {
-					if(item == Item.ARMOR) {
-						Texture image = new Texture(Gdx.files.internal(item.getTextureRegion()));
-						spriteBatch.draw(image, rectangle.x, rectangle.y); // draw the item at the spawn location
-					}
-				}
-			}
-		}
+		for (Item item : gameWorld.getItems()) {
+			Rectangle rectangle = item.getHitbox();
+			Texture image = new Texture(Gdx.files.internal(item.getItem().getTextureRegion()));
+			spriteBatch.draw(image, rectangle.x, rectangle.y); // draw the item at the spawn location
+		}	
 	}
 
 	
