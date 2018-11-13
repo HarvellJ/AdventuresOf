@@ -33,7 +33,8 @@ public abstract class GameCharacter extends GameObject {
 	protected Vector3 currentPosition; // stores current position of character
 	protected boolean isStatic; // used to determine if the character is static on the map or whether they move around
     protected Vector3 spawnLocation; // used for things such as calculating distance travelled and respawn points 
-	
+	protected CharacterSpeed speed;
+	protected boolean canRespawn;
     private Direction currentCharacterDirection;
     
     // death stuff
@@ -74,15 +75,17 @@ public abstract class GameCharacter extends GameObject {
     	    float startX, float startY,
     		boolean isHostile,
     		int characterWidth, int characterHeight,
-    		CharacterAnimation characterAnimation) {
+    		CharacterAnimation characterAnimation,
+    		CharacterSpeed speed, boolean canRespawn) {
     	
     	this.characterAnimation = characterAnimation;
-    	
+    	this.speed = speed;
+    	this.canRespawn = canRespawn;
 		this.stateTime = 0f;		
     	
     	// instantiate characters' current position as a blank vector3
     	currentPosition = new Vector3(startX, startY, 0);
-    	this.spawnLocation = currentPosition;
+    	this.spawnLocation = new Vector3(startX, startY, 0);
     	
     	// they are alive...
     	this.isDying = false;
@@ -156,7 +159,16 @@ public abstract class GameCharacter extends GameObject {
 		
 		if(isDying) {
 			if (stateTimeOfDeath < this.stateTime - 2) {
-				this.setDead(true);
+				if(canRespawn) {
+					this.health = 100;
+					this.isDying = false;
+					this.currentPosition.x = this.spawnLocation.x;
+					this.currentPosition.y = this.spawnLocation.y;
+					this.target = null;
+					this.damageMessageQueue = new ArrayList<String>();
+				}else {
+					this.setDead(true);
+				}
 			}
 		}
 		else {
@@ -188,8 +200,8 @@ public abstract class GameCharacter extends GameObject {
 				destinationX = destinationX / distanceToTravel;
 				destinationY = destinationY / distanceToTravel;
 
-				double nextX = destinationX * 3;
-				double nextY = destinationY * 3;
+				double nextX = destinationX * speed.getSpeed() * Gdx.graphics.getDeltaTime();
+				double nextY = destinationY * speed.getSpeed() * Gdx.graphics.getDeltaTime();
 
 				double distanceTravelled = Math.sqrt(nextX * nextX + nextY * nextY);
 
@@ -224,7 +236,7 @@ public abstract class GameCharacter extends GameObject {
 		if(lungeForwardPerformed - this.stateTime <= 0) {
 			this.lungeForward();	
 			this.lungeForwardPerformed = this.stateTime + attackInterval;
-			this.target.damage(20);
+			this.target.damage(10);
 		}
 		else if(lungeBackwardPerformed + 0.5 - this.stateTime <= 0) {
 			this.lungeBackward();	

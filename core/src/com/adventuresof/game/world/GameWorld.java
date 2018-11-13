@@ -129,7 +129,7 @@ public abstract class GameWorld {
 		
 		private void moveNPCs() {
 			for (NPC npc : this.NPCs) {
-				npc.move();
+				npc.move(this.player);
 			}
 		}
 		

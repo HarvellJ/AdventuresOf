@@ -3,6 +3,7 @@ package com.adventuresof.game.character;
 import java.util.Random;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector3;
 
 /**
@@ -18,10 +19,10 @@ public abstract class NPC extends GameCharacter {
 			boolean isStatic,
 			boolean isHostile,
 			int characterWidth, int characterHeight,
-			CharacterAnimation characterAnimation
+			CharacterAnimation characterAnimation, CharacterSpeed speed
 			)
 	{
-		super(accessibleTiles, startX, startY, isHostile, characterWidth, characterHeight, characterAnimation);
+		super(accessibleTiles, startX, startY, isHostile, characterWidth, characterHeight, characterAnimation, speed, false);
 		this.isStatic = isStatic;
 		r = new Random();
 	}
@@ -30,9 +31,15 @@ public abstract class NPC extends GameCharacter {
 	 * Algorithm to move the NPC randomly
 	 * Works by randomly setting the NPC's target location
 	 */
-	public void move() {
+	public void move(Player player) {
 		if(!isStatic) {
-			if(super.target == null) {				
+			if(super.target == null) {		
+				// check for nearby player if hostile
+				if(super.isHostile) {
+					if (Intersector.overlaps(super.getHitBox(), player.getHitBox())) {
+					this.setTarget(player);
+					}
+				}
 				if(this.pointToMoveTo == null) {		
 					int moveThisFrame = r.nextInt(1000);
 					if (moveThisFrame <= 5) {
