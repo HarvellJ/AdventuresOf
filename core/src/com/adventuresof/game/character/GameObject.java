@@ -9,11 +9,21 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
  */
 public abstract class GameObject {
 
+	protected boolean canDispose;
+	
 	/**
 	 * Updates the objects values for the current frame
 	 */
 	public abstract void update();
 	
+	public boolean CanDispose() {
+		return canDispose;
+	}
+
+	public void setCanDispose(boolean canDispose) {
+		this.canDispose = canDispose;
+	}
+
 	/**
 	 * Renders the objects values to the current frame
 	 */

@@ -39,7 +39,6 @@ public abstract class GameCharacter extends GameObject {
     
     // death stuff
     private boolean isDying;
-    private boolean isDead;
     private float stateTimeOfDeath; // used to calculate time required for death animation
     
     // animation stuff
@@ -89,7 +88,7 @@ public abstract class GameCharacter extends GameObject {
     	
     	// they are alive...
     	this.isDying = false;
-    	this.setDead(false);
+    	this.canDispose = false;
     	
     	// create objects required for collision logic
     	this.characterHeight = characterHeight;
@@ -167,7 +166,7 @@ public abstract class GameCharacter extends GameObject {
 					this.target = null;
 					this.damageMessageQueue = new ArrayList<String>();
 				}else {
-					this.setDead(true);
+					this.canDispose = true;
 				}
 			}
 		}
@@ -534,14 +533,6 @@ public abstract class GameCharacter extends GameObject {
     		}
     	}   	
     }
-
-	public boolean isDead() {
-		return isDead;
-	}
-
-	public void setDead(boolean isDead) {
-		this.isDead = isDead;
-	}
 
 	public float getAttackInterval() {
 		return attackInterval;

@@ -16,7 +16,8 @@ public class PlayerController implements InputProcessor{
 	private GameRenderer gameRenderer;
 	
 	private boolean freezeSpellActivated;
-
+	private boolean dartSpellActivated;
+	
 	public PlayerController(TutorialIsland gameWorld, GameRenderer gameRenderer) {
 		this.gameWorld = gameWorld;
 		this.gameRenderer = gameRenderer;
@@ -32,9 +33,20 @@ public class PlayerController implements InputProcessor{
 			gameRenderer.getCamera().translate(0,45);
 		if(keycode == Input.Keys.DOWN)
 			gameRenderer.getCamera().translate(0,-45);
+		if(keycode == Input.Keys.NUM_1) {
+			this.freezeSpellActivated = false;
+			if(!dartSpellActivated) {
+				this.gameRenderer.setShowTargetCircle(true, 30);
+				this.dartSpellActivated = true;
+			}else {
+				this.gameRenderer.setShowTargetCircle(false, 0);
+				this.dartSpellActivated = false;
+			}
 		
+		}
 		if(keycode == Input.Keys.NUM_2) {
 			if(!freezeSpellActivated) {
+				this.dartSpellActivated = false;
 				this.gameRenderer.setShowTargetCircle(true, 120);
 				this.freezeSpellActivated = true;
 			}else {
@@ -85,6 +97,13 @@ public class PlayerController implements InputProcessor{
 
 				this.gameWorld.performIceSpellCast(new Circle(positionInGame.x,positionInGame.y, this.gameRenderer.getTargetCircleSize()));
 			}
+			else if(dartSpellActivated) {
+				Vector3 coordinates = new Vector3(this.gameRenderer.getTargetCircleX(), this.gameRenderer.getTargetCircleY(), 0);
+				Vector3 positionInGame = gameRenderer.getCamera().unproject(coordinates);
+				
+				this.gameWorld.performDartSpellCast(new Circle(positionInGame.x,positionInGame.y, this.gameRenderer.getTargetCircleSize()));
+
+			}
 		}
 		
 		return false;
@@ -107,6 +126,12 @@ public class PlayerController implements InputProcessor{
 		{
 			this.gameRenderer.setTargetingCircleLocation(screenX, screenY);
 		}
+		
+		if(dartSpellActivated)		
+		{
+			this.gameRenderer.setTargetingCircleLocation(screenX, screenY);
+		}
+		
 		
 		return false;
 	}
