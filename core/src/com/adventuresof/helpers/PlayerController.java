@@ -159,19 +159,18 @@ public class PlayerController implements InputProcessor{
 				Vector3 positionInGame = gameRenderer.getCamera().unproject(coordinates);
 
 				this.gameWorld.performIceSpellCast(new Circle(positionInGame.x,positionInGame.y, this.gameRenderer.getTargetCircleSize()));
+			} else if(dartSpellActivated) {
+				Vector3 coordinates = new Vector3(this.gameRenderer.getTargetCircleX(), this.gameRenderer.getTargetCircleY(), 0);
+				Vector3 positionInGame = gameRenderer.getCamera().unproject(coordinates);
+				
+				this.gameWorld.performDartSpellCast(new Circle(positionInGame.x,positionInGame.y, this.gameRenderer.getTargetCircleSize()));
+
 			} else if (npc != null) {
 				
 				if(npc.isHostile()) {
 					//engage in melee combat
 					this.gameWorld.getPlayer().setTarget(npc);					
 				}
-			}
-			else if(dartSpellActivated) {
-				Vector3 coordinates = new Vector3(this.gameRenderer.getTargetCircleX(), this.gameRenderer.getTargetCircleY(), 0);
-				Vector3 positionInGame = gameRenderer.getCamera().unproject(coordinates);
-				
-				this.gameWorld.performDartSpellCast(new Circle(positionInGame.x,positionInGame.y, this.gameRenderer.getTargetCircleSize()));
-
 			}
 		}
 		

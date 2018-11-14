@@ -76,12 +76,13 @@ public abstract class GameCharacter extends GameObject {
 			boolean isHostile,
 			int characterWidth, int characterHeight,
 			CharacterAnimation characterAnimation,
-			float speed, boolean canRespawn) {
+			float speed, boolean canRespawn, String name) {
 
 		this.characterAnimation = characterAnimation;
 		this.speed = speed;
 		this.canRespawn = canRespawn;
-		this.stateTime = 0f;		
+		this.stateTime = 0f;
+		this.name = name;
 
 		// instantiate characters' current position as a blank vector3
 		currentPosition = new Vector3(startX, startY, 0);

@@ -52,26 +52,28 @@ public class PlayerHUD implements Screen{
 		this.textArea = new TextArea("", skin);
 		this.textArea.setDisabled(true);
 		this.textArea.setText("");
+		this.textArea.setWidth(800);
+		this.textArea.setHeight(120);
 		
 		//setup continue button.
 		this.button = new TextButton("Click to continue",skin);
 		this.button.setVisible(false);
 
 		//setup pane layout using table
-		Table paneTable = new Table();
-		paneTable.add(textArea).width(800);
-		paneTable.row();
-		paneTable.add(button).bottom().width(800);
+//		Table paneTable = new Table();
+//		paneTable.add(textArea).width(800);
+//		paneTable.row();
+//		paneTable.add(button).bottom().width(800);
 		
 		//setup actual pane using table
-		ScrollPane pane = new ScrollPane(paneTable, skin);
-		pane.setWidth(800);
+//		ScrollPane pane = new ScrollPane(paneTable, skin);
+//		pane.setWidth(800);
 		
 		uiTable.pad(10);
 		uiTable.add().bottom().colspan(3);
 		uiTable.add().expandX().expandY();
 		uiTable.add(inventoryActor).bottom();
-		stage.addActor(pane);	
+		stage.addActor(textArea);	
 		
 	}
 	
@@ -91,6 +93,9 @@ public class PlayerHUD implements Screen{
     		System.out.println("hit");
     		this.textArea.setText("");
 	    	npc.setConversationIndex(0);
+	    	if (npc.getName() == "Bandit") {
+	    		npc.setHostile(true);
+	    	}
 
     	}
     	

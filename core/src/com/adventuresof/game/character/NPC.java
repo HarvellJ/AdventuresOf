@@ -117,4 +117,8 @@ public abstract class NPC extends GameCharacter {
 	public void setTalkative(boolean isTalkative) {
 		this.isTalkative = isTalkative;
 	}
+	
+	public void setHostile (boolean isHostile) {
+		this.isHostile = isHostile;
+	}
 }
