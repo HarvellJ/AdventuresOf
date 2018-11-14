@@ -3,6 +3,7 @@ package com.adventuresof.game.character;
 import java.util.ArrayList;
 import java.util.Random;
 
+import com.adventuresof.game.common.GameObject;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -57,16 +58,17 @@ public abstract class GameCharacter extends GameObject {
 
 	// combat stuff
 	private int health;
+
 	private int maxHealth = 100;
 	private boolean isFrozen;
 	private float frozenTime;
 
-	private float attackInterval = 4; // a time interval representing the attack speed of this character - defaults to 2
+	private float attackInterval = 2; // a time interval representing the attack speed of this character - defaults to 2
 	private float lungeForwardPerformed;
 	private float lungeBackwardPerformed;
-	
+
 	Sprite hitSplt; 
-	
+
 	//health bar
 	private HealthBar healthBar;
 
@@ -82,10 +84,10 @@ public abstract class GameCharacter extends GameObject {
 		this.speed = speed;
 		this.canRespawn = canRespawn;
 		this.stateTime = 0f;	
-		
-	    hitSplt = new Sprite(new Texture("hitsplat.png"));
+
+		hitSplt = new Sprite(new Texture("hitsplat.png"));
 		hitSplt.setScale(0.4f);
-		
+
 		// instantiate characters' current position as a blank vector3
 		currentPosition = new Vector3(startX, startY, 0);
 		this.spawnLocation = new Vector3(startX, startY, 0);
@@ -115,9 +117,35 @@ public abstract class GameCharacter extends GameObject {
 		this.isFrozen = false;
 		this.frozenTime = 0;
 
+
 		healthBar = new HealthBar(this, new Texture("healthBackground.png"),
 				new Texture("healthForeground.png"));
 
+
+	}
+	
+	public boolean isDying() {
+		return isDying;
+	}
+
+	public void setDying(boolean isDying) {
+		this.isDying = isDying;
+	}
+
+	public int getHealth() {
+		return health;
+	}
+
+	public void setHealth(int health) {
+		this.health = health;
+	}
+	
+	public boolean isHostile() {
+		return isHostile;
+	}
+
+	public void setHostile(boolean isHostile) {
+		this.isHostile = isHostile;
 	}
 
 	public GameCharacter getTarget() {
@@ -165,13 +193,14 @@ public abstract class GameCharacter extends GameObject {
 
 		if(isDying) {
 			if (stateTimeOfDeath < this.stateTime - 2) {
-				if(canRespawn) {
-					this.health = 100;
-					this.isDying = false;
+				if(canRespawn) {				
 					this.currentPosition.x = this.spawnLocation.x;
 					this.currentPosition.y = this.spawnLocation.y;
+					this.updateHitBox();
+					this.health = 100;		
+					this.isDying = false;
 					this.target = null;
-					this.damageMessageQueue = new ArrayList<String>();
+					this.damageMessageQueue = new ArrayList<String>();				
 				}else {
 					this.canDispose = true;
 				}
@@ -183,16 +212,20 @@ public abstract class GameCharacter extends GameObject {
 				this.isFrozen = false;
 				// if player can move, then do so accordingly
 				if(target != null) {
-					//move to target location
-					this.setTargetLocation(new Vector3((float)target.getCurrentPosition().x - 30, (float)target.getCurrentPosition().y, 0));
-					// check distance from target before attacking
-					if(Math.sqrt(Math.pow((Math.max(target.getCurrentPosition().x, this.getCurrentPosition().x) - Math.min(target.getCurrentPosition().x, this.getCurrentPosition().x)), 2) + Math.pow((Math.max(target.getCurrentPosition().y, this.getCurrentPosition().y) - Math.min(target.getCurrentPosition().y, this.getCurrentPosition().y)), 2)) < 35)
-					{
-						// target is within distance, attack
-						this.performAttack();
+					if(!target.isDying() && (target.getHealth() > 0)) {
+						// check distance from target before attacking and moving to target location
+						if(Math.sqrt(Math.pow((Math.max(target.getCurrentPosition().x, this.getCurrentPosition().x) - Math.min(target.getCurrentPosition().x, this.getCurrentPosition().x)), 2) + Math.pow((Math.max(target.getCurrentPosition().y, this.getCurrentPosition().y) - Math.min(target.getCurrentPosition().y, this.getCurrentPosition().y)), 2)) < 50)
+						{
+							// target is within distance, attack
+							this.performAttack();
+						}else {
+							this.setTargetLocation(new Vector3((float)target.getCurrentPosition().x - 45, (float)target.getCurrentPosition().y, 0));
+						}
+					}else {
+						this.target = null;
 					}
 				}
-
+				
 				// check the point to move to value is set, if not, there is no need to move this frame.
 				if(pointToMoveTo != null) {
 					// first, work out the direction in which the character should be facing (so we can use relevant animations)
@@ -246,7 +279,7 @@ public abstract class GameCharacter extends GameObject {
 			this.lungeForwardPerformed = this.stateTime + attackInterval;
 			this.target.damage(10);
 		}
-		else if(lungeBackwardPerformed + 0.5 - this.stateTime <= 0) {
+		else if(lungeBackwardPerformed - this.stateTime <= 0) {
 			this.lungeBackward();	
 			this.lungeBackwardPerformed = this.stateTime + attackInterval;
 		}
@@ -331,7 +364,7 @@ public abstract class GameCharacter extends GameObject {
 		}
 	}
 
-	public void inflictDamage(int amount) {
+	private void inflictDamage(int amount) {
 		this.health -= amount;
 	}
 
@@ -358,16 +391,20 @@ public abstract class GameCharacter extends GameObject {
 	}
 
 	public void freeze() {
-		this.isFrozen = true;
-		this.frozenTime = stateTime;
+		if(this.isHostile) {
+			this.isFrozen = true;
+			this.frozenTime = stateTime;
+		}	
 	}
 
 	public void damage(int damage) {
-		this.inflictDamage(damage);
-		this.addMessageToDamageQueue(Integer.toString(damage));
-		if(this.health <= 0) {
-			this.isDying = true;
-			this.stateTimeOfDeath = this.stateTime;
+		if(this.isHostile) {
+			this.inflictDamage(damage);
+			this.addMessageToDamageQueue(Integer.toString(damage));
+			if(this.health <= 0) {
+				this.isDying = true;
+				this.stateTimeOfDeath = this.stateTime;
+			}
 		}
 	}
 
@@ -541,9 +578,9 @@ public abstract class GameCharacter extends GameObject {
 			// re-check message queue size
 			if(damageMessageQueue.size() > 0) {
 				BitmapFont font = new BitmapFont(); 
-			
-			    font.setColor(new Color(Color.WHITE));
-										
+
+				font.setColor(new Color(Color.WHITE));
+
 				hitSplt.setX(this.hitBox.x - 60);
 				hitSplt.setY(this.hitBox.y - 50);
 				hitSplt.draw(spriteBatch);
@@ -590,7 +627,7 @@ public abstract class GameCharacter extends GameObject {
 			healthForeground.setY(owner.getCurrentPosition().y + yBuffer);
 
 			float healthValue = owner.health / (float) owner.maxHealth;
-			
+
 			if(healthValue >= 0)
 				healthForeground.setScale(healthValue, 1f);
 			else
@@ -599,8 +636,11 @@ public abstract class GameCharacter extends GameObject {
 		}
 
 		public void render(SpriteBatch spriteBatch) {
-			healthBackground.draw(spriteBatch);
-			healthForeground.draw(spriteBatch);
+			// only show health bars for hostile characters - its used an indicator for the player to know whether this character is "hostile"
+			if(isHostile) {
+				healthBackground.draw(spriteBatch);
+				healthForeground.draw(spriteBatch);
+			}
 		}
 	}
 }

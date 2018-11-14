@@ -1,4 +1,4 @@
-package com.adventuresof.game.character;
+package com.adventuresof.game.spell;
 
 import java.util.ArrayList;
 

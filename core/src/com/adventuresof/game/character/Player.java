@@ -79,7 +79,7 @@ public class Player extends GameCharacter{
 				), CharacterSpeed.NORMAL_FAST.getSpeed(), true);
 		
 		
-		
+		this.isHostile = true;
 		this.inventory = new Inventory();
 		this.discoveredZones = new ArrayList<GameZone>();
 	}

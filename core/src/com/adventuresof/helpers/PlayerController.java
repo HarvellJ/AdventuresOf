@@ -89,13 +89,15 @@ public class PlayerController implements InputProcessor{
 			Vector3 newPosition = gameRenderer.getCamera().unproject(clickCoordinates);
 
 			// check if player has selected a position containing an NPC
-			NPC npc = this.gameWorld.targetLocationContainsNPC(newPosition);
-			if(npc == null) {
-				this.gameWorld.getPlayer().setTarget(null);
+//			NPC npc = this.gameWorld.targetLocationContainsNPC(newPosition);
+//			if(npc == null) {
+				//this.gameWorld.getPlayer().setTarget(null);
 				this.gameWorld.getPlayer().setTargetLocation(newPosition);
-			}else {
-				this.gameWorld.getPlayer().setTarget(npc);
-			}
+//			}else {
+//				// only target hostile NPCs
+//				if(npc.isHostile())
+//				this.gameWorld.getPlayer().setTarget(npc);
+//			}
 		}
 		else if (button == Buttons.LEFT) {
 			// check cooldown time on spells		

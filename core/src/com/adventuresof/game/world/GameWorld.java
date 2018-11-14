@@ -2,14 +2,14 @@ package com.adventuresof.game.world;
 
 import java.util.ArrayList;
 
-import com.adventuresof.game.character.Tornado;
-import com.adventuresof.game.character.GameObject;
 import com.adventuresof.game.character.NPC;
 import com.adventuresof.game.character.Player;
-import com.adventuresof.game.character.Spell;
+import com.adventuresof.game.common.GameObject;
 import com.adventuresof.game.inventory.Item;
 
 import com.adventuresof.game.item.ItemFactory;
+import com.adventuresof.game.spell.Spell;
+import com.adventuresof.game.spell.Tornado;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
