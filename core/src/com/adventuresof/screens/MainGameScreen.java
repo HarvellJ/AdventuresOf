@@ -35,7 +35,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.AdventuresOfGame;
 
-import javafx.util.Pair;
+//import javafx.util.Pair;
 
 public class MainGameScreen implements Screen {
 
@@ -59,7 +59,7 @@ public class MainGameScreen implements Screen {
 		// handle inputs - multiplexer used so HUD and game world can both respond to inputs
 		multiplexer = new InputMultiplexer(); 
 		multiplexer.addProcessor(playerHUD.stage);
-		multiplexer.addProcessor(new PlayerController(gameWorld, gameRenderer)); 
+		multiplexer.addProcessor(new PlayerController(gameWorld, gameRenderer, playerHUD)); 
 		Gdx.input.setInputProcessor(multiplexer); 
 	}
 
@@ -98,6 +98,10 @@ public class MainGameScreen implements Screen {
 	@Override
 	public void dispose() {
 
+	}
+	
+	public PlayerHUD getPlayerHUD () {
+		return this.playerHUD;
 	}
 
 }

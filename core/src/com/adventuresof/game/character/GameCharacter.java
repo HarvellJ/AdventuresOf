@@ -21,7 +21,9 @@ import com.badlogic.gdx.math.Vector3;
  *
  */
 public abstract class GameCharacter extends GameObject {
-
+	
+	private String name;
+	
 	// movement variables
 	protected Vector3 pointToMoveTo; // used to move the character to a point
 	protected Vector3 currentPosition; // stores current position of character
@@ -545,6 +547,22 @@ public abstract class GameCharacter extends GameObject {
 
 	public void setAttackInterval(float attackInterval) {
 		this.attackInterval = attackInterval;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public boolean isHostile() {
+		return isHostile;
+	}
+
+	public void setHostile(boolean isHostile) {
+		this.isHostile = isHostile;
 	}
 
 	private class HealthBar {

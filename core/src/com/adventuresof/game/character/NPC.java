@@ -1,5 +1,6 @@
 package com.adventuresof.game.character;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -12,6 +13,9 @@ import com.badlogic.gdx.math.Vector3;
 public abstract class NPC extends GameCharacter {
 
 	private Random r;
+	private boolean isTalkative;
+	private ArrayList<String> conversation;
+	private int conversationIndex;
 
 	public NPC(
 			TiledMapTileLayer accessibleTiles, 
@@ -19,11 +23,16 @@ public abstract class NPC extends GameCharacter {
 			boolean isStatic,
 			boolean isHostile,
 			int characterWidth, int characterHeight,
-			CharacterAnimation characterAnimation, CharacterSpeed speed
+			CharacterAnimation characterAnimation, CharacterSpeed speed,
+			String name,
+			boolean isTalkative,
+			ArrayList<String> conversation
 			)
 	{
-		super(accessibleTiles, startX, startY, isHostile, characterWidth, characterHeight, characterAnimation, varySpeed(speed.getSpeed()), false);
+		super(accessibleTiles, startX, startY, isHostile, characterWidth, characterHeight, characterAnimation, varySpeed(speed.getSpeed()), false, name);
 		this.isStatic = isStatic;
+		this.setTalkative(isTalkative);
+		this.setConversation(conversation);
 		r = new Random();
 	}
 
@@ -35,7 +44,7 @@ public abstract class NPC extends GameCharacter {
 		if(!isStatic) {
 			if(super.target == null) {		
 				// check for nearby player if hostile
-				if(super.isHostile) {
+				if(super.isHostile()) {
 					if (Intersector.overlaps(super.getHitBox(), player.getHitBox())) {
 					this.setTarget(player);
 					}
@@ -83,5 +92,29 @@ public abstract class NPC extends GameCharacter {
 		// slightly varies the speed for the NPC. Used to stop NPC's from stacking on one of another as often
 		Random r = new Random();
 		return speed - 10 + r.nextFloat() * (speed + 30 - speed - 10);
+	}
+
+	public int getConversationIndex() {
+		return conversationIndex;
+	}
+
+	public void setConversationIndex(int conversationIndex) {
+		this.conversationIndex = conversationIndex;
+	}
+
+	public ArrayList<String> getConversation() {
+		return conversation;
+	}
+
+	public void setConversation(ArrayList<String> conversation) {
+		this.conversation = conversation;
+	}
+
+	public boolean isTalkative() {
+		return isTalkative;
+	}
+
+	public void setTalkative(boolean isTalkative) {
+		this.isTalkative = isTalkative;
 	}
 }
