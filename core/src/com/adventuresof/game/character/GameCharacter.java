@@ -68,6 +68,7 @@ public abstract class GameCharacter extends GameObject {
     
     // combat stuff
     private int health;
+    private int maxHealth = 100;
 	private boolean isFrozen;
 	private float frozenTime;
 	
@@ -80,9 +81,6 @@ public abstract class GameCharacter extends GameObject {
     		boolean isHostile,
     		int characterWidth, int characterHeight,
     		CharacterAnimation characterAnimation) {
-    	
-		healthBar = new HealthBar(this, new Texture("healthBackground.png"),
-				new Texture("healthForeground.png"));
     	
     	this.characterAnimation = characterAnimation;
     	
@@ -115,6 +113,9 @@ public abstract class GameCharacter extends GameObject {
     	this.health = 100;
     	this.isFrozen = false;
     	this.frozenTime = 0;
+    	
+		healthBar = new HealthBar(this, new Texture("healthBackground.png"),
+				new Texture("healthForeground.png"));
     	
     }
     
@@ -254,7 +255,7 @@ public abstract class GameCharacter extends GameObject {
 
 		// handle any text
 		this.displayMessage(spriteBatch);
-		this.displayDamange(spriteBatch);
+		this.displayDamage(spriteBatch);
 
 		healthBar.render(spriteBatch);
 	}
@@ -492,7 +493,7 @@ public abstract class GameCharacter extends GameObject {
      * @param spriteBatch the SpriteBatch object used to render the message to screen
      * renders the next message in the damage message queue
      */
-    private void displayDamange(SpriteBatch spriteBatch) {
+    private void displayDamage(SpriteBatch spriteBatch) {
     	// check if any messages in queue
     	if(damageMessageQueue.size() > 0) {
     		// check if a message has been displayed
@@ -531,28 +532,32 @@ private class HealthBar {
 		private Sprite healthBackground;
 		private Sprite healthForeground;
 		private GameCharacter owner;
-		private final short buffer = 20;
+		private final short yBuffer = 85;
+		private final short xBuffer = -15;
 		
 		public HealthBar(GameCharacter owner, Texture healthBG, Texture healthFG) {
 			this.owner = owner;
 			
-			healthBackground = new Sprite(healthBackground);
-			healthForeground = new Sprite(healthForeground);
+			healthBackground = new Sprite(healthBG);
+			healthForeground = new Sprite(healthFG);
+			
+			healthBackground.setX(owner.getCurrentPosition().x + xBuffer);
+			healthBackground.setY(owner.getCurrentPosition().y + yBuffer);
 
-			healthBackground.setX(owner.getCurrentPosition().x);
-			healthBackground.setY(owner.getCurrentPosition().y + buffer);
-
-			healthForeground.setX(owner.getCurrentPosition().x);
-			healthForeground.setY(owner.getCurrentPosition().y + buffer);
-			healthForeground.setOrigin(0,0);
+			healthForeground.setX(owner.getCurrentPosition().x + xBuffer);
+			healthForeground.setY(owner.getCurrentPosition().y + yBuffer);
+			healthForeground.setOrigin(0, 0);
 			
 	}
 		public void update() {
-			healthBackground.setX(owner.getCurrentPosition().x);
-			healthBackground.setY(owner.getCurrentPosition().y + buffer);
+			healthBackground.setX(owner.getCurrentPosition().x + xBuffer);
+			healthBackground.setY(owner.getCurrentPosition().y + yBuffer);
 
-			healthForeground.setX(owner.getCurrentPosition().x);
-			healthForeground.setY(owner.getCurrentPosition().y + buffer);
+			healthForeground.setX(owner.getCurrentPosition().x + xBuffer);
+			healthForeground.setY(owner.getCurrentPosition().y + yBuffer);
+			
+			healthForeground.setScale(owner.health / (float) owner.maxHealth, 1f);
+			
 		}
 		
 		public void render(SpriteBatch spriteBatch) {
