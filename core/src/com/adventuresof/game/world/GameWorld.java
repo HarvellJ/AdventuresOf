@@ -2,9 +2,11 @@ package com.adventuresof.game.world;
 
 import java.util.ArrayList;
 
-import com.adventuresof.game.character.Enemy;
+import com.adventuresof.game.character.Dart;
+import com.adventuresof.game.character.GameObject;
 import com.adventuresof.game.character.NPC;
 import com.adventuresof.game.character.Player;
+import com.adventuresof.game.character.Spell;
 import com.adventuresof.game.inventory.Item;
 
 import com.adventuresof.game.item.ItemFactory;
@@ -19,10 +21,13 @@ public abstract class GameWorld {
 		protected Player player;
 		protected ArrayList<NPC> NPCs;
 		protected ArrayList<Item> items; // an array of in-game items - representing the items that exist in the world
+		protected ArrayList<Spell> activeSpells;
 
 		public GameWorld(String mapPath) {
 			
 			map = new Map(mapPath);
+			
+			this.activeSpells = new ArrayList<Spell>();
 			
 			this.spawnNPCs();
 			
@@ -33,6 +38,14 @@ public abstract class GameWorld {
 			items = new ArrayList<Item>();
 			
 			this.spawnChanceItemsIntoWorld();
+		}
+		
+		public ArrayList<Spell> getActiveSpells() {
+			return activeSpells;
+		}
+
+		public void setActiveSpells(ArrayList<Spell> activeSpells) {
+			this.activeSpells = activeSpells;
 		}
 		
 		public ArrayList<NPC> getNPCs() {
@@ -71,11 +84,14 @@ public abstract class GameWorld {
 			//this.detectObjectCollisions();
 			// move player
 			player.update();
+			this.disposeOfObjects(); // disposes of objects marked as ready for disposal
+			this.updateGameSpells();
 		    // move and update NPCs
 			this.moveNPCs();
 			this.updateNPCs();
 			// now check for any collisions following update calls to characters
 			this.detectCollectionOfItemObjects();
+			this.detectCollisionOfSpellsAndCharacters();
 			this.detectCollisionWithTriggers();
 		}
 				
@@ -104,6 +120,22 @@ public abstract class GameWorld {
 			return null;
 		}
 		
+		private void disposeOfObjects() {
+			// remove perished NPCs
+			for(int i = 0; i < this.NPCs.size(); i++) {
+				if(this.NPCs.get(i).CanDispose()) {
+					// spawn a relevant drop based on NPC
+					this.spawnItem(this.NPCs.get(i).getHitBox());
+					this.NPCs.remove(i);
+				}
+			}
+			// remove objects - e.g. spell animations and stuff alike
+			for(int i = 0; i < this.activeSpells.size(); i++) {
+				if(this.activeSpells.get(i).CanDispose())
+					this.activeSpells.remove(i);
+			}
+		}
+		
 		// detect player collision with items. If detection occurs, move from world inventory into player inventory
 		private void detectCollectionOfItemObjects() {
 			for (int i = 0; i < items.size(); i++) {
@@ -112,6 +144,19 @@ public abstract class GameWorld {
 				    this.collectItemFromMap(i);
 				}	 
 			}	    
+		}
+		
+		private void detectCollisionOfSpellsAndCharacters() {
+			for (NPC npc : this.NPCs) {
+				for (Spell spell : this.activeSpells) {			
+					if (Intersector.overlaps(spell.getHitBox(), npc.getHitBox())) {
+						// check each of the spawns
+					    npc.damage(spell.getDamage());
+					    // instantly dispose of spell (or else it will continue to hit the target every frame until it reaches target destination)
+					    spell.setCanDispose(true);
+					}	
+				}
+			}
 		}
 		
 		private void collectItemFromMap(int itemIndex) {
@@ -129,21 +174,20 @@ public abstract class GameWorld {
 		
 		private void moveNPCs() {
 			for (NPC npc : this.NPCs) {
-				npc.move();
+				npc.move(this.player);
+			}
+		}
+		
+		private void updateGameSpells() {
+			for (int i = 0; i < this.activeSpells.size(); i++) {			
+					this.activeSpells.get(i).update();	
 			}
 		}
 		
 		private void updateNPCs() {
-			for (int i = 0; i < this.NPCs.size(); i++) {
-				// check if they're dead - if so, remove them from game world
-				if(this.NPCs.get(i).isDead()) {
-					// spawn a relevant drop based on NPC
-					this.spawnItem(this.NPCs.get(i).getHitBox());
-					this.NPCs.remove(i);
-				}else {
+			for (int i = 0; i < this.NPCs.size(); i++) {				
 			    // if they are still alive, update them
-					this.NPCs.get(i).update();
-				}
+					this.NPCs.get(i).update();		
 			}
 		}
 		
@@ -164,4 +208,19 @@ public abstract class GameWorld {
 				}	
 			}	
 		}
+		
+		public void performDartSpellCast(Circle targetingCircle) {
+			
+		// spawn dart and send it in target's direction
+			this.activeSpells.add
+			(new Dart(
+					this.map.getAccessibleMapLayer(),
+					this.player.getCurrentPosition().x,
+					this.player.getCurrentPosition().y, 
+					targetingCircle.x,
+					targetingCircle.y
+					));
+	
+		}
+				
 }

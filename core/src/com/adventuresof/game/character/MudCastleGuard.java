@@ -70,7 +70,7 @@ public class MudCastleGuard extends NPC{
 						ATTACK_DOWN_START_FRAME, ATTACK_DOWN_FRAMES,
 						ATTACK_UP_START_FRAME, ATTACK_UP_FRAMES,
 						DEATH_ANIMATION_START_FRAME, DEATH_ANIMATION_FRAMES
-						));
+						), CharacterSpeed.NORMAL_MEDIUM);
 	}
 	
 }

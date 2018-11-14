@@ -1,6 +1,8 @@
 package com.adventuresof.game.world;
 
+import com.adventuresof.game.character.GameObject;
 import com.adventuresof.game.character.NPC;
+import com.adventuresof.game.character.Spell;
 import com.adventuresof.game.inventory.Item;
 import com.adventuresof.game.inventory.ItemEnum;
 import com.badlogic.gdx.Gdx;
@@ -117,7 +119,7 @@ public class GameRenderer {
 		gameWorld.getPlayer().render(spriteBatch);
 		gameWorld.getPlayerCompanion().render(spriteBatch);
 		this.renderNPCs();
-		
+		this.renderGameObjects();
 		// dispose of sprite batch
 		spriteBatch.end();	
 		
@@ -146,6 +148,12 @@ public class GameRenderer {
 	private void renderNPCs() {
 		for (NPC npc : this.gameWorld.getNPCs()) {
 			npc.render(spriteBatch);
+		}
+	}
+	
+	private void renderGameObjects() {
+		for (Spell spell : this.gameWorld.getActiveSpells()) {
+			spell.render(spriteBatch);
 		}
 	}
 	
