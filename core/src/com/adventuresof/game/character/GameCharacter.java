@@ -64,7 +64,9 @@ public abstract class GameCharacter extends GameObject {
 	private float attackInterval = 4; // a time interval representing the attack speed of this character - defaults to 2
 	private float lungeForwardPerformed;
 	private float lungeBackwardPerformed;
-
+	
+	Sprite hitSplt; 
+	
 	//health bar
 	private HealthBar healthBar;
 
@@ -79,8 +81,11 @@ public abstract class GameCharacter extends GameObject {
 		this.characterAnimation = characterAnimation;
 		this.speed = speed;
 		this.canRespawn = canRespawn;
-		this.stateTime = 0f;		
-
+		this.stateTime = 0f;	
+		
+	    hitSplt = new Sprite(new Texture("hitsplat.png"));
+		hitSplt.setScale(0.4f);
+		
 		// instantiate characters' current position as a blank vector3
 		currentPosition = new Vector3(startX, startY, 0);
 		this.spawnLocation = new Vector3(startX, startY, 0);
@@ -287,17 +292,24 @@ public abstract class GameCharacter extends GameObject {
 		// get the relevant animation frame (based on current character direction)
 		TextureRegion currentAnimationFrame;
 		if(this.isDying) {
-			currentAnimationFrame = this.getRelevantDeathAnimationFrame();
+			currentAnimationFrame = this.getRelevantIdleTexture();
+			Sprite test = new Sprite(currentAnimationFrame);
+			test.rotate(90f);
+			test.setX(currentPosition.x -15);
+			test.setY(currentPosition.y - 10);
+			test.draw(spriteBatch);
 		}
 		else if(this.isIdle) {
 			currentAnimationFrame = this.getRelevantIdleTexture();
+			spriteBatch.draw(currentAnimationFrame, currentPosition.x -15, currentPosition.y - 10); // Draw current frame ()
 		}
 		else {
 			currentAnimationFrame = this.getRelevantDirectionAnimationFrame();
+			spriteBatch.draw(currentAnimationFrame, currentPosition.x -15, currentPosition.y - 10); // Draw current frame ()
+
 		}
 
 		// Draw the character frame at the current position
-		spriteBatch.draw(currentAnimationFrame, currentPosition.x -15, currentPosition.y - 10); // Draw current frame ()
 
 		// handle any text
 		this.displayMessage(spriteBatch);
@@ -314,7 +326,7 @@ public abstract class GameCharacter extends GameObject {
 			Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 			shapeRenderer.begin(ShapeType.Filled);
 			shapeRenderer.setColor(new Color(0, 0.5f, 0.5f, 0.5f));				
-			shapeRenderer.rect(this.hitBox.x - this.hitBox.width/2, this.hitBox.y, this.hitBox.width, this.hitBox.height + 50);
+			shapeRenderer.rect(this.hitBox.x - this.hitBox.width/2, this.hitBox.y - 20, this.hitBox.width, this.hitBox.height + 50);
 			shapeRenderer.end();	
 		}
 	}
@@ -529,12 +541,14 @@ public abstract class GameCharacter extends GameObject {
 			// re-check message queue size
 			if(damageMessageQueue.size() > 0) {
 				BitmapFont font = new BitmapFont(); 
-				if(Integer.parseInt(damageMessageQueue.get(0)) >= 20){
-					font.setColor(new Color(Color.RED));
-				}else {
-					font.setColor(new Color(Color.YELLOW));
-				}
+			
+			    font.setColor(new Color(Color.WHITE));
+										
+				hitSplt.setX(this.hitBox.x - 60);
+				hitSplt.setY(this.hitBox.y - 50);
+				hitSplt.draw(spriteBatch);
 				font.draw(spriteBatch, damageMessageQueue.get(0), this.hitBox.x - 5, this.hitBox.y + 15);
+
 			}
 		}   	
 	}
