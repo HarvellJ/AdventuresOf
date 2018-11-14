@@ -7,8 +7,8 @@ public class Inventory {
 	    private Array<Slot> slots;
 
 	    public Inventory() {
-	        slots = new Array<Slot>(10);
-	        for (int i = 0; i < 10 ; i++) {
+	        slots = new Array<Slot>(24);
+	        for (int i = 0; i < 24 ; i++) {
 	            slots.add(new Slot(null, 0));
 	        }	        
 	    }

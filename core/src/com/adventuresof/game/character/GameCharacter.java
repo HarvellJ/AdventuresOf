@@ -22,7 +22,9 @@ import com.badlogic.gdx.math.Vector3;
  *
  */
 public abstract class GameCharacter extends GameObject {
-
+	
+	private String name;
+	
 	// movement variables
 	protected Vector3 pointToMoveTo; // used to move the character to a point
 	protected Vector3 currentPosition; // stores current position of character
@@ -78,7 +80,7 @@ public abstract class GameCharacter extends GameObject {
 			boolean isHostile,
 			int characterWidth, int characterHeight,
 			CharacterAnimation characterAnimation,
-			float speed, boolean canRespawn) {
+			float speed, boolean canRespawn, String name) {
 
 		this.characterAnimation = characterAnimation;
 		this.speed = speed;
@@ -87,7 +89,8 @@ public abstract class GameCharacter extends GameObject {
 
 		hitSplt = new Sprite(new Texture("hitsplat.png"));
 		hitSplt.setScale(0.4f);
-
+		
+		this.name = name;
 		// instantiate characters' current position as a blank vector3
 		currentPosition = new Vector3(startX, startY, 0);
 		this.spawnLocation = new Vector3(startX, startY, 0);
@@ -138,14 +141,6 @@ public abstract class GameCharacter extends GameObject {
 
 	public void setHealth(int health) {
 		this.health = health;
-	}
-	
-	public boolean isHostile() {
-		return isHostile;
-	}
-
-	public void setHostile(boolean isHostile) {
-		this.isHostile = isHostile;
 	}
 
 	public GameCharacter getTarget() {
@@ -596,6 +591,22 @@ public abstract class GameCharacter extends GameObject {
 
 	public void setAttackInterval(float attackInterval) {
 		this.attackInterval = attackInterval;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public boolean isHostile() {
+		return isHostile;
+	}
+
+	public void setHostile(boolean isHostile) {
+		this.isHostile = isHostile;
 	}
 
 	private class HealthBar {

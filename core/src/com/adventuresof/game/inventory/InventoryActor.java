@@ -23,7 +23,7 @@ public class InventoryActor extends Window {
 	         
 	            i++;
 	            // every 5 cells, jump to a new row
-	            if (i % 5 == 0) {
+	            if (i % 4 == 0) {
 	                row();
 	            }
 	        }

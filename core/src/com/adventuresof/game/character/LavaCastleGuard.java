@@ -1,5 +1,7 @@
 package com.adventuresof.game.character;
 
+import java.util.ArrayList;
+
 import com.adventuresof.helpers.AnimationFactory;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -49,7 +51,7 @@ public class LavaCastleGuard extends NPC{
 		private static final int DEATH_ANIMATION_START_FRAME = 0;
 		private static final int DEATH_ANIMATION_FRAMES = 3;
 	
-	public LavaCastleGuard(TiledMapTileLayer accessibleTiles, float startX, float startY) {
+	public LavaCastleGuard(TiledMapTileLayer accessibleTiles, float startX, float startY, String name, boolean isTalkative, ArrayList<String> conversation) {
 		super(
 				accessibleTiles, 
 				startX, startY, 
@@ -70,7 +72,7 @@ public class LavaCastleGuard extends NPC{
 						ATTACK_DOWN_START_FRAME, ATTACK_DOWN_FRAMES,
 						ATTACK_UP_START_FRAME, ATTACK_UP_FRAMES,
 						DEATH_ANIMATION_START_FRAME, DEATH_ANIMATION_FRAMES
-						), CharacterSpeed.NORMAL_MEDIUM);
+						), CharacterSpeed.NORMAL_MEDIUM, name, isTalkative, conversation);
 	}
 	
 }
