@@ -325,7 +325,7 @@ public abstract class GameCharacter extends GameObject {
 			Gdx.gl.glEnable(GL20.GL_BLEND);
 			Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 			shapeRenderer.begin(ShapeType.Filled);
-			shapeRenderer.setColor(new Color(0, 0.5f, 0.5f, 0.5f));				
+			shapeRenderer.setColor(new Color(1, 1f, 1f, 0.5f));				
 			shapeRenderer.rect(this.hitBox.x - this.hitBox.width/2, this.hitBox.y - 20, this.hitBox.width, this.hitBox.height + 50);
 			shapeRenderer.end();	
 		}

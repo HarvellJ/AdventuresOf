@@ -2,7 +2,7 @@ package com.adventuresof.game.world;
 
 import java.util.ArrayList;
 
-import com.adventuresof.game.character.Dart;
+import com.adventuresof.game.character.Tornado;
 import com.adventuresof.game.character.GameObject;
 import com.adventuresof.game.character.NPC;
 import com.adventuresof.game.character.Player;
@@ -209,11 +209,11 @@ public abstract class GameWorld {
 			}	
 		}
 		
-		public void performDartSpellCast(Circle targetingCircle) {
+		public void performTornadoSpellCast(Circle targetingCircle) {
 			
 		// spawn dart and send it in target's direction
 			this.activeSpells.add
-			(new Dart(
+			(new Tornado(
 					this.map.getAccessibleMapLayer(),
 					this.player.getCurrentPosition().x,
 					this.player.getCurrentPosition().y, 

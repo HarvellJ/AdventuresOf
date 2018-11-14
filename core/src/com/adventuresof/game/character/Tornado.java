@@ -9,7 +9,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector3;
 
-public class Dart extends Spell{
+public class Tornado extends Spell{
 	
 	// texture sheets
 	private static final String MOVEMENT_SPRITE_SHEET = "characters//whirlwind.png";
@@ -22,7 +22,7 @@ public class Dart extends Spell{
 	private static final int MOVE_START_FRAME = 0;
 	private static final int MOVE_FRAMES = 3;
 
-	public Dart(
+	public Tornado(
 			TiledMapTileLayer accessibleTiles,
 			float startX, float startY, float endX, float endY) {
 
@@ -44,7 +44,7 @@ public class Dart extends Spell{
 		// they are alive...
 		this.canDispose = false;
 
-		this.damage = 30;
+		this.damage = 10;
 		
 		// create objects required for collision logic
 		this.radius = 10f;
