@@ -11,13 +11,13 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObjects;
-import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
@@ -63,13 +63,18 @@ public abstract class GameCharacter extends GameObject {
     
     // combat stuff
     private int health;
+    private int maxHealth = 100;
 	private boolean isFrozen;
 	private float frozenTime;
+
 	private float attackInterval = 4; // a time interval representing the attack speed of this character - defaults to 2
 	private float lungeForwardPerformed;
 	private float lungeBackwardPerformed;
-	
-	public GameCharacter(
+		
+	//health bar
+	private HealthBar healthBar;
+    
+    public GameCharacter(
     		TiledMapTileLayer accessibleTiles,
     	    float startX, float startY,
     		boolean isHostile,
@@ -110,6 +115,9 @@ public abstract class GameCharacter extends GameObject {
     	this.health = 100;
     	this.isFrozen = false;
     	this.frozenTime = 0;
+    	
+		healthBar = new HealthBar(this, new Texture("healthBackground.png"),
+				new Texture("healthForeground.png"));
     	
     }
     
@@ -229,6 +237,8 @@ public abstract class GameCharacter extends GameObject {
 		//following any positional moves, update the characters bounding record
 		this.updateHitBox();
 		}
+		
+		healthBar.update();
     }
 
 	private void performAttack() {
@@ -297,8 +307,9 @@ public abstract class GameCharacter extends GameObject {
 
 		// handle any text
 		this.displayMessage(spriteBatch);
-		this.displayDamange(spriteBatch);
-		
+		this.displayDamage(spriteBatch);
+
+		healthBar.render(spriteBatch);
 	}
 
 	public void renderSpellAnimations(ShapeRenderer shapeRenderer) {
@@ -508,7 +519,7 @@ public abstract class GameCharacter extends GameObject {
      * @param spriteBatch the SpriteBatch object used to render the message to screen
      * renders the next message in the damage message queue
      */
-    private void displayDamange(SpriteBatch spriteBatch) {
+    private void displayDamage(SpriteBatch spriteBatch) {
     	// check if any messages in queue
     	if(damageMessageQueue.size() > 0) {
     		// check if a message has been displayed
@@ -540,5 +551,48 @@ public abstract class GameCharacter extends GameObject {
 
 	public void setAttackInterval(float attackInterval) {
 		this.attackInterval = attackInterval;
+	}
+	
+private class HealthBar {
+		
+		private Sprite healthBackground;
+		private Sprite healthForeground;
+		private GameCharacter owner;
+		private final short yBuffer = 45;
+		private final short xBuffer = -15;
+		
+		public HealthBar(GameCharacter owner, Texture healthBG, Texture healthFG) {
+			this.owner = owner;
+			
+			healthBackground = new Sprite(healthBG);
+			healthForeground = new Sprite(healthFG);
+			
+			healthBackground.setX(owner.getCurrentPosition().x + xBuffer);
+			healthBackground.setY(owner.getCurrentPosition().y + yBuffer);
+
+			healthForeground.setX(owner.getCurrentPosition().x + xBuffer);
+			healthForeground.setY(owner.getCurrentPosition().y + yBuffer);
+			healthForeground.setOrigin(0, 0);			
+	}
+		public void update() {
+			healthBackground.setX(owner.getCurrentPosition().x + xBuffer);
+			healthBackground.setY(owner.getCurrentPosition().y + yBuffer);
+
+			healthForeground.setX(owner.getCurrentPosition().x + xBuffer);
+			healthForeground.setY(owner.getCurrentPosition().y + yBuffer);
+			
+			float healthValue = owner.health / (float) owner.maxHealth;
+			
+			if(healthValue >= 0)
+			healthForeground.setScale(healthValue, 1f);
+			else
+			healthForeground.setScale(0, 1f);
+							
+		}
+		
+		public void render(SpriteBatch spriteBatch) {
+			healthBackground.draw(spriteBatch);
+			healthForeground.draw(spriteBatch);
+		}
 	}
 }
