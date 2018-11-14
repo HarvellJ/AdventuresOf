@@ -49,14 +49,14 @@ public abstract class GameCharacter extends GameObject {
     
     private boolean isIdle;
     protected float stateTime;
-  
+    
     private ArrayList<String> messageQueue; // used to queue messages that will be displayed in game by the character
     private float timeLastMessageDisplayed;
     private ArrayList<String> damageMessageQueue;
     private float timeLastDamagedMessageDisplayed;
     
 	protected GameCharacter target; // the characters current target. This can be friendly or hostile
-    protected boolean isHostile; // toggles whether the character can be attacked or is passive
+    private boolean isHostile; // toggles whether the character can be attacked or is passive
 	
     // collision stuff
     private Rectangle hitBox; // a mesh used to detect collisions with the character
@@ -78,12 +78,13 @@ public abstract class GameCharacter extends GameObject {
     		boolean isHostile,
     		int characterWidth, int characterHeight,
     		CharacterAnimation characterAnimation,
-    		float speed, boolean canRespawn) {
+    		float speed, boolean canRespawn, String name) {
     	
     	this.characterAnimation = characterAnimation;
     	this.speed = speed;
     	this.canRespawn = canRespawn;
-		this.stateTime = 0f;		
+		this.stateTime = 0f;
+		this.name = name;
     	
     	// instantiate characters' current position as a blank vector3
     	currentPosition = new Vector3(startX, startY, 0);
@@ -107,7 +108,7 @@ public abstract class GameCharacter extends GameObject {
     	this.isIdle = true;
     	
     	// set the target's hostility
-    	this.isHostile = isHostile;
+    	this.setHostile(isHostile);
     	
     	// default health to 100
     	this.health = 100;
@@ -551,5 +552,21 @@ public abstract class GameCharacter extends GameObject {
 
 	public void setAttackInterval(float attackInterval) {
 		this.attackInterval = attackInterval;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public boolean isHostile() {
+		return isHostile;
+	}
+
+	public void setHostile(boolean isHostile) {
+		this.isHostile = isHostile;
 	}
 }

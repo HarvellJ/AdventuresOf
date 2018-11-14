@@ -1,5 +1,7 @@
 package com.adventuresof.game.character;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
 public class Enemy extends NPC {
@@ -46,13 +48,13 @@ public class Enemy extends NPC {
 	private static final int DEATH_ANIMATION_START_FRAME = 0;
 	private static final int DEATH_ANIMATION_FRAMES = 3;
 	
-	public Enemy(TiledMapTileLayer accessibleTiles, String textureSheet, float startX, float startY) {
+	public Enemy(TiledMapTileLayer accessibleTiles, String textureSheet, float startX, float startY, String name, boolean isTalkative, ArrayList<String> conversation, boolean isHostile) {
 		super(
 				accessibleTiles,
 				startX, 
 				startY, 
 				false,
-				true, 
+				isHostile, 
 				50, 50,
 				new CharacterAnimation(MOVEMENT_SPRITE_SHEET, COMBAT_SPRITE_SHEET, DEATH_SPRITE_SHEET,
 						MOVEMENT_SPRITE_SHEET_ROWS, MOVEMENT_SPRITE_SHEET_COLS,
@@ -68,7 +70,7 @@ public class Enemy extends NPC {
 						ATTACK_DOWN_START_FRAME, ATTACK_DOWN_FRAMES,
 						ATTACK_UP_START_FRAME, ATTACK_UP_FRAMES,
 						DEATH_ANIMATION_START_FRAME, DEATH_ANIMATION_FRAMES
-						), CharacterSpeed.NORMAL_MEDIUM);
+						), CharacterSpeed.NORMAL_MEDIUM, name, isTalkative, conversation);
 		this.setCharacterDirection(Direction.left);
 	}
 }
