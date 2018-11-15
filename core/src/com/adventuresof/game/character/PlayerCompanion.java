@@ -76,6 +76,9 @@ public class PlayerCompanion extends NPC {
 		this.addMessageToMessageQueue("Here is some guidance for your adventure:");
 		this.addMessageToMessageQueue("To move, Right click and you will move to the selected location");
 		this.addMessageToMessageQueue("To cast spells, press 1 - for tornado - or 2 - for freeze spell - and then left click where you wish to cast it");
+		this.addMessageToMessageQueue("You can talk to characters by right clicking on them - try it - see what they have to say!");
+		this.addMessageToMessageQueue("Some will have quests for you to do");
 		this.addMessageToMessageQueue("You need to survive and make it to the next town. Good luck!");
+
 	}
 }
