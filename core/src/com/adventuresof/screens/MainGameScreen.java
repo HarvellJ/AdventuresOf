@@ -6,6 +6,7 @@ import com.adventuresof.game.character.Player;
 import com.adventuresof.game.world.GameRenderer;
 import com.adventuresof.game.world.TutorialIsland;
 import com.adventuresof.helpers.PlayerController;
+import com.adventuresof.helpers.SoundManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
@@ -33,6 +34,7 @@ import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.AdventuresOfGame;
 
 //import javafx.util.Pair;
@@ -51,6 +53,7 @@ public class MainGameScreen implements Screen {
 		this.gameWorld = new TutorialIsland();
 		this.gameRenderer = new GameRenderer(gameWorld);
 		
+		
 		// setup camera
 		hudCamera = new OrthographicCamera();
 		hudCamera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -61,6 +64,8 @@ public class MainGameScreen implements Screen {
 		multiplexer.addProcessor(playerHUD.stage);
 		multiplexer.addProcessor(new PlayerController(gameWorld, gameRenderer, playerHUD)); 
 		Gdx.input.setInputProcessor(multiplexer); 
+		// Music setup
+		SoundManager.playMusic("audio/music/Takeover.mp3");
 	}
 
 	@Override
@@ -78,6 +83,7 @@ public class MainGameScreen implements Screen {
 	@Override
 	public void resize(int width, int height) {
 		this.gameRenderer.resize(width, height);
+		
 	}
 
 	@Override
@@ -97,6 +103,7 @@ public class MainGameScreen implements Screen {
 
 	@Override
 	public void dispose() {
+		SoundManager.dispose();
 
 	}
 	

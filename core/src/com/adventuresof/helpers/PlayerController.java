@@ -33,7 +33,7 @@ public class PlayerController implements InputProcessor{
 	private long freezeSpellLastActivated;
 
 	private static final long FREEZE_SPELL_COOLDOWN_DURATION = 5000;
-	private static final long TORNADO_SPELL_COOLDOWN_DURATION = 200;
+	private static final long TORNADO_SPELL_COOLDOWN_DURATION = 500;
 
 
 	public PlayerController(TutorialIsland gameWorld, GameRenderer gameRenderer, PlayerHUD playerHUD) {
