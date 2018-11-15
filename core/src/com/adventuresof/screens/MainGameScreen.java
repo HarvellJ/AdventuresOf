@@ -64,7 +64,7 @@ public class MainGameScreen implements Screen {
 		Gdx.input.setInputProcessor(multiplexer); 
 		
 		// Music setup
-		SoundManager.playMusic("audio/music/Alkharid.mp3");
+		SoundManager.playMusic("audio/music/Takeover.mp3");
 	}
 
 	@Override
