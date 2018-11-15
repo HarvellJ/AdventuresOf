@@ -33,6 +33,7 @@ import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.AdventuresOfGame;
 
 //import javafx.util.Pair;
@@ -51,6 +52,7 @@ public class MainGameScreen implements Screen {
 		this.gameWorld = new TutorialIsland();
 		this.gameRenderer = new GameRenderer(gameWorld);
 		
+		
 		// setup camera
 		hudCamera = new OrthographicCamera();
 		hudCamera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -61,6 +63,7 @@ public class MainGameScreen implements Screen {
 		multiplexer.addProcessor(playerHUD.stage);
 		multiplexer.addProcessor(new PlayerController(gameWorld, gameRenderer, playerHUD)); 
 		Gdx.input.setInputProcessor(multiplexer); 
+		
 	}
 
 	@Override
@@ -78,6 +81,7 @@ public class MainGameScreen implements Screen {
 	@Override
 	public void resize(int width, int height) {
 		this.gameRenderer.resize(width, height);
+		
 	}
 
 	@Override

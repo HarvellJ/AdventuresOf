@@ -32,8 +32,8 @@ public class GameRenderer {
 	private int targetCircleSize; // the size of the circle
 	private float targetCircleX;
 	private float targetCircleY;
-	
-	
+	float w;
+    float h;
 	public GameRenderer(TutorialIsland gameWorld) {
 		
 		//game world
@@ -41,8 +41,8 @@ public class GameRenderer {
 		this.spriteBatch = new SpriteBatch();
 		
 		// get the width/height of the window
-		float w = Gdx.graphics.getWidth();
-		float h = Gdx.graphics.getHeight();
+		w = Gdx.graphics.getWidth();
+		h = Gdx.graphics.getHeight();
 
 		// sort out the camera
 		camera = new OrthographicCamera();
@@ -136,7 +136,7 @@ public class GameRenderer {
 	    Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 	    shapeRendererHUD.begin(ShapeType.Filled);
 	    shapeRendererHUD.setColor(new Color(0, 0.5f, 0.5f, 0.5f));  
-	    shapeRendererHUD.circle(targetCircleX, Gdx.graphics.getHeight() - targetCircleY, targetCircleSize);
+	    shapeRendererHUD.circle(targetCircleX, h - targetCircleY, targetCircleSize);
 	    shapeRendererHUD.end();	
 	}
 	
@@ -173,8 +173,11 @@ public class GameRenderer {
 	}
 
 	
-	public void resize(int width, int height) {
-		
+	public void resize(int width, int height) {	
+		this.h = height;
+		this.w = width;
+		camera.setToOrtho(false, width, height);
+	    camera.update();
 	}
 	
 //	private void renderGameObjects() {
