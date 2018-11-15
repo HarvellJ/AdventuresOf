@@ -206,7 +206,7 @@ public abstract class GameCharacter extends GameObject {
 			if(!(isFrozen && this.frozenTime > this.stateTime - 5)) {	
 				this.isFrozen = false;
 				// if player can move, then do so accordingly
-				if(target != null) {
+				if(target != null && this.isHostile) {
 					if(!target.isDying() && (target.getHealth() > 0)) {
 						// check distance from target before attacking and moving to target location
 						if(Math.sqrt(Math.pow((Math.max(target.getCurrentPosition().x, this.getCurrentPosition().x) - Math.min(target.getCurrentPosition().x, this.getCurrentPosition().x)), 2) + Math.pow((Math.max(target.getCurrentPosition().y, this.getCurrentPosition().y) - Math.min(target.getCurrentPosition().y, this.getCurrentPosition().y)), 2)) < 50)
@@ -219,6 +219,8 @@ public abstract class GameCharacter extends GameObject {
 					}else {
 						this.target = null;
 					}
+				}else if (target != null ){
+					this.setTargetLocation(new Vector3((float)target.getCurrentPosition().x - 30, (float)target.getCurrentPosition().y, 0));
 				}
 				
 				// check the point to move to value is set, if not, there is no need to move this frame.
@@ -547,7 +549,7 @@ public abstract class GameCharacter extends GameObject {
 			// re-check message queue size
 			if(messageQueue.size() > 0) {
 				BitmapFont font = new BitmapFont(); 
-				font.draw(spriteBatch, messageQueue.get(0), currentPosition.x - messageQueue.get(0).length()*6/2, currentPosition.y + 100);
+				font.draw(spriteBatch, messageQueue.get(0), currentPosition.x - messageQueue.get(0).length()*6/2, currentPosition.y + 60);
 			}
 		}   	
 	}

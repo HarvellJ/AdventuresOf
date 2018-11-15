@@ -41,8 +41,8 @@ public class TutorialIsland extends GameWorld{
 	public void update(float delta) {
 		super.update(delta, this.NPCs);
 		// move player companion
-		//playerCompanion.move();
-		//playerCompanion.update();
+		//playerCompanion.move(this.player);
+		playerCompanion.update();
 	}
 
 	/**
@@ -71,14 +71,14 @@ public class TutorialIsland extends GameWorld{
 				this.NPCs.add(new BloodElf(map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Bandit", false, null, true));	
 			}
 			else {
-				this.NPCs.add(new Dragon(map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Bandit", true, conversation, true));							
+				this.NPCs.add(new KnightGold(map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Bandit", true, conversation, true));							
 			}
 		}
 		for (RectangleMapObject rectangleObject : this.map.setEnemySpawnLevel3Objects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
 			// spawn in an 'enemy'
 			if(r.nextInt(5) >= 2) {
-				this.NPCs.add(new Phoenix(map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Bandit", false, null, true));	
+				this.NPCs.add(new Knight(map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Bandit", false, null, true));	
 			}else {
 				this.NPCs.add(new BloodElf(map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Bandit", false, null, true));	
 			}
@@ -113,32 +113,26 @@ public class TutorialIsland extends GameWorld{
 					// render guidance text to screen
 					if(!this.player.hasDiscoveredZone(GameZone.STARTZONE)) {
 						this.player.addDiscoveredZone(GameZone.STARTZONE);
-						this.playerCompanion.addMessageToMessageQueue("Good. Now lets move east.");
 					}
 				}
 				else if (rectangleObject.getName().equals("itemZoneTrigger")) {
 					// render guidance text to screen
 					if(!this.player.hasDiscoveredZone(GameZone.ITEMZONE)) {
 						this.player.addDiscoveredZone(GameZone.ITEMZONE);
-						this.playerCompanion.addMessageToMessageQueue("On this part of the island, you will find items to collect.");
-						this.playerCompanion.addMessageToMessageQueue("To collect an item, run over it. It will then appear in your inventory.");
-						this.playerCompanion.addMessageToMessageQueue("You can move the inventory around the screen by clicking and dragging it.");
+						
 					}
 				}
 				else if (rectangleObject.getName().equals("itemZoneCompleteTrigger")) {
 					// render guidance text to screen
 					if(!this.player.hasDiscoveredZone(GameZone.ITEMZONECOMPLETIONZONE)) {
 						this.player.addDiscoveredZone(GameZone.ITEMZONECOMPLETIONZONE);
-						this.playerCompanion.addMessageToMessageQueue("Great, you've found all of the items. When you're ready, move north to the combat arena.");
 					}
 				}
 				else if (rectangleObject.getName().equals("combatZoneTrigger")) {
 					// render guidance text to screen
 					if(!this.player.hasDiscoveredZone(GameZone.COMBATARENA)) {
 						this.player.addDiscoveredZone(GameZone.COMBATARENA);
-						this.playerCompanion.addMessageToMessageQueue("This is the combat arena. Here you can practice your combat skills.");
-						this.playerCompanion.addMessageToMessageQueue("For melee attack, press 1.");
-
+					
 					}
 				}
 			}
