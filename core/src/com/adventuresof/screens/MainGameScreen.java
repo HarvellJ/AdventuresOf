@@ -6,6 +6,7 @@ import com.adventuresof.game.character.Player;
 import com.adventuresof.game.world.GameRenderer;
 import com.adventuresof.game.world.TutorialIsland;
 import com.adventuresof.helpers.PlayerController;
+import com.adventuresof.helpers.SoundManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
@@ -61,6 +62,9 @@ public class MainGameScreen implements Screen {
 		multiplexer.addProcessor(playerHUD.stage);
 		multiplexer.addProcessor(new PlayerController(gameWorld, gameRenderer, playerHUD)); 
 		Gdx.input.setInputProcessor(multiplexer); 
+		
+		// Music setup
+		SoundManager.playMusic("audio/music/Alkharid.mp3");
 	}
 
 	@Override
@@ -97,6 +101,7 @@ public class MainGameScreen implements Screen {
 
 	@Override
 	public void dispose() {
+		SoundManager.dispose();
 
 	}
 	

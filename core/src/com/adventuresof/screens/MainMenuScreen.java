@@ -1,5 +1,6 @@
 package com.adventuresof.screens;
 
+import com.adventuresof.helpers.SoundManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -29,6 +30,9 @@ public class MainMenuScreen implements Screen{
 		stage.act(Gdx.graphics.getDeltaTime());
 		stage.draw();
 		addListeners();
+		
+		// Music setup
+		SoundManager.playMusic("audio/music/Random_Battle.mp3");
 	}
 	
 	@Override
