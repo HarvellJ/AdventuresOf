@@ -39,6 +39,8 @@ public class Map {
     private MapObjects enemySpawnLevel1Objects; // Contains the objects representing spawn areas for enemy NPCs on the map
     private MapLayer enemySpawnLevel2ObjectLayer; // Contains the objects representing spawn areas for enemy NPCs on the map
     private MapObjects enemySpawnLeve12Objects; // Contains the objects representing spawn areas for enemy NPCs on the map
+    private MapLayer enemySpawnLevel3ObjectLayer; // Contains the objects representing spawn areas for enemy NPCs on the map
+    private MapObjects enemySpawnLevel3Objects; // Contains the objects representing spawn areas for enemy NPCs on the map
     
     // Guard spawn object layer
     private MapLayer playerSpawnObjectLayer; // Contains the objects representing spawn areas for enemy NPCs on the map
@@ -48,7 +50,8 @@ public class Map {
 	
 	
 	// Map layers
-	private final static int ITEM_SPAWN_LAYER = 11; //layer number on which game objects exist
+	private final static int ITEM_SPAWN_LAYER = 12; //layer number on which game objects exist
+	private final static int ENEMY_SPAWNS_LEVEL_3 = 11; // The layer containing spawn points for the enemy NPC
 	private final static int ENEMY_SPAWNS_LEVEL_2 = 10; // The layer containing spawn points for the enemy NPC
 	private final static int ENEMY_SPAWNS_LEVEL_1 = 9; // The layer containing spawn points for the enemy NPC
 	private final static int GUARD_SPAWNS_MUD_BASE = 8; // The layer containing spawn points for the guard NPC
@@ -95,6 +98,9 @@ public class Map {
 	    
 	    setEnemySpawnLevel2ObjectLayer((MapLayer)tiledMap.getLayers().get(ENEMY_SPAWNS_LEVEL_2));
 	    setEnemySpawnLeve12Objects(enemySpawnLevel2ObjectLayer.getObjects());	 
+	    
+	    setEnemySpawnLevel3ObjectLayer((MapLayer)tiledMap.getLayers().get(ENEMY_SPAWNS_LEVEL_3));
+	    setEnemySpawnLevel3Objects(enemySpawnLevel3ObjectLayer.getObjects());	
 	    
 	    // store enemy spawn objects and layers
 	    setPlayerSpawnObjectLayer((MapLayer)tiledMap.getLayers().get(PLAYER_SPAWNS));
@@ -254,6 +260,22 @@ public class Map {
 
 	public void setEnemySpawnLeve12Objects(MapObjects enemySpawnLeve12Objects) {
 		this.enemySpawnLeve12Objects = enemySpawnLeve12Objects;
+	}
+
+	public MapObjects setEnemySpawnLevel3Objects() {
+		return enemySpawnLevel3Objects;
+	}
+
+	public void setEnemySpawnLevel3Objects(MapObjects enemySpawnLevel3Objects) {
+		this.enemySpawnLevel3Objects = enemySpawnLevel3Objects;
+	}
+
+	public MapLayer getEnemySpawnLevel3ObjectLayer() {
+		return enemySpawnLevel3ObjectLayer;
+	}
+
+	public void setEnemySpawnLevel3ObjectLayer(MapLayer enemySpawnLevel3ObjectLayer) {
+		this.enemySpawnLevel3ObjectLayer = enemySpawnLevel3ObjectLayer;
 	}
 	
 }

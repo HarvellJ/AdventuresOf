@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
-public class Enemy extends NPC {
+public class Knight extends NPC {
 
 	// texture sheets
 	private static final String MOVEMENT_SPRITE_SHEET = "characters//darkknight.png";
@@ -48,7 +48,7 @@ public class Enemy extends NPC {
 	private static final int DEATH_ANIMATION_START_FRAME = 0;
 	private static final int DEATH_ANIMATION_FRAMES = 3;
 	
-	public Enemy(TiledMapTileLayer accessibleTiles, String textureSheet, float startX, float startY, String name, boolean isTalkative, ArrayList<String> conversation, boolean isHostile) {
+	public Knight(TiledMapTileLayer accessibleTiles, float startX, float startY, String name, boolean isTalkative, ArrayList<String> conversation, boolean isHostile) {
 		super(
 				accessibleTiles,
 				startX, 
