@@ -8,3 +8,4 @@ core/assets/map/beach_tileset.png
 core/assets/map/beach_tileset.tsx
 core/assets/map/tf_jungle_tileset.png
 core/assets/map/tf_jungle_tileset.tsx
+core/bin/*
