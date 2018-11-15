@@ -1,8 +1,11 @@
 package com.mygdx.game;
 
+import com.adventuresof.helpers.ApplicationPreferences;
+import com.adventuresof.helpers.SoundManager;
 import com.adventuresof.screens.MainGameScreen;
 import com.adventuresof.screens.MainMenuScreen;
 import com.adventuresof.screens.ScreenType;
+import com.adventuresof.screens.SettingsScreen;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -35,9 +38,18 @@ public class AdventuresOfGame extends Game {
 	
 	private MainMenuScreen menuScreen;
 	private MainGameScreen mainScreen;
-
+	private SettingsScreen settingsScreen;
+	private ApplicationPreferences preferences;
 
 	@Override public void create () {
+		preferences = new ApplicationPreferences();
+		if(preferences.isMusicEnabled() == true) {
+			SoundManager.toggleMusic(true);
+			SoundManager.setMusicVolume(preferences.getMusicVolume());
+		} else {
+			SoundManager.toggleMusic(false);
+			SoundManager.setMusicVolume(preferences.getMusicVolume());
+		}		
 		menuScreen = new MainMenuScreen(this);
 		this.setScreen(menuScreen);
 //		this.setScreen(new MainGameScreen());
@@ -57,8 +69,16 @@ public class AdventuresOfGame extends Game {
 			if(mainScreen == null) mainScreen = new MainGameScreen();
 			this.setScreen(mainScreen);
 			break;
+		case SETTINGS:
+			if (settingsScreen == null) settingsScreen = new SettingsScreen();
+			this.setScreen(settingsScreen);
+			break;
 		default: 
 		}
+	}
+	
+	public ApplicationPreferences getPreferences() {
+		return preferences;
 	}
 }
 
