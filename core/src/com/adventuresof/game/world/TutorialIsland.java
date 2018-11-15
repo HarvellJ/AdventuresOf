@@ -15,6 +15,7 @@ import com.badlogic.gdx.math.Rectangle;
 public class TutorialIsland extends GameWorld{
 
 	protected PlayerCompanion playerCompanion;
+	private int count;
 	
 	public TutorialIsland() {
 		super("map//MainWorld.tmx");
@@ -31,7 +32,7 @@ public class TutorialIsland extends GameWorld{
 	}
 	
 	public void update(float delta) {
-		super.update(delta);
+		super.update(delta, this.NPCs);
 		// move player companion
 		//playerCompanion.move();
 		//playerCompanion.update();
@@ -47,12 +48,12 @@ public class TutorialIsland extends GameWorld{
 		for (RectangleMapObject rectangleObject : this.map.getEnemySpawnLevel1Objects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
 			// spawn in an 'enemy'
-			this.NPCs.add(new Enemy(map.getAccessibleMapLayer(), "characters//knight.png", rectangle.x, rectangle.y, "Bandit", false, null, true));							
+			this.NPCs.add(new Enemy(map.getAccessibleMapLayer(), "characters//knight.png", rectangle.x, rectangle.y, "Bandit", true, conversation, false));							
 		}
 		for (RectangleMapObject rectangleObject : this.map.getEnemySpawnLeve12Objects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
 			// spawn in an 'enemy'
-			this.NPCs.add(new Enemy(map.getAccessibleMapLayer(), "characters//knight.png", rectangle.x, rectangle.y, "Bandit", true, conversation, false));							
+			this.NPCs.add(new Enemy(map.getAccessibleMapLayer(), "characters//knight.png", rectangle.x, rectangle.y, "Rogue", false, null, true));							
 		}
 	}
 	
@@ -61,7 +62,7 @@ public class TutorialIsland extends GameWorld{
 	 */
 	private void spawnGuards() {
 		
-		ArrayList<String> conversation = new ArrayList<String>( Arrays.asList("Your mission...", "should you choose to accept it...", "Is to kill all of the bandits by the dirt hill to the South"));
+		ArrayList<String> conversation = new ArrayList<String>( Arrays.asList("Your mission...", "should you choose to accept it...", "Is to kill all of the bandits outside of this castle...", "You will find them to the South-West."));
 		
 		
 		for (RectangleMapObject rectangleObject : this.map.getGuardSpawnStartCasleSpawnObjects().getByType(RectangleMapObject.class)) {

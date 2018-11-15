@@ -1,6 +1,7 @@
 package com.adventuresof.game.world;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import com.adventuresof.game.character.Tornado;
 import com.adventuresof.game.character.GameObject;
@@ -80,7 +81,7 @@ public abstract class GameWorld {
 			this.items = items;
 		}
 		
-		public void update(float delta) {
+		public void update(float delta, ArrayList<NPC> NPCs) {
 			//this.detectObjectCollisions();
 			// move player
 			player.update();
@@ -93,6 +94,27 @@ public abstract class GameWorld {
 			this.detectCollectionOfItemObjects();
 			this.detectCollisionOfSpellsAndCharacters();
 			this.detectCollisionWithTriggers();
+			
+			if(this.checkBandits(NPCs) == null) {
+				for (NPC npc : NPCs) {
+			        if (npc.getName().equals("Guard")) {
+			        	
+			        	ArrayList<String> conversation = new ArrayList<String>(Arrays.asList("Well done! You have killed the bandits and completed the quest!"));  
+			        	
+			        	npc.setConversation(conversation);
+			        }
+				}	
+			}
+		}
+		
+		public NPC checkBandits(ArrayList<NPC> NPCs) {
+		 
+		    for (NPC npc : NPCs) {
+		        if (npc.getName().equals("Bandit")) {
+		            return npc;
+		        }
+		    }
+		    return null;
 		}
 				
 		protected abstract void spawnNPCs();
