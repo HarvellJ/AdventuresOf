@@ -22,6 +22,8 @@ public class TutorialIsland extends GameWorld{
 
 	protected PlayerCompanion playerCompanion;
 
+	private int count;
+
 	public TutorialIsland() {
 		super("map//MainWorld.tmx");
 
@@ -37,7 +39,7 @@ public class TutorialIsland extends GameWorld{
 	}
 
 	public void update(float delta) {
-		super.update(delta);
+		super.update(delta, this.NPCs);
 		// move player companion
 		//playerCompanion.move();
 		//playerCompanion.update();
@@ -60,6 +62,7 @@ public class TutorialIsland extends GameWorld{
 				this.NPCs.add(new KnightGold(map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Bandit", false, null, true));							
 
 			}
+
 		}
 		for (RectangleMapObject rectangleObject : this.map.getEnemySpawnLeve12Objects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
@@ -79,6 +82,7 @@ public class TutorialIsland extends GameWorld{
 			}else {
 				this.NPCs.add(new BloodElf(map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Bandit", false, null, true));	
 			}
+
 		}
 	}
 
@@ -86,8 +90,7 @@ public class TutorialIsland extends GameWorld{
 	 * Instantiates the guard NPC's into the game
 	 */
 	private void spawnGuards() {
-
-		ArrayList<String> conversation = new ArrayList<String>( Arrays.asList("Your mission...", "should you choose to accept it...", "Is to kill all of the bandits by the dirt hill to the South"));
+		ArrayList<String> conversation = new ArrayList<String>( Arrays.asList("Your mission...", "should you choose to accept it...", "Is to kill all of the bandits outside of this castle...", "You will find them to the South-West."));
 
 
 		for (RectangleMapObject rectangleObject : this.map.getGuardSpawnStartCasleSpawnObjects().getByType(RectangleMapObject.class)) {
