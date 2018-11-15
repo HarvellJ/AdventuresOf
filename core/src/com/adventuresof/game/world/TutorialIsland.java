@@ -68,7 +68,7 @@ public class TutorialIsland extends GameWorld{
 			Rectangle rectangle = rectangleObject.getRectangle();
 			// spawn in an 'enemy'
 			if(r.nextInt(5) >= 2) {
-				this.NPCs.add(new BloodElf(map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Bandit", false, null, true));	
+				this.NPCs.add(new BloodElf(map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Bandit", false, conversation, true));	
 			}
 			else {
 				this.NPCs.add(new KnightGold(map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Bandit", true, conversation, true));							
