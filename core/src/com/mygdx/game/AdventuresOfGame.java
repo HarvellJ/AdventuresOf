@@ -1,6 +1,8 @@
 package com.mygdx.game;
 
 import com.adventuresof.screens.MainGameScreen;
+import com.adventuresof.screens.MainMenuScreen;
+import com.adventuresof.screens.ScreenType;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -30,13 +32,33 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
 public class AdventuresOfGame extends Game {
+	
+	private MainMenuScreen menuScreen;
+	private MainGameScreen mainScreen;
+
 
 	@Override public void create () {
-		this.setScreen(new MainGameScreen());
+		menuScreen = new MainMenuScreen(this);
+		this.setScreen(menuScreen);
+//		this.setScreen(new MainGameScreen());
 	}
 
 	public void render () {
 		super.render();
+	}
+	
+	public void changeScreen(ScreenType s) {
+		switch (s) {
+		case MAINMENU:
+			if (menuScreen == null) menuScreen = new MainMenuScreen(this);
+			this.setScreen(menuScreen);
+			break;
+		case MAINGAMESCREEN:
+			if(mainScreen == null) mainScreen = new MainGameScreen();
+			this.setScreen(mainScreen);
+			break;
+		default: 
+		}
 	}
 }
 

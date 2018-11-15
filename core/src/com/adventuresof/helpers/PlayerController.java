@@ -25,7 +25,7 @@ public class PlayerController implements InputProcessor{
 	private TutorialIsland gameWorld;
 	private GameRenderer gameRenderer;
 	private PlayerHUD playerHUD;
-	
+
 	private boolean freezeSpellActivated;
 	private boolean tornadoSpellActivated;
 
@@ -95,60 +95,28 @@ public class PlayerController implements InputProcessor{
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		Vector3 clickCoordinates = new Vector3(screenX,screenY,0);
-		Vector3 newPosition = gameRenderer.getCamera().unproject(clickCoordinates);
-		
-		// check if player has selected a position containing an NPC
-		NPC npc = this.gameWorld.targetLocationContainsNPC(newPosition);
-		PlayerHUD hud = this.playerHUD;
-		if(button == Buttons.RIGHT) {
-		
-			if(npc == null) {
-				this.gameWorld.getPlayer().setTarget(null);
-				this.gameWorld.getPlayer().setTargetLocation(newPosition);
-	    		hud.displayText("");
-	    		
-			} else {
-				
-				if (npc.isTalkative()) {
-					this.gameWorld.getPlayer().setTargetLocation(newPosition);
-									 
-					hud.displayChat(npc);
-					
-					/* Removed click to continue button for now as it was causing problems
-					final TextButton continueButton = hud.getButton();
-					continueButton.setVisible(true);
-					
-					continueButton.addListener( new ClickListener() {
-					    @Override
-					    public void clicked(InputEvent event, float x, float y) {
-					    						    						    	
-					    	npc.setConversationIndex(npc.getConversationIndex() + 1);
-					    	System.out.println("Index " + npc.getConversationIndex());
-					    	System.out.println("Size " + npc.getConversation().size());
-					    	
-					    	if (npc.getConversationIndex() < npc.getConversation().size()) {
-				
-					    		hud.displayChat(npc.getConversation().get(npc.getConversationIndex()));					    		
-				
-					    	} else if (npc.getConversationIndex() == npc.getConversation().size()) {
-					    		System.out.println("hit");
-					    		hud.displayChat("");
-					    		//chatBox.;
-					    		continueButton.setVisible(false);
-						    	npc.setConversationIndex(0);
-				
-					    	}
-					    }
-					} );
-					 */
-					 
-				} else {
-					hud.displayText("This person doesn't look interested in talking right now.");					    		
-				}
-			} 
-			
-		} else if (button == Buttons.LEFT) {
+
+		if(button == Buttons.RIGHT){
+			Vector3 clickCoordinates = new Vector3(screenX,screenY,0);
+			Vector3 newPosition = gameRenderer.getCamera().unproject(clickCoordinates);
+
+			// check if player has selected a position containing an NPC
+			//			NPC npc = this.gameWorld.targetLocationContainsNPC(newPosition);
+			//			if(npc == null) {
+			//this.gameWorld.getPlayer().setTarget(null);
+			this.gameWorld.getPlayer().setTargetLocation(newPosition);
+			//			}else {
+			//				// only target hostile NPCs
+			//				if(npc.isHostile())
+			//				this.gameWorld.getPlayer().setTarget(npc);
+			//			}
+		}
+		else if (button == Buttons.LEFT) {
+			// check cooldown time on spells			
+
+			Vector3 clickCoordinates = new Vector3(screenX,screenY,0);
+			Vector3 newPosition = gameRenderer.getCamera().unproject(clickCoordinates);
+
 			// check active spells
 			if(freezeSpellActivated) {
 				if(this.freezeSpellLastActivated < System.currentTimeMillis() - FREEZE_SPELL_COOLDOWN_DURATION){
@@ -166,6 +134,58 @@ public class PlayerController implements InputProcessor{
 					this.gameWorld.performTornadoSpellCast(new Circle(positionInGame.x,positionInGame.y, this.gameRenderer.getTargetCircleSize()));
 					this.tornadoSpellLastActivated = System.currentTimeMillis();
 				}
+			}
+
+			// check if player has selected a position containing an NPC
+			NPC npc = this.gameWorld.targetLocationContainsNPC(newPosition);
+			PlayerHUD hud = this.playerHUD;
+			if(button == Buttons.RIGHT) {
+
+				if(npc == null) {
+					this.gameWorld.getPlayer().setTarget(null);
+					this.gameWorld.getPlayer().setTargetLocation(newPosition);
+					hud.displayText("");
+
+				} else {
+
+					if (npc.isTalkative()) {
+						this.gameWorld.getPlayer().setTargetLocation(newPosition);
+
+						hud.displayChat(npc);
+
+						/* Removed click to continue button for now as it was causing problems
+					final TextButton continueButton = hud.getButton();
+					continueButton.setVisible(true);
+
+					continueButton.addListener( new ClickListener() {
+					    @Override
+					    public void clicked(InputEvent event, float x, float y) {
+
+					    	npc.setConversationIndex(npc.getConversationIndex() + 1);
+					    	System.out.println("Index " + npc.getConversationIndex());
+					    	System.out.println("Size " + npc.getConversation().size());
+
+					    	if (npc.getConversationIndex() < npc.getConversation().size()) {
+
+					    		hud.displayChat(npc.getConversation().get(npc.getConversationIndex()));					    		
+
+					    	} else if (npc.getConversationIndex() == npc.getConversation().size()) {
+					    		System.out.println("hit");
+					    		hud.displayChat("");
+					    		//chatBox.;
+					    		continueButton.setVisible(false);
+						    	npc.setConversationIndex(0);
+
+					    	}
+					    }
+					} );
+						 */
+
+					} else {
+						hud.displayText("This person doesn't look interested in talking right now.");					    		
+					}
+				} 
+
 			}
 		}
 

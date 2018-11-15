@@ -1,5 +1,7 @@
-package com.adventuresof.game.character;
+package com.adventuresof.game.spell;
 
+import com.adventuresof.game.character.GameCharacter;
+import com.adventuresof.game.common.GameObject;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector3;

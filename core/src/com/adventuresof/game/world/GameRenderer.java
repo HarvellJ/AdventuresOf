@@ -1,10 +1,10 @@
 package com.adventuresof.game.world;
 
-import com.adventuresof.game.character.GameObject;
 import com.adventuresof.game.character.NPC;
-import com.adventuresof.game.character.Spell;
+import com.adventuresof.game.common.GameObject;
 import com.adventuresof.game.inventory.Item;
 import com.adventuresof.game.inventory.ItemEnum;
+import com.adventuresof.game.spell.Spell;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;

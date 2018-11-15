@@ -46,7 +46,7 @@ public abstract class NPC extends GameCharacter {
 				// check for nearby player if hostile
 				if(super.isHostile()) {
 					if (Intersector.overlaps(super.getHitBox(), player.getHitBox())) {
-					this.setTarget(player);
+							this.setTarget(player);
 					}
 				}
 				if(this.pointToMoveTo == null) {		
@@ -87,7 +87,7 @@ public abstract class NPC extends GameCharacter {
 			}
 		}	
 	}	
-	
+
 	private static float varySpeed(float speed) {
 		// slightly varies the speed for the NPC. Used to stop NPC's from stacking on one of another as often
 		Random r = new Random();
