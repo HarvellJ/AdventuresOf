@@ -1,5 +1,6 @@
 package com.adventuresof.game.world;
 
+import java.awt.datatransfer.FlavorTable;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -170,13 +171,15 @@ public abstract class GameWorld {
 		
 		private void detectCollisionOfSpellsAndCharacters() {
 			for (NPC npc : this.NPCs) {
-				for (Spell spell : this.activeSpells) {			
+				for (Spell spell : this.activeSpells) {		
+					if(!Double.isNaN(npc.getHitBox().x )) {
 					if (Intersector.overlaps(spell.getHitBox(), npc.getHitBox())) {
 						// check each of the spawns
 					    npc.damage(spell.getDamage());
 					    // instantly dispose of spell (or else it will continue to hit the target every frame until it reaches target destination)
 					    spell.setCanDispose(true);
 					}	
+					}
 				}
 			}
 		}
