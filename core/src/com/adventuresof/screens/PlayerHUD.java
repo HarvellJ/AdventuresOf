@@ -7,6 +7,7 @@ import com.adventuresof.game.character.NPC;
 import com.adventuresof.game.character.Player;
 import com.adventuresof.game.inventory.Inventory;
 import com.adventuresof.game.inventory.InventoryActor;
+import com.adventuresof.game.world.GameWorld;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
@@ -77,7 +78,7 @@ public class PlayerHUD implements Screen{
 		
 	}
 	
-	public void displayChat (NPC npc) {
+	public void displayChat (NPC npc, GameWorld gameWorld) {
 		
 		ArrayList<String> conversation = npc.getConversation();
 		
@@ -93,8 +94,13 @@ public class PlayerHUD implements Screen{
     		System.out.println("hit");
     		this.textArea.setText("");
 	    	npc.setConversationIndex(0);
-	    	if (npc.getName() == "Bandit") {
-	    		npc.setHostile(true);
+	    	
+	    	ArrayList<NPC> NPCs = gameWorld.getNPCs();
+	    	
+	    	for (NPC tempNPC : NPCs) {
+		    	if (tempNPC.getName() == "Bandit") {
+		    		tempNPC.setHostile(true);
+		    	}
 	    	}
 
     	}

@@ -125,7 +125,7 @@ public class PlayerController implements InputProcessor{
 				if (npc.isTalkative()) {
 					this.gameWorld.getPlayer().setTargetLocation(newPosition);
 
-					hud.displayChat(npc);
+					hud.displayChat(npc, this.gameWorld);
 
 					/* Removed click to continue button for now as it was causing problems
 					final TextButton continueButton = hud.getButton();
