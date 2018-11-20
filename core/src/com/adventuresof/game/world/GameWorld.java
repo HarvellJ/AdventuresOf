@@ -12,6 +12,7 @@ import com.adventuresof.game.inventory.Item;
 import com.adventuresof.game.item.ItemFactory;
 import com.adventuresof.game.spell.Spell;
 import com.adventuresof.game.spell.Tornado;
+import com.adventuresof.helpers.SoundManager;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
@@ -245,7 +246,7 @@ public abstract class GameWorld {
 					targetingCircle.x,
 					targetingCircle.y
 					));
-	
+			SoundManager.playSoundEffect("audio/effects/spellCast.wav");
 		}
 				
 }

@@ -33,7 +33,8 @@ public class GameRenderer {
 	private float targetCircleX;
 	private float targetCircleY;
 	float w;
-    float h;
+    float h;    
+	
 	public GameRenderer(TutorialIsland gameWorld) {
 		
 		//game world

@@ -2,10 +2,12 @@ package com.adventuresof.helpers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 
 public class SoundManager {
 
 	private static Music music;
+	private static Sound sound;
 	private static float musicVolume = 0.5f;
 	public static boolean musicStatus = true;
 
@@ -21,6 +23,16 @@ public class SoundManager {
 			music.setLooping(true);
 			music.setVolume(musicVolume);
 			music.play();
+		}	
+	}
+	
+	// Audio for Music	
+	public static void playSoundEffect(String filePath) {
+		// Check to see if Music has been turned off by the player
+		if(musicStatus == true) {
+			
+			sound = Gdx.audio.newSound(Gdx.files.internal(filePath));
+			sound.play();
 		}	
 	}
 	
