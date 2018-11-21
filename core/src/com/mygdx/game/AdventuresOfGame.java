@@ -70,7 +70,7 @@ public class AdventuresOfGame extends Game {
 			this.setScreen(mainScreen);
 			break;
 		case SETTINGS:
-			if (settingsScreen == null) settingsScreen = new SettingsScreen();
+			if (settingsScreen == null) settingsScreen = new SettingsScreen(this);
 			this.setScreen(settingsScreen);
 			break;
 		default: 

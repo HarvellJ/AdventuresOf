@@ -6,6 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -19,6 +20,7 @@ public class MainMenuScreen implements Screen{
 	private Stage stage;
 	private Skin skin;
 	private TextButton newGame;
+	private Label titleLabel;
 	private TextButton settings;
 	private TextButton exit;
 	
@@ -26,6 +28,7 @@ public class MainMenuScreen implements Screen{
 		parent = game;
 		stage = new Stage(new ScreenViewport());
 		skin = new Skin(Gdx.files.internal("skins/star-soldier-ui.json"));
+		titleLabel = new Label("The Adventures Of ...", skin);
 		newGame = new TextButton("New Game", skin);
 		settings = new TextButton("Settings", skin);
 		exit = new TextButton("Exit", skin);
@@ -40,6 +43,8 @@ public class MainMenuScreen implements Screen{
 		Table table = new Table();
 		table.setFillParent(true);
 		stage.addActor(table);
+		table.add(titleLabel);
+		table.row().pad(30,0,0,10);
 		table.add(newGame).fillX().uniformX();
 		table.row().pad(10, 0, 10, 0);
 		table.add(settings).fillX().uniformX();
