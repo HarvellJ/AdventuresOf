@@ -6,6 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -19,13 +20,17 @@ public class MainMenuScreen implements Screen{
 	private Stage stage;
 	private Skin skin;
 	private TextButton newGame;
+	private Label titleLabel;
+	private TextButton settings;
 	private TextButton exit;
 	
 	public MainMenuScreen(AdventuresOfGame game) {
 		parent = game;
 		stage = new Stage(new ScreenViewport());
 		skin = new Skin(Gdx.files.internal("skins/star-soldier-ui.json"));
+		titleLabel = new Label("The Adventures Of ...", skin);
 		newGame = new TextButton("New Game", skin);
+		settings = new TextButton("Settings", skin);
 		exit = new TextButton("Exit", skin);
 		stage.act(Gdx.graphics.getDeltaTime());
 		stage.draw();
@@ -41,8 +46,11 @@ public class MainMenuScreen implements Screen{
 		Table table = new Table();
 		table.setFillParent(true);
 		stage.addActor(table);
+		table.add(titleLabel);
+		table.row().pad(30,0,0,10);
 		table.add(newGame).fillX().uniformX();
 		table.row().pad(10, 0, 10, 0);
+		table.add(settings).fillX().uniformX();
 		table.row();
 		table.add(exit).fillX().uniformX();
 	}
@@ -68,9 +76,17 @@ public class MainMenuScreen implements Screen{
 			}
 		});
 		
+		settings.addListener(new ChangeListener() {
+			@Override
+			public void changed(ChangeEvent event, Actor actor) {
+				parent.changeScreen(ScreenType.SETTINGS);
+			}
+		});
+		
 		exit.addListener(new ChangeListener() {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
+				SoundManager.dispose();
 				Gdx.app.exit();				
 			}
 		});
@@ -89,7 +105,8 @@ public class MainMenuScreen implements Screen{
 	}
 
 	@Override
-	public void dispose() {		
+	public void dispose() {	
+		stage.dispose();
 	}
 
 }
