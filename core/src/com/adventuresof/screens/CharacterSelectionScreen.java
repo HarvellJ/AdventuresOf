@@ -10,6 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -20,9 +22,9 @@ public class CharacterSelectionScreen extends MainMenuScreen implements Screen {
 
 	protected AdventuresOfGame parent;
 	private Stage uiStage;
-	// private Skin skin;
+//	private Skin skin;
 	private TextButton startGame;
-	// private Label titleLabel;
+	private Label titleLabel;
 	private TextButton nextButton;
 	private TextButton previousButton;
 	private Image elfSprite;
@@ -32,10 +34,14 @@ public class CharacterSelectionScreen extends MainMenuScreen implements Screen {
 		FitViewport viewport = new FitViewport(160, 120);
 		uiStage = new Stage(viewport);
 		TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
-		// skin = new Skin(Gdx.files.internal("skins/star-soldier-ui.json"));
+		Label.LabelStyle labelStyle = new Label.LabelStyle();
+
+//		skin = new Skin(Gdx.files.internal("skins/star-soldier-ui.json"));
 		buttonStyle.font = parent.res.gamefont;
 		buttonStyle.fontColor = Color.WHITE;
-		// titleLabel = new Label("The Adventures Of ...", skin);
+		labelStyle.font = parent.res.gamefont;
+		labelStyle.fontColor = Color.WHITE;
+		titleLabel = new Label("The Adventures Of Jake", labelStyle);
 		startGame = new TextButton("Start", buttonStyle);
 		nextButton = new TextButton(">>>", buttonStyle);
 		previousButton = new TextButton("<<<", buttonStyle);
@@ -48,6 +54,11 @@ public class CharacterSelectionScreen extends MainMenuScreen implements Screen {
 	public void show() {
 		Gdx.input.setInputProcessor(uiStage);
 
+//		titleLabel.setWrap(true);
+		titleLabel.setFontScale(0.50f, 0.50f);
+		titleLabel.setPosition((uiStage.getWidth() * 5 / 3 - titleLabel.getWidth()) / 2, uiStage.getHeight() * 5 / 6);
+		uiStage.addActor(titleLabel);
+		
 		startGame.setPosition((uiStage.getWidth() - startGame.getWidth()) / 2, uiStage.getHeight() / 6);
 		uiStage.addActor(startGame);
 
@@ -57,10 +68,10 @@ public class CharacterSelectionScreen extends MainMenuScreen implements Screen {
 				(uiStage.getHeight() - elfSprite.getHeight()) / 2);
 		uiStage.addActor(elfSprite);
 
-		nextButton.setPosition(uiStage.getWidth() * 5 / 6 - nextButton.getWidth() / 2, uiStage.getHeight() * 5 / 6);
+		nextButton.setPosition(uiStage.getWidth() * 5 / 6 - nextButton.getWidth() / 2, uiStage.getHeight() * 3 / 6);
 		uiStage.addActor(nextButton);
 
-		previousButton.setPosition(uiStage.getWidth() / 6, uiStage.getHeight() * 5 / 6);
+		previousButton.setPosition(uiStage.getWidth() / 6, uiStage.getHeight() * 3 / 6);
 		uiStage.addActor(previousButton);
 	}
 

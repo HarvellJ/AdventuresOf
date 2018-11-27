@@ -5,6 +5,7 @@ import com.adventuresof.helpers.SoundManager;
 import com.adventuresof.screens.CharacterSelectionScreen;
 import com.adventuresof.screens.MainGameScreen;
 import com.adventuresof.screens.MainMenuScreen;
+import com.adventuresof.screens.NewGameScreen;
 import com.adventuresof.screens.Resources;
 import com.adventuresof.screens.ScreenType;
 import com.adventuresof.screens.SettingsScreen;
@@ -43,6 +44,8 @@ public class AdventuresOfGame extends Game {
 	private SettingsScreen settingsScreen;
 	private ApplicationPreferences preferences;
 	private CharacterSelectionScreen characterSelectionScreen;
+	private NewGameScreen newGameScreen;
+
     public Resources res;
 
 	@Override public void create () {
@@ -81,6 +84,10 @@ public class AdventuresOfGame extends Game {
 		case SETTINGS:
 			if (settingsScreen == null) settingsScreen = new SettingsScreen(this);
 			this.setScreen(settingsScreen);
+			break;
+		case NEWGAMESCREEN:
+			if (newGameScreen == null) newGameScreen = new NewGameScreen(this);
+			this.setScreen(newGameScreen);
 			break;
 		default: 
 		}
