@@ -2,8 +2,10 @@ package com.mygdx.game;
 
 import com.adventuresof.helpers.ApplicationPreferences;
 import com.adventuresof.helpers.SoundManager;
+import com.adventuresof.screens.CharacterSelectionScreen;
 import com.adventuresof.screens.MainGameScreen;
 import com.adventuresof.screens.MainMenuScreen;
+import com.adventuresof.screens.Resources;
 import com.adventuresof.screens.ScreenType;
 import com.adventuresof.screens.SettingsScreen;
 import com.badlogic.gdx.ApplicationAdapter;
@@ -40,8 +42,11 @@ public class AdventuresOfGame extends Game {
 	private MainGameScreen mainScreen;
 	private SettingsScreen settingsScreen;
 	private ApplicationPreferences preferences;
+	private CharacterSelectionScreen characterSelectionScreen;
+    public Resources res;
 
 	@Override public void create () {
+        res = new Resources();
 		preferences = new ApplicationPreferences();
 		if(preferences.isMusicEnabled() == true) {
 			SoundManager.toggleMusic(true);
@@ -65,6 +70,10 @@ public class AdventuresOfGame extends Game {
 			if (menuScreen == null) menuScreen = new MainMenuScreen(this);
 			this.setScreen(menuScreen);
 			break;
+		case CHARACTERSELECTION:
+			if (characterSelectionScreen == null) characterSelectionScreen = new CharacterSelectionScreen(this);
+			this.setScreen(characterSelectionScreen);
+			break;
 		case MAINGAMESCREEN:
 			if(mainScreen == null) mainScreen = new MainGameScreen();
 			this.setScreen(mainScreen);
@@ -80,5 +89,10 @@ public class AdventuresOfGame extends Game {
 	public ApplicationPreferences getPreferences() {
 		return preferences;
 	}
+	
+    @Override
+    public void dispose () {
+        res.dispose();
+    }
 }
 

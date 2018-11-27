@@ -19,7 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.AdventuresOfGame;
 
-public class SettingsScreen implements Screen {
+public class SettingsScreen extends MainMenuScreen implements Screen {
 
 	private AdventuresOfGame owner;
 	private Stage stage;
@@ -100,7 +100,7 @@ public class SettingsScreen implements Screen {
 		stage.dispose();
 	}
 
-	private void addListeners() {
+	public void addListeners() {
 		musicSlider.addListener(new EventListener() {
 
 			@Override
