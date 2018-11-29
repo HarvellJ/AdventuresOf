@@ -20,6 +20,7 @@ public class MainMenuScreen implements Screen{
 	public Stage stage;
 	private Skin skin;
 	private TextButton newGame;
+	private TextButton loadGame;
 	private Label titleLabel;
 	private TextButton settings;
 	private TextButton exit;
@@ -35,6 +36,7 @@ public class MainMenuScreen implements Screen{
 		skin = new Skin(Gdx.files.internal("skins/star-soldier-ui.json"));
 		titleLabel = new Label("The Adventures Of ...", skin);
 		newGame = new TextButton("New Game", skin);
+		loadGame = new TextButton("Load Game", skin);
 		settings = new TextButton("Settings", skin);
 		exit = new TextButton("Exit", skin);
 		stage.act(Gdx.graphics.getDeltaTime());
@@ -54,6 +56,8 @@ public class MainMenuScreen implements Screen{
 		table.add(titleLabel);
 		table.row().pad(30,0,0,10);
 		table.add(newGame).fillX().uniformX();
+		table.row().pad(10, 0, 10, 0);
+		table.add(loadGame).fillX().uniformX();
 		table.row().pad(10, 0, 10, 0);
 		table.add(settings).fillX().uniformX();
 		table.row();
@@ -77,7 +81,14 @@ public class MainMenuScreen implements Screen{
 		newGame.addListener(new ChangeListener() {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
-				parent.changeScreen(ScreenType.NEWGAMESCREEN);
+				parent.changeScreen(ScreenType.CHARACTERSELECTION);
+			}
+		});
+		
+		loadGame.addListener(new ChangeListener() {
+			@Override
+			public void changed(ChangeEvent event, Actor actor) {
+				parent.changeScreen(ScreenType.LOADGAMESCREEN);
 			}
 		});
 		

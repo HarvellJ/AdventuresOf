@@ -1,5 +1,6 @@
 package com.adventuresof.screens;
 
+import com.adventuresof.game.profile.ProfileManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
@@ -24,7 +25,7 @@ public class NewGameScreen extends MainGameScreen implements Screen {
 	private Skin skin;
 	private Dialog _overwriteDialog;
 	protected AdventuresOfGame parent;
-	
+
 	private TextButton startButton;
 	private Label profileName;
 	private Label overwriteLabel;
@@ -32,56 +33,36 @@ public class NewGameScreen extends MainGameScreen implements Screen {
 	private TextButton overwriteButton;
 	private TextButton backButton;
 
-	
-	public NewGameScreen(AdventuresOfGame game){
+	public NewGameScreen(AdventuresOfGame game) {
 		parent = game;
 		stage = new Stage(new ScreenViewport());
 		skin = new Skin(Gdx.files.internal("skins/star-soldier-ui.json"));
 		profileName = new Label("Enter Profile Name: ", skin);
 		startButton = new TextButton("Start", skin);
 		backButton = new TextButton("Back", skin);
-		
-		_profileText  = new TextField("",skin);
+
+		_profileText = new TextField("", skin);
 		_profileText.setMaxLength(20);
-		
+
 		_overwriteDialog = new Dialog("Overwrite?", skin);
-		Label overwriteLabel = new Label("Overwrite existing profile name?", skin);
+		overwriteLabel = new Label("Overwrite existing profile name?", skin);
 		cancelButton = new TextButton("Cancel", skin);
-		
-		TextButton overwriteButton = new TextButton("Overwrite", skin);
+
+		overwriteButton = new TextButton("Overwrite", skin);
 		_overwriteDialog.setKeepWithinStage(true);
 		_overwriteDialog.setModal(true);
 		_overwriteDialog.setMovable(false);
 		_overwriteDialog.text(overwriteLabel);
-		
+
 		stage.act(Gdx.graphics.getDeltaTime());
 		stage.draw();
 		addListeners();
-		
+
 	}
-	
+
 	public void show() {
 		Gdx.input.setInputProcessor(stage);
 
-		//Layout
-//		_overwriteDialog.row();
-//		_overwriteDialog.button(overwriteButton).bottom().left();
-//		_overwriteDialog.button(cancelButton).bottom().right();
-
-//		Table topTable = new Table();
-//		topTable.setFillParent(true);
-//		topTable.add(profileName).left();
-//		topTable.add(_profileText).center();
-//		topTable.add(startButton).right();
-//
-//
-//		Table bottomTable = new Table();
-//		bottomTable.setHeight(startButton.getHeight());
-//		bottomTable.setWidth(Gdx.graphics.getWidth());
-//		bottomTable.center();
-//		bottomTable.add(startButton).padRight(50);
-//		bottomTable.add(backButton);
-		
 		Table table = new Table();
 		table.setFillParent(true);
 		stage.addActor(table);
@@ -95,76 +76,86 @@ public class NewGameScreen extends MainGameScreen implements Screen {
 		table.add(backButton).fillX().uniformX();
 
 		stage.addActor(table);
-//		stage.addActor(bottomTable);
-	
+
 	}
-		
-		public void addListeners() {
-	//Listeners
-			cancelButton.addListener(new ClickListener() {
 
-										 @Override
-										 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button ){
-											 return true;
-										 }
+	public void addListeners() {
+		// Listeners
+		cancelButton.addListener(new ClickListener() {
 
-										 @Override
-										 public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-											 _overwriteDialog.hide();
-										 }
-									 }
-			);
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+				return true;
+			}
 
-//			overwriteButton.addListener(new ClickListener() {
-//
-//											@Override
-//											public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-//												return true;
-//											}
-//
-//											@Override
-//											public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-//												String messageText = _profileText.getText();
-//												ProfileManager.getInstance().writeProfileToStorage(messageText, "", true);
-//												ProfileManager.getInstance().setCurrentProfile(messageText);
-//												ProfileManager.getInstance().setIsNewProfile(true);
-//												_overwriteDialog.hide();
-//												NewGameScreen.this.notify(AudioObserver.AudioCommand.MUSIC_STOP, AudioObserver.AudioTypeEvent.MUSIC_TITLE);
-//												_game.setScreen(_game.getScreenType(ScreenType.MainGame));
-//											}
-//
-//										}
-//			);
+			@Override
+			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+				_overwriteDialog.hide();
+			}
+		});
 
-			startButton.addListener(new ClickListener() {
+		overwriteButton.addListener(new ClickListener() {
 
-										@Override
-										public boolean touchDown(InputEvent event, float x, float y, int pointer, int button ){
-											return true;
-										}
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+				return true;
+			}
 
-										@Override
-										public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-												   parent.changeScreen(ScreenType.CHARACTERSELECTION);
-										}
-										});
-			
+			@Override
+			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+				String messageText = _profileText.getText();
+				ProfileManager.getInstance().writeProfileToStorage(messageText, "", true);
+				ProfileManager.getInstance().setCurrentProfile(messageText);
+				ProfileManager.getInstance().setIsNewProfile(true);
+				_overwriteDialog.hide();
+				parent.changeScreen(ScreenType.CHARACTERSELECTION);
+			}
 
-			backButton.addListener(new ClickListener() {
+		});
 
-									   @Override
-									   public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-										   return true;
-									   }
+		startButton.addListener(new ClickListener() {
 
-									   @Override
-									   public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-										   parent.changeScreen(ScreenType.MAINMENU);
-									   }
-								   }
-			);
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+				return true;
+			}
 
+			@Override
+			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+				String messageText = _profileText.getText();
+				// check to see if the current profile matches one that already exists
+				boolean exists = false;
+
+				exists = ProfileManager.getInstance().doesProfileExist(messageText);
+
+				if (exists) {
+					// Pop up dialog for Overwrite
+					_overwriteDialog.show(stage);
+				} else {
+					ProfileManager.getInstance().writeProfileToStorage(messageText, "", false);
+					ProfileManager.getInstance().setCurrentProfile(messageText);
+					ProfileManager.getInstance().setIsNewProfile(true);
+					parent.changeScreen(ScreenType.MAINGAMESCREEN);
+				}
+			}
 		}
+
+		);
+
+		backButton.addListener(new ClickListener() {
+
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+				return true;
+			}
+
+			@Override
+			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+				parent.changeScreen(ScreenType.MAINMENU);
+			}
+		});
+
+	}
 
 	@Override
 	public void render(float delta) {
@@ -175,37 +166,36 @@ public class NewGameScreen extends MainGameScreen implements Screen {
 	}
 
 	@Override
-	public void resize(int width, int height) {		
+	public void resize(int width, int height) {
 		stage.getViewport().update(width, height, true);
 	}
 
-//		@Override
-//		public void show() {
-//			_overwriteDialog.hide();
-//			_profileText.setText("");
-//			Gdx.input.setInputProcessor(_stage);
-//		}
+	// @Override
+	// public void show() {
+	// _overwriteDialog.hide();
+	// _profileText.setText("");
+	// Gdx.input.setInputProcessor(_stage);
+	// }
 
-		@Override
-		public void hide() {
-			_overwriteDialog.hide();
-			_profileText.setText("");
-			Gdx.input.setInputProcessor(null);
-		}
+	@Override
+	public void hide() {
+		_overwriteDialog.hide();
+		_profileText.setText("");
+		Gdx.input.setInputProcessor(null);
+	}
 
-		@Override
-		public void pause() {
-		}
+	@Override
+	public void pause() {
+	}
 
-		@Override
-		public void resume() {
-		}
+	@Override
+	public void resume() {
+	}
 
-		@Override
-		public void dispose() {
-			stage.clear();
-			stage.dispose();
-		}
-		
-	
+	@Override
+	public void dispose() {
+		stage.clear();
+		stage.dispose();
+	}
+
 }
