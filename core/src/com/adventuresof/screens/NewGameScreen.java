@@ -184,7 +184,7 @@ public class NewGameScreen extends MainGameScreen implements Screen {
 	public void hide() {
 		_overwriteDialog.hide();
 		_profileText.setText("");
-		Gdx.input.setInputProcessor(null);
+		//Gdx.input.setInputProcessor(null);
 	}
 
 	@Override
