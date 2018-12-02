@@ -56,12 +56,15 @@ public class NewGameScreen extends MainGameScreen implements Screen {
 
 		stage.act(Gdx.graphics.getDeltaTime());
 		stage.draw();
+		
+		Gdx.input.setInputProcessor(stage);
+
+		
 		addListeners();
 
 	}
 
 	public void show() {
-		Gdx.input.setInputProcessor(stage);
 
 		Table table = new Table();
 		table.setFillParent(true);

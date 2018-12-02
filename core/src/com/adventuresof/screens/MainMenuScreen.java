@@ -41,6 +41,7 @@ public class MainMenuScreen implements Screen{
 		exit = new TextButton("Exit", skin);
 		stage.act(Gdx.graphics.getDeltaTime());
 		stage.draw();
+		Gdx.input.setInputProcessor(stage);
 		addListeners();
 		
 		// Music setup
@@ -49,7 +50,6 @@ public class MainMenuScreen implements Screen{
 	
 	@Override
 	public void show() {
-		Gdx.input.setInputProcessor(stage);
 		Table table = new Table();
 		table.setFillParent(true);
 		stage.addActor(table);

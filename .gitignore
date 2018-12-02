@@ -11,3 +11,7 @@ core/assets/map/tf_jungle_tileset.tsx
 desktop/build/libs/AdventuresOf.jar
 core/build/libs/core-1.0.jar
 core/build/libs/core-1.0.jar
+*.tsx
+*.png
+*.class
+*.class

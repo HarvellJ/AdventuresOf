@@ -44,12 +44,13 @@ public class SettingsScreen extends MainMenuScreen implements Screen {
 		volumeMusicLabel = new Label("Music Volume", skin);
 		musicOnOffLabel = new Label("Music", skin);
 		backButton = new TextButton("Back", skin);
+		Gdx.input.setInputProcessor(stage);
+
 		addListeners();
 	}
 	
 	@Override
 	public void show() {
-		Gdx.input.setInputProcessor(stage);
 		Table table = new Table();
 		table.setFillParent(true);
 		stage.addActor(table);

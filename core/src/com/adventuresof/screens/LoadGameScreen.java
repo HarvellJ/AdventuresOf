@@ -29,6 +29,7 @@ public class LoadGameScreen extends MainGameScreen implements Screen {
 	private ScrollPane scrollPane;
 
 	public LoadGameScreen(AdventuresOfGame game) {
+
 		parent = game;
 		stage = new Stage(new ScreenViewport());
 		skin = new Skin(Gdx.files.internal("skins/star-soldier-ui.json"));
@@ -41,6 +42,7 @@ public class LoadGameScreen extends MainGameScreen implements Screen {
 		Array<String> list = ProfileManager.getInstance().getProfileList();
 		_listItems.setItems(list);
 		scrollPane = new ScrollPane(_listItems);
+		Gdx.input.setInputProcessor(stage);
 
 		stage.act(Gdx.graphics.getDeltaTime());
 		stage.draw();
@@ -51,7 +53,6 @@ public class LoadGameScreen extends MainGameScreen implements Screen {
 
 		Array<String> list = ProfileManager.getInstance().getProfileList();
 		_listItems.setItems(list);
-		Gdx.input.setInputProcessor(stage);
 
 		scrollPane.setOverscroll(false, false);
 		scrollPane.setFadeScrollBars(false);
@@ -133,10 +134,10 @@ public class LoadGameScreen extends MainGameScreen implements Screen {
 	// Gdx.input.setInputProcessor(_stage);
 	// }
 
-	@Override
-	public void hide() {
-		Gdx.input.setInputProcessor(null);
-	}
+	//@Override
+	//public void hide() {
+	//	Gdx.input.setInputProcessor(null);
+	//}
 
 	@Override
 	public void pause() {
