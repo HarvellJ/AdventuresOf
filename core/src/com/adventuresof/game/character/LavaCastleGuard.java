@@ -2,6 +2,7 @@ package com.adventuresof.game.character;
 
 import java.util.ArrayList;
 
+import com.adventuresof.game.animation.CharacterAnimation;
 import com.adventuresof.helpers.AnimationFactory;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;

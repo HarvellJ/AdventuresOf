@@ -3,6 +3,7 @@ package com.adventuresof.game.character;
 import java.util.ArrayList;
 import java.util.Random;
 
+import com.adventuresof.game.animation.CharacterAnimation;
 import com.adventuresof.game.common.GameObject;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;

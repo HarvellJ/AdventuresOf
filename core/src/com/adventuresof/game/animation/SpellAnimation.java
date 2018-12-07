@@ -1,4 +1,4 @@
-package com.adventuresof.game.spell;
+package com.adventuresof.game.animation;
 
 import com.adventuresof.helpers.AnimationFactory;
 import com.badlogic.gdx.graphics.g2d.Animation;

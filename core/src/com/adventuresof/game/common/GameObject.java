@@ -3,6 +3,7 @@ package com.adventuresof.game.common;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.math.Circle;
 
 /**
  * Represents a game object that exists in a game world
@@ -10,6 +11,8 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 public abstract class GameObject {
 
 	protected boolean canDispose;
+	protected Circle hitBox; // a mesh used to detect collisions with the character
+
 	
 	/**
 	 * Updates the objects values for the current frame

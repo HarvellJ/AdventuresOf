@@ -2,6 +2,7 @@ package com.adventuresof.game.spell;
 
 import java.util.ArrayList;
 
+import com.adventuresof.game.animation.SpellAnimation;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -25,7 +26,9 @@ public class Tornado extends Spell{
 	public Tornado(
 			TiledMapTileLayer accessibleTiles,
 			float startX, float startY, float endX, float endY) {
-
+		
+		super(startX, startY, endX, endY);
+		
 		this.spellAnimation = 
 				new SpellAnimation(
 						MOVEMENT_SPRITE_SHEET,
@@ -34,14 +37,7 @@ public class Tornado extends Spell{
 						MOVE_START_FRAME,
 						MOVE_FRAMES
 						);
-		this.speed = 200.0f;
-		this.stateTime = 0f;		
-
-		// instantiate characters' current position as a blank vector3
-		currentPosition = new Vector3(startX, startY, 0);
-		pointToMoveTo = new Vector3(endX, endY, 0);
-
-		// they are alive...
+		
 		this.canDispose = false;
 
 		this.damage = 10;

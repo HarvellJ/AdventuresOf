@@ -2,6 +2,7 @@ package com.adventuresof.game.character;
 
 import java.util.ArrayList;
 
+import com.adventuresof.game.animation.CharacterAnimation;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
 public class BloodElf extends NPC {

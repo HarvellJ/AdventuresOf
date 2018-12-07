@@ -2,6 +2,8 @@ package com.adventuresof.game.character;
 
 
 import java.util.ArrayList;
+
+import com.adventuresof.game.animation.CharacterAnimation;
 import com.adventuresof.game.inventory.Inventory;
 import com.adventuresof.game.inventory.Item;
 import com.adventuresof.game.inventory.ItemEnum;

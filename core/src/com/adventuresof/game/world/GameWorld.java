@@ -20,6 +20,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
 public abstract class GameWorld {
+	
 		protected Map map; // The map for this game world
 		protected Player player;
 		protected ArrayList<NPC> NPCs;

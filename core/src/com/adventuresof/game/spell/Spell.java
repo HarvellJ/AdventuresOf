@@ -1,43 +1,28 @@
 package com.adventuresof.game.spell;
 
+import com.adventuresof.game.animation.SpellAnimation;
 import com.adventuresof.game.character.GameCharacter;
+import com.adventuresof.game.combat.Projectile;
 import com.adventuresof.game.common.GameObject;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector3;
 
-public abstract class Spell extends GameObject{
-	protected int damage;
-
-	// movement variables
-	protected Vector3 pointToMoveTo; // used to move the character to a point
-	protected Vector3 currentPosition; // stores current position of character
-	protected float speed;
-	protected boolean canRespawn;	    
+public abstract class Spell extends Projectile{
 
 	// animation stuff
 	protected SpellAnimation spellAnimation;
 
-	protected float stateTime;
+	protected GameCharacter target; // the spells current target. This can be friendly or hostile
 
-	protected GameCharacter target; // the characters current target. This can be friendly or hostile
-
-	// collision stuff
-	protected Circle hitBox; // a mesh used to detect collisions with the character
-
-	protected TiledMapTileLayer accessibleTiles; // represents the tiles that are accessible by the character
-  
     protected float radius;
     
+	protected int damage;
     
-	public Circle getHitBox() {
-		return hitBox;
+	public Spell(float startX, float startY, float endX, float endY) {
+		super(startX, startY, endX, endY);
 	}
-
-	public void setHitBox(Circle hitBox) {
-		this.hitBox = hitBox;
-	}
-
+	
 	public int getDamage() {
 		return damage;
 	}

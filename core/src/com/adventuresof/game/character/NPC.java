@@ -3,6 +3,7 @@ package com.adventuresof.game.character;
 import java.util.ArrayList;
 import java.util.Random;
 
+import com.adventuresof.game.animation.CharacterAnimation;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector3;
