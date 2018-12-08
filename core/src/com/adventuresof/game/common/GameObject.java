@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.Shape2D;
 
 /**
  * Represents a game object that exists in a game world
@@ -11,7 +12,7 @@ import com.badlogic.gdx.math.Circle;
 public abstract class GameObject {
 
 	protected boolean canDispose;
-	protected Circle hitBox; // a mesh used to detect collisions with the character
+	protected Shape2D hitBox; // a mesh used to detect collisions with the character
 
 	
 	/**

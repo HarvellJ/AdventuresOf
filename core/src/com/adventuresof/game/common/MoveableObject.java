@@ -27,7 +27,7 @@ public abstract class MoveableObject extends GameObject {
 	}
 	
 	public Circle getHitBox() {
-		return hitBox;
+		return (Circle)hitBox;
 	}
 
 	public void setHitBox(Circle hitBox) {
