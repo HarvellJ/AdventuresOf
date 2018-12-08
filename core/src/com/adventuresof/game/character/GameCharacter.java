@@ -180,10 +180,30 @@ public abstract class GameCharacter extends GameObject {
 		this.damageMessageQueue.add(message);
 	}
 
+	public float getAttackInterval() {
+		return attackInterval;
+	}
 
-	/* (non-Javadoc)
-	 * @see com.adventuresof.game.character.GameObject#update()
-	 */
+	public void setAttackInterval(float attackInterval) {
+		this.attackInterval = attackInterval;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public boolean isHostile() {
+		return isHostile;
+	}
+
+	public void setHostile(boolean isHostile) {
+		this.isHostile = isHostile;
+	}
+	
 	public void update() {    	
 		stateTime += Gdx.graphics.getDeltaTime(); // increment state time
 
@@ -271,49 +291,6 @@ public abstract class GameCharacter extends GameObject {
 		healthBar.update();
 	}
 
-	private void performAttack() {
-		if(lungeForwardPerformed - this.stateTime <= 0) {
-			this.lungeForward();	
-			this.lungeForwardPerformed = this.stateTime + attackInterval;
-			this.target.damage(10);
-		}
-		else if(lungeBackwardPerformed - this.stateTime <= 0) {
-			this.lungeBackward();	
-			this.lungeBackwardPerformed = this.stateTime + attackInterval;
-		}
-	}
-
-	private void lungeForward() {    	
-		if(currentCharacterDirection == Direction.up) {
-			this.currentPosition.y += 20;
-		}
-		else if(currentCharacterDirection == Direction.down) {
-			this.currentPosition.y -= 20;
-		}
-		else if(currentCharacterDirection == Direction.right) {
-			this.currentPosition.x += 20;
-		}
-		else {
-			this.currentPosition.x -= 20;
-		}
-	}
-
-	private void lungeBackward() {
-
-		if(currentCharacterDirection == Direction.up) {
-			this.currentPosition.y -= 20;
-		}
-		else if(currentCharacterDirection == Direction.down) {
-			this.currentPosition.y += 20;
-		}
-		else if(currentCharacterDirection == Direction.right) {
-			this.currentPosition.x -= 20;
-		}
-		else {
-			this.currentPosition.x += 20;
-		}		
-	}
-
 	/**
 	 * Renders the up-to-date character to the screen
 	 * Called every screen following the call to "update"
@@ -349,7 +326,7 @@ public abstract class GameCharacter extends GameObject {
 		healthBar.render(spriteBatch);
 	}
 
-	public void renderSpellAnimations(ShapeRenderer shapeRenderer) {
+	public void renderAdditionalAnimations(ShapeRenderer shapeRenderer) {
 
 		// see if character is frozen (if so draw transparent shape to indicate ice block)
 		if(isFrozen) {
@@ -360,10 +337,6 @@ public abstract class GameCharacter extends GameObject {
 			shapeRenderer.rect(this.hitBox.x - this.hitBox.width/2, this.hitBox.y - 20, this.hitBox.width, this.hitBox.height + 50);
 			shapeRenderer.end();	
 		}
-	}
-
-	private void inflictDamage(int amount) {
-		this.health -= amount;
 	}
 
 	/**
@@ -406,7 +379,7 @@ public abstract class GameCharacter extends GameObject {
 		}
 	}
 
-	private void updateHitBox() {
+	public void updateHitBox() {
 		this.hitBox.set(this.currentPosition.x, this.currentPosition.y, this.characterHeight, this.characterWidth);
 	}
 
@@ -470,6 +443,10 @@ public abstract class GameCharacter extends GameObject {
 		}
 	}
 
+	private void inflictDamage(int amount) {
+		this.health -= amount;
+	}
+	
 	/**
 	 * Calculates the character's current direction based on movement
 	 */
@@ -530,6 +507,49 @@ public abstract class GameCharacter extends GameObject {
 		}
 	}
 
+	private void performAttack() {
+		if(lungeForwardPerformed - this.stateTime <= 0) {
+			this.lungeForward();	
+			this.lungeForwardPerformed = this.stateTime + attackInterval;
+			this.target.damage(10);
+		}
+		else if(lungeBackwardPerformed - this.stateTime <= 0) {
+			this.lungeBackward();	
+			this.lungeBackwardPerformed = this.stateTime + attackInterval;
+		}
+	}
+
+	private void lungeForward() {    	
+		if(currentCharacterDirection == Direction.up) {
+			this.currentPosition.y += 20;
+		}
+		else if(currentCharacterDirection == Direction.down) {
+			this.currentPosition.y -= 20;
+		}
+		else if(currentCharacterDirection == Direction.right) {
+			this.currentPosition.x += 20;
+		}
+		else {
+			this.currentPosition.x -= 20;
+		}
+	}
+
+	private void lungeBackward() {
+
+		if(currentCharacterDirection == Direction.up) {
+			this.currentPosition.y -= 20;
+		}
+		else if(currentCharacterDirection == Direction.down) {
+			this.currentPosition.y += 20;
+		}
+		else if(currentCharacterDirection == Direction.right) {
+			this.currentPosition.x -= 20;
+		}
+		else {
+			this.currentPosition.x += 20;
+		}		
+	}
+	
 	/**
 	 * @param spriteBatch the SpriteBatch object used to render the message to screen
 	 * renders the next message in the message queue
@@ -586,30 +606,6 @@ public abstract class GameCharacter extends GameObject {
 
 			}
 		}   	
-	}
-
-	public float getAttackInterval() {
-		return attackInterval;
-	}
-
-	public void setAttackInterval(float attackInterval) {
-		this.attackInterval = attackInterval;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public boolean isHostile() {
-		return isHostile;
-	}
-
-	public void setHostile(boolean isHostile) {
-		this.isHostile = isHostile;
 	}
 
 	private class HealthBar {

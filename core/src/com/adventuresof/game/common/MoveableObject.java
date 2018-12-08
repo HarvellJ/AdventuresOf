@@ -25,13 +25,7 @@ public abstract class MoveableObject extends GameObject {
 		pointToMoveTo = new Vector3(endX, endY, 0);
 
 	}
+
+	public abstract void updateHitBox();
 	
-	public Circle getHitBox() {
-		return (Circle)hitBox;
-	}
-
-	public void setHitBox(Circle hitBox) {
-		this.hitBox = hitBox;
-	}
-
 }

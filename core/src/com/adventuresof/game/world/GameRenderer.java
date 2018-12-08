@@ -106,9 +106,11 @@ public class GameRenderer {
 		// set camera
 		camera.position.set((int)gameWorld.getPlayer().getCurrentPosition().x,(int) gameWorld.getPlayer().getCurrentPosition().y, 0f);
 		camera.update();
+		
 		// render the map
 		gameWorld.getMap().getTiledMapRenderer().setView(camera);
 		gameWorld.getMap().getTiledMapRenderer().render();
+		
 		// create the sprite batch
 		spriteBatch.setProjectionMatrix(camera.combined);
 		spriteBatch.begin();		
@@ -121,15 +123,24 @@ public class GameRenderer {
 		gameWorld.getPlayerCompanion().render(spriteBatch);
 		this.renderNPCs();
 		this.renderGameObjects();
+		
 		// dispose of sprite batch
 		spriteBatch.end();	
 		
-		this.renderSpellAnimations();
+		// render extra character animations, e.g. shapes that belong to them - like the rectangle from ice spell
+		this.renderAdditionalCharacterAnimations();
 		
 		// if applicable, render cursor targeting, e.g. spell cast zone
 		if(showTargetCircle)
 		this.renderTargetingCircle();
 	
+	}
+	
+	public void resize(int width, int height) {	
+		this.h = height;
+		this.w = width;
+		camera.setToOrtho(false, width, height);
+	    camera.update();
 	}
 	
 	public void renderTargetingCircle() {	
@@ -158,10 +169,10 @@ public class GameRenderer {
 		}
 	}
 	
-	private void renderSpellAnimations() {
+	private void renderAdditionalCharacterAnimations() {
 		for (NPC npc : this.gameWorld.getNPCs()) {	
 			this.shapeRendererGameObjects.setProjectionMatrix(camera.combined);
-			npc.renderSpellAnimations(this.shapeRendererGameObjects);
+			npc.renderAdditionalAnimations(this.shapeRendererGameObjects);
 		}
 	}
 	
@@ -173,14 +184,6 @@ public class GameRenderer {
 		}	
 	}
 
-	
-	public void resize(int width, int height) {	
-		this.h = height;
-		this.w = width;
-		camera.setToOrtho(false, width, height);
-	    camera.update();
-	}
-	
 //	private void renderGameObjects() {
 //		// render any map objects 
 //		shapeRenderer.setProjectionMatrix(camera.combined);

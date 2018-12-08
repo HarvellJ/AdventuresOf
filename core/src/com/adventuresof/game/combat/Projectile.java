@@ -58,6 +58,6 @@ public abstract class Projectile extends MoveableObject{
 	}
 	
 	
-	protected abstract void updateHitBox();
+	public abstract void updateHitBox();
 	
 }

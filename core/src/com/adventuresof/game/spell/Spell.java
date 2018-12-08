@@ -33,8 +33,15 @@ public abstract class Spell extends Projectile{
 	public void setDamage(int damage) {
 		this.damage = damage;
 	}
-
 	
+	public Circle getHitBox() {
+		return (Circle)hitBox;
+	}
+
+	public void setHitBox(Circle hitBox) {
+		this.hitBox = hitBox;
+	}
+
 	@Override
 	public void render(SpriteBatch spriteBatch) {
 		// get the relevant animation frame (based on current character direction)
@@ -50,7 +57,7 @@ public abstract class Spell extends Projectile{
 		return this.spellAnimation.getMoveAnimation().getKeyFrame(stateTime, true);
 	}
 	
-	protected void updateHitBox() {
+	public void updateHitBox() {
 		((Circle) this.hitBox).set(new Circle(this.currentPosition.x, this.currentPosition.y, this.radius));
 	}
 }
