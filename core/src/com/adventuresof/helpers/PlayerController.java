@@ -83,7 +83,7 @@ public class PlayerController implements InputProcessor{
 		
 		if (keycode == Input.Keys.SPACE) {
 			Quest test = new Quest("");
-//			System.out.println(test.toString());
+			System.out.println(test.toString());
 		}
 
 		return false;

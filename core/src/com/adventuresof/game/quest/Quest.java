@@ -86,16 +86,36 @@ public class Quest {
 	@Override
 	public String toString() {
 		
-		String taskString = "";
+		String taskText = "";
+		String taskDescription = "";
+		ArrayList<String> taskConversation;
+		ArrayList<String> emptyString = new ArrayList <String>();
+		String conversationText = "\n        Conversation: ";
+		int i = 0;
 		
 		for (Task task : this.tasks) {
-			taskString += "\n     " + task.getTitle();
+			i++;
+			taskDescription = task.getDescription() == null ? "" : " - " + task.getDescription();				
+			
+			taskConversation = task.getConversation() == null ? emptyString : task.getConversation();
+			
+			if(taskConversation.size() > 0) {
+				for (String dialogue : task.getConversation()) {
+					conversationText += "\n         " + dialogue;
+				}
+			} else {
+				conversationText = "";
+			}
+				
+
+			
+			taskText += "\n     " + i + ". " + task.getTitle() + taskDescription + conversationText + ".";
 		}
 		
 		String quest = ("Title: " + this.title + 
 						"\nDescription: " + this.description + 
 						"\nProgress: " + this.progress +
-						"\nTasks: " + taskString);
+						"\nTasks: " + taskText);
 		
 		return quest;
 	}
