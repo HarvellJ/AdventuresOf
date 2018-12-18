@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Quest>
+    <QuestTitle>Slayer Quest</QuestTitle>
+    <QuestDescription>Bandits are on the lose and attacking people outside of the castle, deal with them</QuestDescription>
+    <Tasks>
+        <Task>
+            <TaskTitle>Talk to a knight</TaskTitle>
+            <TaskText>Knight can be found at the right walls of the castle</TaskText>
+            <Conversation>
+                <Dialogue>{CHARACTER_NAME} Have you been having trouble with bandits?</Dialogue>
+                <Dialogue>{KNIGHT} Yes there are 20 of them outside the castle walls attacking and killing villagers, they were too strong for us, can you help? </Dialogue>
+                <Dialogue>{CHARACTER_NAME} Yes I can, where are they?</Dialogue>
+				<Dialogue>{KNIGHT} We last seen them not ar from the castle gates to the south east </Dialogue>
+				<Dialogue>{CHARACTER_NAME} Thanks, I'll go see what I can do</Dialogue>
+            </Conversation>
+        </Task>
+        <Task>
+            <TaskTitle>Kill 20 bandits</TaskTitle>
+        </Task>
+        <Task>
+            <TaskTitle>Tell the Knight</TaskTitle>
+            <Conversation>
+                <Dialogue>{CHARACTER_NAME} The bandits will no longer be an issue</Dialogue>
+                <Dialogue>{NPC_NAME} Thanks {CHARACTER_NAME}, you have saved the people a lot of worry </Dialogue>
+            </Conversation>
+        </Task>
+    </Tasks>
+</Quest>

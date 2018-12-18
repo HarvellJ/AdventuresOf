@@ -5,6 +5,7 @@ import java.util.Collections;
 
 import com.adventuresof.game.character.NPC;
 import com.adventuresof.game.character.Player;
+import com.adventuresof.game.quest.Quest;
 import com.adventuresof.game.world.GameRenderer;
 import com.adventuresof.game.world.TutorialIsland;
 import com.adventuresof.screens.MainGameScreen;
@@ -79,6 +80,11 @@ public class PlayerController implements InputProcessor{
 		//gameWorld.getMap().getTiledMap().getLayers().get(0).setVisible(!gameWorld.getMap().getTiledMap().getLayers().get(0).isVisible());
 		//if(keycode == Input.Keys.I)
 		//	gameRenderer.toggleInventory();
+		
+		if (keycode == Input.Keys.SPACE) {
+			Quest test = new Quest("");
+//			System.out.println(test.toString());
+		}
 
 		return false;
 	}
