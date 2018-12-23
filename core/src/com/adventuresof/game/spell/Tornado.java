@@ -1,11 +1,6 @@
 package com.adventuresof.game.spell;
 
-import java.util.ArrayList;
-
 import com.adventuresof.game.animation.SpellAnimation;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector3;
@@ -23,11 +18,19 @@ public class Tornado extends Spell{
 	private static final int MOVE_START_FRAME = 0;
 	private static final int MOVE_FRAMES = 3;
 
+	// spell damage
+	private static final int SPELL_DAMAGE = 10;
+	
+	// spell radius
+	private static final float SPELL_RADIUS = 10f;
+	
 	public Tornado(
 			TiledMapTileLayer accessibleTiles,
 			float startX, float startY, float endX, float endY) {
 		
-		super(startX, startY, endX, endY);
+		super(startX, startY);
+		
+		this.pointToMoveTo = new Vector3(endX, endY, 0);
 		
 		this.spellAnimation = 
 				new SpellAnimation(
@@ -40,10 +43,10 @@ public class Tornado extends Spell{
 		
 		this.canDispose = false;
 
-		this.damage = 10;
+		this.damage = SPELL_DAMAGE;
 		
 		// create objects required for collision logic
-		this.radius = 10f;
+		this.radius = SPELL_RADIUS;
 		this.hitBox = new Circle(); 	
 		((Circle) this.hitBox).set(startX, startY, this.radius);
 

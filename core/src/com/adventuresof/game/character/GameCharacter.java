@@ -5,6 +5,7 @@ import java.util.Random;
 
 import com.adventuresof.game.animation.CharacterAnimation;
 import com.adventuresof.game.common.GameObject;
+import com.adventuresof.game.common.MoveableObject;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -22,16 +23,13 @@ import com.badlogic.gdx.math.Vector3;
 /**
  *
  */
-public abstract class GameCharacter extends GameObject {
+public abstract class GameCharacter extends MoveableObject {
 	
-	private String name;
+	private String name; // characters name
 	
 	// movement variables
-	protected Vector3 pointToMoveTo; // used to move the character to a point
-	protected Vector3 currentPosition; // stores current position of character
 	protected boolean isStatic; // used to determine if the character is static on the map or whether they move around
-	protected Vector3 spawnLocation; // used for things such as calculating distance travelled and respawn points 
-	protected float speed;
+
 	protected boolean canRespawn;
 	private Direction currentCharacterDirection;
 
@@ -43,7 +41,6 @@ public abstract class GameCharacter extends GameObject {
 	protected CharacterAnimation characterAnimation;
 
 	private boolean isIdle;
-	protected float stateTime;
 
 	private ArrayList<String> messageQueue; // used to queue messages that will be displayed in game by the character
 	private float timeLastMessageDisplayed;
@@ -54,14 +51,12 @@ public abstract class GameCharacter extends GameObject {
 	protected boolean isHostile; // toggles whether the character can be attacked or is passive
 
 	// collision stuff
-	private Rectangle hitBox; // a mesh used to detect collisions with the character
 	private TiledMapTileLayer accessibleTiles; // represents the tiles that are accessible by the character
 	protected int characterHeight; // the character's height - used to draw the bounding rectangle (hit box)
 	protected int characterWidth; // the character's width - used to draw the bounding rectangle (hit box)
 
 	// combat stuff
 	private int health;
-
 	private int maxHealth = 100;
 	private boolean isFrozen;
 	private float frozenTime;
@@ -83,6 +78,8 @@ public abstract class GameCharacter extends GameObject {
 			CharacterAnimation characterAnimation,
 			float speed, boolean canRespawn, String name) {
 
+		super(startX, startY);
+		
 		this.characterAnimation = characterAnimation;
 		this.speed = speed;
 		this.canRespawn = canRespawn;
@@ -104,7 +101,7 @@ public abstract class GameCharacter extends GameObject {
 		this.characterHeight = characterHeight;
 		this.characterWidth = characterWidth;
 		this.hitBox = new Rectangle(); 	
-		this.hitBox.set(startX, startY, this.characterWidth, this.characterHeight);
+		((Rectangle) this.hitBox).set(startX, startY, this.characterWidth, this.characterHeight);
 		this.accessibleTiles = accessibleTiles;
 
 		// Instantiate the message queue
@@ -124,8 +121,6 @@ public abstract class GameCharacter extends GameObject {
 
 		healthBar = new HealthBar(this, new Texture("healthBackground.png"),
 				new Texture("healthForeground.png"));
-
-
 	}
 	
 	public boolean isDying() {
@@ -161,7 +156,7 @@ public abstract class GameCharacter extends GameObject {
 	}
 
 	public Rectangle getHitBox() {
-		return hitBox;
+		return (Rectangle) hitBox;
 	}	
 
 	public void setHitBox(Rectangle boundingRectangle) {
@@ -244,48 +239,10 @@ public abstract class GameCharacter extends GameObject {
 					this.setTargetLocation(new Vector3((float)target.getCurrentPosition().x - 30, (float)target.getCurrentPosition().y, 0));
 				}
 				
-				// check the point to move to value is set, if not, there is no need to move this frame.
-				if(pointToMoveTo != null) {
-					// first, work out the direction in which the character should be facing (so we can use relevant animations)
-					this.calculateCharacterDirection();    			
-
-					// Algorithm for performing (gradual) character movement
-					double destinationX = pointToMoveTo.x - currentPosition.x;
-					double destinationY = pointToMoveTo.y - currentPosition.y;
-
-					double distanceToTravel = Math.sqrt(destinationX * destinationX + destinationY * destinationY);
-					destinationX = destinationX / distanceToTravel;
-					destinationY = destinationY / distanceToTravel;
-
-					double nextX = destinationX * speed * Gdx.graphics.getDeltaTime();
-					double nextY = destinationY * speed * Gdx.graphics.getDeltaTime();
-
-					double distanceTravelled = Math.sqrt(nextX * nextX + nextY * nextY);
-
-					// check if the character has arrived at desired location
-					if ( distanceTravelled > distanceToTravel )
-					{
-						// stop them moving and set them to idle
-						pointToMoveTo = null;
-						isIdle = true;
-					}
-					else
-					{
-						// check if the next position is an accessible cell, if so, move there. If not, stop moving, character at edge of accessible layer.
-						// the / 32 is dividing the current position co-ordinates by the tile sizes
-						if(accessibleTiles.getCell(((int) currentPosition.x + (int) nextX) / 16, ((int) currentPosition.y + (int) nextY) / 16) == null) {
-							pointToMoveTo = null;
-							isIdle = true;
-						}else {
-							currentPosition.x = currentPosition.x + (float) nextX;
-							currentPosition.y = currentPosition.y + (float) nextY;   
-							isIdle = false;
-						}    			
-					} 		
-				}
+				this.moveObject();
+				//following any positional moves, update the characters bounding record
+				this.updateHitBox();
 			}
-			//following any positional moves, update the characters bounding record
-			this.updateHitBox();
 		}
 
 		healthBar.update();
@@ -326,15 +283,56 @@ public abstract class GameCharacter extends GameObject {
 		healthBar.render(spriteBatch);
 	}
 
-	public void renderAdditionalAnimations(ShapeRenderer shapeRenderer) {
+	public void moveObject() {
+		// check the point to move to value is set, if not, there is no need to move this frame.
+		if(pointToMoveTo != null) {
+			// first, work out the direction in which the character should be facing (so we can use relevant animations)
+			this.calculateCharacterDirection();    			
 
+			// Algorithm for performing (gradual) character movement
+			double destinationX = pointToMoveTo.x - currentPosition.x;
+			double destinationY = pointToMoveTo.y - currentPosition.y;
+
+			double distanceToTravel = Math.sqrt(destinationX * destinationX + destinationY * destinationY);
+			destinationX = destinationX / distanceToTravel;
+			destinationY = destinationY / distanceToTravel;
+
+			double nextX = destinationX * speed * Gdx.graphics.getDeltaTime();
+			double nextY = destinationY * speed * Gdx.graphics.getDeltaTime();
+
+			double distanceTravelled = Math.sqrt(nextX * nextX + nextY * nextY);
+
+			// check if the character has arrived at desired location
+			if ( distanceTravelled > distanceToTravel )
+			{
+				// stop them moving and set them to idle
+				pointToMoveTo = null;
+				isIdle = true;
+			}
+			else
+			{
+				// check if the next position is an accessible cell, if so, move there. If not, stop moving, character at edge of accessible layer.
+				// the / 32 is dividing the current position co-ordinates by the tile sizes
+				if(accessibleTiles.getCell(((int) currentPosition.x + (int) nextX) / 16, ((int) currentPosition.y + (int) nextY) / 16) == null) {
+					pointToMoveTo = null;
+					isIdle = true;
+				}else {
+					currentPosition.x = currentPosition.x + (float) nextX;
+					currentPosition.y = currentPosition.y + (float) nextY;   
+					isIdle = false;
+				}    			
+			} 		
+		}
+	}
+	
+	public void renderAdditionalAnimations(ShapeRenderer shapeRenderer) {
 		// see if character is frozen (if so draw transparent shape to indicate ice block)
 		if(isFrozen) {
 			Gdx.gl.glEnable(GL20.GL_BLEND);
 			Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 			shapeRenderer.begin(ShapeType.Filled);
 			shapeRenderer.setColor(new Color(1, 1f, 1f, 0.5f));				
-			shapeRenderer.rect(this.hitBox.x - this.hitBox.width/2, this.hitBox.y - 20, this.hitBox.width, this.hitBox.height + 50);
+			shapeRenderer.rect(this.getHitBox().x - this.getHitBox().width/2, this.getHitBox().y - 20, this.getHitBox().width, this.getHitBox().height + 50);
 			shapeRenderer.end();	
 		}
 	}
@@ -380,7 +378,7 @@ public abstract class GameCharacter extends GameObject {
 	}
 
 	public void updateHitBox() {
-		this.hitBox.set(this.currentPosition.x, this.currentPosition.y, this.characterHeight, this.characterWidth);
+		this.getHitBox().set(this.currentPosition.x, this.currentPosition.y, this.characterHeight, this.characterWidth);
 	}
 
 	/**
@@ -599,17 +597,16 @@ public abstract class GameCharacter extends GameObject {
 
 				font.setColor(new Color(Color.WHITE));
 
-				hitSplt.setX(this.hitBox.x - 60);
-				hitSplt.setY(this.hitBox.y - 50);
+				hitSplt.setX(this.getHitBox().x - 60);
+				hitSplt.setY(this.getHitBox().y - 50);
 				hitSplt.draw(spriteBatch);
-				font.draw(spriteBatch, damageMessageQueue.get(0), this.hitBox.x - 5, this.hitBox.y + 15);
+				font.draw(spriteBatch, damageMessageQueue.get(0), this.getHitBox().x - 5, this.getHitBox().y + 15);
 
 			}
 		}   	
 	}
 
 	private class HealthBar {
-
 		private Sprite healthBackground;
 		private Sprite healthForeground;
 		private GameCharacter owner;

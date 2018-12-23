@@ -22,8 +22,8 @@ public abstract class Spell extends Projectile{
     
 	protected int damage;
     
-	public Spell(float startX, float startY, float endX, float endY) {
-		super(startX, startY, endX, endY);
+	public Spell(float startX, float startY) {
+		super(startX, startY);
 	}
 	
 	public int getDamage() {
