@@ -1,17 +1,27 @@
 package com.adventuresof.game.combat;
 
+import com.adventuresof.game.character.Direction;
 import com.adventuresof.game.common.GameObject;
 import com.adventuresof.game.common.MoveableObject;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
 public abstract class Projectile extends MoveableObject{
 	
-    protected float radius;
-	
+
+    protected float projectileWidth;
+    protected float projectileHeight;	
+    
+	protected int damage;
+    
+    protected Direction currentProjectileDirection;
+
 	public Projectile(float startX, float startY) {
 		super(startX, startY);
+		this.hitBox = new Rectangle(); 	
+		((Rectangle) this.hitBox).set(startX, startY, this.projectileWidth, this.projectileHeight);
 	}
 	
 	@Override
@@ -21,10 +31,27 @@ public abstract class Projectile extends MoveableObject{
 	this.updateHitBox();
 	}
 	
+	public int getDamage() {
+		return damage;
+	}
+
+	public void setDamage(int damage) {
+		this.damage = damage;
+	}
+
+	public Rectangle getHitBox() {
+		return (Rectangle)hitBox;
+	}
+
+	public void setHitBox(Rectangle hitBox) {
+		this.hitBox = hitBox;
+	}
+	
 	public void moveObject() {
 		// check the point to move to value is set, if not, there is no need to move this frame.
 		if(pointToMoveTo != null) {
-
+			this.calculateProjectileDirection();   
+			
 			// Algorithm for performing (gradual) character movement
 			double destinationX = pointToMoveTo.x - currentPosition.x;
 			double destinationY = pointToMoveTo.y - currentPosition.y;
@@ -60,6 +87,51 @@ public abstract class Projectile extends MoveableObject{
 		}
 	}
 	
+	
+	/**
+	 * Set the character direction
+	 * @param direction
+	 */
+	public void setCharacterDirection(Direction direction) {
+		currentProjectileDirection = direction;
+	}
+
+	/**
+	 * Calculates the character's current direction based on movement
+	 */
+	private void calculateProjectileDirection() {
+		double xDistanceToTravel;
+		double yDistanceToTravel;
+		Direction directionX;
+		Direction directionY;
+
+		//calculate x distance
+		if(currentPosition.x > pointToMoveTo.x) {
+			xDistanceToTravel = currentPosition.x - pointToMoveTo.x;
+			directionX = Direction.left;
+		}else {
+			xDistanceToTravel = pointToMoveTo.x - currentPosition.x;
+			directionX = Direction.right;
+		}
+		//calculate y distance
+		if(currentPosition.y > pointToMoveTo.y) {
+			yDistanceToTravel = currentPosition.y - pointToMoveTo.y;
+			directionY = Direction.down;
+		}else {
+			yDistanceToTravel = pointToMoveTo.y - currentPosition.y  ;
+			directionY = Direction.up;
+		}
+
+		if(xDistanceToTravel > yDistanceToTravel) {
+			this.setCharacterDirection(directionX);
+
+		}else {
+			this.setCharacterDirection(directionY);
+		}   
+
+	}
+		
+	// abstracted as projectile's hitbox's may take different types, e.g. rectangle/circle
 	public abstract void updateHitBox();
 	
 }

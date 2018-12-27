@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Vector3;
 public class Tornado extends Spell{
 	
 	// texture sheets
-	private static final String MOVEMENT_SPRITE_SHEET = "characters//whirlwind.png";
+	private static final String MOVEMENT_SPRITE_SHEET = "spells//whirlwind.png";
 
 	// texture sheet sizes
 	private static final int MOVEMENT_SPRITE_SHEET_COLS = 4;
@@ -22,8 +22,9 @@ public class Tornado extends Spell{
 	private static final int SPELL_DAMAGE = 10;
 	
 	// spell radius
-	private static final float SPELL_RADIUS = 10f;
-	
+	private static final float SPELL_WIDTH = 16f;
+	private static final float SPELL_HEIGHT = 16f;
+
 	public Tornado(
 			TiledMapTileLayer accessibleTiles,
 			float startX, float startY, float endX, float endY) {
@@ -45,11 +46,6 @@ public class Tornado extends Spell{
 
 		this.damage = SPELL_DAMAGE;
 		
-		// create objects required for collision logic
-		this.radius = SPELL_RADIUS;
-		this.hitBox = new Circle(); 	
-		((Circle) this.hitBox).set(startX, startY, this.radius);
-
 		this.accessibleTiles = accessibleTiles;
 
 	}

@@ -1,15 +1,15 @@
 package com.adventuresof.game.world;
 
-import java.awt.datatransfer.FlavorTable;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import com.adventuresof.game.character.NPC;
 import com.adventuresof.game.character.Player;
-import com.adventuresof.game.common.GameObject;
+import com.adventuresof.game.combat.Projectile;
 import com.adventuresof.game.inventory.Item;
 
 import com.adventuresof.game.item.ItemFactory;
+import com.adventuresof.game.spell.Arrow;
 import com.adventuresof.game.spell.Spell;
 import com.adventuresof.game.spell.Tornado;
 import com.adventuresof.helpers.SoundManager;
@@ -25,13 +25,13 @@ public abstract class GameWorld {
 		protected Player player;
 		protected ArrayList<NPC> NPCs;
 		protected ArrayList<Item> items; // an array of in-game items - representing the items that exist in the world
-		protected ArrayList<Spell> activeSpells;
+		protected ArrayList<Projectile> activeProjectiles;
 
 		public GameWorld(String mapPath) {
 			
 			map = new Map(mapPath);
 			
-			this.activeSpells = new ArrayList<Spell>();
+			this.activeProjectiles = new ArrayList<Projectile>();
 			
 			this.spawnNPCs();
 			
@@ -44,12 +44,12 @@ public abstract class GameWorld {
 			this.spawnChanceItemsIntoWorld();
 		}
 		
-		public ArrayList<Spell> getActiveSpells() {
-			return activeSpells;
+		public ArrayList<Projectile> getActiveProjectiles() {
+			return activeProjectiles;
 		}
 
-		public void setActiveSpells(ArrayList<Spell> activeSpells) {
-			this.activeSpells = activeSpells;
+		public void setActiveProjectiles(ArrayList<Projectile> activeSpells) {
+			this.activeProjectiles = activeSpells;
 		}
 		
 		public ArrayList<NPC> getNPCs() {
@@ -89,7 +89,7 @@ public abstract class GameWorld {
 			// move player
 			player.update();
 			this.disposeOfObjects(); // disposes of objects marked as ready for disposal
-			this.updateGameSpells();
+			this.updateGameProjectiles();
 		    // move and update NPCs
 			this.moveNPCs();
 			this.updateNPCs();
@@ -120,9 +120,41 @@ public abstract class GameWorld {
 		    return null;
 		}
 				
-		protected abstract void spawnNPCs();
+		public void performIceSpellCast(Circle targetingCircle) {
+			for(NPC npc : this.NPCs) {
+				if (Intersector.overlaps(targetingCircle, npc.getHitBox())) {
+					this.player.performIceSpell(npc);
+				}	
+			}	
+		}
 		
-		protected abstract void detectCollisionWithTriggers();
+		public void performTornadoSpellCast(Circle targetingCircle) {
+			
+		// spawn dart and send it in target's direction
+			this.activeProjectiles.add
+			(new Tornado(
+					this.map.getAccessibleMapLayer(),
+					this.player.getCurrentPosition().x,
+					this.player.getCurrentPosition().y, 
+					targetingCircle.x,
+					targetingCircle.y
+					));
+			SoundManager.playSoundEffect("audio/effects/spellCast.wav");
+		}
+		
+		public void performArrowSpellCast(Circle targetingCircle) {
+			
+			// spawn dart and send it in target's direction
+				this.activeProjectiles.add
+				(new Arrow(
+						this.map.getAccessibleMapLayer(),
+						this.player.getCurrentPosition().x,
+						this.player.getCurrentPosition().y, 
+						targetingCircle.x,
+						targetingCircle.y
+						));
+				SoundManager.playSoundEffect("audio/effects/spellCast.wav");
+			}
 		
 		public void spawnPlayer() {
 			for (RectangleMapObject rectangleObject : this.map.getPlayerSpawnObjects().getByType(RectangleMapObject.class)) {
@@ -132,7 +164,7 @@ public abstract class GameWorld {
 				break;
 			}
 		}
-		
+				
 		public NPC targetLocationContainsNPC(Vector3 location) {
 			Rectangle rectangle = new Rectangle();
 			rectangle.set(location.x, location.y, this.player.getHitBox().width, this.player.getHitBox().height);
@@ -145,6 +177,10 @@ public abstract class GameWorld {
 			return null;
 		}
 		
+		protected abstract void spawnNPCs();
+		
+		protected abstract void detectCollisionWithTriggers();
+		
 		private void disposeOfObjects() {
 			// remove perished NPCs
 			for(int i = 0; i < this.NPCs.size(); i++) {
@@ -155,9 +191,9 @@ public abstract class GameWorld {
 				}
 			}
 			// remove objects - e.g. spell animations and stuff alike
-			for(int i = 0; i < this.activeSpells.size(); i++) {
-				if(this.activeSpells.get(i).CanDispose())
-					this.activeSpells.remove(i);
+			for(int i = 0; i < this.activeProjectiles.size(); i++) {
+				if(this.activeProjectiles.get(i).CanDispose())
+					this.activeProjectiles.remove(i);
 			}
 		}
 		
@@ -173,7 +209,7 @@ public abstract class GameWorld {
 		
 		private void detectCollisionOfSpellsAndCharacters() {
 			for (NPC npc : this.NPCs) {
-				for (Spell spell : this.activeSpells) {		
+				for (Projectile spell : this.activeProjectiles) {		
 					if(!Double.isNaN(npc.getHitBox().x )) {
 					if (Intersector.overlaps(spell.getHitBox(), npc.getHitBox())) {
 						// check each of the spawns
@@ -205,9 +241,9 @@ public abstract class GameWorld {
 			}
 		}
 		
-		private void updateGameSpells() {
-			for (int i = 0; i < this.activeSpells.size(); i++) {			
-					this.activeSpells.get(i).update();	
+		private void updateGameProjectiles() {
+			for (int i = 0; i < this.activeProjectiles.size(); i++) {			
+					this.activeProjectiles.get(i).update();	
 			}
 		}
 		
@@ -226,28 +262,6 @@ public abstract class GameWorld {
 				item.setHitbox(new Rectangle(rectangle.x, rectangle.y, 50f, 50f));
 				this.items.add(item);
 			}	
-		}
-		
-		public void performIceSpellCast(Circle targetingCircle) {
-			for(NPC npc : this.NPCs) {
-				if (Intersector.overlaps(targetingCircle, npc.getHitBox())) {
-					this.player.performIceSpell(npc);
-				}	
-			}	
-		}
-		
-		public void performTornadoSpellCast(Circle targetingCircle) {
-			
-		// spawn dart and send it in target's direction
-			this.activeSpells.add
-			(new Tornado(
-					this.map.getAccessibleMapLayer(),
-					this.player.getCurrentPosition().x,
-					this.player.getCurrentPosition().y, 
-					targetingCircle.x,
-					targetingCircle.y
-					));
-			SoundManager.playSoundEffect("audio/effects/spellCast.wav");
 		}
 				
 }

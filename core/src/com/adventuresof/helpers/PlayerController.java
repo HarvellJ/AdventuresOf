@@ -28,12 +28,15 @@ public class PlayerController implements InputProcessor{
 
 	private boolean freezeSpellActivated;
 	private boolean tornadoSpellActivated;
-
+	private boolean arrowSpellActivated;
+	
 	private long tornadoSpellLastActivated;
 	private long freezeSpellLastActivated;
-
+	private long arrowSpellLastActivated;
+	
 	private static final long FREEZE_SPELL_COOLDOWN_DURATION = 5000;
 	private static final long TORNADO_SPELL_COOLDOWN_DURATION = 100;
+	private static final long ARROW_SPELL_COOLDOWN_DURATION = 1000;
 
 
 	public PlayerController(TutorialIsland gameWorld, GameRenderer gameRenderer, PlayerHUD playerHUD) {
@@ -53,7 +56,9 @@ public class PlayerController implements InputProcessor{
 		if(keycode == Input.Keys.DOWN)
 			gameRenderer.getCamera().translate(0,-45);
 		if(keycode == Input.Keys.NUM_1) {
+			// perform ice spell
 			this.freezeSpellActivated = false;
+			this.arrowSpellActivated = false;
 			if(!tornadoSpellActivated) {
 				this.gameRenderer.setShowTargetCircle(true, 30);
 				this.tornadoSpellActivated = true;
@@ -64,15 +69,28 @@ public class PlayerController implements InputProcessor{
 
 		}
 		if(keycode == Input.Keys.NUM_2) {
+			// perform tornado spell
+			this.tornadoSpellActivated = false;
+			this.arrowSpellActivated = false;
 			if(!freezeSpellActivated) {
-				this.tornadoSpellActivated = false;
 				this.gameRenderer.setShowTargetCircle(true, 120);
 				this.freezeSpellActivated = true;
 			}else {
 				this.gameRenderer.setShowTargetCircle(false, 0);
 				this.freezeSpellActivated = false;
 			}
-
+		}
+		if(keycode == Input.Keys.NUM_3) {
+			// perform tornado spell
+			this.tornadoSpellActivated = false;
+			this.freezeSpellActivated = false;
+			if(!freezeSpellActivated) {
+				this.gameRenderer.setShowTargetCircle(true, 30);
+				this.arrowSpellActivated = true;
+			}else {
+				this.gameRenderer.setShowTargetCircle(false, 0);
+				this.arrowSpellActivated = false;
+			}
 		}
 
 		//if(keycode == Input.Keys.NUM_3)
@@ -163,11 +181,6 @@ public class PlayerController implements InputProcessor{
 
 		}
 		else if (button == Buttons.LEFT) {
-			// check cooldown time on spells			
-
-			Vector3 clickCoordinates = new Vector3(screenX,screenY,0);
-			Vector3 newPosition = gameRenderer.getCamera().unproject(clickCoordinates);
-
 			// check active spells
 			if(freezeSpellActivated) {
 				if(this.freezeSpellLastActivated < System.currentTimeMillis() - FREEZE_SPELL_COOLDOWN_DURATION){
@@ -186,9 +199,16 @@ public class PlayerController implements InputProcessor{
 					this.tornadoSpellLastActivated = System.currentTimeMillis();
 				}
 			}
+			else if(arrowSpellActivated) {
+				if(this.arrowSpellLastActivated < System.currentTimeMillis() - ARROW_SPELL_COOLDOWN_DURATION){
+					Vector3 coordinates = new Vector3(this.gameRenderer.getTargetCircleX(), this.gameRenderer.getTargetCircleY(), 0);
+					Vector3 positionInGame = gameRenderer.getCamera().unproject(coordinates);
+					this.gameWorld.performArrowSpellCast(new Circle(positionInGame.x,positionInGame.y, this.gameRenderer.getTargetCircleSize()));
+					this.arrowSpellLastActivated = System.currentTimeMillis();
+				}
+			}
 
 		}
-
 
 		return false;
 	}
@@ -215,7 +235,11 @@ public class PlayerController implements InputProcessor{
 		{
 			this.gameRenderer.setTargetingCircleLocation(screenX, screenY);
 		}
-
+		
+		if(arrowSpellActivated)		
+		{
+			this.gameRenderer.setTargetingCircleLocation(screenX, screenY);
+		}
 
 		return false;
 	}

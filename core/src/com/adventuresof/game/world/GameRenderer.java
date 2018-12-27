@@ -1,6 +1,7 @@
 package com.adventuresof.game.world;
 
 import com.adventuresof.game.character.NPC;
+import com.adventuresof.game.combat.Projectile;
 import com.adventuresof.game.common.GameObject;
 import com.adventuresof.game.inventory.Item;
 import com.adventuresof.game.inventory.ItemEnum;
@@ -164,8 +165,8 @@ public class GameRenderer {
 	}
 	
 	private void renderGameObjects() {
-		for (Spell spell : this.gameWorld.getActiveSpells()) {
-			spell.render(spriteBatch);
+		for (Projectile projectile : this.gameWorld.getActiveProjectiles()) {
+			projectile.render(spriteBatch);
 		}
 	}
 	
