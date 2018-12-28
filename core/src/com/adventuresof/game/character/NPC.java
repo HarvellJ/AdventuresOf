@@ -5,6 +5,7 @@ import java.util.Random;
 
 import com.adventuresof.game.animation.CharacterAnimation;
 import com.adventuresof.game.common.MovementSpeedEnum;
+import com.adventuresof.game.world.GameWorld;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector3;
@@ -20,6 +21,7 @@ public abstract class NPC extends GameCharacter {
 	private int conversationIndex;
 
 	public NPC(
+			GameWorld gameWorld,
 			TiledMapTileLayer accessibleTiles, 
 			float startX, float startY,
 			boolean isStatic,
@@ -31,7 +33,7 @@ public abstract class NPC extends GameCharacter {
 			ArrayList<String> conversation, CharacterClass characterClass
 			)
 	{
-		super(accessibleTiles, startX, startY, isHostile, characterWidth, characterHeight, characterAnimation, varySpeed(speed.getSpeed()), false, name, characterClass);
+		super(gameWorld, accessibleTiles, startX, startY, isHostile, characterWidth, characterHeight, characterAnimation, varySpeed(speed.getSpeed()), false, name, characterClass);
 		this.isStatic = isStatic;
 		this.setTalkative(isTalkative);
 		this.setConversation(conversation);

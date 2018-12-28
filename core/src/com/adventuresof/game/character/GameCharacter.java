@@ -6,6 +6,7 @@ import java.util.Random;
 import com.adventuresof.game.animation.CharacterAnimation;
 import com.adventuresof.game.common.GameObject;
 import com.adventuresof.game.common.MoveableObject;
+import com.adventuresof.game.world.GameWorld;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -24,10 +25,12 @@ import com.badlogic.gdx.math.Vector3;
  *
  */
 public abstract class GameCharacter extends MoveableObject {
-	
+
 	private String name; // characters name
 	protected CharacterClass characterClass; // used to determine the abilities available to this character
-	
+
+	protected GameWorld gameWorld;
+
 	// movement variables
 	protected boolean isStatic; // used to determine if the character is static on the map or whether they move around
 
@@ -72,6 +75,7 @@ public abstract class GameCharacter extends MoveableObject {
 	private HealthBar healthBar;
 
 	public GameCharacter(
+			GameWorld gameWorld,
 			TiledMapTileLayer accessibleTiles,
 			float startX, float startY,
 			boolean isHostile,
@@ -80,9 +84,11 @@ public abstract class GameCharacter extends MoveableObject {
 			float speed, boolean canRespawn, String name, CharacterClass characterClass) {
 
 		super(startX, startY);
-		
+
+		this.gameWorld = gameWorld;
+
 		this.characterClass = characterClass;
-		
+
 		this.characterAnimation = characterAnimation;
 		this.speed = speed;
 		this.canRespawn = canRespawn;
@@ -90,7 +96,7 @@ public abstract class GameCharacter extends MoveableObject {
 
 		hitSplt = new Sprite(new Texture("hitsplat.png"));
 		hitSplt.setScale(0.4f);
-		
+
 		this.name = name;
 		// instantiate characters' current position as a blank vector3
 		currentPosition = new Vector3(startX, startY, 0);
@@ -125,7 +131,7 @@ public abstract class GameCharacter extends MoveableObject {
 		healthBar = new HealthBar(this, new Texture("healthBackground.png"),
 				new Texture("healthForeground.png"));
 	}
-	
+
 	public boolean isDying() {
 		return isDying;
 	}
@@ -201,7 +207,7 @@ public abstract class GameCharacter extends MoveableObject {
 	public void setHostile(boolean isHostile) {
 		this.isHostile = isHostile;
 	}
-	
+
 	public void update() {    	
 		stateTime += Gdx.graphics.getDeltaTime(); // increment state time
 
@@ -241,7 +247,7 @@ public abstract class GameCharacter extends MoveableObject {
 				}else if (target != null ){
 					this.setTargetLocation(new Vector3((float)target.getCurrentPosition().x - 30, (float)target.getCurrentPosition().y, 0));
 				}
-				
+
 				this.moveObject();
 				//following any positional moves, update the characters bounding record
 				this.updateHitBox();
@@ -327,7 +333,7 @@ public abstract class GameCharacter extends MoveableObject {
 			} 		
 		}
 	}
-	
+
 	public void renderAdditionalAnimations(ShapeRenderer shapeRenderer) {
 		// see if character is frozen (if so draw transparent shape to indicate ice block)
 		if(isFrozen) {
@@ -447,7 +453,7 @@ public abstract class GameCharacter extends MoveableObject {
 	private void inflictDamage(int amount) {
 		this.health -= amount;
 	}
-	
+
 	/**
 	 * Calculates the character's current direction based on movement
 	 */
@@ -509,14 +515,20 @@ public abstract class GameCharacter extends MoveableObject {
 	}
 
 	private void performAttack() {
-		if(lungeForwardPerformed - this.stateTime <= 0) {
-			this.lungeForward();	
-			this.lungeForwardPerformed = this.stateTime + attackInterval;
-			this.target.damage(10);
+		if(this.characterClass != CharacterClass.melee) {
+			this.gameWorld.performArrowSpellCast(this.currentPosition.x, this.currentPosition.y,
+					target.getCurrentPosition().x, target.getCurrentPosition().y, this);
 		}
-		else if(lungeBackwardPerformed - this.stateTime <= 0) {
-			this.lungeBackward();	
-			this.lungeBackwardPerformed = this.stateTime + attackInterval;
+		else {
+			if(lungeForwardPerformed - this.stateTime <= 0) {
+				this.lungeForward();	
+				this.lungeForwardPerformed = this.stateTime + attackInterval;
+				this.target.damage(10);
+			}
+			else if(lungeBackwardPerformed - this.stateTime <= 0) {
+				this.lungeBackward();	
+				this.lungeBackwardPerformed = this.stateTime + attackInterval;
+			}
 		}
 	}
 
@@ -550,7 +562,7 @@ public abstract class GameCharacter extends MoveableObject {
 			this.currentPosition.x += 20;
 		}		
 	}
-	
+
 	/**
 	 * @param spriteBatch the SpriteBatch object used to render the message to screen
 	 * renders the next message in the message queue

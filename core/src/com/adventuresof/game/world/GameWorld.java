@@ -1,15 +1,12 @@
 package com.adventuresof.game.world;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-
 import com.adventuresof.game.character.CharacterClass;
+import com.adventuresof.game.character.GameCharacter;
 import com.adventuresof.game.character.NPC;
 import com.adventuresof.game.character.Player;
-import com.adventuresof.game.combat.ArrowAnimation;
 import com.adventuresof.game.combat.Projectile;
 import com.adventuresof.game.combat.SpellEnum;
-import com.adventuresof.game.combat.TornadoAnimation;
 import com.adventuresof.game.inventory.Item;
 
 import com.adventuresof.game.item.ItemFactory;
@@ -95,43 +92,46 @@ public abstract class GameWorld {
 		for(NPC npc : this.NPCs) {
 			if (Intersector.overlaps(targetingCircle, npc.getHitBox())) {
 				this.player.performIceSpell(npc);
+				SoundManager.playSoundEffect("audio/effects/ice.wav");
 			}	
 		}	
 	}
 
-	public void performTornadoSpellCast(Circle targetingCircle) {
+	public void performTornadoSpellCast(float startX, float startY, float targetX, float targetY, GameCharacter firedBy) {
 		// spawn projectile and send it in target's direction
 		this.activeProjectiles.add
 		(new Projectile(
 				this.map.getAccessibleMapLayer(),
-				this.player.getCurrentPosition().x,
-				this.player.getCurrentPosition().y, 
-				targetingCircle.x,
-				targetingCircle.y,
-				SpellEnum.Tornado
+				startX,
+				startY, 
+				targetX,
+				targetY,
+				SpellEnum.Tornado,
+				firedBy
 				));
 		SoundManager.playSoundEffect("audio/effects/spellCast.wav");
 	}
 
-	public void performArrowSpellCast(Circle targetingCircle) {	
+	public void performArrowSpellCast(float startX, float startY, float targetX, float targetY, GameCharacter firedBy) {	
 		// spawn projectile and send it in target's direction
 		this.activeProjectiles.add
 		(new Projectile(
 				this.map.getAccessibleMapLayer(),
-				this.player.getCurrentPosition().x,
-				this.player.getCurrentPosition().y, 
-				targetingCircle.x,
-				targetingCircle.y,
-				SpellEnum.Arrow
+				startX,
+				startY, 
+				targetX,
+				targetY,
+				SpellEnum.Arrow,
+				firedBy
 				));
-		SoundManager.playSoundEffect("audio/effects/spellCast.wav");
+		SoundManager.playSoundEffect("audio/effects/Bow.wav");
 	}
 
 	public void spawnPlayer() {
 		for (RectangleMapObject rectangleObject : this.map.getPlayerSpawnObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
 			// spawn in an 'enemy'
-			this.setPlayer(new Player(map.getAccessibleMapLayer(), rectangle.x, rectangle.y, CharacterClass.hybrid));
+			this.setPlayer(new Player(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, CharacterClass.hybrid));
 			break;
 		}
 	}
@@ -179,16 +179,27 @@ public abstract class GameWorld {
 	}
 
 	private void detectCollisionOfProjectilesAndCharacters() {
-		for (NPC npc : this.NPCs) {
-			for (Projectile spell : this.activeProjectiles) {		
+		// check NPCs	
+		for (Projectile spell : this.activeProjectiles) {		
+			for (NPC npc : this.NPCs) {
 				if(!Double.isNaN(npc.getHitBox().x )) {
 					if (Intersector.overlaps(spell.getHitBox(), npc.getHitBox())) {
-						// check each of the spawns
-						npc.damage(spell.getDamage());
-						// instantly dispose of spell (or else it will continue to hit the target every frame until it reaches target destination)
-						spell.setCanDispose(true);
+						if(spell.getFiredBy() != npc) {
+							npc.damage(spell.getDamage());
+							// instantly dispose of spell (or else it will continue to hit the target every frame until it reaches target destination)
+							spell.setCanDispose(true);
+						}
 					}	
 				}
+			}
+			if(!Double.isNaN(player.getHitBox().x )) {
+				if (Intersector.overlaps(spell.getHitBox(), player.getHitBox())) {
+					if(spell.getFiredBy() != player) {
+						player.damage(spell.getDamage());
+						// instantly dispose of spell (or else it will continue to hit the target every frame until it reaches target destination)
+						spell.setCanDispose(true);
+					}
+				}	
 			}
 		}
 	}

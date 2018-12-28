@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.adventuresof.game.animation.CharacterAnimation;
 import com.adventuresof.game.common.MovementSpeedEnum;
+import com.adventuresof.game.world.GameWorld;
 import com.adventuresof.helpers.AnimationFactory;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -53,8 +54,9 @@ public class MudCastleGuard extends NPC{
 		private static final int DEATH_ANIMATION_START_FRAME = 0;
 		private static final int DEATH_ANIMATION_FRAMES = 3;
 	
-	public MudCastleGuard(TiledMapTileLayer accessibleTiles, float startX, float startY, String name, boolean isTalkative, ArrayList<String> conversation) {
+	public MudCastleGuard(GameWorld gameWorld, TiledMapTileLayer accessibleTiles, float startX, float startY, String name, boolean isTalkative, ArrayList<String> conversation) {
 		super(
+				gameWorld,
 				accessibleTiles, 
 				startX, startY, 
 				false, 

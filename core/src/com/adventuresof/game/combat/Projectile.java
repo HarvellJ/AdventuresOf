@@ -2,6 +2,7 @@ package com.adventuresof.game.combat;
 
 import com.adventuresof.game.animation.DirectionalProjectileAnimation;
 import com.adventuresof.game.character.Direction;
+import com.adventuresof.game.character.GameCharacter;
 import com.adventuresof.game.common.GameObject;
 import com.adventuresof.game.common.MoveableObject;
 import com.badlogic.gdx.Gdx;
@@ -23,9 +24,12 @@ public class Projectile extends MoveableObject{
     
     protected Direction currentProjectileDirection;
 
+    private GameCharacter firedBy; // stored whom the projectile was fired by to avoid them from hitting themselves with their own projectile
+    
 	public Projectile(TiledMapTileLayer accessibleTiles,
-			float startX, float startY, float endX, float endY, SpellEnum spellType) {
+			float startX, float startY, float endX, float endY, SpellEnum spellType, GameCharacter firedBy) {
 		super(startX, startY);
+		this.firedBy = firedBy;
 		this.spellType = spellType;
 		this.projectileHeight = spellType.getHeight();
 		this.projectileWidth = spellType.getWidth();
@@ -43,6 +47,14 @@ public class Projectile extends MoveableObject{
 		((Rectangle) this.hitBox).set(startX, startY, this.projectileWidth, this.projectileHeight);
 	}
 	
+	public GameCharacter getFiredBy() {
+		return firedBy;
+	}
+
+	public void setFiredBy(GameCharacter firedBy) {
+		this.firedBy = firedBy;
+	}
+
 	@Override
 	public void update() {
 	this.stateTime += Gdx.graphics.getDeltaTime(); // increment state time

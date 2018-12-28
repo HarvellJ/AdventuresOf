@@ -8,6 +8,7 @@ import com.adventuresof.game.common.MovementSpeedEnum;
 import com.adventuresof.game.inventory.Inventory;
 import com.adventuresof.game.inventory.Item;
 import com.adventuresof.game.inventory.ItemEnum;
+import com.adventuresof.game.world.GameWorld;
 import com.adventuresof.game.world.GameZone;
 import com.adventuresof.helpers.AnimationFactory;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -59,8 +60,9 @@ public class Player extends GameCharacter{
 	private static final int DEATH_ANIMATION_START_FRAME = 0;
 	private static final int DEATH_ANIMATION_FRAMES = 3;
 	
-	public Player(TiledMapTileLayer accessibleTiles, float startPosX, float startPosY, CharacterClass characterClass) {
+	public Player(GameWorld gameWorld,TiledMapTileLayer accessibleTiles, float startPosX, float startPosY, CharacterClass characterClass) {
 		super(
+				gameWorld,
 				accessibleTiles,
 				startPosX, startPosY,
 				false,

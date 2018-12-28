@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.adventuresof.game.animation.CharacterAnimation;
 import com.adventuresof.game.common.MovementSpeedEnum;
+import com.adventuresof.game.world.GameWorld;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
 public class Phoenix extends NPC {
@@ -50,8 +51,9 @@ public class Phoenix extends NPC {
 	private static final int DEATH_ANIMATION_START_FRAME = 0;
 	private static final int DEATH_ANIMATION_FRAMES = 3;
 	
-	public Phoenix(TiledMapTileLayer accessibleTiles, float startX, float startY, String name, boolean isTalkative, ArrayList<String> conversation, boolean isHostile) {
+	public Phoenix(GameWorld gameWorld, TiledMapTileLayer accessibleTiles, float startX, float startY, String name, boolean isTalkative, ArrayList<String> conversation, boolean isHostile) {
 		super(
+				gameWorld,
 				accessibleTiles,
 				startX, 
 				startY, 

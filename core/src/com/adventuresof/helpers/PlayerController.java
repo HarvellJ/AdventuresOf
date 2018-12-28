@@ -184,7 +184,6 @@ public class PlayerController implements InputProcessor{
 			// check active spells
 			if(freezeSpellActivated) {
 				if(this.freezeSpellLastActivated < System.currentTimeMillis() - FREEZE_SPELL_COOLDOWN_DURATION){
-
 					Vector3 coordinates = new Vector3(this.gameRenderer.getTargetCircleX(), this.gameRenderer.getTargetCircleY(), 0);
 					Vector3 positionInGame = gameRenderer.getCamera().unproject(coordinates);
 					this.gameWorld.performIceSpellCast(new Circle(positionInGame.x,positionInGame.y, this.gameRenderer.getTargetCircleSize()));
@@ -195,7 +194,8 @@ public class PlayerController implements InputProcessor{
 				if(this.tornadoSpellLastActivated < System.currentTimeMillis() - TORNADO_SPELL_COOLDOWN_DURATION){
 					Vector3 coordinates = new Vector3(this.gameRenderer.getTargetCircleX(), this.gameRenderer.getTargetCircleY(), 0);
 					Vector3 positionInGame = gameRenderer.getCamera().unproject(coordinates);
-					this.gameWorld.performTornadoSpellCast(new Circle(positionInGame.x,positionInGame.y, this.gameRenderer.getTargetCircleSize()));
+					this.gameWorld.performTornadoSpellCast(this.gameWorld.getPlayer().getCurrentPosition().x, this.gameWorld.getPlayer().getCurrentPosition().y,
+							positionInGame.x,positionInGame.y, this.gameWorld.getPlayer());
 					this.tornadoSpellLastActivated = System.currentTimeMillis();
 				}
 			}
@@ -203,7 +203,8 @@ public class PlayerController implements InputProcessor{
 				if(this.arrowSpellLastActivated < System.currentTimeMillis() - ARROW_SPELL_COOLDOWN_DURATION){
 					Vector3 coordinates = new Vector3(this.gameRenderer.getTargetCircleX(), this.gameRenderer.getTargetCircleY(), 0);
 					Vector3 positionInGame = gameRenderer.getCamera().unproject(coordinates);
-					this.gameWorld.performArrowSpellCast(new Circle(positionInGame.x,positionInGame.y, this.gameRenderer.getTargetCircleSize()));
+					this.gameWorld.performArrowSpellCast(this.gameWorld.getPlayer().getCurrentPosition().x, this.gameWorld.getPlayer().getCurrentPosition().y,
+							positionInGame.x,positionInGame.y, this.gameWorld.getPlayer());
 					this.arrowSpellLastActivated = System.currentTimeMillis();
 				}
 			}

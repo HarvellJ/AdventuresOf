@@ -2,6 +2,7 @@ package com.adventuresof.game.character;
 
 import com.adventuresof.game.animation.CharacterAnimation;
 import com.adventuresof.game.common.MovementSpeedEnum;
+import com.adventuresof.game.world.GameWorld;
 import com.adventuresof.helpers.AnimationFactory;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -51,8 +52,9 @@ public class PlayerCompanion extends NPC {
 	private static final int DEATH_ANIMATION_START_FRAME = 0;
 	private static final int DEATH_ANIMATION_FRAMES = 3;
 
-	public PlayerCompanion(TiledMapTileLayer accessibleTiles, GameCharacter characterToFollow) {
+	public PlayerCompanion(GameWorld gameWorld, TiledMapTileLayer accessibleTiles, GameCharacter characterToFollow) {
 		super(
+				gameWorld,
 				accessibleTiles,
 				characterToFollow.getCurrentPosition().x + 50, characterToFollow.getCurrentPosition().y,
 				false,
