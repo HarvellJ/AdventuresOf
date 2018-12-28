@@ -27,7 +27,7 @@ public class GameRenderer {
 
 	private OrthographicCamera camera; // the camera (orthographic renders everything on one pane, regardless of distance)
 	private SpriteBatch spriteBatch; // the sprite batch to use for the game
-	private TutorialIsland gameWorld; // the game world
+	private AdventuresOfGameWorld gameWorld; // the game world
 		
 	private boolean showTargetCircle;
 	private int targetCircleSize; // the size of the circle
@@ -36,7 +36,7 @@ public class GameRenderer {
 	float w;
     float h;    
 	
-	public GameRenderer(TutorialIsland gameWorld) {
+	public GameRenderer(AdventuresOfGameWorld gameWorld) {
 		
 		//game world
 		this.gameWorld = gameWorld;		

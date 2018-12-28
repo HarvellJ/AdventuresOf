@@ -6,7 +6,7 @@ import java.util.Collections;
 import com.adventuresof.game.character.NPC;
 import com.adventuresof.game.character.Player;
 import com.adventuresof.game.world.GameRenderer;
-import com.adventuresof.game.world.TutorialIsland;
+import com.adventuresof.game.world.AdventuresOfGameWorld;
 import com.adventuresof.screens.MainGameScreen;
 import com.adventuresof.screens.PlayerHUD;
 import com.badlogic.gdx.Gdx;
@@ -22,7 +22,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 public class PlayerController implements InputProcessor{
 
-	private TutorialIsland gameWorld;
+	private AdventuresOfGameWorld gameWorld;
 	private GameRenderer gameRenderer;
 	private PlayerHUD playerHUD;
 
@@ -39,7 +39,7 @@ public class PlayerController implements InputProcessor{
 	private static final long ARROW_SPELL_COOLDOWN_DURATION = 1000;
 
 
-	public PlayerController(TutorialIsland gameWorld, GameRenderer gameRenderer, PlayerHUD playerHUD) {
+	public PlayerController(AdventuresOfGameWorld gameWorld, GameRenderer gameRenderer, PlayerHUD playerHUD) {
 		this.gameWorld = gameWorld;
 		this.gameRenderer = gameRenderer;
 		this.playerHUD = playerHUD;
