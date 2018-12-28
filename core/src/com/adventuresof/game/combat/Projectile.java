@@ -1,16 +1,21 @@
 package com.adventuresof.game.combat;
 
+import com.adventuresof.game.animation.DirectionalProjectileAnimation;
 import com.adventuresof.game.character.Direction;
 import com.adventuresof.game.common.GameObject;
 import com.adventuresof.game.common.MoveableObject;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
-public abstract class Projectile extends MoveableObject{
+public class Projectile extends MoveableObject{
 	
-
+	private SpellEnum spellType;
+	private DirectionalProjectileAnimation directionalProjectileAnimation;
     protected float projectileWidth;
     protected float projectileHeight;	
     
@@ -18,8 +23,22 @@ public abstract class Projectile extends MoveableObject{
     
     protected Direction currentProjectileDirection;
 
-	public Projectile(float startX, float startY) {
+	public Projectile(TiledMapTileLayer accessibleTiles,
+			float startX, float startY, float endX, float endY, SpellEnum spellType) {
 		super(startX, startY);
+		this.spellType = spellType;
+		this.projectileHeight = spellType.getHeight();
+		this.projectileWidth = spellType.getWidth();
+		this.directionalProjectileAnimation = spellType.getAnimation();
+		this.pointToMoveTo = new Vector3(endX, endY, 0);
+
+		this.canDispose = false;
+
+		this.damage = spellType.getDamage();
+		this.speed = spellType.getMovementSpeed();
+		
+		this.accessibleTiles = accessibleTiles;
+		
 		this.hitBox = new Rectangle(); 	
 		((Rectangle) this.hitBox).set(startX, startY, this.projectileWidth, this.projectileHeight);
 	}
@@ -95,6 +114,14 @@ public abstract class Projectile extends MoveableObject{
 	public void setCharacterDirection(Direction direction) {
 		currentProjectileDirection = direction;
 	}
+	
+	/**
+	 * Sets the target location to a given vector3 value
+	 * @param co-ordinates for the to which to move the player
+	 */
+	public void setTargetLocation(Vector3 pointToMoveTo) {
+		this.pointToMoveTo = pointToMoveTo;
+	}
 
 	/**
 	 * Calculates the character's current direction based on movement
@@ -132,6 +159,35 @@ public abstract class Projectile extends MoveableObject{
 	}
 		
 	// abstracted as projectile's hitbox's may take different types, e.g. rectangle/circle
-	public abstract void updateHitBox();
+	public void updateHitBox() {
+		this.getHitBox().set(this.currentPosition.x, this.currentPosition.y, this.projectileHeight, this.projectileWidth);		
+	}
+
+	@Override
+	public void render(SpriteBatch spriteBatch) {
+		// get the relevant animation frame (based on current character direction)
+		TextureRegion currentAnimationFrame;
+		currentAnimationFrame = this.getRelevantDirectionAnimationFrame();
+		spriteBatch.draw(currentAnimationFrame, currentPosition.x -15, currentPosition.y - 10); // Draw current frame ()
+	}   
 	
+	/**
+	 * gets the next animation frame for the direction the character is facing
+	 * @return
+	 */
+	private TextureRegion getRelevantDirectionAnimationFrame() {
+		// if we reach here, player not performing attack, return standard movement animation frame
+		if(currentProjectileDirection == Direction.up) {
+			return this.directionalProjectileAnimation.getUpAnimation().getKeyFrame(stateTime, true);
+		}
+		else if(currentProjectileDirection == Direction.down) {
+			return this.directionalProjectileAnimation.getDownAnimation().getKeyFrame(stateTime, true);
+		}
+		else if(currentProjectileDirection == Direction.right) {
+			return this.directionalProjectileAnimation.getRightAnimation().getKeyFrame(stateTime, true);
+		}
+		else {
+			return this.directionalProjectileAnimation.getLeftAnimation().getKeyFrame(stateTime, true);
+		}
+	}
 }

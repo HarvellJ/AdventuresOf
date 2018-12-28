@@ -3,15 +3,16 @@ package com.adventuresof.game.world;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import com.adventuresof.game.character.CharacterClass;
 import com.adventuresof.game.character.NPC;
 import com.adventuresof.game.character.Player;
+import com.adventuresof.game.combat.ArrowAnimation;
 import com.adventuresof.game.combat.Projectile;
+import com.adventuresof.game.combat.SpellEnum;
+import com.adventuresof.game.combat.TornadoAnimation;
 import com.adventuresof.game.inventory.Item;
 
 import com.adventuresof.game.item.ItemFactory;
-import com.adventuresof.game.spell.Arrow;
-import com.adventuresof.game.spell.Spell;
-import com.adventuresof.game.spell.Tornado;
 import com.adventuresof.helpers.SoundManager;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Circle;
@@ -101,12 +102,13 @@ public abstract class GameWorld {
 	public void performTornadoSpellCast(Circle targetingCircle) {
 		// spawn projectile and send it in target's direction
 		this.activeProjectiles.add
-		(new Tornado(
+		(new Projectile(
 				this.map.getAccessibleMapLayer(),
 				this.player.getCurrentPosition().x,
 				this.player.getCurrentPosition().y, 
 				targetingCircle.x,
-				targetingCircle.y
+				targetingCircle.y,
+				SpellEnum.Tornado
 				));
 		SoundManager.playSoundEffect("audio/effects/spellCast.wav");
 	}
@@ -114,12 +116,13 @@ public abstract class GameWorld {
 	public void performArrowSpellCast(Circle targetingCircle) {	
 		// spawn projectile and send it in target's direction
 		this.activeProjectiles.add
-		(new Arrow(
+		(new Projectile(
 				this.map.getAccessibleMapLayer(),
 				this.player.getCurrentPosition().x,
 				this.player.getCurrentPosition().y, 
 				targetingCircle.x,
-				targetingCircle.y
+				targetingCircle.y,
+				SpellEnum.Arrow
 				));
 		SoundManager.playSoundEffect("audio/effects/spellCast.wav");
 	}
@@ -128,7 +131,7 @@ public abstract class GameWorld {
 		for (RectangleMapObject rectangleObject : this.map.getPlayerSpawnObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
 			// spawn in an 'enemy'
-			this.setPlayer(new Player(map.getAccessibleMapLayer(), rectangle.x, rectangle.y));
+			this.setPlayer(new Player(map.getAccessibleMapLayer(), rectangle.x, rectangle.y, CharacterClass.hybrid));
 			break;
 		}
 	}

@@ -5,7 +5,6 @@ import com.adventuresof.game.combat.Projectile;
 import com.adventuresof.game.common.GameObject;
 import com.adventuresof.game.inventory.Item;
 import com.adventuresof.game.inventory.ItemEnum;
-import com.adventuresof.game.spell.Spell;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;

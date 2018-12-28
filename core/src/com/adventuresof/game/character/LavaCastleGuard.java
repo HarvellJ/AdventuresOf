@@ -3,6 +3,7 @@ package com.adventuresof.game.character;
 import java.util.ArrayList;
 
 import com.adventuresof.game.animation.CharacterAnimation;
+import com.adventuresof.game.common.MovementSpeedEnum;
 import com.adventuresof.helpers.AnimationFactory;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -73,7 +74,7 @@ public class LavaCastleGuard extends NPC{
 						ATTACK_DOWN_START_FRAME, ATTACK_DOWN_FRAMES,
 						ATTACK_UP_START_FRAME, ATTACK_UP_FRAMES,
 						DEATH_ANIMATION_START_FRAME, DEATH_ANIMATION_FRAMES
-						), CharacterSpeed.NORMAL_MEDIUM, name, isTalkative, conversation);
+						), MovementSpeedEnum.NORMAL_MEDIUM, name, isTalkative, conversation, CharacterClass.melee);
 	}
 	
 }

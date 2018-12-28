@@ -26,6 +26,7 @@ import com.badlogic.gdx.math.Vector3;
 public abstract class GameCharacter extends MoveableObject {
 	
 	private String name; // characters name
+	protected CharacterClass characterClass; // used to determine the abilities available to this character
 	
 	// movement variables
 	protected boolean isStatic; // used to determine if the character is static on the map or whether they move around
@@ -76,9 +77,11 @@ public abstract class GameCharacter extends MoveableObject {
 			boolean isHostile,
 			int characterWidth, int characterHeight,
 			CharacterAnimation characterAnimation,
-			float speed, boolean canRespawn, String name) {
+			float speed, boolean canRespawn, String name, CharacterClass characterClass) {
 
 		super(startX, startY);
+		
+		this.characterClass = characterClass;
 		
 		this.characterAnimation = characterAnimation;
 		this.speed = speed;

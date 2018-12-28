@@ -4,6 +4,7 @@ package com.adventuresof.game.character;
 import java.util.ArrayList;
 
 import com.adventuresof.game.animation.CharacterAnimation;
+import com.adventuresof.game.common.MovementSpeedEnum;
 import com.adventuresof.game.inventory.Inventory;
 import com.adventuresof.game.inventory.Item;
 import com.adventuresof.game.inventory.ItemEnum;
@@ -58,7 +59,7 @@ public class Player extends GameCharacter{
 	private static final int DEATH_ANIMATION_START_FRAME = 0;
 	private static final int DEATH_ANIMATION_FRAMES = 3;
 	
-	public Player(TiledMapTileLayer accessibleTiles, float startPosX, float startPosY) {
+	public Player(TiledMapTileLayer accessibleTiles, float startPosX, float startPosY, CharacterClass characterClass) {
 		super(
 				accessibleTiles,
 				startPosX, startPosY,
@@ -78,7 +79,7 @@ public class Player extends GameCharacter{
 				ATTACK_DOWN_START_FRAME, ATTACK_DOWN_FRAMES,
 				ATTACK_UP_START_FRAME, ATTACK_UP_FRAMES,
 				DEATH_ANIMATION_START_FRAME, DEATH_ANIMATION_FRAMES
-				), CharacterSpeed.NORMAL_FAST.getSpeed(), true, "You");
+				), MovementSpeedEnum.NORMAL_FAST.getSpeed(), true, "You", characterClass);
 		
 		
 		this.isHostile = true;

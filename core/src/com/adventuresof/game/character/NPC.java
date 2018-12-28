@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import com.adventuresof.game.animation.CharacterAnimation;
+import com.adventuresof.game.common.MovementSpeedEnum;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector3;
@@ -24,13 +25,13 @@ public abstract class NPC extends GameCharacter {
 			boolean isStatic,
 			boolean isHostile,
 			int characterWidth, int characterHeight,
-			CharacterAnimation characterAnimation, CharacterSpeed speed,
+			CharacterAnimation characterAnimation, MovementSpeedEnum speed,
 			String name,
 			boolean isTalkative,
-			ArrayList<String> conversation
+			ArrayList<String> conversation, CharacterClass characterClass
 			)
 	{
-		super(accessibleTiles, startX, startY, isHostile, characterWidth, characterHeight, characterAnimation, varySpeed(speed.getSpeed()), false, name);
+		super(accessibleTiles, startX, startY, isHostile, characterWidth, characterHeight, characterAnimation, varySpeed(speed.getSpeed()), false, name, characterClass);
 		this.isStatic = isStatic;
 		this.setTalkative(isTalkative);
 		this.setConversation(conversation);
@@ -47,7 +48,7 @@ public abstract class NPC extends GameCharacter {
 				// check for nearby player if hostile
 				if(super.isHostile()) {
 					if (Intersector.overlaps(super.getHitBox(), player.getHitBox())) {
-							this.setTarget(player);
+						this.setTarget(player);
 					}
 				}
 				if(this.pointToMoveTo == null) {		
@@ -118,7 +119,7 @@ public abstract class NPC extends GameCharacter {
 	public void setTalkative(boolean isTalkative) {
 		this.isTalkative = isTalkative;
 	}
-	
+
 	public void setHostile (boolean isHostile) {
 		this.isHostile = isHostile;
 	}
