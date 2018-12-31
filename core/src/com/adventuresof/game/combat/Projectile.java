@@ -25,6 +25,7 @@ public class Projectile extends MoveableObject{
     protected Direction currentProjectileDirection;
 
     private GameCharacter firedBy; // stored whom the projectile was fired by to avoid them from hitting themselves with their own projectile
+    private String soundEffect; // stores the path to the sound effect for this projectile
     
 	public Projectile(TiledMapTileLayer accessibleTiles,
 			float startX, float startY, float endX, float endY, SpellEnum spellType, GameCharacter firedBy) {
@@ -34,6 +35,7 @@ public class Projectile extends MoveableObject{
 		this.projectileHeight = spellType.getHeight();
 		this.projectileWidth = spellType.getWidth();
 		this.directionalProjectileAnimation = spellType.getAnimation();
+		this.soundEffect = spellType.getSoundEffect();
 		this.pointToMoveTo = new Vector3(endX, endY, 0);
 
 		this.canDispose = false;
@@ -45,6 +47,10 @@ public class Projectile extends MoveableObject{
 		
 		this.hitBox = new Rectangle(); 	
 		((Rectangle) this.hitBox).set(startX, startY, this.projectileWidth, this.projectileHeight);
+	}
+	
+	public String getSoundEffect() {
+		return soundEffect;
 	}
 	
 	public GameCharacter getFiredBy() {

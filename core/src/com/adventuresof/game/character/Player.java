@@ -125,7 +125,7 @@ public class Player extends GameCharacter{
 	public void performIceSpell(NPC npc) {
 		// inflict damage
 		int damageAmount = this.generateRandomDamageAmount();
-		npc.damage(damageAmount);
+		npc.damage(damageAmount, this);
 		npc.freeze();
 	}  
 }

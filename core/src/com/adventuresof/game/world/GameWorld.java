@@ -97,36 +97,11 @@ public abstract class GameWorld {
 		}	
 	}
 
-	public void performTornadoSpellCast(float startX, float startY, float targetX, float targetY, GameCharacter firedBy) {
-		// spawn projectile and send it in target's direction
-		this.activeProjectiles.add
-		(new Projectile(
-				this.map.getAccessibleMapLayer(),
-				startX,
-				startY, 
-				targetX,
-				targetY,
-				SpellEnum.Tornado,
-				firedBy
-				));
-		SoundManager.playSoundEffect("audio/effects/spellCast.wav");
+	public void performSpellCast(Projectile projectile){
+		this.activeProjectiles.add(projectile);
+		SoundManager.playSoundEffect(projectile.getSoundEffect());
 	}
-
-	public void performArrowSpellCast(float startX, float startY, float targetX, float targetY, GameCharacter firedBy) {	
-		// spawn projectile and send it in target's direction
-		this.activeProjectiles.add
-		(new Projectile(
-				this.map.getAccessibleMapLayer(),
-				startX,
-				startY, 
-				targetX,
-				targetY,
-				SpellEnum.Arrow,
-				firedBy
-				));
-		SoundManager.playSoundEffect("audio/effects/Bow.wav");
-	}
-
+	
 	public void spawnPlayer() {
 		for (RectangleMapObject rectangleObject : this.map.getPlayerSpawnObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
@@ -184,8 +159,9 @@ public abstract class GameWorld {
 			for (NPC npc : this.NPCs) {
 				if(!Double.isNaN(npc.getHitBox().x )) {
 					if (Intersector.overlaps(spell.getHitBox(), npc.getHitBox())) {
-						if(spell.getFiredBy() != npc) {
-							npc.damage(spell.getDamage());
+						// prevent NPC's from damaging one another and themselves
+						if(spell.getFiredBy() != npc && !(spell.getFiredBy() instanceof NPC)) {
+							npc.damage(spell.getDamage(), spell.getFiredBy());
 							// instantly dispose of spell (or else it will continue to hit the target every frame until it reaches target destination)
 							spell.setCanDispose(true);
 						}
@@ -194,8 +170,9 @@ public abstract class GameWorld {
 			}
 			if(!Double.isNaN(player.getHitBox().x )) {
 				if (Intersector.overlaps(spell.getHitBox(), player.getHitBox())) {
+					// prevent player from damaging themselves
 					if(spell.getFiredBy() != player) {
-						player.damage(spell.getDamage());
+						player.damage(spell.getDamage(), spell.getFiredBy());
 						// instantly dispose of spell (or else it will continue to hit the target every frame until it reaches target destination)
 						spell.setCanDispose(true);
 					}

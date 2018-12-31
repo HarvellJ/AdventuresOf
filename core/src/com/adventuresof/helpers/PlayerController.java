@@ -26,18 +26,10 @@ public class PlayerController implements InputProcessor{
 	private GameRenderer gameRenderer;
 	private PlayerHUD playerHUD;
 
-	private boolean freezeSpellActivated;
-	private boolean tornadoSpellActivated;
-	private boolean arrowSpellActivated;
-	
-	private long tornadoSpellLastActivated;
-	private long freezeSpellLastActivated;
-	private long arrowSpellLastActivated;
-	
-	private static final long FREEZE_SPELL_COOLDOWN_DURATION = 5000;
-	private static final long TORNADO_SPELL_COOLDOWN_DURATION = 100;
-	private static final long ARROW_SPELL_COOLDOWN_DURATION = 1000;
-
+	private boolean abilityOneActivated;
+	private boolean abilityTwoActivated;
+	private boolean abilityThreeActivated;
+	private boolean abilityFourActivated;
 
 	public PlayerController(AdventuresOfGameWorld gameWorld, GameRenderer gameRenderer, PlayerHUD playerHUD) {
 		this.gameWorld = gameWorld;
@@ -57,39 +49,39 @@ public class PlayerController implements InputProcessor{
 			gameRenderer.getCamera().translate(0,-45);
 		if(keycode == Input.Keys.NUM_1) {
 			// perform ice spell
-			this.freezeSpellActivated = false;
-			this.arrowSpellActivated = false;
-			if(!tornadoSpellActivated) {
+			this.abilityTwoActivated = false;
+			this.abilityOneActivated = false;
+			if(!abilityOneActivated) {
 				this.gameRenderer.setShowTargetCircle(true, 30);
-				this.tornadoSpellActivated = true;
+				this.abilityOneActivated = true;
 			}else {
 				this.gameRenderer.setShowTargetCircle(false, 0);
-				this.tornadoSpellActivated = false;
+				this.abilityOneActivated = false;
 			}
 
 		}
 		if(keycode == Input.Keys.NUM_2) {
 			// perform tornado spell
-			this.tornadoSpellActivated = false;
-			this.arrowSpellActivated = false;
-			if(!freezeSpellActivated) {
+			this.abilityOneActivated = false;
+			this.abilityThreeActivated = false;
+			if(!abilityTwoActivated) {
 				this.gameRenderer.setShowTargetCircle(true, 120);
-				this.freezeSpellActivated = true;
+				this.abilityTwoActivated = true;
 			}else {
 				this.gameRenderer.setShowTargetCircle(false, 0);
-				this.freezeSpellActivated = false;
+				this.abilityTwoActivated = false;
 			}
 		}
 		if(keycode == Input.Keys.NUM_3) {
 			// perform tornado spell
-			this.tornadoSpellActivated = false;
-			this.freezeSpellActivated = false;
-			if(!freezeSpellActivated) {
+			this.abilityOneActivated = false;
+			this.abilityTwoActivated = false;
+			if(!abilityThreeActivated) {
 				this.gameRenderer.setShowTargetCircle(true, 30);
-				this.arrowSpellActivated = true;
+				this.abilityThreeActivated = true;
 			}else {
 				this.gameRenderer.setShowTargetCircle(false, 0);
-				this.arrowSpellActivated = false;
+				this.abilityThreeActivated = false;
 			}
 		}
 
@@ -180,33 +172,25 @@ public class PlayerController implements InputProcessor{
 
 
 		}
+
 		else if (button == Buttons.LEFT) {
 			// check active spells
-			if(freezeSpellActivated) {
-				if(this.freezeSpellLastActivated < System.currentTimeMillis() - FREEZE_SPELL_COOLDOWN_DURATION){
-					Vector3 coordinates = new Vector3(this.gameRenderer.getTargetCircleX(), this.gameRenderer.getTargetCircleY(), 0);
-					Vector3 positionInGame = gameRenderer.getCamera().unproject(coordinates);
-					this.gameWorld.performIceSpellCast(new Circle(positionInGame.x,positionInGame.y, this.gameRenderer.getTargetCircleSize()));
-					this.freezeSpellLastActivated = System.currentTimeMillis();
-				}
+			if(abilityTwoActivated) {
+				Vector3 coordinates = new Vector3(this.gameRenderer.getTargetCircleX(), this.gameRenderer.getTargetCircleY(), 0);
+				Vector3 positionInGame = gameRenderer.getCamera().unproject(coordinates);
+				this.gameWorld.performIceSpellCast(new Circle(positionInGame.x,positionInGame.y, this.gameRenderer.getTargetCircleSize()));
 			}
-			else if(tornadoSpellActivated) {
-				if(this.tornadoSpellLastActivated < System.currentTimeMillis() - TORNADO_SPELL_COOLDOWN_DURATION){
-					Vector3 coordinates = new Vector3(this.gameRenderer.getTargetCircleX(), this.gameRenderer.getTargetCircleY(), 0);
-					Vector3 positionInGame = gameRenderer.getCamera().unproject(coordinates);
-					this.gameWorld.performTornadoSpellCast(this.gameWorld.getPlayer().getCurrentPosition().x, this.gameWorld.getPlayer().getCurrentPosition().y,
-							positionInGame.x,positionInGame.y, this.gameWorld.getPlayer());
-					this.tornadoSpellLastActivated = System.currentTimeMillis();
-				}
+
+			else if(abilityOneActivated) {
+				Vector3 coordinates = new Vector3(this.gameRenderer.getTargetCircleX(), this.gameRenderer.getTargetCircleY(), 0);
+				Vector3 positionInGame = gameRenderer.getCamera().unproject(coordinates);
+				this.gameWorld.getPlayer().performAbilityOne(positionInGame.x, positionInGame.y);
+
 			}
-			else if(arrowSpellActivated) {
-				if(this.arrowSpellLastActivated < System.currentTimeMillis() - ARROW_SPELL_COOLDOWN_DURATION){
-					Vector3 coordinates = new Vector3(this.gameRenderer.getTargetCircleX(), this.gameRenderer.getTargetCircleY(), 0);
-					Vector3 positionInGame = gameRenderer.getCamera().unproject(coordinates);
-					this.gameWorld.performArrowSpellCast(this.gameWorld.getPlayer().getCurrentPosition().x, this.gameWorld.getPlayer().getCurrentPosition().y,
-							positionInGame.x,positionInGame.y, this.gameWorld.getPlayer());
-					this.arrowSpellLastActivated = System.currentTimeMillis();
-				}
+			else if(abilityThreeActivated) {
+				Vector3 coordinates = new Vector3(this.gameRenderer.getTargetCircleX(), this.gameRenderer.getTargetCircleY(), 0);
+				Vector3 positionInGame = gameRenderer.getCamera().unproject(coordinates);
+				this.gameWorld.getPlayer().performAbilityTwo(positionInGame.x, positionInGame.y);
 			}
 
 		}
@@ -227,17 +211,17 @@ public class PlayerController implements InputProcessor{
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
 		// if the player has activated freeze spell, show targeting circle
-		if(freezeSpellActivated)		
+		if(abilityTwoActivated)		
 		{
 			this.gameRenderer.setTargetingCircleLocation(screenX, screenY);
 		}
 
-		if(tornadoSpellActivated)		
+		if(abilityOneActivated)		
 		{
 			this.gameRenderer.setTargetingCircleLocation(screenX, screenY);
 		}
-		
-		if(arrowSpellActivated)		
+
+		if(abilityThreeActivated)		
 		{
 			this.gameRenderer.setTargetingCircleLocation(screenX, screenY);
 		}
