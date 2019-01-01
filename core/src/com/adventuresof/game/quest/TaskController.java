@@ -2,7 +2,7 @@ package com.adventuresof.game.quest;
 
 public class TaskController {
 	
-	private void slayerCheck (String npcName, int target) {
+	private void slayerCheck (String npcName, int quantity) {
 		//npcName = name of the monster you need to slay
 		//target = number of that specific monster you have to slay
 		//TO DO: some way of checking whether that specific monster has been killed
