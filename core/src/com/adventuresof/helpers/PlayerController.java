@@ -51,7 +51,7 @@ public class PlayerController implements InputProcessor{
 		if(keycode == Input.Keys.NUM_1) {
 			// perform ice spell
 			this.abilityTwoActivated = false;
-			this.abilityOneActivated = false;
+			this.abilityThreeActivated = false;
 			if(!abilityOneActivated) {
 				this.gameRenderer.setShowTargetCircle(true, 30);
 				this.abilityOneActivated = true;
