@@ -52,7 +52,7 @@ public abstract class NPC extends GameCharacter {
 			boolean isTalkative,
 			ArrayList<String> conversation,
 			boolean hasQuest, 
-			String questName
+			String questName,CharacterClass characterClass
 			)
 	{
 		super(gameWorld, accessibleTiles, startX, startY, isHostile, characterWidth, characterHeight, characterAnimation, varySpeed(speed.getSpeed()), false, name, characterClass);
