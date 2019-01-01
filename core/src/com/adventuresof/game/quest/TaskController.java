@@ -2,6 +2,12 @@ package com.adventuresof.game.quest;
 
 public class TaskController {
 	
+	private Task task;
+	
+	public TaskController (Task task) {
+		this.task = task;
+	}
+	
 	private void slayerCheck (String npcName, int quantity) {
 		//npcName = name of the monster you need to slay
 		//target = number of that specific monster you have to slay
@@ -22,6 +28,10 @@ public class TaskController {
 		//TO DO: when speaking to the npc check whether the item is in the inventory
 			//if so set task status to complete
 			//if not repeat conversation
+	}
+	
+	private void startQuest () {
+		
 	}
 
 }

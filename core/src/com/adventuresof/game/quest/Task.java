@@ -13,12 +13,14 @@ public class Task {
 	private String description;
 	private ArrayList<String> conversation;
 	private TaskTypeEnum type;
+	private ProgressEnum progress;
 	
 	public Task (Element task) {
 		
 		NodeList taskTitleList = task.getElementsByTagName("TaskTitle");
 		Node taskTitle = (Element) taskTitleList.item(0);
 		this.title = taskTitle.getTextContent();
+		this.setProgress(ProgressEnum.INCOMPLETE);
 		
 		NodeList taskTextList = task.getElementsByTagName("TaskText");
 		
@@ -67,5 +69,13 @@ public class Task {
 
 	public void setConversation(ArrayList<String> conversation) {
 		this.conversation = conversation;
+	}
+
+	public ProgressEnum getProgress() {
+		return progress;
+	}
+
+	public void setProgress(ProgressEnum progress) {
+		this.progress = progress;
 	}
 }

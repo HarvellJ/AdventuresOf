@@ -7,6 +7,7 @@ import com.adventuresof.game.animation.CharacterAnimation;
 import com.adventuresof.game.inventory.Inventory;
 import com.adventuresof.game.inventory.Item;
 import com.adventuresof.game.inventory.ItemEnum;
+import com.adventuresof.game.quest.Quest;
 import com.adventuresof.game.world.GameZone;
 import com.adventuresof.helpers.AnimationFactory;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -15,6 +16,7 @@ public class Player extends GameCharacter{
 
 	private Inventory inventory; // Stores items the player has collected
 	private ArrayList<GameZone> discoveredZones; // Stores a list of discovered zones. Used for measuring player progress
+	private ArrayList<Quest> quests;
 
 	// texture sheets
 	private static final String MOVEMENT_SPRITE_SHEET = "characters//blueWizard.png";
@@ -84,6 +86,12 @@ public class Player extends GameCharacter{
 		this.isHostile = true;
 		this.inventory = new Inventory();
 		this.discoveredZones = new ArrayList<GameZone>();
+		this.quests = new ArrayList<Quest>();
+		
+		Quest slayerQuest = new Quest("SlayerQuest");
+		
+		quests.add(slayerQuest);
+		
 	}
 
 	public ArrayList<GameZone> getDiscoveredZones() {
@@ -125,4 +133,8 @@ public class Player extends GameCharacter{
 		npc.damage(damageAmount);
 		npc.freeze();
 	}  
+	
+	public ArrayList<Quest> getQuests() {
+		return quests;
+	}
 }

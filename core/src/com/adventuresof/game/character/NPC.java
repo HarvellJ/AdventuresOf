@@ -17,6 +17,8 @@ public abstract class NPC extends GameCharacter {
 	private boolean isTalkative;
 	private ArrayList<String> conversation;
 	private int conversationIndex;
+	private boolean hasQuest;
+	private String questName;
 
 	public NPC(
 			TiledMapTileLayer accessibleTiles, 
@@ -32,8 +34,31 @@ public abstract class NPC extends GameCharacter {
 	{
 		super(accessibleTiles, startX, startY, isHostile, characterWidth, characterHeight, characterAnimation, varySpeed(speed.getSpeed()), false, name);
 		this.isStatic = isStatic;
-		this.setTalkative(isTalkative);
-		this.setConversation(conversation);
+		this.isTalkative = isTalkative;
+		this.conversation = conversation;
+		r = new Random();
+	}
+	public NPC(
+			TiledMapTileLayer accessibleTiles, 
+			float startX, float startY,
+			boolean isStatic,
+			boolean isHostile,
+			int characterWidth, int characterHeight,
+			CharacterAnimation characterAnimation, CharacterSpeed speed,
+			String name,
+			boolean isTalkative,
+			ArrayList<String> conversation,
+			boolean hasQuest, 
+			String questName
+			)
+	{
+		super(accessibleTiles, startX, startY, isHostile, characterWidth, characterHeight, characterAnimation, varySpeed(speed.getSpeed()), false, name);
+		this.isStatic = isStatic;
+		this.isTalkative = isTalkative;
+		this.conversation = conversation;
+		this.hasQuest = hasQuest;
+		this.questName = questName;
+		
 		r = new Random();
 	}
 
@@ -121,5 +146,21 @@ public abstract class NPC extends GameCharacter {
 	
 	public void setHostile (boolean isHostile) {
 		this.isHostile = isHostile;
+	}
+	
+	public String getQuestName() {
+		return questName;
+	}
+
+	public void setQuestName(String questName) {
+		this.questName = questName;
+	}
+
+	public boolean hasQuest() {
+		return hasQuest;
+	}
+	
+	public void setHasQuest(boolean hasQuest) {
+		this.hasQuest = hasQuest;
 	}
 }

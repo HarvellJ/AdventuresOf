@@ -5,6 +5,7 @@ import java.util.Collections;
 
 import com.adventuresof.game.character.NPC;
 import com.adventuresof.game.character.Player;
+import com.adventuresof.game.quest.ProgressEnum;
 import com.adventuresof.game.quest.Quest;
 import com.adventuresof.game.world.GameRenderer;
 import com.adventuresof.game.world.TutorialIsland;
@@ -128,7 +129,28 @@ public class PlayerController implements InputProcessor{
 
 			} else {
 
-				if (npc.isTalkative()) {
+				if (npc.hasQuest()) {
+					//Quest test = new Quest(npc.getQuestName());
+					
+					Player player = this.gameWorld.getPlayer();
+					
+					player.getQuests();
+					
+					Quest npcQuest = null;
+					
+					for (Quest quest : player.getQuests()) {
+						
+						if (npc.getQuestName().equals(quest.getTitle())) {
+							System.out.println(quest.toString());
+							npcQuest = quest;
+						}
+					}
+					
+					if (npcQuest.getProgress() != ProgressEnum.COMPLETE) {
+						
+					}
+
+				} else if (npc.isTalkative()) {
 					this.gameWorld.getPlayer().setTargetLocation(newPosition);
 
 					hud.displayChat(npc, this.gameWorld);
@@ -160,7 +182,7 @@ public class PlayerController implements InputProcessor{
 					    }
 					} );
 					 */
-
+					
 				} else {
 					hud.displayText("This person doesn't look interested in talking right now.");					    		
 				}

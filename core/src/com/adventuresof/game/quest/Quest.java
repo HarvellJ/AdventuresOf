@@ -23,6 +23,7 @@ public class Quest {
 	private String title;
 	private String description;
 	private List<Task> tasks;
+
 	private ProgressEnum progress;
 	
 	public Quest (String questName) {
@@ -118,6 +119,26 @@ public class Quest {
 						"\nTasks: " + taskText);
 		
 		return quest;
+	}
+	
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	
+	public List<Task> getTasks() {
+		return tasks;
+	}
+
+	public ProgressEnum getProgress() {
+		return progress;
+	}
+
+	public void setProgress(ProgressEnum progress) {
+		this.progress = progress;
 	}
 
 }
