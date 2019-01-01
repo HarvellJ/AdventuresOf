@@ -42,12 +42,12 @@ public abstract class NPC extends GameCharacter {
 		r = new Random();
 	}
 	public NPC(
-			TiledMapTileLayer accessibleTiles, 
+			GameWorld gameWorld, TiledMapTileLayer accessibleTiles, 
 			float startX, float startY,
 			boolean isStatic,
 			boolean isHostile,
 			int characterWidth, int characterHeight,
-			CharacterAnimation characterAnimation, CharacterSpeed speed,
+			CharacterAnimation characterAnimation, MovementSpeedEnum speed,
 			String name,
 			boolean isTalkative,
 			ArrayList<String> conversation,
@@ -55,7 +55,7 @@ public abstract class NPC extends GameCharacter {
 			String questName
 			)
 	{
-		super(accessibleTiles, startX, startY, isHostile, characterWidth, characterHeight, characterAnimation, varySpeed(speed.getSpeed()), false, name);
+		super(gameWorld, accessibleTiles, startX, startY, isHostile, characterWidth, characterHeight, characterAnimation, varySpeed(speed.getSpeed()), false, name, characterClass);
 		this.isStatic = isStatic;
 		this.isTalkative = isTalkative;
 		this.conversation = conversation;
