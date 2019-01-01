@@ -18,24 +18,21 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 
-public class TutorialIsland extends GameWorld{
+public class AdventuresOfGameWorld extends GameWorld{
 
 	protected PlayerCompanion playerCompanion;
 
-	private int count;
-
-	public TutorialIsland() {
+	public AdventuresOfGameWorld() {
 		super("map//MainWorld.tmx");
 
-		this.setPlayerCompanion(new PlayerCompanion(map.getAccessibleMapLayer(), this.player));
+		this.setPlayerCompanion(new PlayerCompanion(this, map.getAccessibleMapLayer(), this.player));
 
 	}	
 
-
 	protected void spawnNPCs() {
 		this.NPCs = new ArrayList<NPC>();
-		this.spawnEnemies();
-		this.spawnGuards();
+		this.spawnHostileNPCs();
+		this.spawnFriendlyNPCs();
 	}
 
 	public void update(float delta) {
@@ -43,12 +40,42 @@ public class TutorialIsland extends GameWorld{
 		// move player companion
 		//playerCompanion.move(this.player);
 		playerCompanion.update();
+		
+		// quest related stuff
+		if(this.checkBandits(NPCs) == null) {
+			for (NPC npc : NPCs) {
+		        if (npc.getName().equals("Guard")) {
+		        	
+		        	ArrayList<String> conversation = new ArrayList<String>(Arrays.asList("Well done! You have killed the bandits and completed the quest!"));  
+		        	
+		        	npc.setConversation(conversation);
+		        }
+			}	
+		}
 	}
 
+	public PlayerCompanion getPlayerCompanion() {
+		return playerCompanion;
+	}
+
+	public void setPlayerCompanion(PlayerCompanion playerCompanion) {
+		this.playerCompanion = playerCompanion;
+	}
+	
+	public NPC checkBandits(ArrayList<NPC> NPCs) {
+		 
+	    for (NPC npc : NPCs) {
+	        if (npc.getName().equals("Bandit")) {
+	            return npc;
+	        }
+	    }
+	    return null;
+	}
+	
 	/**
 	 * Instantiates the enemy NPCs into the game
 	 */
-	private void spawnEnemies() {
+	private void spawnHostileNPCs() {
 
 		ArrayList<String> conversation = new ArrayList<String>(Arrays.asList("They have sent you to kill us haven't they...", "Well you won't get away with this without a fight..."));
 		Random r = new Random();
@@ -56,10 +83,10 @@ public class TutorialIsland extends GameWorld{
 			Rectangle rectangle = rectangleObject.getRectangle();
 			// spawn in an 'enemy'
 			if(r.nextInt(5) >= 2) {
-				this.NPCs.add(new Knight(map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Bandit", true, conversation, false));							
+				this.NPCs.add(new Knight(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Bandit", true, conversation, false));							
 			}		
 			else {
-				this.NPCs.add(new KnightGold(map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Bandit", true, conversation, false));							
+				this.NPCs.add(new KnightGold(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Bandit", true, conversation, false));							
 
 			}
 
@@ -68,19 +95,19 @@ public class TutorialIsland extends GameWorld{
 			Rectangle rectangle = rectangleObject.getRectangle();
 			// spawn in an 'enemy'
 			if(r.nextInt(5) >= 2) {
-				this.NPCs.add(new Dragon(map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Knight", false, null, true));	
+				this.NPCs.add(new Dragon(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Knight", false, null, true));	
 			}
 			else {
-				this.NPCs.add(new KnightGold(map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Knight", false, null, true));							
+				this.NPCs.add(new KnightGold(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Knight", false, null, true));							
 			}
 		}
 		for (RectangleMapObject rectangleObject : this.map.setEnemySpawnLevel3Objects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
 			// spawn in an 'enemy'
 			if(r.nextInt(5) >= 2) {
-				this.NPCs.add(new Phoenix(map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Knight", false, null, true));	
+				this.NPCs.add(new Phoenix(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Knight", false, null, true));	
 			}else {
-				this.NPCs.add(new BloodElf(map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Knight", false, null, true));	
+				this.NPCs.add(new BloodElf(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Knight", false, null, true));	
 			}
 
 		}
@@ -89,19 +116,17 @@ public class TutorialIsland extends GameWorld{
 	/**
 	 * Instantiates the guard NPC's into the game
 	 */
-	private void spawnGuards() {
+	private void spawnFriendlyNPCs() {
 		ArrayList<String> conversation = new ArrayList<String>( Arrays.asList("Your mission...", "should you choose to accept it...", "Is to kill all of the bandits outside of this castle...", "You will find them to the South-West."));
-
-
 		for (RectangleMapObject rectangleObject : this.map.getGuardSpawnStartCasleSpawnObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
 			// if statement used because direction of guards depends on spawn zone			
-			this.NPCs.add(new LavaCastleGuard(map.getAccessibleMapLayer(), rectangle.x, rectangle.y,"Guard", true, conversation));							
+			this.NPCs.add(new LavaCastleGuard(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y,"Guard", true, conversation));							
 		}
 		for (RectangleMapObject rectangleObject : this.map.getGuardSpawnMudBaseCasleSpawnObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
 			// if statement used because direction of guards depends on spawn zone			
-			this.NPCs.add(new MudCastleGuard(map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Civilian", true, conversation));							
+			this.NPCs.add(new MudCastleGuard(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Civilian", true, conversation));							
 		}
 	}
 
@@ -138,24 +163,4 @@ public class TutorialIsland extends GameWorld{
 			}
 		}
 	}
-
-	private void detectImpassibleObjectCollisions() {
-		for (RectangleMapObject rectangleObject : map.getImpassibleObjects().getByType(RectangleMapObject.class)) {
-
-			Rectangle rectangle = rectangleObject.getRectangle();
-			if (Intersector.overlaps(rectangle, player.getHitBox())) {
-				// do something
-			}	     
-		}	  	
-	}
-
-	public PlayerCompanion getPlayerCompanion() {
-		return playerCompanion;
-	}
-
-	public void setPlayerCompanion(PlayerCompanion playerCompanion) {
-		this.playerCompanion = playerCompanion;
-	}
-
-
 }

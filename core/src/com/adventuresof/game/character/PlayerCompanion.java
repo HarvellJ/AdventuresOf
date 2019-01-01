@@ -1,6 +1,8 @@
 package com.adventuresof.game.character;
 
 import com.adventuresof.game.animation.CharacterAnimation;
+import com.adventuresof.game.common.MovementSpeedEnum;
+import com.adventuresof.game.world.GameWorld;
 import com.adventuresof.helpers.AnimationFactory;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -50,8 +52,9 @@ public class PlayerCompanion extends NPC {
 	private static final int DEATH_ANIMATION_START_FRAME = 0;
 	private static final int DEATH_ANIMATION_FRAMES = 3;
 
-	public PlayerCompanion(TiledMapTileLayer accessibleTiles, GameCharacter characterToFollow) {
+	public PlayerCompanion(GameWorld gameWorld, TiledMapTileLayer accessibleTiles, GameCharacter characterToFollow) {
 		super(
+				gameWorld,
 				accessibleTiles,
 				characterToFollow.getCurrentPosition().x + 50, characterToFollow.getCurrentPosition().y,
 				false,
@@ -71,7 +74,7 @@ public class PlayerCompanion extends NPC {
 						ATTACK_DOWN_START_FRAME, ATTACK_DOWN_FRAMES,
 						ATTACK_UP_START_FRAME, ATTACK_UP_FRAMES,
 						DEATH_ANIMATION_START_FRAME, DEATH_ANIMATION_FRAMES
-						), CharacterSpeed.NORMAL_MEDIUM, "Companion", false, null);
+						), MovementSpeedEnum.NORMAL_MEDIUM, "Companion", false, null, CharacterClass.hybrid);
 		// when companion is created, send welcome message to player
 		this.addMessageToMessageQueue("Hello there!");
 		this.addMessageToMessageQueue("Here is some guidance for your adventure:");

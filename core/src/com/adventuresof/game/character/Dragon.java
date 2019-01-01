@@ -3,6 +3,8 @@ package com.adventuresof.game.character;
 import java.util.ArrayList;
 
 import com.adventuresof.game.animation.CharacterAnimation;
+import com.adventuresof.game.common.MovementSpeedEnum;
+import com.adventuresof.game.world.GameWorld;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
 public class Dragon extends NPC {
@@ -49,8 +51,9 @@ public class Dragon extends NPC {
 	private static final int DEATH_ANIMATION_START_FRAME = 0;
 	private static final int DEATH_ANIMATION_FRAMES = 3;
 	
-	public Dragon(TiledMapTileLayer accessibleTiles, float startX, float startY, String name, boolean isTalkative, ArrayList<String> conversation, boolean isHostile) {
+	public Dragon(GameWorld gameWorld, TiledMapTileLayer accessibleTiles, float startX, float startY, String name, boolean isTalkative, ArrayList<String> conversation, boolean isHostile) {
 		super(
+				gameWorld,
 				accessibleTiles,
 				startX, 
 				startY, 
@@ -71,7 +74,7 @@ public class Dragon extends NPC {
 						ATTACK_DOWN_START_FRAME, ATTACK_DOWN_FRAMES,
 						ATTACK_UP_START_FRAME, ATTACK_UP_FRAMES,
 						DEATH_ANIMATION_START_FRAME, DEATH_ANIMATION_FRAMES
-						), CharacterSpeed.NORMAL_MEDIUM, name, isTalkative, conversation);
+						), MovementSpeedEnum.NORMAL_MEDIUM, name, isTalkative, conversation, CharacterClass.hybrid);
 		this.setCharacterDirection(Direction.left);
 	}
 }

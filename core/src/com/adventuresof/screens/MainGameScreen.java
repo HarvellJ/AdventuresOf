@@ -4,7 +4,7 @@ import com.adventuresof.game.character.GameCharacter;
 import com.adventuresof.game.character.NPC;
 import com.adventuresof.game.character.Player;
 import com.adventuresof.game.world.GameRenderer;
-import com.adventuresof.game.world.TutorialIsland;
+import com.adventuresof.game.world.AdventuresOfGameWorld;
 import com.adventuresof.helpers.PlayerController;
 import com.adventuresof.helpers.SoundManager;
 import com.badlogic.gdx.Gdx;
@@ -41,7 +41,7 @@ import com.mygdx.game.AdventuresOfGame;
 
 public class MainGameScreen implements Screen {
 
-	private TutorialIsland gameWorld;
+	private AdventuresOfGameWorld gameWorld;
 	private GameRenderer gameRenderer;
 	
 	// for inventory
@@ -50,7 +50,7 @@ public class MainGameScreen implements Screen {
 	private PlayerHUD playerHUD;
 	
 	public MainGameScreen() {		
-		this.gameWorld = new TutorialIsland();
+		this.gameWorld = new AdventuresOfGameWorld();
 		this.gameRenderer = new GameRenderer(gameWorld);
 		
 		

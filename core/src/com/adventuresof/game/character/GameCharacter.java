@@ -4,7 +4,12 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import com.adventuresof.game.animation.CharacterAnimation;
+import com.adventuresof.game.combat.Projectile;
+import com.adventuresof.game.combat.SpellEnum;
+import com.adventuresof.game.combat.SpellType;
 import com.adventuresof.game.common.GameObject;
+import com.adventuresof.game.common.MoveableObject;
+import com.adventuresof.game.world.GameWorld;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -22,66 +27,76 @@ import com.badlogic.gdx.math.Vector3;
 /**
  *
  */
-public abstract class GameCharacter extends GameObject {
-	
-	private String name;
-	
-	// movement variables
-	protected Vector3 pointToMoveTo; // used to move the character to a point
-	protected Vector3 currentPosition; // stores current position of character
-	protected boolean isStatic; // used to determine if the character is static on the map or whether they move around
-	protected Vector3 spawnLocation; // used for things such as calculating distance travelled and respawn points 
-	protected float speed;
-	protected boolean canRespawn;
-	private Direction currentCharacterDirection;
+public abstract class GameCharacter extends MoveableObject {
 
-	// death stuff
-	private boolean isDying;
-	private float stateTimeOfDeath; // used to calculate time required for death animation
+	//================================================================================
+	// Properties 
+	//================================================================================
+	private String name; // characters name
+	protected CharacterClass characterClass; // used to determine the abilities available to this character
+	protected GameWorld gameWorld; // the world to which they belong
+
+	// movement variables
+	protected boolean isStatic; // used to determine if the character is static on the map or whether they move around
+
 
 	// animation stuff
 	protected CharacterAnimation characterAnimation;
-
 	private boolean isIdle;
-	protected float stateTime;
+	private Direction currentCharacterDirection;
 
+	// display
 	private ArrayList<String> messageQueue; // used to queue messages that will be displayed in game by the character
 	private float timeLastMessageDisplayed;
 	private ArrayList<String> damageMessageQueue;
 	private float timeLastDamagedMessageDisplayed;
-
-	protected GameCharacter target; // the characters current target. This can be friendly or hostile
-	protected boolean isHostile; // toggles whether the character can be attacked or is passive
+	protected Sprite hitSplt; 
+	private HealthBar healthBar;
 
 	// collision stuff
-	private Rectangle hitBox; // a mesh used to detect collisions with the character
 	private TiledMapTileLayer accessibleTiles; // represents the tiles that are accessible by the character
 	protected int characterHeight; // the character's height - used to draw the bounding rectangle (hit box)
 	protected int characterWidth; // the character's width - used to draw the bounding rectangle (hit box)
 
 	// combat stuff
 	private int health;
-
 	private int maxHealth = 100;
 	private boolean isFrozen;
 	private float frozenTime;
-
+	protected long abilityOneLastActivated;
+	protected long abilityTwoLastActivated;
+	protected long abilityThreeLastActivated;
+	protected long abilityFourLastActivated;
 	private float attackInterval = 2; // a time interval representing the attack speed of this character - defaults to 2
 	private float lungeForwardPerformed;
 	private float lungeBackwardPerformed;
+	protected GameCharacter target; // the characters current target. This can be friendly or hostile
+	protected boolean isHostile; // toggles whether the character can be attacked or is passive
+	// death stuff
+	private boolean isDying;
+	private float stateTimeOfDeath; // used to calculate time required for death animation
+	protected boolean canRespawn;
 
-	Sprite hitSplt; 
 
-	//health bar
-	private HealthBar healthBar;
 
+
+	//================================================================================
+	// Constructors 
+	//================================================================================
 	public GameCharacter(
+			GameWorld gameWorld,
 			TiledMapTileLayer accessibleTiles,
 			float startX, float startY,
 			boolean isHostile,
 			int characterWidth, int characterHeight,
 			CharacterAnimation characterAnimation,
-			float speed, boolean canRespawn, String name) {
+			float speed, boolean canRespawn, String name, CharacterClass characterClass) {
+
+		super(startX, startY);
+
+		this.gameWorld = gameWorld;
+
+		this.characterClass = characterClass;
 
 		this.characterAnimation = characterAnimation;
 		this.speed = speed;
@@ -90,7 +105,7 @@ public abstract class GameCharacter extends GameObject {
 
 		hitSplt = new Sprite(new Texture("hitsplat.png"));
 		hitSplt.setScale(0.4f);
-		
+
 		this.name = name;
 		// instantiate characters' current position as a blank vector3
 		currentPosition = new Vector3(startX, startY, 0);
@@ -104,7 +119,7 @@ public abstract class GameCharacter extends GameObject {
 		this.characterHeight = characterHeight;
 		this.characterWidth = characterWidth;
 		this.hitBox = new Rectangle(); 	
-		this.hitBox.set(startX, startY, this.characterWidth, this.characterHeight);
+		((Rectangle) this.hitBox).set(startX, startY, this.characterWidth, this.characterHeight);
 		this.accessibleTiles = accessibleTiles;
 
 		// Instantiate the message queue
@@ -121,13 +136,15 @@ public abstract class GameCharacter extends GameObject {
 		this.isFrozen = false;
 		this.frozenTime = 0;
 
-
 		healthBar = new HealthBar(this, new Texture("healthBackground.png"),
 				new Texture("healthForeground.png"));
-
-
 	}
-	
+
+
+
+	//================================================================================
+	// Accessor methods
+	//================================================================================
 	public boolean isDying() {
 		return isDying;
 	}
@@ -161,7 +178,7 @@ public abstract class GameCharacter extends GameObject {
 	}
 
 	public Rectangle getHitBox() {
-		return hitBox;
+		return (Rectangle) hitBox;
 	}	
 
 	public void setHitBox(Rectangle boundingRectangle) {
@@ -203,7 +220,19 @@ public abstract class GameCharacter extends GameObject {
 	public void setHostile(boolean isHostile) {
 		this.isHostile = isHostile;
 	}
-	
+
+	public void setTargetLocation(Vector3 pointToMoveTo) {
+		this.pointToMoveTo = pointToMoveTo;
+	}
+
+	public void setCharacterDirection(Direction direction) {
+		currentCharacterDirection = direction;
+	}
+
+
+	//================================================================================
+	// Update/render
+	//================================================================================
 	public void update() {    	
 		stateTime += Gdx.graphics.getDeltaTime(); // increment state time
 
@@ -232,9 +261,16 @@ public abstract class GameCharacter extends GameObject {
 						// check distance from target before attacking and moving to target location
 						if(Math.sqrt(Math.pow((Math.max(target.getCurrentPosition().x, this.getCurrentPosition().x) - Math.min(target.getCurrentPosition().x, this.getCurrentPosition().x)), 2) + Math.pow((Math.max(target.getCurrentPosition().y, this.getCurrentPosition().y) - Math.min(target.getCurrentPosition().y, this.getCurrentPosition().y)), 2)) < 50)
 						{
-							// target is within distance, attack
-							this.performAttack();
-						}else {
+							// target is within melee distance, attack
+							this.performMeleeAttack();
+						}
+						else if(Math.sqrt(Math.pow((Math.max(target.getCurrentPosition().x, this.getCurrentPosition().x) - Math.min(target.getCurrentPosition().x, this.getCurrentPosition().x)), 2) + Math.pow((Math.max(target.getCurrentPosition().y, this.getCurrentPosition().y) - Math.min(target.getCurrentPosition().y, this.getCurrentPosition().y)), 2)) > 200
+								&& Math.sqrt(Math.pow((Math.max(target.getCurrentPosition().x, this.getCurrentPosition().x) - Math.min(target.getCurrentPosition().x, this.getCurrentPosition().x)), 2) + Math.pow((Math.max(target.getCurrentPosition().y, this.getCurrentPosition().y) - Math.min(target.getCurrentPosition().y, this.getCurrentPosition().y)), 2)) < 400)
+						{
+							// target is within range distance, perform range attack (if possible)
+							this.performAbilityOne(this.target.getCurrentPosition().x, this.target.getCurrentPosition().y);						
+						}						
+						else {
 							this.setTargetLocation(new Vector3((float)target.getCurrentPosition().x - 45, (float)target.getCurrentPosition().y, 0));
 						}
 					}else {
@@ -243,49 +279,11 @@ public abstract class GameCharacter extends GameObject {
 				}else if (target != null ){
 					this.setTargetLocation(new Vector3((float)target.getCurrentPosition().x - 30, (float)target.getCurrentPosition().y, 0));
 				}
-				
-				// check the point to move to value is set, if not, there is no need to move this frame.
-				if(pointToMoveTo != null) {
-					// first, work out the direction in which the character should be facing (so we can use relevant animations)
-					this.calculateCharacterDirection();    			
 
-					// Algorithm for performing (gradual) character movement
-					double destinationX = pointToMoveTo.x - currentPosition.x;
-					double destinationY = pointToMoveTo.y - currentPosition.y;
-
-					double distanceToTravel = Math.sqrt(destinationX * destinationX + destinationY * destinationY);
-					destinationX = destinationX / distanceToTravel;
-					destinationY = destinationY / distanceToTravel;
-
-					double nextX = destinationX * speed * Gdx.graphics.getDeltaTime();
-					double nextY = destinationY * speed * Gdx.graphics.getDeltaTime();
-
-					double distanceTravelled = Math.sqrt(nextX * nextX + nextY * nextY);
-
-					// check if the character has arrived at desired location
-					if ( distanceTravelled > distanceToTravel )
-					{
-						// stop them moving and set them to idle
-						pointToMoveTo = null;
-						isIdle = true;
-					}
-					else
-					{
-						// check if the next position is an accessible cell, if so, move there. If not, stop moving, character at edge of accessible layer.
-						// the / 32 is dividing the current position co-ordinates by the tile sizes
-						if(accessibleTiles.getCell(((int) currentPosition.x + (int) nextX) / 16, ((int) currentPosition.y + (int) nextY) / 16) == null) {
-							pointToMoveTo = null;
-							isIdle = true;
-						}else {
-							currentPosition.x = currentPosition.x + (float) nextX;
-							currentPosition.y = currentPosition.y + (float) nextY;   
-							isIdle = false;
-						}    			
-					} 		
-				}
+				this.moveObject();
+				//following any positional moves, update the characters bounding record
+				this.updateHitBox();
 			}
-			//following any positional moves, update the characters bounding record
-			this.updateHitBox();
 		}
 
 		healthBar.update();
@@ -326,61 +324,22 @@ public abstract class GameCharacter extends GameObject {
 		healthBar.render(spriteBatch);
 	}
 
-	public void renderAdditionalAnimations(ShapeRenderer shapeRenderer) {
 
+
+
+	//================================================================================
+	// Animation
+	//================================================================================
+	public void renderAdditionalAnimations(ShapeRenderer shapeRenderer) {
 		// see if character is frozen (if so draw transparent shape to indicate ice block)
 		if(isFrozen) {
 			Gdx.gl.glEnable(GL20.GL_BLEND);
 			Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 			shapeRenderer.begin(ShapeType.Filled);
 			shapeRenderer.setColor(new Color(1, 1f, 1f, 0.5f));				
-			shapeRenderer.rect(this.hitBox.x - this.hitBox.width/2, this.hitBox.y - 20, this.hitBox.width, this.hitBox.height + 50);
+			shapeRenderer.rect(this.getHitBox().x - this.getHitBox().width/2, this.getHitBox().y - 20, this.getHitBox().width, this.getHitBox().height + 50);
 			shapeRenderer.end();	
 		}
-	}
-
-	/**
-	 * Sets the target location to a given vector3 value
-	 * @param co-ordinates for the to which to move the player
-	 */
-	public void setTargetLocation(Vector3 pointToMoveTo) {
-		this.pointToMoveTo = pointToMoveTo;
-	}
-
-	/**
-	 * Set the character direction
-	 * @param direction
-	 */
-	public void setCharacterDirection(Direction direction) {
-		currentCharacterDirection = direction;
-	}
-
-	public int generateRandomDamageAmount() {
-		// TODO - Make this damage based on some sort of input parameters. Right now its just randomly choosing between 0 and 100.
-		Random r = new Random();
-		return r.nextInt(30);
-	}
-
-	public void freeze() {
-		if(this.isHostile) {
-			this.isFrozen = true;
-			this.frozenTime = stateTime;
-		}	
-	}
-
-	public void damage(int damage) {
-		if(this.isHostile) {
-			this.inflictDamage(damage);
-			this.addMessageToDamageQueue(Integer.toString(damage));
-			if(this.health <= 0) {
-				this.isDying = true;
-				this.stateTimeOfDeath = this.stateTime;
-			}
-		}
-	}
-
-	public void updateHitBox() {
-		this.hitBox.set(this.currentPosition.x, this.currentPosition.y, this.characterHeight, this.characterWidth);
 	}
 
 	/**
@@ -443,13 +402,54 @@ public abstract class GameCharacter extends GameObject {
 		}
 	}
 
-	private void inflictDamage(int amount) {
-		this.health -= amount;
+
+
+	//================================================================================
+	// Movement
+	//================================================================================
+
+	public void moveObject() {
+		// check the point to move to value is set, if not, there is no need to move this frame.
+		if(pointToMoveTo != null) {
+			// first, work out the direction in which the character should be facing (so we can use relevant animations)
+			this.calculateCharacterDirection();    			
+
+			// Algorithm for performing (gradual) character movement
+			double destinationX = pointToMoveTo.x - currentPosition.x;
+			double destinationY = pointToMoveTo.y - currentPosition.y;
+
+			double distanceToTravel = Math.sqrt(destinationX * destinationX + destinationY * destinationY);
+			destinationX = destinationX / distanceToTravel;
+			destinationY = destinationY / distanceToTravel;
+
+			double nextX = destinationX * speed * Gdx.graphics.getDeltaTime();
+			double nextY = destinationY * speed * Gdx.graphics.getDeltaTime();
+
+			double distanceTravelled = Math.sqrt(nextX * nextX + nextY * nextY);
+
+			// check if the character has arrived at desired location
+			if ( distanceTravelled > distanceToTravel )
+			{
+				// stop them moving and set them to idle
+				pointToMoveTo = null;
+				isIdle = true;
+			}
+			else
+			{
+				// check if the next position is an accessible cell, if so, move there. If not, stop moving, character at edge of accessible layer.
+				// the / 32 is dividing the current position co-ordinates by the tile sizes
+				if(accessibleTiles.getCell(((int) currentPosition.x + (int) nextX) / 16, ((int) currentPosition.y + (int) nextY) / 16) == null) {
+					pointToMoveTo = null;
+					isIdle = true;
+				}else {
+					currentPosition.x = currentPosition.x + (float) nextX;
+					currentPosition.y = currentPosition.y + (float) nextY;   
+					isIdle = false;
+				}    			
+			} 		
+		}
 	}
-	
-	/**
-	 * Calculates the character's current direction based on movement
-	 */
+
 	private void calculateCharacterDirection() {
 		double xDistanceToTravel;
 		double yDistanceToTravel;
@@ -507,16 +507,125 @@ public abstract class GameCharacter extends GameObject {
 		}
 	}
 
-	private void performAttack() {
+	//================================================================================
+	// Combat
+	//================================================================================
+	public int generateRandomDamageAmount() {
+		// TODO - Make this damage based on some sort of input parameters. Right now its just randomly choosing between 0 and 100.
+		Random r = new Random();
+		return r.nextInt(30);
+	}
+
+	public void freeze() {
+		if(this.isHostile) {
+			this.isFrozen = true;
+			this.frozenTime = stateTime;
+		}	
+	}
+
+	public void damage(int damage, GameCharacter inflictedBy) {
+		if(this.isHostile) {
+			this.inflictDamage(damage);
+			this.addMessageToDamageQueue(Integer.toString(damage));
+			if(this.health <= 0) {
+				this.isDying = true;
+				this.stateTimeOfDeath = this.stateTime;
+			}
+			this.setTarget(inflictedBy); // switch target to character whom inflicted the damage, so NPC's will chase the character
+		}
+	}
+
+	public void updateHitBox() {
+		this.getHitBox().set(this.currentPosition.x, this.currentPosition.y, this.characterHeight, this.characterWidth);
+	}
+
+
+	public void performAbilityOne(float targetX, float targetY) {
+		// check cooldown - if cooldown is ok, then cast
+		if(this.abilityOneLastActivated < (System.currentTimeMillis() - this.characterClass.getAbilityOne().getCoolDown().getCoolDownDuration())) {
+			this.abilityOneLastActivated = System.currentTimeMillis(); // record the time of cast to factor into cooldown time
+			if(this.characterClass.getAbilityOne().getSpellType() == SpellType.melee) {
+				this.performMeleeAbility(this.characterClass.getAbilityOne());
+			}
+			else if(this.characterClass.getAbilityOne().getSpellType() == SpellType.projectile) {
+				this.performRangeAbility(this.characterClass.getAbilityOne(), targetX, targetY);
+			}
+			else if(this.characterClass.getAbilityOne().getSpellType() == SpellType.buff){
+				this.performBuffAbility(this.characterClass.getAbilityOne());
+			}
+		}
+	}
+
+	public void performAbilityTwo(float targetX, float targetY) {
+		// check cooldown - if cooldown is ok, then cast
+		if(this.abilityTwoLastActivated < (System.currentTimeMillis() - this.characterClass.getAbilityTwo().getCoolDown().getCoolDownDuration())) {
+			this.abilityTwoLastActivated = System.currentTimeMillis(); // record the time of cast to factor into cooldown time
+			if(this.characterClass.getAbilityTwo().getSpellType() == SpellType.melee) {
+				this.performMeleeAbility(this.characterClass.getAbilityTwo());
+			}
+			else if(this.characterClass.getAbilityTwo().getSpellType() == SpellType.projectile) {
+				this.performRangeAbility(this.characterClass.getAbilityTwo(), targetX, targetY);
+			}
+			else if(this.characterClass.getAbilityTwo().getSpellType() == SpellType.buff){
+				this.performBuffAbility(this.characterClass.getAbilityTwo());
+			}
+		}
+	}
+
+	public void performAbilityThree(float targetX, float targetY) {
+		// check cooldown - if cooldown is ok, then cast
+		if(this.abilityThreeLastActivated < (System.currentTimeMillis() - this.characterClass.getAbilityThree().getCoolDown().getCoolDownDuration())) {
+			this.abilityThreeLastActivated = System.currentTimeMillis(); // record the time of cast to factor into cooldown time
+			if(this.characterClass.getAbilityThree().getSpellType() == SpellType.melee) {
+				this.performMeleeAbility(this.characterClass.getAbilityThree());
+			}
+			else if(this.characterClass.getAbilityThree().getSpellType() == SpellType.projectile) {
+				this.performRangeAbility(this.characterClass.getAbilityThree(), targetX, targetY);
+			}
+			else if(this.characterClass.getAbilityThree().getSpellType() == SpellType.buff){
+				this.performBuffAbility(this.characterClass.getAbilityThree());
+			}
+		}
+	}
+
+	public void performAbilityFour(float targetX, float targetY) {
+		// check cooldown - if cooldown is ok, then cast
+		if(this.abilityThreeLastActivated < (System.currentTimeMillis() - this.characterClass.getAbilityThree().getCoolDown().getCoolDownDuration())) {
+			this.abilityThreeLastActivated = System.currentTimeMillis(); // record the time of cast to factor into cooldown time
+			if(this.characterClass.getAbilityFour().getSpellType() == SpellType.melee) {
+				this.performMeleeAbility(this.characterClass.getAbilityFour());
+			}
+			else if(this.characterClass.getAbilityFour().getSpellType() == SpellType.projectile) {
+				this.performRangeAbility(this.characterClass.getAbilityFour(), targetX, targetY);
+			}
+			else if(this.characterClass.getAbilityFour().getSpellType() == SpellType.buff){
+				this.performBuffAbility(this.characterClass.getAbilityFour());
+			}
+		}
+	}
+
+	private void performMeleeAttack() {
 		if(lungeForwardPerformed - this.stateTime <= 0) {
 			this.lungeForward();	
 			this.lungeForwardPerformed = this.stateTime + attackInterval;
-			this.target.damage(10);
+			this.target.damage(10, this);
 		}
 		else if(lungeBackwardPerformed - this.stateTime <= 0) {
 			this.lungeBackward();	
 			this.lungeBackwardPerformed = this.stateTime + attackInterval;
 		}
+	}
+
+	private void performMeleeAbility(SpellEnum spell) {
+
+	}
+
+	private void performRangeAbility(SpellEnum spell, float targetX, float targetY) {
+		this.gameWorld.performSpellCast(new Projectile(this.accessibleTiles, this.currentPosition.x, this.currentPosition.y, targetX, targetY, spell, this));
+	}
+
+	private void performBuffAbility(SpellEnum spell) {
+
 	}
 
 	private void lungeForward() {    	
@@ -549,7 +658,47 @@ public abstract class GameCharacter extends GameObject {
 			this.currentPosition.x += 20;
 		}		
 	}
-	
+
+	private void inflictDamage(int amount) {
+		this.health -= amount;
+	}
+
+	/**
+	 * @param spriteBatch the SpriteBatch object used to render the message to screen
+	 * renders the next message in the damage message queue
+	 */
+	private void displayDamage(SpriteBatch spriteBatch) {
+		// check if any messages in queue
+		if(damageMessageQueue.size() > 0) {
+			// check if a message has been displayed
+			if(timeLastDamagedMessageDisplayed == 0) {   			
+				timeLastDamagedMessageDisplayed = stateTime;
+			}
+			// show the message for a duration depending on its length
+			if(timeLastDamagedMessageDisplayed < stateTime - 2) {
+				// dequeue item - display period expired
+				damageMessageQueue.remove(0);
+				timeLastDamagedMessageDisplayed = 0;
+			}
+			// re-check message queue size
+			if(damageMessageQueue.size() > 0) {
+				BitmapFont font = new BitmapFont(); 
+
+				font.setColor(new Color(Color.WHITE));
+
+				hitSplt.setX(this.getHitBox().x - 60);
+				hitSplt.setY(this.getHitBox().y - 50);
+				hitSplt.draw(spriteBatch);
+				font.draw(spriteBatch, damageMessageQueue.get(0), this.getHitBox().x - 5, this.getHitBox().y + 15);
+
+			}
+		}   	
+	}
+
+	//================================================================================
+	// Character Messaging
+	//================================================================================
+
 	/**
 	 * @param spriteBatch the SpriteBatch object used to render the message to screen
 	 * renders the next message in the message queue
@@ -576,40 +725,12 @@ public abstract class GameCharacter extends GameObject {
 	}
 
 
-	/**
-	 * @param spriteBatch the SpriteBatch object used to render the message to screen
-	 * renders the next message in the damage message queue
-	 */
-	private void displayDamage(SpriteBatch spriteBatch) {
-		// check if any messages in queue
-		if(damageMessageQueue.size() > 0) {
-			// check if a message has been displayed
-			if(timeLastDamagedMessageDisplayed == 0) {   			
-				timeLastDamagedMessageDisplayed = stateTime;
-			}
-			// show the message for a duration depending on its length
-			if(timeLastDamagedMessageDisplayed < stateTime - 2) {
-				// dequeue item - display period expired
-				damageMessageQueue.remove(0);
-				timeLastDamagedMessageDisplayed = 0;
-			}
-			// re-check message queue size
-			if(damageMessageQueue.size() > 0) {
-				BitmapFont font = new BitmapFont(); 
+	//================================================================================
+	// Health bar
+	//================================================================================
 
-				font.setColor(new Color(Color.WHITE));
-
-				hitSplt.setX(this.hitBox.x - 60);
-				hitSplt.setY(this.hitBox.y - 50);
-				hitSplt.draw(spriteBatch);
-				font.draw(spriteBatch, damageMessageQueue.get(0), this.hitBox.x - 5, this.hitBox.y + 15);
-
-			}
-		}   	
-	}
 
 	private class HealthBar {
-
 		private Sprite healthBackground;
 		private Sprite healthForeground;
 		private GameCharacter owner;

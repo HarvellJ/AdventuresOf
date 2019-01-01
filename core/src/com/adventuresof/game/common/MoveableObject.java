@@ -10,22 +10,24 @@ public abstract class MoveableObject extends GameObject {
 	protected Vector3 pointToMoveTo; // used to move the character to a point
 	protected Vector3 currentPosition; // stores current position of character
 	protected float speed;
-	
+	protected Vector3 spawnLocation; // used for things such as calculating distance travelled and respawn points 
+
 	protected float stateTime;
 	
 	// collision stuff
 	protected TiledMapTileLayer accessibleTiles; // represents the tiles that are accessible by the character
 	  
-	public MoveableObject(float startX, float startY, float endX, float endY) {
-		this.speed = 200.0f;
+	public MoveableObject(float startX, float startY) {
+		this.speed = 200.0f; // default speed to 200
 		this.stateTime = 0f;		
 
-		// instantiate spells' current position as a blank vector3
+		// instantiate object's current position
 		currentPosition = new Vector3(startX, startY, 0);
-		pointToMoveTo = new Vector3(endX, endY, 0);
+		this.spawnLocation = new Vector3(startX, startY, 0);
 
 	}
 
 	public abstract void updateHitBox();
 	
+	public abstract void moveObject();
 }

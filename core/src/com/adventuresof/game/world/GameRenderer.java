@@ -1,10 +1,10 @@
 package com.adventuresof.game.world;
 
 import com.adventuresof.game.character.NPC;
+import com.adventuresof.game.combat.Projectile;
 import com.adventuresof.game.common.GameObject;
 import com.adventuresof.game.inventory.Item;
 import com.adventuresof.game.inventory.ItemEnum;
-import com.adventuresof.game.spell.Spell;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -26,7 +26,7 @@ public class GameRenderer {
 
 	private OrthographicCamera camera; // the camera (orthographic renders everything on one pane, regardless of distance)
 	private SpriteBatch spriteBatch; // the sprite batch to use for the game
-	private TutorialIsland gameWorld; // the game world
+	private AdventuresOfGameWorld gameWorld; // the game world
 		
 	private boolean showTargetCircle;
 	private int targetCircleSize; // the size of the circle
@@ -35,7 +35,7 @@ public class GameRenderer {
 	float w;
     float h;    
 	
-	public GameRenderer(TutorialIsland gameWorld) {
+	public GameRenderer(AdventuresOfGameWorld gameWorld) {
 		
 		//game world
 		this.gameWorld = gameWorld;		
@@ -164,8 +164,8 @@ public class GameRenderer {
 	}
 	
 	private void renderGameObjects() {
-		for (Spell spell : this.gameWorld.getActiveSpells()) {
-			spell.render(spriteBatch);
+		for (Projectile projectile : this.gameWorld.getActiveProjectiles()) {
+			projectile.render(spriteBatch);
 		}
 	}
 	
