@@ -14,10 +14,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import com.adventuresof.helpers.AnimationFactory;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-
 public class Quest {
 
 	private String title;
@@ -56,6 +52,7 @@ public class Quest {
 				Element taskElement = (Element) taskList.item(i);
 				
 				Task task = new Task (taskElement);
+				
 				tempList.add(task);
 
 			}

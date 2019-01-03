@@ -81,9 +81,6 @@ public class PlayerHUD implements Screen{
 	public String displayChat (NPC npc, GameWorld gameWorld) {
 		
 		ArrayList<String> conversation = npc.getConversation();
-		
-    	System.out.println("Index " + npc.getConversationIndex());
-    	System.out.println("Size " + npc.getConversation().get(0));
     	
     	String returnValue = "";
     	
@@ -95,7 +92,6 @@ public class PlayerHUD implements Screen{
 			returnValue = "" + npc.getConversationIndex();
 			
     	} else if (npc.getConversationIndex() == npc.getConversation().size()) {
-    		System.out.println("hit1");
     		this.textArea.setText("");
 	    	npc.setConversationIndex(0);
 	    	returnValue =  "end";

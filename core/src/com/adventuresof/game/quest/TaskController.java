@@ -24,35 +24,42 @@ public class TaskController {
 		this.npc = npc;
 		this.gameWorld = gameWorld;
 		this.inventory = inventory;
-		
 	}
 	
-	public void handleTask () { 
+	public Boolean handleTask () { 
 		
 		System.out.println(task.getType());
 		
+		Boolean isComplete = false;
+
 		switch(task.getType()) {
 		
-			case SLAYER : slayerCheck("", 0);
+		
+			case SLAYER : isComplete = slayerCheck("", 0);
 				break;
-			case CONVERSATION : conversationCheck();
+			case CONVERSATION : isComplete = conversationCheck();
 				break;
-			case COLLECT: collectionCheck();
+			case COLLECT: isComplete = collectionCheck();
 				break;
 		}
 		
+
+		return isComplete;
+		
 	}
 	
-	private void slayerCheck (String npcName, int quantity) {
+	private Boolean slayerCheck (String npcName, int quantity) {
 		//npcName = name of the monster you need to slay
 		//target = number of that specific monster you have to slay
 		//TO DO: some way of checking whether that specific monster has been killed
 			//once target has been reached set task status to complete
 		
 		//this.task.setProgress(ProgressEnum.COMPLETE);		
+		
+		return null;
 	}
 	
-	public void conversationCheck () {
+	public Boolean conversationCheck () {
 		//npcName = name of npc you must talk to
 		//TO DO: some way of checking that you have spoken to the NPC.
 			//check the length of the array vs the total messages displayed?
@@ -66,11 +73,15 @@ public class TaskController {
 			this.task.setProgress(ProgressEnum.COMPLETE);
 			ArrayList<String> emptyArray = new ArrayList<String>(Arrays.asList(""));
 			this.npc.setConversation(emptyArray);
-		};
+
+			return true;
+		} else {
+			return false;
+		}
 
 	}
 	
-	private void collectionCheck () {
+	private Boolean collectionCheck () {
 		//npcName = name of the npc that has sent you to collect an item
 		//itemName = name of the item you have been sent to collect
 		//TO DO: when speaking to the npc check whether the item is in the inventory
@@ -82,14 +93,18 @@ public class TaskController {
 		Item item = new Item(this.task.getItem());
 				
 		if(0 < this.inventory.checkInventory(item)) {
+			this.npc.setConversation(task.getConversation());
 			result = this.hud.displayChat(this.npc, this.gameWorld);
 		};
 		
 		if(result.equals("end")) {	
 			this.inventory.remove(item, this.task.getQuantity());
 			this.task.setProgress(ProgressEnum.COMPLETE);
-			this.npc.setConversation(task.getConversation());
-		};
+			
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 }
