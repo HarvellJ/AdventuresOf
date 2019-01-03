@@ -78,32 +78,40 @@ public class PlayerHUD implements Screen{
 		
 	}
 	
-	public void displayChat (NPC npc, GameWorld gameWorld) {
+	public String displayChat (NPC npc, GameWorld gameWorld) {
 		
 		ArrayList<String> conversation = npc.getConversation();
 		
     	System.out.println("Index " + npc.getConversationIndex());
-    	System.out.println("Size " + npc.getConversation().size());
+    	System.out.println("Size " + npc.getConversation().get(0));
+    	
+    	String returnValue = "";
     	
     	if (npc.getConversationIndex() < npc.getConversation().size()) {
     		
     		this.textArea.setText(npc.getName() + ": " + conversation.get(npc.getConversationIndex()));
 			npc.setConversationIndex(npc.getConversationIndex() + 1);
 			
+			returnValue = "" + npc.getConversationIndex();
+			
     	} else if (npc.getConversationIndex() == npc.getConversation().size()) {
-    		System.out.println("hit");
+    		System.out.println("hit1");
     		this.textArea.setText("");
 	    	npc.setConversationIndex(0);
+	    	returnValue =  "end";
 	    	
-	    	ArrayList<NPC> NPCs = gameWorld.getNPCs();
-	    	
-	    	for (NPC tempNPC : NPCs) {
-		    	if (tempNPC.getName() == "Bandit") {
-		    		tempNPC.setHostile(true);
-		    	}
-	    	}
+	    	// Only required for quick hack to set bandits to hostile, no longer needed
+//	    	ArrayList<NPC> NPCs = gameWorld.getNPCs();
+//	    	
+//	    	for (NPC tempNPC : NPCs) {
+//		    	if (tempNPC.getName() == "Bandit") {
+//		    		tempNPC.setHostile(true);
+//		    	}
+//	    	}
 
     	}
+    	
+		return returnValue;
     	
 	}
 	

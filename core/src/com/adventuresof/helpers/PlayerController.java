@@ -9,6 +9,7 @@ import com.adventuresof.game.quest.ProgressEnum;
 import com.adventuresof.game.quest.Quest;
 import com.adventuresof.game.quest.Task;
 import com.adventuresof.game.quest.TaskController;
+import com.adventuresof.game.quest.TaskTypeEnum;
 import com.adventuresof.game.world.GameRenderer;
 import com.adventuresof.game.world.AdventuresOfGameWorld;
 import com.adventuresof.screens.MainGameScreen;
@@ -142,7 +143,6 @@ public class PlayerController implements InputProcessor{
 			} else {
 
 				if (npc.hasQuest()) {
-					//Quest test = new Quest(npc.getQuestName());
 					
 					Player player = this.gameWorld.getPlayer();
 					
@@ -153,7 +153,6 @@ public class PlayerController implements InputProcessor{
 					for (Quest quest : player.getQuests()) {
 						
 						if (npc.getQuestName().equals(quest.getTitle())) {
-							System.out.println(quest.toString());
 							npcQuest = quest;
 							break;
 						}
@@ -162,11 +161,14 @@ public class PlayerController implements InputProcessor{
 					if (npcQuest.getProgress() != ProgressEnum.COMPLETE) {
 						
 						for (Task task : npcQuest.getTasks()) {
-							System.out.println(task.toString());
 							if (task.getProgress().equals(ProgressEnum.INCOMPLETE)) {
-								TaskController taskController = new TaskController(task);
-								taskController.handleTask();
-								break;
+								System.out.println(task.toString());
+								//if(task.getType() == TaskTypeEnum.CONVERSATION) {
+									TaskController taskController = new TaskController(task, hud, npc, this.gameWorld);
+									taskController.handleTask();
+							
+									break;
+								//}
 							}
 						}
 						
