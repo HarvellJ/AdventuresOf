@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import com.adventuresof.game.character.NPC;
+import com.adventuresof.game.inventory.Inventory;
+import com.adventuresof.game.inventory.Item;
+import com.adventuresof.game.inventory.ItemEnum;
 import com.adventuresof.game.world.AdventuresOfGameWorld;
 import com.adventuresof.screens.PlayerHUD;
 
@@ -13,12 +16,14 @@ public class TaskController {
 	private PlayerHUD hud;
 	private NPC npc;
 	private AdventuresOfGameWorld gameWorld;
+	private Inventory inventory;
 	
-	public TaskController (Task task, PlayerHUD hud, NPC npc, AdventuresOfGameWorld gameWorld) {
+	public TaskController (Task task, PlayerHUD hud, NPC npc, AdventuresOfGameWorld gameWorld, Inventory inventory) {
 		this.task = task;
 		this.hud = hud;
 		this.npc = npc;
 		this.gameWorld = gameWorld;
+		this.inventory = inventory;
 		
 	}
 	
@@ -30,9 +35,9 @@ public class TaskController {
 		
 			case SLAYER : slayerCheck("", 0);
 				break;
-			case CONVERSATION : conversationCheck("");
+			case CONVERSATION : conversationCheck();
 				break;
-			case COLLECT: collectionCheck("","");
+			case COLLECT: collectionCheck();
 				break;
 		}
 		
@@ -44,13 +49,10 @@ public class TaskController {
 		//TO DO: some way of checking whether that specific monster has been killed
 			//once target has been reached set task status to complete
 		
-		//this.task.setProgress(ProgressEnum.COMPLETE);
-		
-		System.out.println("hit2");
-		
+		//this.task.setProgress(ProgressEnum.COMPLETE);		
 	}
 	
-	public void conversationCheck (String npcName) {
+	public void conversationCheck () {
 		//npcName = name of npc you must talk to
 		//TO DO: some way of checking that you have spoken to the NPC.
 			//check the length of the array vs the total messages displayed?
@@ -64,19 +66,30 @@ public class TaskController {
 			this.task.setProgress(ProgressEnum.COMPLETE);
 			ArrayList<String> emptyArray = new ArrayList<String>(Arrays.asList(""));
 			this.npc.setConversation(emptyArray);
-			System.out.println("END");
 		};
 
 	}
 	
-	private void collectionCheck (String npcName, String itemName) {
+	private void collectionCheck () {
 		//npcName = name of the npc that has sent you to collect an item
 		//itemName = name of the item you have been sent to collect
 		//TO DO: when speaking to the npc check whether the item is in the inventory
 			//if so set task status to complete
 			//if not repeat conversation
-		//this.task.setProgress(ProgressEnum.COMPLETE);
-
+		
+		String result = "";
+		
+		Item item = new Item(this.task.getItem());
+				
+		if(0 < this.inventory.checkInventory(item)) {
+			result = this.hud.displayChat(this.npc, this.gameWorld);
+		};
+		
+		if(result.equals("end")) {	
+			this.inventory.remove(item, this.task.getQuantity());
+			this.task.setProgress(ProgressEnum.COMPLETE);
+			this.npc.setConversation(task.getConversation());
+		};
 	}
 
 }

@@ -8,7 +8,7 @@
             <TaskTitle>Talk to a knight</TaskTitle>
             <TaskText>Knight can be found at the right walls of the castle</TaskText>
             <Type>Conversation</Type>
-            <NPC>Knight</NPC>
+            <NPC>Geoff</NPC>
             <Conversation>
                 <Dialogue>{CHARACTER_NAME} Have you been having trouble with bandits?</Dialogue>
                 <Dialogue>{KNIGHT} Yes there are 20 of them outside the castle walls attacking and killing villagers, they were too strong for us, can you help? </Dialogue>
@@ -26,7 +26,7 @@
         <Task>
             <TaskTitle>Tell the Knight</TaskTitle>
             <Type>Conversation</Type>
-            <NPC>Knight</NPC>
+            <NPC>Geoff</NPC>
             <Conversation>
                 <Dialogue>{CHARACTER_NAME} The bandits will no longer be an issue</Dialogue>
                 <Dialogue>{NPC_NAME} Thanks {CHARACTER_NAME}, you have saved the people a lot of worry </Dialogue>

@@ -62,16 +62,6 @@ public class Quest {
 			
 			this.tasks = tempList;
 			
-			//System.out.println(title.getTextContent() + description.getTextContent());
-			
-			
-			
-//			NodeList taskList = doc.getElementsByTagName("Task");
-			
-//			for (int i = 0; i < taskList.getLength(); i++) {
-//				Node task = taskList.item(i);
-//			}
-			
 		} catch (ParserConfigurationException e) {
 			e.printStackTrace();
 		} catch (SAXException e) {

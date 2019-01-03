@@ -161,14 +161,12 @@ public class PlayerController implements InputProcessor{
 					if (npcQuest.getProgress() != ProgressEnum.COMPLETE) {
 						
 						for (Task task : npcQuest.getTasks()) {
-							if (task.getProgress().equals(ProgressEnum.INCOMPLETE)) {
+							if (task.getProgress().equals(ProgressEnum.INCOMPLETE) && task.getNpcName().equals(npc.getName())) {
 								System.out.println(task.toString());
-								//if(task.getType() == TaskTypeEnum.CONVERSATION) {
-									TaskController taskController = new TaskController(task, hud, npc, this.gameWorld);
+									TaskController taskController = new TaskController(task, hud, npc, this.gameWorld, player.getInventory());
 									taskController.handleTask();
 							
 									break;
-								//}
 							}
 						}
 						

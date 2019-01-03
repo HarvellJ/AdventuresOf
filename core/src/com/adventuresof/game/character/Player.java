@@ -92,8 +92,10 @@ public class Player extends GameCharacter{
 		this.quests = new ArrayList<Quest>();
 		
 		Quest slayerQuest = new Quest("SlayerQuest");
+		Quest collectionQuest = new Quest("collectionQuest");
 		
 		quests.add(slayerQuest);
+		quests.add(collectionQuest);
 		
 	}
 
