@@ -7,14 +7,18 @@ import com.adventuresof.game.character.NPC;
 import com.adventuresof.game.character.Player;
 import com.adventuresof.game.inventory.Inventory;
 import com.adventuresof.game.inventory.InventoryActor;
+import com.adventuresof.game.quest.QuestLogActor;
 import com.adventuresof.game.world.GameWorld;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
+import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -23,19 +27,24 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class PlayerHUD implements Screen{
 
 	private InventoryActor inventoryActor;
+	private QuestLogActor questLogActor;
 	public  Stage stage;
 	private Viewport viewport;
-	private ArrayList<String> conversation = new ArrayList<String>();
 	protected Table uiTable;
 	private TextArea textArea;
 	private int conversationIndex;
 	private TextButton button;
 	private Dialog chatBox;
+	private ScrollPane scrollPane;
+	private List<String> list;
+    private SpriteBatch batcher;
+    float gameWidth, gameHeight;
 
 	
 	public PlayerHUD(Camera camera, Player player) {
@@ -47,7 +56,10 @@ public class PlayerHUD implements Screen{
 		DragAndDrop dragAndDrop = new DragAndDrop();
 		Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
 		inventoryActor = new InventoryActor(player.getInventory(), dragAndDrop, skin);
+		questLogActor = new QuestLogActor(skin);
 //		stage.addActor(inventoryActor);
+		
+		
 		
 		//setup textArea
 		this.textArea = new TextArea("", skin);
@@ -59,6 +71,27 @@ public class PlayerHUD implements Screen{
 		//setup continue button.
 		this.button = new TextButton("Click to continue",skin);
 		this.button.setVisible(false);
+		
+		//batcher = new SpriteBatch();
+        list = new List<String>(skin);
+        String[] strings = new String[20];
+        for (int i = 0, k = 0; i < 20; i++) {
+            strings[k++] = "String: " + i;
+ 
+        }
+        gameWidth = Gdx.graphics.getWidth();
+        gameHeight = Gdx.graphics.getHeight();
+        list.setItems(strings);
+        scrollPane = new ScrollPane(list);
+        scrollPane.setBounds(0, 0, gameWidth, gameHeight + 100);
+        scrollPane.setSmoothScrolling(false);
+        scrollPane.setPosition(gameWidth / 2 - scrollPane.getWidth() / 4,
+                gameHeight / 2 - scrollPane.getHeight() / 4);
+        scrollPane.setTransform(true);
+        scrollPane.setScale(0.5f);
+        stage.addActor(scrollPane);
+        //Gdx.input.setInputProcessor(stage);
+ 
 
 		//setup pane layout using table
 //		Table paneTable = new Table();
@@ -74,6 +107,7 @@ public class PlayerHUD implements Screen{
 		uiTable.add().bottom().colspan(3);
 		uiTable.add().expandX().expandY();
 		uiTable.add(inventoryActor).bottom();
+		//uiTable.add(questLogActor).left();
 		stage.addActor(textArea);	
 		
 	}
@@ -95,15 +129,6 @@ public class PlayerHUD implements Screen{
     		this.textArea.setText("");
 	    	npc.setConversationIndex(0);
 	    	returnValue =  "end";
-	    	
-	    	// Only required for quick hack to set bandits to hostile, no longer needed
-//	    	ArrayList<NPC> NPCs = gameWorld.getNPCs();
-//	    	
-//	    	for (NPC tempNPC : NPCs) {
-//		    	if (tempNPC.getName() == "Bandit") {
-//		    		tempNPC.setHostile(true);
-//		    	}
-//	    	}
 
     	}
     	
