@@ -89,7 +89,7 @@ public class PlayerHUD implements Screen{
                 gameHeight / 2 - scrollPane.getHeight() / 4);
         scrollPane.setTransform(true);
         scrollPane.setScale(0.5f);
-        stage.addActor(scrollPane);
+        //stage.addActor(scrollPane);
         //Gdx.input.setInputProcessor(stage);
  
 

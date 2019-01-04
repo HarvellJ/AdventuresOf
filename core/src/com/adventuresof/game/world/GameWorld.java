@@ -129,13 +129,32 @@ public abstract class GameWorld {
 
 	private void disposeOfObjects() {
 		// remove perished NPCs
+		
+		ArrayList<NPC> tempArray = new ArrayList<NPC>();
+		
 		for(int i = 0; i < this.NPCs.size(); i++) {
 			if(this.NPCs.get(i).CanDispose()) {
 				// spawn a relevant drop based on NPC
 				this.spawnItem(this.NPCs.get(i).getHitBox());
 				this.NPCs.remove(i);
+				this.player.getNpcsKilled().add(this.NPCs.get(i));
+				
+				if (this.player.getNpcsKilled().size() > 0) {			
+
+					for (NPC npc : this.player.getNpcsKilled()) {
+						System.out.println("\n " + npc.getName());
+					}
+
+				}
 			}
 		}
+		
+//		if (tempArray.size() > 0) {			
+//			this.player.getNpcsKilled().addAll(tempArray);
+//		}
+		
+
+		
 		// remove objects - e.g. spell animations and stuff alike
 		for(int i = 0; i < this.activeProjectiles.size(); i++) {
 			if(this.activeProjectiles.get(i).CanDispose())

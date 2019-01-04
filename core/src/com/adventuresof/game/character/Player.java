@@ -19,6 +19,7 @@ public class Player extends GameCharacter{
 	private Inventory inventory; // Stores items the player has collected
 	private ArrayList<GameZone> discoveredZones; // Stores a list of discovered zones. Used for measuring player progress
 	private ArrayList<Quest> quests;
+	private ArrayList<NPC> npcsKilled = new ArrayList<NPC>();
 
 	// texture sheets
 	private static final String MOVEMENT_SPRITE_SHEET = "characters//blueWizard.png";
@@ -141,5 +142,13 @@ public class Player extends GameCharacter{
 	
 	public ArrayList<Quest> getQuests() {
 		return quests;
+	}
+
+	public ArrayList<NPC> getNpcsKilled() {
+		return npcsKilled;
+	}
+
+	public void setNpcsKilled(ArrayList<NPC> npcsKilled) {
+		this.npcsKilled = npcsKilled;
 	}
 }

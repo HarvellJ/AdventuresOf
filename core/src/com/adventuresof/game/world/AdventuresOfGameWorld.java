@@ -83,10 +83,10 @@ public class AdventuresOfGameWorld extends GameWorld{
 			Rectangle rectangle = rectangleObject.getRectangle();
 			// spawn in an 'enemy'
 			if(r.nextInt(5) >= 2) {
-				this.NPCs.add(new Knight(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Bandit", true, conversation, false));							
+				this.NPCs.add(new Knight(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Knight", true, conversation, false));							
 			}		
 			else {
-				this.NPCs.add(new KnightGold(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Bandit", true, conversation, false));							
+				this.NPCs.add(new KnightGold(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Knight", true, conversation, false));							
 
 			}
 
@@ -95,7 +95,7 @@ public class AdventuresOfGameWorld extends GameWorld{
 			Rectangle rectangle = rectangleObject.getRectangle();
 			// spawn in an 'enemy'
 			if(r.nextInt(5) >= 2) {
-				this.NPCs.add(new Dragon(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Knight", false, null, true));	
+				this.NPCs.add(new Dragon(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Dragon", false, null, true));	
 			}
 			else {
 				this.NPCs.add(new KnightGold(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Knight", false, null, true));							
@@ -105,9 +105,9 @@ public class AdventuresOfGameWorld extends GameWorld{
 			Rectangle rectangle = rectangleObject.getRectangle();
 			// spawn in an 'enemy'
 			if(r.nextInt(5) >= 2) {
-				this.NPCs.add(new Phoenix(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Knight", false, null, true));	
+				this.NPCs.add(new Phoenix(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Phoenix", false, null, true));	
 			}else {
-				this.NPCs.add(new BloodElf(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Knight", false, null, true));	
+				this.NPCs.add(new BloodElf(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Blood Elf", false, null, true));	
 			}
 
 		}
@@ -126,7 +126,7 @@ public class AdventuresOfGameWorld extends GameWorld{
 		for (RectangleMapObject rectangleObject : this.map.getGuardSpawnMudBaseCasleSpawnObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
 			// if statement used because direction of guards depends on spawn zone			
-			this.NPCs.add(new MudCastleGuard(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Luke", true, conversation, true, "Collection Quest"));							
+			this.NPCs.add(new MudCastleGuard(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Luke", true, conversation, true, "Slayer Quest"));							
 		}
 	}
 

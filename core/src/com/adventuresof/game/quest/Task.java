@@ -15,11 +15,13 @@ public class Task {
 	private String title;
 	private String description;
 	private String npcName;
+	private String target;
 	private ItemEnum item;
 	private int quantity;
 	private ArrayList<String> conversation;
 	private TaskTypeEnum type;
 	private ProgressEnum progress;
+	private int totalSlayed = 0;
 	
 	public Task (Element task) {
 		
@@ -108,6 +110,16 @@ public class Task {
 			Node quantity = (Element) ((NodeList) quantityList).item(0);
 			this.setQuantity(Integer.parseInt(quantity.getTextContent()));
 		}
+		
+		//retrieving the slayer target from the task element
+		NodeList targetList = task.getElementsByTagName("Target");
+		
+		//checking whether a target exist for this specific task element
+		if(targetList.getLength() > 0) { 
+			Node target = (Element) ((NodeList) targetList).item(0);
+			this.setTarget(target.getTextContent());
+		}
+
 
 
 	}
@@ -198,5 +210,21 @@ public class Task {
 
 	public ItemEnum getItem() {
 		return item;
+	}
+
+	public String getTarget() {
+		return target;
+	}
+
+	public void setTarget(String target) {
+		this.target = target;
+	}
+
+	public int getTotalSlayed() {
+		return totalSlayed;
+	}
+
+	public void setTotalSlayed(int totalSlayed) {
+		this.totalSlayed = totalSlayed;
 	}
 }

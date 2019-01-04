@@ -35,7 +35,7 @@ public class TaskController {
 		switch(task.getType()) {
 		
 		
-			case SLAYER : isComplete = slayerCheck("", 0);
+			case SLAYER : isComplete = slayerCheck();
 				break;
 			case CONVERSATION : isComplete = conversationCheck();
 				break;
@@ -48,15 +48,41 @@ public class TaskController {
 		
 	}
 	
-	private Boolean slayerCheck (String npcName, int quantity) {
+	private Boolean slayerCheck () {
 		//npcName = name of the monster you need to slay
 		//target = number of that specific monster you have to slay
 		//TO DO: some way of checking whether that specific monster has been killed
 			//once target has been reached set task status to complete
 		
-		//this.task.setProgress(ProgressEnum.COMPLETE);		
+		//this.task.setProgress(ProgressEnum.COMPLETE);
 		
-		return null;
+		String result = "";
+				
+		for (NPC npc : this.gameWorld.getPlayer().getNpcsKilled()) {
+			
+			System.out.println("Target: " + task.getTarget());
+			System.out.println("npc: " + npc.getName());
+			
+			if (npc.getName().equals(task.getTarget())) {
+				task.setTotalSlayed(task.getTotalSlayed() + 1);
+			}
+	
+		}
+		
+		
+		if (task.getTotalSlayed() >= task.getQuantity()) {
+			this.npc.setConversation(task.getConversation());
+			result = this.hud.displayChat(this.npc, this.gameWorld);
+		} 
+		
+		if(result.equals("end")) {	
+			this.task.setProgress(ProgressEnum.COMPLETE);
+			
+			return true;
+		} else {
+			return false;
+		}
+		
 	}
 	
 	public Boolean conversationCheck () {
@@ -73,6 +99,7 @@ public class TaskController {
 			this.task.setProgress(ProgressEnum.COMPLETE);
 			ArrayList<String> emptyArray = new ArrayList<String>(Arrays.asList(""));
 			this.npc.setConversation(emptyArray);
+			result = this.hud.displayChat(this.npc, this.gameWorld);
 
 			return true;
 		} else {
@@ -92,13 +119,13 @@ public class TaskController {
 		
 		Item item = new Item(this.task.getItem());
 				
-		if(0 < this.inventory.checkInventory(item)) {
+		if(this.task.getQuantity() <= this.inventory.checkInventory(item)) {
+			this.inventory.remove(item, this.task.getQuantity());
 			this.npc.setConversation(task.getConversation());
 			result = this.hud.displayChat(this.npc, this.gameWorld);
 		};
 		
 		if(result.equals("end")) {	
-			this.inventory.remove(item, this.task.getQuantity());
 			this.task.setProgress(ProgressEnum.COMPLETE);
 			
 			return true;
