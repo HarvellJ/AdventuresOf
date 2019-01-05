@@ -4,7 +4,7 @@ import com.adventuresof.helpers.AnimationFactory;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-public class DirectionalProjectileAnimation {
+public class SpellAnimation {
 
 	// movement
 	private Animation<TextureRegion> RightAnimation;
@@ -13,7 +13,10 @@ public class DirectionalProjectileAnimation {
 	private Animation<TextureRegion> DownAnimation;
 
 	// texture sheets
-	String movementTextureSheet;
+	protected String movementTextureSheet_up;
+	protected String movementTextureSheet_down;
+	protected String movementTextureSheet_left;
+	protected String movementTextureSheet_right;
 	
 	// texture sheet sizes
 	int movementTextureSheetCols, movementTextureSheetRows;
@@ -26,8 +29,12 @@ public class DirectionalProjectileAnimation {
 	// idle values
 
 	// movement, attack and death animations - for when all animations are on same sheet
-	public DirectionalProjectileAnimation(
-			String textureSheet, int sheetRows, int sheetCols,
+	public SpellAnimation(
+			String movementTextureSheet_up, 
+			String movementTextureSheet_down, 
+			String movementTextureSheet_left, 
+			String movementTextureSheet_right, 
+			int sheetRows, int sheetCols,
 			int moveLeftStart, int moveLeftFrames,
 			int moveRightStart, int moveRightFrames,
 			int moveDownStart, int moveDownFrames,
@@ -38,7 +45,11 @@ public class DirectionalProjectileAnimation {
 		this.movementTextureSheetCols = sheetCols;
 		
 		// assign movement values
-		this.movementTextureSheet = textureSheet;
+		this.movementTextureSheet_up = movementTextureSheet_up;
+		this.movementTextureSheet_down = movementTextureSheet_down;
+		this.movementTextureSheet_left = movementTextureSheet_left;
+		this.movementTextureSheet_right = movementTextureSheet_right;
+
 		this.moveLeftStart = moveLeftStart;
 		this.moveLeftFrames = moveLeftFrames;
 		this.moveRightStart = moveRightStart;
@@ -73,9 +84,9 @@ public class DirectionalProjectileAnimation {
 	}		
 
 	private void createMovementAnimations() {
-		this.LeftAnimation = AnimationFactory.createAnimation(this.movementTextureSheet, this.movementTextureSheetCols, this.movementTextureSheetRows, this.moveLeftFrames, this.moveLeftStart, 0.08f);
-		this.RightAnimation = AnimationFactory.createAnimation(this.movementTextureSheet, this.movementTextureSheetCols, this.movementTextureSheetRows, this.moveRightFrames, this.moveRightStart, 0.08f);
-		this.DownAnimation = AnimationFactory.createAnimation(this.movementTextureSheet, this.movementTextureSheetCols, this.movementTextureSheetRows, this.moveDownFrames, this.moveDownStart, 0.08f);
-		this.UpAnimation = AnimationFactory.createAnimation(this.movementTextureSheet, this.movementTextureSheetCols, this.movementTextureSheetRows, this.moveUpFrames, this.moveUpStart, 0.08f);			
+		this.LeftAnimation = AnimationFactory.createAnimation(this.movementTextureSheet_left, this.movementTextureSheetCols, this.movementTextureSheetRows, this.moveLeftFrames, this.moveLeftStart, 0.08f);
+		this.RightAnimation = AnimationFactory.createAnimation(this.movementTextureSheet_right, this.movementTextureSheetCols, this.movementTextureSheetRows, this.moveRightFrames, this.moveRightStart, 0.08f);
+		this.DownAnimation = AnimationFactory.createAnimation(this.movementTextureSheet_down, this.movementTextureSheetCols, this.movementTextureSheetRows, this.moveDownFrames, this.moveDownStart, 0.08f);
+		this.UpAnimation = AnimationFactory.createAnimation(this.movementTextureSheet_up, this.movementTextureSheetCols, this.movementTextureSheetRows, this.moveUpFrames, this.moveUpStart, 0.08f);			
 	}
 }

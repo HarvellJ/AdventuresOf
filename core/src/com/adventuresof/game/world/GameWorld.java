@@ -5,6 +5,7 @@ import com.adventuresof.game.character.CharacterClass;
 import com.adventuresof.game.character.GameCharacter;
 import com.adventuresof.game.character.NPC;
 import com.adventuresof.game.character.Player;
+import com.adventuresof.game.combat.InstantCastAbility;
 import com.adventuresof.game.combat.Projectile;
 import com.adventuresof.game.combat.SpellEnum;
 import com.adventuresof.game.inventory.Item;
@@ -24,10 +25,12 @@ public abstract class GameWorld {
 	protected ArrayList<NPC> NPCs;
 	protected ArrayList<Item> items; // an array of in-game items - representing the items that exist in the world
 	protected ArrayList<Projectile> activeProjectiles;
+	protected ArrayList<InstantCastAbility> instantCastAbilities;
 
 	public GameWorld(String mapPath) {
 		map = new Map(mapPath);
 		this.activeProjectiles = new ArrayList<Projectile>();
+		this.instantCastAbilities = new ArrayList<InstantCastAbility>();
 		this.spawnNPCs();
 		this.spawnPlayer(); // load the player
 		items = new ArrayList<Item>(); // instantiate map item list (items that exist on the map)
@@ -36,6 +39,10 @@ public abstract class GameWorld {
 
 	public ArrayList<Projectile> getActiveProjectiles() {
 		return activeProjectiles;
+	}
+
+	public ArrayList<InstantCastAbility> getInstantCastAbilities() {
+		return instantCastAbilities;
 	}
 
 	public void setActiveProjectiles(ArrayList<Projectile> activeSpells) {
@@ -79,6 +86,7 @@ public abstract class GameWorld {
 		player.update(); // move player
 		this.disposeOfObjects(); // disposes of objects marked as ready for disposal
 		this.updateGameProjectiles();
+		this.updateGameInstantCastSpells();
 		// move and update NPCs
 		this.moveNPCs(); // calls the move method on NPCs which just sets the target locations randomly
 		this.updateNPCs(); // actually updates the NPC's physical location
@@ -88,25 +96,33 @@ public abstract class GameWorld {
 		this.detectCollisionWithTriggers(); 						
 	}		
 
-	public void performIceSpellCast(Circle targetingCircle) {
+	public void performInstantSpellCast(Circle targetingCircle, SpellEnum spell) {
 		for(NPC npc : this.NPCs) {
 			if (Intersector.overlaps(targetingCircle, npc.getHitBox())) {
-				this.player.performIceSpell(npc);
-				SoundManager.playSoundEffect("audio/effects/ice.wav");
+				if(npc.isHostile()) {
+					InstantCastAbility ability = new InstantCastAbility(spell, npc.getCurrentPosition().x - 57, npc.getCurrentPosition().y - 45, this.player);
+					this.instantCastAbilities.add(ability);
+					npc.hitWithInstantCastSpell(ability);
+					SoundManager.playSoundEffect(ability.getSoundEffect());
+				}
 			}	
 		}	
 	}
 
+	public void addInstantCastSpell(InstantCastAbility ability) {
+		this.instantCastAbilities.add(ability);
+	}
+	
 	public void performSpellCast(Projectile projectile){
 		this.activeProjectiles.add(projectile);
 		SoundManager.playSoundEffect(projectile.getSoundEffect());
 	}
-	
+
 	public void spawnPlayer() {
 		for (RectangleMapObject rectangleObject : this.map.getPlayerSpawnObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
 			// spawn in an 'enemy'
-			this.setPlayer(new Player(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, CharacterClass.hybrid));
+			this.setPlayer(new Player(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, CharacterClass.mage));
 			break;
 		}
 	}
@@ -140,6 +156,10 @@ public abstract class GameWorld {
 		for(int i = 0; i < this.activeProjectiles.size(); i++) {
 			if(this.activeProjectiles.get(i).CanDispose())
 				this.activeProjectiles.remove(i);
+		}
+		for(int i = 0; i < this.getInstantCastAbilities().size(); i++) {
+			if(this.instantCastAbilities.get(i).CanDispose())
+				this.instantCastAbilities.remove(i);
 		}
 	}
 
@@ -203,6 +223,12 @@ public abstract class GameWorld {
 	private void updateGameProjectiles() {
 		for (int i = 0; i < this.activeProjectiles.size(); i++) {			
 			this.activeProjectiles.get(i).update();	
+		}
+	}
+
+	private void updateGameInstantCastSpells() {
+		for (int i = 0; i < this.instantCastAbilities.size(); i++) {			
+			this.instantCastAbilities.get(i).update();	
 		}
 	}
 

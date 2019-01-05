@@ -5,6 +5,7 @@ import java.util.Collections;
 
 import com.adventuresof.game.character.NPC;
 import com.adventuresof.game.character.Player;
+import com.adventuresof.game.combat.SpellType;
 import com.adventuresof.game.quest.Quest;
 import com.adventuresof.game.world.GameRenderer;
 import com.adventuresof.game.world.AdventuresOfGameWorld;
@@ -52,9 +53,14 @@ public class PlayerController implements InputProcessor{
 			// perform ice spell
 			this.abilityTwoActivated = false;
 			this.abilityThreeActivated = false;
+			this.abilityFourActivated = false;
 			if(!abilityOneActivated) {
-				this.gameRenderer.setShowTargetCircle(true, 30);
-				this.abilityOneActivated = true;
+				if(this.gameWorld.getPlayer().getCharacterClass().getAbilityOne().getSpellType() != SpellType.buff) {
+					this.gameRenderer.setShowTargetCircle(true, this.gameWorld.getPlayer().getCharacterClass().getAbilityOne().getAreaOfAffect());
+					this.abilityOneActivated = true;
+				}else{
+					this.gameWorld.getPlayer().performAbilityOne(this.gameWorld.getPlayer().getCurrentPosition().x, this.gameWorld.getPlayer().getCurrentPosition().y);			
+				}
 			}else {
 				this.gameRenderer.setShowTargetCircle(false, 0);
 				this.abilityOneActivated = false;
@@ -65,9 +71,15 @@ public class PlayerController implements InputProcessor{
 			// perform tornado spell
 			this.abilityOneActivated = false;
 			this.abilityThreeActivated = false;
+			this.abilityFourActivated = false;
 			if(!abilityTwoActivated) {
-				this.gameRenderer.setShowTargetCircle(true, 120);
-				this.abilityTwoActivated = true;
+				if(this.gameWorld.getPlayer().getCharacterClass().getAbilityTwo().getSpellType() != SpellType.buff) {
+					this.gameRenderer.setShowTargetCircle(true, this.gameWorld.getPlayer().getCharacterClass().getAbilityTwo().getAreaOfAffect());
+					this.abilityTwoActivated = true;
+				}
+				else{
+					this.gameWorld.getPlayer().performAbilityTwo(this.gameWorld.getPlayer().getCurrentPosition().x, this.gameWorld.getPlayer().getCurrentPosition().y);			
+				}
 			}else {
 				this.gameRenderer.setShowTargetCircle(false, 0);
 				this.abilityTwoActivated = false;
@@ -77,12 +89,35 @@ public class PlayerController implements InputProcessor{
 			// perform tornado spell
 			this.abilityOneActivated = false;
 			this.abilityTwoActivated = false;
+			this.abilityFourActivated = false;
+
 			if(!abilityThreeActivated) {
-				this.gameRenderer.setShowTargetCircle(true, 30);
-				this.abilityThreeActivated = true;
+				if(this.gameWorld.getPlayer().getCharacterClass().getAbilityThree().getSpellType() != SpellType.buff) {
+					this.gameRenderer.setShowTargetCircle(true, this.gameWorld.getPlayer().getCharacterClass().getAbilityThree().getAreaOfAffect());
+					this.abilityThreeActivated = true;
+				}else{
+					this.gameWorld.getPlayer().performAbilityThree(this.gameWorld.getPlayer().getCurrentPosition().x, this.gameWorld.getPlayer().getCurrentPosition().y);			
+				}
 			}else {
 				this.gameRenderer.setShowTargetCircle(false, 0);
 				this.abilityThreeActivated = false;
+			}
+		}
+		if(keycode == Input.Keys.NUM_4) {
+			// perform tornado spell
+			this.abilityOneActivated = false;
+			this.abilityTwoActivated = false;
+			this.abilityThreeActivated = false;
+			if(!abilityFourActivated) {
+				if(this.gameWorld.getPlayer().getCharacterClass().getAbilityFour().getSpellType() != SpellType.buff) {
+					this.gameRenderer.setShowTargetCircle(true, this.gameWorld.getPlayer().getCharacterClass().getAbilityFour().getAreaOfAffect());
+					this.abilityFourActivated = true;
+				}else{
+					this.gameWorld.getPlayer().performAbilityFour(this.gameWorld.getPlayer().getCurrentPosition().x, this.gameWorld.getPlayer().getCurrentPosition().y);			
+				}
+			}else {
+				this.gameRenderer.setShowTargetCircle(false, 0);
+				this.abilityFourActivated = false;
 			}
 		}
 
@@ -90,7 +125,7 @@ public class PlayerController implements InputProcessor{
 		//gameWorld.getMap().getTiledMap().getLayers().get(0).setVisible(!gameWorld.getMap().getTiledMap().getLayers().get(0).isVisible());
 		//if(keycode == Input.Keys.I)
 		//	gameRenderer.toggleInventory();
-		
+
 		if (keycode == Input.Keys.SPACE) {
 			Quest test = new Quest("");
 			System.out.println(test.toString());
@@ -180,25 +215,49 @@ public class PlayerController implements InputProcessor{
 		}
 
 		else if (button == Buttons.LEFT) {
+			Vector3 coordinates;
+			Vector3 positionInGame;
 			// check active spells
-			if(abilityTwoActivated) {
-				Vector3 coordinates = new Vector3(this.gameRenderer.getTargetCircleX(), this.gameRenderer.getTargetCircleY(), 0);
-				Vector3 positionInGame = gameRenderer.getCamera().unproject(coordinates);
-				this.gameWorld.performIceSpellCast(new Circle(positionInGame.x,positionInGame.y, this.gameRenderer.getTargetCircleSize()));
+			if(abilityOneActivated) {			
+				if(this.gameWorld.getPlayer().getCharacterClass().getAbilityOne().getSpellType() != SpellType.buff)
+				{
+					coordinates = new Vector3(this.gameRenderer.getTargetCircleX(), this.gameRenderer.getTargetCircleY(), 0);
+					positionInGame = gameRenderer.getCamera().unproject(coordinates);
+					this.gameWorld.getPlayer().performAbilityOne(positionInGame.x, positionInGame.y);
+				}else {
+					this.gameWorld.getPlayer().performAbilityOne(this.gameWorld.getPlayer().getCurrentPosition().x, this.gameWorld.getPlayer().getCurrentPosition().y);			
+				}
 			}
-
-			else if(abilityOneActivated) {
-				Vector3 coordinates = new Vector3(this.gameRenderer.getTargetCircleX(), this.gameRenderer.getTargetCircleY(), 0);
-				Vector3 positionInGame = gameRenderer.getCamera().unproject(coordinates);
-				this.gameWorld.getPlayer().performAbilityOne(positionInGame.x, positionInGame.y);
-
+			else if(abilityTwoActivated) {	
+				if(this.gameWorld.getPlayer().getCharacterClass().getAbilityTwo().getSpellType() != SpellType.buff)
+				{
+					coordinates = new Vector3(this.gameRenderer.getTargetCircleX(), this.gameRenderer.getTargetCircleY(), 0);
+					positionInGame = gameRenderer.getCamera().unproject(coordinates);
+					this.gameWorld.getPlayer().performAbilityTwo(positionInGame.x, positionInGame.y);
+				}else {
+					this.gameWorld.getPlayer().performAbilityTwo(this.gameWorld.getPlayer().getCurrentPosition().x, this.gameWorld.getPlayer().getCurrentPosition().y);			
+				}
 			}
 			else if(abilityThreeActivated) {
-				Vector3 coordinates = new Vector3(this.gameRenderer.getTargetCircleX(), this.gameRenderer.getTargetCircleY(), 0);
-				Vector3 positionInGame = gameRenderer.getCamera().unproject(coordinates);
-				this.gameWorld.getPlayer().performAbilityTwo(positionInGame.x, positionInGame.y);
+				if(this.gameWorld.getPlayer().getCharacterClass().getAbilityThree().getSpellType() != SpellType.buff)
+				{
+					coordinates = new Vector3(this.gameRenderer.getTargetCircleX(), this.gameRenderer.getTargetCircleY(), 0);
+					positionInGame = gameRenderer.getCamera().unproject(coordinates);
+					this.gameWorld.getPlayer().performAbilityThree(positionInGame.x, positionInGame.y);
+				}else {
+					this.gameWorld.getPlayer().performAbilityThree(this.gameWorld.getPlayer().getCurrentPosition().x, this.gameWorld.getPlayer().getCurrentPosition().y);			
+				}
 			}
-
+			else if(abilityFourActivated) {	
+				if(this.gameWorld.getPlayer().getCharacterClass().getAbilityFour().getSpellType() != SpellType.buff)
+				{
+					coordinates = new Vector3(this.gameRenderer.getTargetCircleX(), this.gameRenderer.getTargetCircleY(), 0);
+					positionInGame = gameRenderer.getCamera().unproject(coordinates);
+					this.gameWorld.getPlayer().performAbilityFour(positionInGame.x, positionInGame.y);			
+				}else {
+					this.gameWorld.getPlayer().performAbilityFour(this.gameWorld.getPlayer().getCurrentPosition().x, this.gameWorld.getPlayer().getCurrentPosition().y);			
+				}
+			}
 		}
 
 		return false;
@@ -217,17 +276,22 @@ public class PlayerController implements InputProcessor{
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
 		// if the player has activated freeze spell, show targeting circle
-		if(abilityTwoActivated)		
+		if(abilityOneActivated && this.gameWorld.getPlayer().getCharacterClass().getAbilityOne().getSpellType() != SpellType.buff)	
 		{
 			this.gameRenderer.setTargetingCircleLocation(screenX, screenY);
 		}
 
-		if(abilityOneActivated)		
+		if(abilityTwoActivated && this.gameWorld.getPlayer().getCharacterClass().getAbilityTwo().getSpellType() != SpellType.buff)		
 		{
 			this.gameRenderer.setTargetingCircleLocation(screenX, screenY);
 		}
 
-		if(abilityThreeActivated)		
+		if(abilityThreeActivated && this.gameWorld.getPlayer().getCharacterClass().getAbilityThree().getSpellType() != SpellType.buff)		
+		{
+			this.gameRenderer.setTargetingCircleLocation(screenX, screenY);
+		}
+
+		if(abilityFourActivated && this.gameWorld.getPlayer().getCharacterClass().getAbilityFour().getSpellType() != SpellType.buff)		
 		{
 			this.gameRenderer.setTargetingCircleLocation(screenX, screenY);
 		}

@@ -1,6 +1,7 @@
 package com.adventuresof.game.world;
 
 import com.adventuresof.game.character.NPC;
+import com.adventuresof.game.combat.InstantCastAbility;
 import com.adventuresof.game.combat.Projectile;
 import com.adventuresof.game.common.GameObject;
 import com.adventuresof.game.inventory.Item;
@@ -167,12 +168,14 @@ public class GameRenderer {
 		for (Projectile projectile : this.gameWorld.getActiveProjectiles()) {
 			projectile.render(spriteBatch);
 		}
+		for (InstantCastAbility instantCastAbility : this.gameWorld.getInstantCastAbilities()) {
+			instantCastAbility.render(spriteBatch);
+		}
 	}
 	
 	private void renderAdditionalCharacterAnimations() {
 		for (NPC npc : this.gameWorld.getNPCs()) {	
 			this.shapeRendererGameObjects.setProjectionMatrix(camera.combined);
-			npc.renderAdditionalAnimations(this.shapeRendererGameObjects);
 		}
 	}
 	

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import com.adventuresof.game.animation.CharacterAnimation;
+import com.adventuresof.game.combat.InstantCastAbility;
 import com.adventuresof.game.combat.Projectile;
 import com.adventuresof.game.combat.SpellEnum;
 import com.adventuresof.game.combat.SpellType;
@@ -21,6 +22,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle; 
 import com.badlogic.gdx.math.Vector3;
 
@@ -145,6 +147,10 @@ public abstract class GameCharacter extends MoveableObject {
 	//================================================================================
 	// Accessor methods
 	//================================================================================
+	public CharacterClass getCharacterClass() {
+		return characterClass;
+	}
+	
 	public boolean isDying() {
 		return isDying;
 	}
@@ -330,18 +336,6 @@ public abstract class GameCharacter extends MoveableObject {
 	//================================================================================
 	// Animation
 	//================================================================================
-	public void renderAdditionalAnimations(ShapeRenderer shapeRenderer) {
-		// see if character is frozen (if so draw transparent shape to indicate ice block)
-		if(isFrozen) {
-			Gdx.gl.glEnable(GL20.GL_BLEND);
-			Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-			shapeRenderer.begin(ShapeType.Filled);
-			shapeRenderer.setColor(new Color(1, 1f, 1f, 0.5f));				
-			shapeRenderer.rect(this.getHitBox().x - this.getHitBox().width/2, this.getHitBox().y - 20, this.getHitBox().width, this.getHitBox().height + 50);
-			shapeRenderer.end();	
-		}
-	}
-
 	/**
 	 * gets the next animation frame for the direction the character is facing
 	 * @return
@@ -553,6 +547,9 @@ public abstract class GameCharacter extends MoveableObject {
 			else if(this.characterClass.getAbilityOne().getSpellType() == SpellType.buff){
 				this.performBuffAbility(this.characterClass.getAbilityOne());
 			}
+			else if(this.characterClass.getAbilityOne().getSpellType() == SpellType.instantCast){
+				this.performInstantCastAbility(this.characterClass.getAbilityOne(), targetX, targetY);
+			}
 		}
 	}
 
@@ -568,6 +565,9 @@ public abstract class GameCharacter extends MoveableObject {
 			}
 			else if(this.characterClass.getAbilityTwo().getSpellType() == SpellType.buff){
 				this.performBuffAbility(this.characterClass.getAbilityTwo());
+			}
+			else if(this.characterClass.getAbilityOne().getSpellType() == SpellType.instantCast){
+				this.performInstantCastAbility(this.characterClass.getAbilityTwo(), targetX, targetY);
 			}
 		}
 	}
@@ -585,13 +585,16 @@ public abstract class GameCharacter extends MoveableObject {
 			else if(this.characterClass.getAbilityThree().getSpellType() == SpellType.buff){
 				this.performBuffAbility(this.characterClass.getAbilityThree());
 			}
+			else if(this.characterClass.getAbilityOne().getSpellType() == SpellType.instantCast){
+				this.performInstantCastAbility(this.characterClass.getAbilityThree(), targetX, targetY);
+			}
 		}
 	}
 
 	public void performAbilityFour(float targetX, float targetY) {
 		// check cooldown - if cooldown is ok, then cast
-		if(this.abilityThreeLastActivated < (System.currentTimeMillis() - this.characterClass.getAbilityThree().getCoolDown().getCoolDownDuration())) {
-			this.abilityThreeLastActivated = System.currentTimeMillis(); // record the time of cast to factor into cooldown time
+		if(this.abilityFourLastActivated < (System.currentTimeMillis() - this.characterClass.getAbilityFour().getCoolDown().getCoolDownDuration())) {
+			this.abilityFourLastActivated = System.currentTimeMillis(); // record the time of cast to factor into cooldown time
 			if(this.characterClass.getAbilityFour().getSpellType() == SpellType.melee) {
 				this.performMeleeAbility(this.characterClass.getAbilityFour());
 			}
@@ -601,6 +604,16 @@ public abstract class GameCharacter extends MoveableObject {
 			else if(this.characterClass.getAbilityFour().getSpellType() == SpellType.buff){
 				this.performBuffAbility(this.characterClass.getAbilityFour());
 			}
+			else if(this.characterClass.getAbilityFour().getSpellType() == SpellType.instantCast){
+				this.performInstantCastAbility(this.characterClass.getAbilityFour(), targetX, targetY);
+			}
+		}
+	}
+	
+	public void hitWithInstantCastSpell(InstantCastAbility ability) {
+		this.damage(ability.getSpell().getDamage(), ability.getCastBy());
+		if(ability.getSpell() == SpellEnum.IceSpell) {
+			this.freeze();
 		}
 	}
 
@@ -624,8 +637,12 @@ public abstract class GameCharacter extends MoveableObject {
 		this.gameWorld.performSpellCast(new Projectile(this.accessibleTiles, this.currentPosition.x, this.currentPosition.y, targetX, targetY, spell, this));
 	}
 
+	private void performInstantCastAbility(SpellEnum spell, float targetX, float targetY) {
+		this.gameWorld.performInstantSpellCast(new Circle(targetX, targetY, spell.getAreaOfAffect()), spell);
+	}
+	
 	private void performBuffAbility(SpellEnum spell) {
-
+		this.gameWorld.addInstantCastSpell(new InstantCastAbility(spell, this.getCurrentPosition().x, this.getCurrentPosition().y, this));
 	}
 
 	private void lungeForward() {    	

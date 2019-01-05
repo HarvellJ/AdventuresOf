@@ -1,6 +1,6 @@
 package com.adventuresof.game.combat;
 
-import com.adventuresof.game.animation.DirectionalProjectileAnimation;
+import com.adventuresof.game.animation.SpellAnimation;
 import com.adventuresof.game.character.Direction;
 import com.adventuresof.game.character.GameCharacter;
 import com.adventuresof.game.common.GameObject;
@@ -16,7 +16,7 @@ import com.badlogic.gdx.math.Vector3;
 public class Projectile extends MoveableObject{
 	
 	private SpellEnum spellType;
-	private DirectionalProjectileAnimation directionalProjectileAnimation;
+	private SpellAnimation directionalProjectileAnimation;
     protected float projectileWidth;
     protected float projectileHeight;	
     
@@ -29,7 +29,7 @@ public class Projectile extends MoveableObject{
     
 	public Projectile(TiledMapTileLayer accessibleTiles,
 			float startX, float startY, float endX, float endY, SpellEnum spellType, GameCharacter firedBy) {
-		super(startX, startY);
+		super(startX - 57, startY - 25); // adjustments in start positions just to account for differences in sprite sizes
 		this.firedBy = firedBy;
 		this.spellType = spellType;
 		this.projectileHeight = spellType.getHeight();

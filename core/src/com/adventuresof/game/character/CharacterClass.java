@@ -5,7 +5,7 @@ import com.adventuresof.game.combat.SpellEnum;
 public enum CharacterClass {
 	melee(SpellEnum.Tornado, SpellEnum.Tornado, SpellEnum.Tornado, SpellEnum.Tornado),
 	ranger(SpellEnum.Arrow, SpellEnum.Arrow, SpellEnum.Arrow, SpellEnum.Arrow), 
-	mage(SpellEnum.Tornado, SpellEnum.Tornado, SpellEnum.Tornado, SpellEnum.Tornado),
+	mage(SpellEnum.Tornado, SpellEnum.Firelion, SpellEnum.IceBarrier, SpellEnum.IceSpell),
 	hybrid(SpellEnum.Tornado, SpellEnum.Arrow, SpellEnum.Tornado, SpellEnum.Tornado);
 	
 	// abilities get stronger in ascending order
