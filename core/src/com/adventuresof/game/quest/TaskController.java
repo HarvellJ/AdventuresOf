@@ -97,9 +97,9 @@ public class TaskController {
 		
 		if(result.equals("end")) {	
 			this.task.setProgress(ProgressEnum.COMPLETE);
-			ArrayList<String> emptyArray = new ArrayList<String>(Arrays.asList(""));
-			this.npc.setConversation(emptyArray);
-			result = this.hud.displayChat(this.npc, this.gameWorld);
+//			ArrayList<String> emptyArray = new ArrayList<String>(Arrays.asList(""));
+//			this.npc.setConversation(emptyArray);
+//			this.hud.displayChat(this.npc, this.gameWorld);
 
 			return true;
 		} else {
@@ -120,12 +120,12 @@ public class TaskController {
 		Item item = new Item(this.task.getItem());
 				
 		if(this.task.getQuantity() <= this.inventory.checkInventory(item)) {
-			this.inventory.remove(item, this.task.getQuantity());
 			this.npc.setConversation(task.getConversation());
 			result = this.hud.displayChat(this.npc, this.gameWorld);
 		};
 		
-		if(result.equals("end")) {	
+		if(result.equals("end")) {
+			this.inventory.remove(item, this.task.getQuantity());
 			this.task.setProgress(ProgressEnum.COMPLETE);
 			
 			return true;
