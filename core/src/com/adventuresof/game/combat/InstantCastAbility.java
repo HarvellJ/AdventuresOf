@@ -20,16 +20,14 @@ public class InstantCastAbility extends GameObject{
 
 	protected Direction currentProjectileDirection;
 
-	private GameCharacter castBy; // stored whom the projectile was fired by to avoid them from hitting themselves with their own projectile
+	private GameCharacter castBy; // who cast the spell
+	private GameCharacter target; // target of spell
+
 	private String soundEffect; // stores the path to the sound effect for this projectile
 
 	private float healthPoints; // this can either represent the health the spell heals (if none hostile) or the dammage the spell inflicsts if spell is hostile
 
-	private float targetX;
-	private float targetY;
-
 	private boolean isHostile;
-
 
 	TextureRegion firstAnimationFrame; // stores the first frame so we can derive when a full animation loop has been completed.
 	TextureRegion currentAnimationFrame;
@@ -37,7 +35,7 @@ public class InstantCastAbility extends GameObject{
 
 	public InstantCastAbility(
 			SpellEnum spellType,
-			float targetX, float targetY, GameCharacter castBy) {
+			GameCharacter target, GameCharacter castBy) {
 
 		this.castBy = castBy;
 
@@ -46,14 +44,25 @@ public class InstantCastAbility extends GameObject{
 		this.soundEffect = spellType.getSoundEffect();
 		this.healthPoints = spellType.getDamage();
 
-		this.targetX = targetX;
-		this.targetY = targetY;
-
+		this.target = target;
+		
 		this.canDispose = false;
 
 		this.isHostile = spellType.isHostile();
 		this.damage = spellType.getDamage();
 
+	}
+
+	public float getHealthPoints() {
+		return healthPoints;
+	}
+
+	public boolean isHostile() {
+		return isHostile;
+	}
+
+	public GameCharacter getTarget() {
+		return target;
 	}
 
 	public SpellEnum getSpell() {
@@ -72,10 +81,7 @@ public class InstantCastAbility extends GameObject{
 	public void update() {
 		this.stateTime += Gdx.graphics.getDeltaTime(); // increment state time
 		// if the spell is a player buff, update location so it follows player.
-		if(this.spellType.getSpellType() == SpellType.buff) {
-			this.setTargetX(this.castBy.getCurrentPosition().x - 57);
-			this.setTargetY(this.castBy.getCurrentPosition().y - 35);
-		}
+		
 		// prevent animation from looping
 		if(firstAnimationFrame == null && currentAnimationFrame != null) {
 			firstAnimationFrame = currentAnimationFrame;
@@ -90,23 +96,6 @@ public class InstantCastAbility extends GameObject{
 		}
 
 	}
-
-	public float getTargetX() {
-		return targetX;
-	}
-
-	public void setTargetX(float targetX) {
-		this.targetX = targetX;
-	}
-
-	public float getTargetY() {
-		return targetY;
-	}
-
-	public void setTargetY(float targetY) {
-		this.targetY = targetY;
-	}
-
 
 	public int getDamage() {
 		return damage;
@@ -128,7 +117,7 @@ public class InstantCastAbility extends GameObject{
 	@Override
 	public void render(SpriteBatch spriteBatch) {
 		currentAnimationFrame = this.spellAnimation.getDownAnimation().getKeyFrame(stateTime, true);
-		spriteBatch.draw(currentAnimationFrame, targetX, targetY); // Draw current frame
+		spriteBatch.draw(currentAnimationFrame, this.target.getCurrentPosition().x - 57, this.target.getCurrentPosition().y - 35); // Draw current frame
 	}   
 
 }

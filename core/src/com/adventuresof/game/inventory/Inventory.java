@@ -1,5 +1,6 @@
 package com.adventuresof.game.inventory;
 
+import com.adventuresof.game.item.Item;
 import com.badlogic.gdx.utils.Array;
 
 public class Inventory {

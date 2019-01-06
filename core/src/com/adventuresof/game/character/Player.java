@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import com.adventuresof.game.animation.CharacterAnimation;
 import com.adventuresof.game.common.MovementSpeedEnum;
 import com.adventuresof.game.inventory.Inventory;
-import com.adventuresof.game.inventory.Item;
 import com.adventuresof.game.inventory.ItemEnum;
+import com.adventuresof.game.item.Item;
 import com.adventuresof.game.world.GameWorld;
 import com.adventuresof.game.world.GameZone;
 import com.adventuresof.helpers.AnimationFactory;
@@ -81,9 +81,8 @@ public class Player extends GameCharacter{
 				ATTACK_DOWN_START_FRAME, ATTACK_DOWN_FRAMES,
 				ATTACK_UP_START_FRAME, ATTACK_UP_FRAMES,
 				DEATH_ANIMATION_START_FRAME, DEATH_ANIMATION_FRAMES
-				), MovementSpeedEnum.NORMAL_FAST.getSpeed(), true, "You", characterClass);
-		
-		
+				), MovementSpeedEnum.NORMAL_FAST.getSpeed(), true, "You", characterClass, CharacterLevel.normal);
+				
 		this.isHostile = true;
 		this.inventory = new Inventory();
 		this.discoveredZones = new ArrayList<GameZone>();

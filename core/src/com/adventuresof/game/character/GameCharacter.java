@@ -74,6 +74,8 @@ public abstract class GameCharacter extends MoveableObject {
 	private float lungeBackwardPerformed;
 	protected GameCharacter target; // the characters current target. This can be friendly or hostile
 	protected boolean isHostile; // toggles whether the character can be attacked or is passive
+	private CharacterLevel baseLevel; // the character level, used to determine their power
+
 	// death stuff
 	private boolean isDying;
 	private float stateTimeOfDeath; // used to calculate time required for death animation
@@ -92,10 +94,12 @@ public abstract class GameCharacter extends MoveableObject {
 			boolean isHostile,
 			int characterWidth, int characterHeight,
 			CharacterAnimation characterAnimation,
-			float speed, boolean canRespawn, String name, CharacterClass characterClass) {
+			float speed, boolean canRespawn, String name, CharacterClass characterClass,
+			CharacterLevel baseLevel) {
 
 		super(startX, startY);
-
+		
+		this.baseLevel = baseLevel;
 		this.gameWorld = gameWorld;
 
 		this.characterClass = characterClass;
@@ -642,7 +646,7 @@ public abstract class GameCharacter extends MoveableObject {
 	}
 	
 	private void performBuffAbility(SpellEnum spell) {
-		this.gameWorld.addInstantCastSpell(new InstantCastAbility(spell, this.getCurrentPosition().x, this.getCurrentPosition().y, this));
+		this.gameWorld.addInstantCastSpell(new InstantCastAbility(spell, this, this));
 	}
 
 	private void lungeForward() {    	

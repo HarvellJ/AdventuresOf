@@ -8,8 +8,7 @@ import com.adventuresof.game.character.Player;
 import com.adventuresof.game.combat.InstantCastAbility;
 import com.adventuresof.game.combat.Projectile;
 import com.adventuresof.game.combat.SpellEnum;
-import com.adventuresof.game.inventory.Item;
-
+import com.adventuresof.game.item.Item;
 import com.adventuresof.game.item.ItemFactory;
 import com.adventuresof.helpers.SoundManager;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
@@ -80,7 +79,7 @@ public abstract class GameWorld {
 	public void setItems(ArrayList<Item> items) {
 		this.items = items;
 	}
-
+	
 	public void update(float delta, ArrayList<NPC> NPCs) {
 		//this.detectObjectCollisions();
 		player.update(); // move player
@@ -95,12 +94,12 @@ public abstract class GameWorld {
 		this.detectCollisionOfProjectilesAndCharacters(); // detect spell hits
 		this.detectCollisionWithTriggers(); 						
 	}		
-
+	
 	public void performInstantSpellCast(Circle targetingCircle, SpellEnum spell) {
 		for(NPC npc : this.NPCs) {
 			if (Intersector.overlaps(targetingCircle, npc.getHitBox())) {
 				if(npc.isHostile()) {
-					InstantCastAbility ability = new InstantCastAbility(spell, npc.getCurrentPosition().x - 57, npc.getCurrentPosition().y - 45, this.player);
+					InstantCastAbility ability = new InstantCastAbility(spell, npc, this.player);
 					this.instantCastAbilities.add(ability);
 					npc.hitWithInstantCastSpell(ability);
 					SoundManager.playSoundEffect(ability.getSoundEffect());
@@ -111,6 +110,7 @@ public abstract class GameWorld {
 
 	public void addInstantCastSpell(InstantCastAbility ability) {
 		this.instantCastAbilities.add(ability);
+		SoundManager.playSoundEffect(ability.getSoundEffect());
 	}
 	
 	public void performSpellCast(Projectile projectile){
@@ -122,7 +122,7 @@ public abstract class GameWorld {
 		for (RectangleMapObject rectangleObject : this.map.getPlayerSpawnObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
 			// spawn in an 'enemy'
-			this.setPlayer(new Player(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, CharacterClass.mage));
+			this.setPlayer(new Player(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, CharacterClass.ranger));
 			break;
 		}
 	}

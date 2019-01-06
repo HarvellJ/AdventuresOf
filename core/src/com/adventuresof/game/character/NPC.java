@@ -30,10 +30,11 @@ public abstract class NPC extends GameCharacter {
 			CharacterAnimation characterAnimation, MovementSpeedEnum speed,
 			String name,
 			boolean isTalkative,
-			ArrayList<String> conversation, CharacterClass characterClass
+			ArrayList<String> conversation, CharacterClass characterClass,
+			CharacterLevel baseLevel
 			)
 	{
-		super(gameWorld, accessibleTiles, startX, startY, isHostile, characterWidth, characterHeight, characterAnimation, varySpeed(speed.getSpeed()), false, name, characterClass);
+		super(gameWorld, accessibleTiles, startX, startY, isHostile, characterWidth, characterHeight, characterAnimation, varySpeed(speed.getSpeed()), false, name, characterClass, baseLevel);
 		this.isStatic = isStatic;
 		this.setTalkative(isTalkative);
 		this.setConversation(conversation);

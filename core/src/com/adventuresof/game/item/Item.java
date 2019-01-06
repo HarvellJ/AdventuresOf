@@ -1,5 +1,6 @@
-package com.adventuresof.game.inventory;
+package com.adventuresof.game.item;
 
+import com.adventuresof.game.inventory.ItemEnum;
 import com.badlogic.gdx.math.Rectangle;
 
 public class Item {
@@ -8,6 +9,7 @@ public class Item {
 	    private float positionX;
 	    private float positionY;
 	    private Rectangle hitbox;
+	    
 	    
 	    public Item(ItemEnum item) {
 	    	this.setItem(item); 

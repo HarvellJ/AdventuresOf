@@ -6,17 +6,19 @@ import com.adventuresof.game.common.MovementSpeedEnum;
 
 public enum SpellEnum {
 	// basic level abilities
-	Tornado(new TornadoAnimation(),  16, 16, 10, MovementSpeedEnum.FAST, "audio/effects/windSpell.wav", SpellType.projectile, CoolDownEnum.Short, "spells//air-burst-air-1.png", true),
+	Tornado(new TornadoAnimation(),  50, 50, 10, MovementSpeedEnum.FAST, "audio/effects/windSpell.wav", SpellType.projectile, CoolDownEnum.Short, "spells//air-burst-air-1.png", true),
 
 	// secondary level abilities
-	Arrow(new ArrowAnimation(), 16, 16, 20, MovementSpeedEnum.VERY_FAST, "audio/effects/Bow.wav", SpellType.projectile, CoolDownEnum.Medium,  "spells//slice-sky-3.png", true),
-	Firelion(new FireballAnimation(), 16, 16, 20, MovementSpeedEnum.VERY_FAST, "audio/effects/Bow.wav", SpellType.projectile, CoolDownEnum.Medium,  "spells//rip-sky-3.png", true),
+	Arrow(new ArrowAnimation(), 50, 50, 20, MovementSpeedEnum.VERY_FAST, "audio/effects/Bow.wav", SpellType.projectile, CoolDownEnum.Medium,  "spells//slice-sky-3.png", true),
+	Firelion(new FireballAnimation(), 50, 50, 20, MovementSpeedEnum.VERY_FAST, "audio/effects/fireLionSpell.wav", SpellType.projectile, CoolDownEnum.Medium,  "spells//rip-sky-3.png", true),
 
 	// powerful level abilities
-	IceBarrier(new IceBarrierAnimation(), 16, 16, 20, MovementSpeedEnum.VERY_FAST, "audio/effects/ice.wav", SpellType.buff, CoolDownEnum.Medium,  "spells//shielding-eerie-3.png", false),
+	IceBarrier(new IceBarrierAnimation(), 50, 50, 20, MovementSpeedEnum.VERY_FAST, "audio/effects/magicShield.wav", SpellType.buff, CoolDownEnum.Medium,  "spells//shielding-eerie-3.png", false),
+	FireBarrier(new FireBarrierAnimation(), 50, 50, 20, MovementSpeedEnum.VERY_FAST, "audio/effects/magicShield.wav", SpellType.buff, CoolDownEnum.Medium,  "spells//shielding-fire-3.png", false, 80),
 
 	// ultimate abilities
-	IceSpell(new IceSpellAnimation(), 16, 16, 30, MovementSpeedEnum.VERY_FAST, "audio/effects/ice.wav", SpellType.instantCast, CoolDownEnum.Medium,  "spells//needles-blue-3.png", true, 120);
+	IceSpell(new IceSpellAnimation(), 50, 50, 30, MovementSpeedEnum.VERY_FAST, "audio/effects/ice.wav", SpellType.instantCast, CoolDownEnum.Medium,  "spells//needles-blue-3.png", true, 120),
+	LightningClaw(new LightningClawAnimation(), 50, 50, 20, MovementSpeedEnum.VERY_FAST, "audio/effects/lightning.wav", SpellType.instantCast, CoolDownEnum.Medium,  "spells//shielding-eerie-3.png", false, 120);
 
 
 	private SpellAnimation animation;

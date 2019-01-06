@@ -2,7 +2,6 @@ package com.adventuresof.game.item;
 
 import java.util.Random;
 
-import com.adventuresof.game.inventory.Item;
 import com.adventuresof.game.inventory.ItemEnum;
 
 public class ItemFactory {
