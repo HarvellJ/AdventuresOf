@@ -88,15 +88,15 @@ public class PlayerHUD implements Screen{
         gameHeight = Gdx.graphics.getHeight();
         
         list.setItems(strings);
-		final QuestInfoActor questLogActor = new QuestInfoActor(skin, player);
+		final QuestInfoActor questInfoActor = new QuestInfoActor(skin, player);
         
         list.addListener(new ChangeListener() {
 
 			@Override
     		public void changed(ChangeEvent event, Actor actor) {
     			System.out.println(list.getSelected());
-    			questLogActor.setQuestInfo(list.getSelected());
-    			questLogActor.setPosition(gameWidth / 2 - scrollPane.getWidth() / 4,
+    			questInfoActor.setQuestInfo(list.getSelected());
+    			questInfoActor.setPosition(gameWidth / 2 - scrollPane.getWidth() / 4,
 		        		gameHeight / 2 - scrollPane.getHeight() / 4);
     			stage.addActor(questLogActor);
     			
@@ -112,7 +112,8 @@ public class PlayerHUD implements Screen{
                 gameHeight / 2 - scrollPane.getHeight() / 4);
         scrollPane.setTransform(true);
         scrollPane.setScale(0.5f);
-        stage.addActor(scrollPane);
+        //scrollPane.setScale(0.5f);
+        //stage.addActor(scrollPane);
         
 		//setup pane layout using table
 //		Table paneTable = new Table();

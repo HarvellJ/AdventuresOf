@@ -53,10 +53,11 @@ public abstract class NPC extends GameCharacter {
 			boolean isTalkative,
 			ArrayList<String> conversation,
 			boolean hasQuest, 
-			String questName,CharacterClass characterClass
+			String questName,CharacterClass characterClass,
+			CharacterLevel baseLevel
 			)
 	{
-		super(gameWorld, accessibleTiles, startX, startY, isHostile, characterWidth, characterHeight, characterAnimation, varySpeed(speed.getSpeed()), false, name, characterClass);
+		super(gameWorld, accessibleTiles, startX, startY, isHostile, characterWidth, characterHeight, characterAnimation, varySpeed(speed.getSpeed()), false, name, characterClass, baseLevel);
 		this.isStatic = isStatic;
 		this.isTalkative = isTalkative;
 		this.conversation = conversation;

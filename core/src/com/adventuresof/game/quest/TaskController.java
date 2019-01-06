@@ -5,7 +5,7 @@ import java.util.Arrays;
 
 import com.adventuresof.game.character.NPC;
 import com.adventuresof.game.inventory.Inventory;
-import com.adventuresof.game.inventory.Item;
+import com.adventuresof.game.item.Item;
 import com.adventuresof.game.inventory.ItemEnum;
 import com.adventuresof.game.world.AdventuresOfGameWorld;
 import com.adventuresof.screens.PlayerHUD;
