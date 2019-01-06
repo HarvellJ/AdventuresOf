@@ -20,13 +20,9 @@
         <Task>
             <TaskTitle>Kill 20 bandits</TaskTitle>
             <Type>Slayer</Type>
-            <NPC>Bandit</NPC>
-            <Quantity>20</Quantity>
-        </Task>
-        <Task>
-            <TaskTitle>Tell the Knight</TaskTitle>
-            <Type>Conversation</Type>
             <NPC>Geoff</NPC>
+            <Target>Phoenix</Target>
+            <Quantity>3</Quantity>
             <Conversation>
                 <Dialogue>{CHARACTER_NAME} The bandits will no longer be an issue</Dialogue>
                 <Dialogue>{NPC_NAME} Thanks {CHARACTER_NAME}, you have saved the people a lot of worry </Dialogue>
