@@ -18,9 +18,13 @@ public class Inventory {
 	        int amount = 0;
 
 	        for (Slot slot : slots) {
-	            if (slot.getItem() == item) {
-	                amount += slot.getAmount();
-	            }
+	        	
+	        	if (slot.getItem() != null) {	        		
+		            if (slot.getItem().getItem().equals(item.getItem())) {
+		                amount += slot.getAmount();
+		            }
+	        	}
+	        	
 	        }
 
 	        return amount;
@@ -56,6 +60,19 @@ public class Inventory {
 	        }
 
 	        return null;
+	    }
+	    
+	    public void remove(Item item, int amount) {
+	    	
+	    	for (Slot slot : slots) {
+	        	
+	        	if (slot.getItem() != null) {	        		
+		            if (slot.getItem().getItem().equals(item.getItem())) {
+		            	slot.take(amount);
+		            }
+	        	}
+	        	
+	        }
 	    }
 
 	}

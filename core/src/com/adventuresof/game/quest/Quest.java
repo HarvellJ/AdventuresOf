@@ -14,15 +14,12 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import com.adventuresof.helpers.AnimationFactory;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-
 public class Quest {
 
 	private String title;
 	private String description;
 	private List<Task> tasks;
+
 	private ProgressEnum progress;
 	
 	public Quest (String questName) {
@@ -31,7 +28,7 @@ public class Quest {
 		
 		try {
 			DocumentBuilder builder = factory.newDocumentBuilder();
-			Document doc = builder.parse("SlayerQuest.xml");
+			Document doc = builder.parse(questName + ".xml");
 			
 			NodeList questList = doc.getElementsByTagName("Quest");
 			Element quest = (Element) questList.item(0);
@@ -55,21 +52,12 @@ public class Quest {
 				Element taskElement = (Element) taskList.item(i);
 				
 				Task task = new Task (taskElement);
+				
 				tempList.add(task);
 
 			}
 			
 			this.tasks = tempList;
-			
-			//System.out.println(title.getTextContent() + description.getTextContent());
-			
-			
-			
-//			NodeList taskList = doc.getElementsByTagName("Task");
-			
-//			for (int i = 0; i < taskList.getLength(); i++) {
-//				Node task = taskList.item(i);
-//			}
 			
 		} catch (ParserConfigurationException e) {
 			e.printStackTrace();
@@ -118,6 +106,31 @@ public class Quest {
 						"\nTasks: " + taskText);
 		
 		return quest;
+	}
+	
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	
+	public List<Task> getTasks() {
+		return tasks;
+	}
+
+	public ProgressEnum getProgress() {
+		return progress;
+	}
+
+	public void setProgress(ProgressEnum progress) {
+		this.progress = progress;
+	}
+
+	public String getDescription() {
+		// TODO Auto-generated method stub
+		return this.description;
 	}
 
 }

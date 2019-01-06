@@ -54,7 +54,8 @@ public class LavaCastleGuard extends NPC{
 		private static final int DEATH_ANIMATION_START_FRAME = 0;
 		private static final int DEATH_ANIMATION_FRAMES = 3;
 	
-	public LavaCastleGuard(GameWorld gameWorld, TiledMapTileLayer accessibleTiles, float startX, float startY, String name, boolean isTalkative, ArrayList<String> conversation) {
+	public LavaCastleGuard(GameWorld gameWorld, TiledMapTileLayer accessibleTiles, float startX, float startY, String name, 
+			boolean isTalkative, ArrayList<String> conversation, boolean hasQuest, String questName) {
 		super(
 				gameWorld,
 				accessibleTiles, 
@@ -76,7 +77,7 @@ public class LavaCastleGuard extends NPC{
 						ATTACK_DOWN_START_FRAME, ATTACK_DOWN_FRAMES,
 						ATTACK_UP_START_FRAME, ATTACK_UP_FRAMES,
 						DEATH_ANIMATION_START_FRAME, DEATH_ANIMATION_FRAMES
-						), MovementSpeedEnum.NORMAL_MEDIUM, name, isTalkative, conversation, CharacterClass.melee, CharacterLevel.high);
+						), MovementSpeedEnum.NORMAL_MEDIUM, name, isTalkative, conversation, hasQuest, questName, CharacterClass.melee, CharacterLevel.high);
 	}
 	
 }

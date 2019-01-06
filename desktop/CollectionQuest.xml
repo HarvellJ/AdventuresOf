@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Quest>
+    <QuestTitle>Collection Quest</QuestTitle>
+    <QuestDescription>Luke has had is sword stolen speak to him to find out how you may help</QuestDescription>
+    <Tasks>
+        <Task>
+            <TaskTitle>Talk to Luke</TaskTitle>
+            <Type>Conversation</Type>
+            <NPC>Luke</NPC>
+            <Conversation>
+                <Dialogue>{CHARACTER_NAME} Hello Luke</Dialogue>
+                <Dialogue>{KNIGHT} Hello {CHARACTER_NAME}, I'm looking for a piece of armour. Any chance you could help me out?</Dialogue>
+                <Dialogue>{CHARACTER_NAME}Sure thing, what is it you are looking for?</Dialogue>
+				<Dialogue>{KNIGHT}The bandits have stolen my sword. I'm they'll hand it over once you start causing them some trouble </Dialogue>
+				<Dialogue>{CHARACTER_NAME} Thanks, I'll go see what I can do</Dialogue>
+            </Conversation>
+        </Task>
+        <Task>
+            <TaskTitle>Return the sword to Luke</TaskTitle>
+            <Type>Collect</Type>
+            <Item>Sword</Item>
+            <Quantity>1</Quantity>
+            <NPC>Luke</NPC>
+            <Conversation>
+                <Dialogue>{NPC_NAME}Oh thank god, you took your time.</Dialogue>
+                <Dialogue>{CHARACTER_NAME} ... </Dialogue>
+                <Dialogue>{NPC_NAME} nevertheless you did what was needed. </Dialogue>
+            </Conversation>
+        </Task>
+    </Tasks>
+</Quest>

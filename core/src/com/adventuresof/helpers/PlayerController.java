@@ -1,26 +1,21 @@
 package com.adventuresof.helpers;
 
-import java.util.ArrayList;
-import java.util.Collections;
 
 import com.adventuresof.game.character.NPC;
 import com.adventuresof.game.character.Player;
+import com.adventuresof.game.quest.ProgressEnum;
 import com.adventuresof.game.combat.SpellType;
 import com.adventuresof.game.quest.Quest;
+import com.adventuresof.game.quest.Task;
+import com.adventuresof.game.quest.TaskController;
 import com.adventuresof.game.world.GameRenderer;
 import com.adventuresof.game.world.AdventuresOfGameWorld;
-import com.adventuresof.screens.MainGameScreen;
 import com.adventuresof.screens.PlayerHUD;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 public class PlayerController implements InputProcessor{
 
@@ -127,7 +122,7 @@ public class PlayerController implements InputProcessor{
 		//	gameRenderer.toggleInventory();
 
 		if (keycode == Input.Keys.SPACE) {
-			Quest test = new Quest("");
+			Quest test = new Quest("SlayerQuest");
 			System.out.println(test.toString());
 		}
 
@@ -173,7 +168,52 @@ public class PlayerController implements InputProcessor{
 
 			} else {
 
-				if (npc.isTalkative()) {
+				if (npc.hasQuest()) {
+					
+					Player player = this.gameWorld.getPlayer();
+										
+					Quest npcQuest = null;
+					
+					for (Quest quest : player.getQuests()) {
+						
+						if (npc.getQuestName().equals(quest.getTitle())) {
+							npcQuest = quest;
+							break;
+						}
+					}
+					
+					if (npcQuest.getProgress() != ProgressEnum.COMPLETE) {
+						
+						int tasksComplete = 0;
+						
+						for (Task task : npcQuest.getTasks()) {
+							if (task.getProgress().equals(ProgressEnum.INCOMPLETE) && task.getNpcName().equals(npc.getName())) {
+								System.out.println(task.toString());
+									TaskController taskController = new TaskController(task, hud, npc, this.gameWorld, player.getInventory());
+									if (taskController.handleTask()) {
+												
+										for (Task task1 : npcQuest.getTasks()) {
+													
+														
+											if (task1.getProgress().equals(ProgressEnum.COMPLETE)) {
+														tasksComplete++;
+											}
+											
+											if (tasksComplete == npcQuest.getTasks().size()) {
+												npcQuest.setProgress(ProgressEnum.COMPLETE);
+												playerHUD.displayText("Quest complete");
+												break;
+											}
+										}
+									};
+							
+									break;
+							}
+						}
+						
+					}
+
+				} else if (npc.isTalkative()) {
 					this.gameWorld.getPlayer().setTargetLocation(newPosition);
 
 					hud.displayChat(npc, this.gameWorld);
@@ -205,7 +245,7 @@ public class PlayerController implements InputProcessor{
 					    }
 					} );
 					 */
-
+					
 				} else {
 					hud.displayText("This person doesn't look interested in talking right now.");					    		
 				}
