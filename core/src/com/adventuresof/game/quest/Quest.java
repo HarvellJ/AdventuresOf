@@ -128,4 +128,9 @@ public class Quest {
 		this.progress = progress;
 	}
 
+	public String getDescription() {
+		// TODO Auto-generated method stub
+		return this.description;
+	}
+
 }

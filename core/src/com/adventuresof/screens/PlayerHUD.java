@@ -7,7 +7,8 @@ import com.adventuresof.game.character.NPC;
 import com.adventuresof.game.character.Player;
 import com.adventuresof.game.inventory.Inventory;
 import com.adventuresof.game.inventory.InventoryActor;
-import com.adventuresof.game.quest.QuestLogActor;
+import com.adventuresof.game.quest.Quest;
+import com.adventuresof.game.quest.QuestInfoActor;
 import com.adventuresof.game.world.GameWorld;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -34,7 +35,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 public class PlayerHUD implements Screen{
 
 	private InventoryActor inventoryActor;
-	private QuestLogActor questLogActor;
+	private QuestInfoActor questInfoActor;
 	public  Stage stage;
 	private Viewport viewport;
 	protected Table uiTable;
@@ -46,18 +47,21 @@ public class PlayerHUD implements Screen{
 	private List<String> list;
     private SpriteBatch batcher;
     float gameWidth, gameHeight;
+	private Player player;
+	
 
 	
-	public PlayerHUD(Camera camera, Player player) {
+	public PlayerHUD(Camera camera, final Player player) {
 		viewport = new ScreenViewport(camera);
 		this.stage = new Stage(viewport);
 		uiTable = new Table();
 		uiTable.setFillParent(true);
 		stage.addActor(uiTable);
 		DragAndDrop dragAndDrop = new DragAndDrop();
-		Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
+		final Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
 		inventoryActor = new InventoryActor(player.getInventory(), dragAndDrop, skin);
-		questLogActor = new QuestLogActor(skin);
+		//questLogActor = new QuestLogActor(skin);
+		this.player = player;
 //		stage.addActor(inventoryActor);
 		
 		
@@ -75,36 +79,39 @@ public class PlayerHUD implements Screen{
 		
 //		//batcher = new SpriteBatch();
         list = new List<String>(skin);
-        //String[] strings = new String[player.getQuests().size()];
-        String[] strings = new String[100];
-//        for (int i = 0; i < strings.length; i++) {
-//            strings[i] = player.getQuests().get(i).getTitle();
-// 
-//        }
-        
-        for (int i = 0, k = 0; i < 100; i++) {
-            strings[k++] = "String: " + i;
+        String[] strings = new String[player.getQuests().size()];
+//        String[] strings = new String[100];
+        for (int i = 0; i < strings.length; i++) {
+            strings[i] = player.getQuests().get(i).getTitle();
  
         }
+        
+//        for (int i = 0, k = 0; i < 100; i++) {
+//            strings[k++] = "String: " + i;
+// 
+//        }
 		
         gameWidth = Gdx.graphics.getWidth();
         gameHeight = Gdx.graphics.getHeight();
         
-        ScrollPane scrollPane2 = new ScrollPane(list,skin);
-        scrollPane2.setPosition(gameWidth / 2 - scrollPane.getWidth() / 4,
-                gameHeight / 2 - scrollPane.getHeight() / 4);
-
-        
         list.setItems(strings);
-        list.addListener(new ChangeListener(ScrollPane scrollPane2) {
-    		private Actor scrollPane;
+		final QuestInfoActor questLogActor = new QuestInfoActor(skin, player);
+        
+        list.addListener(new ChangeListener() {
 
 			@Override
     		public void changed(ChangeEvent event, Actor actor) {
-    			System.out.print(list.getSelected());
-    			stage.addActor(this.scrollPane);
+    			System.out.println(list.getSelected());
+    			questLogActor.setQuestInfo(list.getSelected());
+    			questLogActor.setPosition(gameWidth / 2 - scrollPane.getWidth() / 4,
+		        		gameHeight / 2 - scrollPane.getHeight() / 4);
+//    			questLogActor.setBounds(0, 0, gameWidth, gameHeight + 100);
+    			stage.addActor(questLogActor);
+    			
     		}
     	});
+        
+
         
         scrollPane = new ScrollPane(list,skin);
         scrollPane.setBounds(0, 0, gameWidth, gameHeight + 100);
@@ -159,6 +166,7 @@ public class PlayerHUD implements Screen{
 		return returnValue;
     	
 	}
+	
 	
 	public void displayText (String text) {
 		this.textArea.setText(text);
