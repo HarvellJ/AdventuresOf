@@ -138,14 +138,15 @@ public abstract class GameWorld {
 				this.spawnItem(this.NPCs.get(i).getHitBox());
 				this.NPCs.remove(i);
 				this.player.getNpcsKilled().add(this.NPCs.get(i));
+				System.out.println(this.NPCs.get(i).getName());
 				
-				if (this.player.getNpcsKilled().size() > 0) {			
-
-					for (NPC npc : this.player.getNpcsKilled()) {
-						System.out.println("\n " + npc.getName());
-					}
-
-				}
+//				if (this.player.getNpcsKilled().size() > 0) {			
+//
+//					for (NPC npc : this.player.getNpcsKilled()) {
+//						System.out.println("\n " + npc.getName());
+//					}
+//
+//				}
 			}
 		}
 		

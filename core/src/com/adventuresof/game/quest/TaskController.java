@@ -57,14 +57,17 @@ public class TaskController {
 		//this.task.setProgress(ProgressEnum.COMPLETE);
 		
 		String result = "";
+		ArrayList<NPC> npcsKilled = this.gameWorld.getPlayer().getNpcsKilled();
 				
-		for (NPC npc : this.gameWorld.getPlayer().getNpcsKilled()) {
+		for (int i = 0; i < npcsKilled.size(); i++) {
 			
 			System.out.println("Target: " + task.getTarget());
-			System.out.println("npc: " + npc.getName());
+			System.out.println("npc: " + npcsKilled.get(i).getName());
 			
-			if (npc.getName().equals(task.getTarget())) {
+			if (npcsKilled.get(i).getName().equals(task.getTarget())) {
 				task.setTotalSlayed(task.getTotalSlayed() + 1);
+				npcsKilled.remove(i);
+				
 			}
 	
 		}

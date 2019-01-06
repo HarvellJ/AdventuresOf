@@ -24,6 +24,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -72,27 +73,50 @@ public class PlayerHUD implements Screen{
 		this.button = new TextButton("Click to continue",skin);
 		this.button.setVisible(false);
 		
-		//batcher = new SpriteBatch();
+//		//batcher = new SpriteBatch();
         list = new List<String>(skin);
-        String[] strings = new String[20];
-        for (int i = 0, k = 0; i < 20; i++) {
+        //String[] strings = new String[player.getQuests().size()];
+        String[] strings = new String[100];
+//        for (int i = 0; i < strings.length; i++) {
+//            strings[i] = player.getQuests().get(i).getTitle();
+// 
+//        }
+        
+        for (int i = 0, k = 0; i < 100; i++) {
             strings[k++] = "String: " + i;
  
         }
+		
         gameWidth = Gdx.graphics.getWidth();
         gameHeight = Gdx.graphics.getHeight();
+        
+        ScrollPane scrollPane2 = new ScrollPane(list,skin);
+        scrollPane2.setPosition(gameWidth / 2 - scrollPane.getWidth() / 4,
+                gameHeight / 2 - scrollPane.getHeight() / 4);
+
+        
         list.setItems(strings);
-        scrollPane = new ScrollPane(list);
+        list.addListener(new ChangeListener(ScrollPane scrollPane2) {
+    		private Actor scrollPane;
+
+			@Override
+    		public void changed(ChangeEvent event, Actor actor) {
+    			System.out.print(list.getSelected());
+    			stage.addActor(this.scrollPane);
+    		}
+    	});
+        
+        scrollPane = new ScrollPane(list,skin);
         scrollPane.setBounds(0, 0, gameWidth, gameHeight + 100);
         scrollPane.setSmoothScrolling(false);
         scrollPane.setPosition(gameWidth / 2 - scrollPane.getWidth() / 4,
                 gameHeight / 2 - scrollPane.getHeight() / 4);
         scrollPane.setTransform(true);
         scrollPane.setScale(0.5f);
-        //stage.addActor(scrollPane);
+        //scrollPane.setScale(0.5f);
+        stage.addActor(scrollPane);
         //Gdx.input.setInputProcessor(stage);
- 
-
+        
 		//setup pane layout using table
 //		Table paneTable = new Table();
 //		paneTable.add(textArea).width(800);
