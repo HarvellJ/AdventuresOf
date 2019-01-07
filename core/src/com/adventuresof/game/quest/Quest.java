@@ -22,7 +22,7 @@ public class Quest {
 
 	private ProgressEnum progress;
 	
-	public Quest (String questName) {
+	public Quest (String questName, String name) {
 		
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		
@@ -51,7 +51,7 @@ public class Quest {
 			for (int i = 0; i < taskList.getLength(); i++) {
 				Element taskElement = (Element) taskList.item(i);
 				
-				Task task = new Task (taskElement);
+				Task task = new Task (taskElement, name);
 				
 				tempList.add(task);
 

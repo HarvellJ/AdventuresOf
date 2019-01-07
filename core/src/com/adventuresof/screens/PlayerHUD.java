@@ -142,7 +142,7 @@ public class PlayerHUD implements Screen{
     	
     	if (npc.getConversationIndex() < npc.getConversation().size()) {
     		
-    		this.textArea.setText(npc.getName() + ": " + conversation.get(npc.getConversationIndex()));
+    		this.textArea.setText(conversation.get(npc.getConversationIndex()));
 			npc.setConversationIndex(npc.getConversationIndex() + 1);
 			
 			returnValue = "" + npc.getConversationIndex();

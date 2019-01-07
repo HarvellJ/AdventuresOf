@@ -23,7 +23,7 @@ public class Task {
 	private ProgressEnum progress;
 	private int totalSlayed = 0;
 	
-	public Task (Element task) {
+	public Task (Element task, String name) {
 		
 		//retrieving the task title from the task element
 		NodeList taskTitleList = task.getElementsByTagName("TaskTitle");
@@ -79,7 +79,7 @@ public class Task {
 			//adding each line of the conversation to the tempList
 			for (int i = 0; i < dialogueList.getLength(); i++) {
 				Node dialogue = (Element) dialogueList.item(i);
-				tempList.add(dialogue.getTextContent());	
+				tempList.add(dialogue.getTextContent().replace("{CHARACTER_NAME}", name));	
 			}
 			
 			//Once the tempList contains the whole conversation set this conversation to the tempList
