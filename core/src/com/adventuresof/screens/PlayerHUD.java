@@ -98,7 +98,7 @@ public class PlayerHUD implements Screen{
     			questInfoActor.setQuestInfo(list.getSelected());
     			questInfoActor.setPosition(gameWidth / 2 - scrollPane.getWidth() / 4,
 		        		gameHeight / 2 - scrollPane.getHeight() / 4);
-    			stage.addActor(questLogActor);
+    			stage.addActor(questInfoActor);
     			
     		}
     	});
