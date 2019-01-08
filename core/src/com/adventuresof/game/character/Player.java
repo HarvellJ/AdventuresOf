@@ -20,6 +20,7 @@ public class Player extends GameCharacter{
 	private ArrayList<GameZone> discoveredZones; // Stores a list of discovered zones. Used for measuring player progress
 	private ArrayList<Quest> quests;
 	private ArrayList<NPC> npcsKilled = new ArrayList<NPC>();
+	private String name;
 
 	// texture sheets
 	private static final String MOVEMENT_SPRITE_SHEET = "characters//blueWizard.png";
@@ -63,7 +64,7 @@ public class Player extends GameCharacter{
 	private static final int DEATH_ANIMATION_START_FRAME = 0;
 	private static final int DEATH_ANIMATION_FRAMES = 3;
 	
-	public Player(GameWorld gameWorld,TiledMapTileLayer accessibleTiles, float startPosX, float startPosY, CharacterClass characterClass) {
+	public Player(GameWorld gameWorld,TiledMapTileLayer accessibleTiles, float startPosX, float startPosY, CharacterClass characterClass, String name) {
 		super(
 				gameWorld,
 				accessibleTiles,
@@ -90,9 +91,10 @@ public class Player extends GameCharacter{
 		this.inventory = new Inventory();
 		this.discoveredZones = new ArrayList<GameZone>();
 		this.quests = new ArrayList<Quest>();
+		this.name = name;
 		
-		Quest slayerQuest = new Quest("SlayerQuest");
-		Quest collectionQuest = new Quest("collectionQuest");
+		Quest slayerQuest = new Quest("SlayerQuest", this.name);
+		Quest collectionQuest = new Quest("collectionQuest", this.name);
 		
 		quests.add(slayerQuest);
 		quests.add(collectionQuest);
@@ -149,5 +151,13 @@ public class Player extends GameCharacter{
 
 	public void setNpcsKilled(ArrayList<NPC> npcsKilled) {
 		this.npcsKilled = npcsKilled;
+	}
+	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 }

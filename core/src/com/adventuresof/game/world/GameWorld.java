@@ -122,7 +122,7 @@ public abstract class GameWorld {
 		for (RectangleMapObject rectangleObject : this.map.getPlayerSpawnObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
 			// spawn in an 'enemy'
-			this.setPlayer(new Player(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, CharacterClass.ranger));
+			this.setPlayer(new Player(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, CharacterClass.ranger, "Derrick"));
 			break;
 		}
 	}
