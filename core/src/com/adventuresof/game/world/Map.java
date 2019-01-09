@@ -23,6 +23,12 @@ public class Map {
 	// Item object layer
 	private MapLayer itemSpawnPointObjectLayer; // Contains the objects representing item spawn points on the map
 	private MapObjects itemSpawnPointObjects; // Contains the objects representing item spawn points on the map
+	private MapLayer rareItemSpawnPointObjectLayer; // Contains the objects representing item spawn points on the map
+	private MapObjects rareItemSpawnPointObjects; // Contains the objects representing item spawn points on the map
+	
+	// Animated map items object layer
+	private MapLayer campFireSpawnObjectLayer; // Contains the objects representing item spawn points on the map
+	private MapObjects campFireSpawnPointObjects; // Contains the objects representing item spawn points on the map
 	
 	// Animal spawn point object layer
 	private MapLayer animalSpawnPointObjectLayer; // Contains the objects representing animal spawn points on the map
@@ -51,13 +57,17 @@ public class Map {
 	private MapLayer villagerSpawnStarterCastleObjectLayer; // Contains the objects representing spawn areas for guard NPCs on the map
 	private MapObjects villagerSpawnStarterCastleSpawnObjects; // Contains the objects representing spawn areas for guard NPCs on the map
 	
-	// Enemy spawn object layer
-    private MapLayer enemySpawnLevel1ObjectLayer; // Contains the objects representing spawn areas for enemy NPCs on the map
-    private MapObjects enemySpawnLevel1Objects; // Contains the objects representing spawn areas for enemy NPCs on the map
-    private MapLayer enemySpawnLevel2ObjectLayer; // Contains the objects representing spawn areas for enemy NPCs on the map
-    private MapObjects enemySpawnLeve12Objects; // Contains the objects representing spawn areas for enemy NPCs on the map
-    private MapLayer enemySpawnLevel3ObjectLayer; // Contains the objects representing spawn areas for enemy NPCs on the map
-    private MapObjects enemySpawnLevel3Objects; // Contains the objects representing spawn areas for enemy NPCs on the map
+	// Enemy spawn object layer 
+    //lava zone
+    private MapLayer enemySpawnLavaZoneLowObjectLayer; // Contains the objects representing spawn areas for enemy NPCs on the map
+    private MapObjects enemySpawnLavaZoneLowObjects; // Contains the objects representing spawn areas for enemy NPCs on the map
+    //mud area
+    private MapLayer enemySpawnMudZoneLowObjectLayer; // Contains the objects representing spawn areas for enemy NPCs on the map
+    private MapObjects enemySpawnMudZoneLowObjects; // Contains the objects representing spawn areas for enemy NPCs on the map
+    //jungle area
+    private MapLayer enemySpawnJungleZoneLowObjectLayer; // Contains the objects representing spawn areas for enemy NPCs on the map
+    private MapObjects enemySpawnJungleZoneLowObjects; // Contains the objects representing spawn areas for enemy NPCs on the map
+    
     
     // Guard spawn object layer
     private MapLayer playerSpawnObjectLayer; // Contains the objects representing spawn areas for enemy NPCs on the map
@@ -66,6 +76,8 @@ public class Map {
 	private TiledMapTileLayer accessibleMapLayer; // Contains accessible tiles
 	
 	// Map layers
+	private final static int CAMPFIRE_SPAWN_LAYER = 20; //layer number on which game objects exist
+	private final static int RARE_ITEM_SPAWN_LAYER = 19; //layer number on which game objects exist
 	private final static int STATIC_COMMANDER_SPAWNS_START_CASTLE = 18; //layer number on which game objects exist
 	private final static int STATIC_SHADOWKNIGHT_SPAWNS_START_CASTLE = 17; //layer number on which game objects exist
 	private final static int STATIC_GUARD_SPAWNS_START_CASTLE = 16; //layer number on which game objects exist
@@ -102,6 +114,12 @@ public class Map {
 		// store item spawn point objects and layers
 	    setItemSpawnPointObjectLayer((MapLayer)tiledMap.getLayers().get(ITEM_SPAWN_LAYER));
 	    setItemSpawnPointObjects(itemSpawnPointObjectLayer.getObjects());	   
+	    setRareItemSpawnPointObjectLayer((MapLayer)tiledMap.getLayers().get(RARE_ITEM_SPAWN_LAYER));
+	    setRareItemSpawnPointObjects(rareItemSpawnPointObjectLayer.getObjects());	
+	    
+	    // store animated map object spawn point objects and layers
+	    setCampFireSpawnObjectLayer((MapLayer)tiledMap.getLayers().get(CAMPFIRE_SPAWN_LAYER));
+	    setCampFireSpawnPointObjects(campFireSpawnObjectLayer.getObjects());	
 	    
 		// store animal spawn point objects and layers
 	    setAnimalSpawnPointObjectLayer((MapLayer)tiledMap.getLayers().get(ANIMAL_SPAWN_LAYER));
@@ -137,19 +155,51 @@ public class Map {
 	    
 	    // store enemy spawn objects and layers
 	    setEnemySpawnLevel1ObjectLayer((MapLayer)tiledMap.getLayers().get(ENEMY_SPAWNS_LEVEL_1));
-	    setEnemySpawnLevel1Objects(enemySpawnLevel1ObjectLayer.getObjects());	 
+	    setEnemySpawnLevel1Objects(enemySpawnLavaZoneLowObjectLayer.getObjects());	 
 	    
 	    setEnemySpawnLevel2ObjectLayer((MapLayer)tiledMap.getLayers().get(ENEMY_SPAWNS_LEVEL_2));
-	    setEnemySpawnLeve12Objects(enemySpawnLevel2ObjectLayer.getObjects());	 
+	    setEnemySpawnLeve12Objects(enemySpawnMudZoneLowObjectLayer.getObjects());	 
 	    
 	    setEnemySpawnLevel3ObjectLayer((MapLayer)tiledMap.getLayers().get(ENEMY_SPAWNS_LEVEL_3));
-	    setEnemySpawnLevel3Objects(enemySpawnLevel3ObjectLayer.getObjects());	
+	    setEnemySpawnLevel3Objects(enemySpawnJungleZoneLowObjectLayer.getObjects());	
 	    
 	    // store enemy spawn objects and layers
 	    setPlayerSpawnObjectLayer((MapLayer)tiledMap.getLayers().get(PLAYER_SPAWNS));
 	    setPlayerSpawnObjects(playerSpawnObjectLayer.getObjects());	
 	}
 	
+	public MapObjects getCampFireSpawnPointObjects() {
+		return campFireSpawnPointObjects;
+	}
+
+	public void setCampFireSpawnPointObjects(MapObjects campFireSpawnPointObjects) {
+		this.campFireSpawnPointObjects = campFireSpawnPointObjects;
+	}
+
+	public MapLayer getCampFireSpawnObjectLayer() {
+		return campFireSpawnObjectLayer;
+	}
+
+	public void setCampFireSpawnObjectLayer(MapLayer campFireSpawnObjectLayer) {
+		this.campFireSpawnObjectLayer = campFireSpawnObjectLayer;
+	}
+
+	public MapObjects getRareItemSpawnPointObjects() {
+		return rareItemSpawnPointObjects;
+	}
+
+	public void setRareItemSpawnPointObjects(MapObjects rareItemSpawnPointObjects) {
+		this.rareItemSpawnPointObjects = rareItemSpawnPointObjects;
+	}
+
+	public MapLayer getRareItemSpawnPointObjectLayer() {
+		return rareItemSpawnPointObjectLayer;
+	}
+
+	public void setRareItemSpawnPointObjectLayer(MapLayer rareItemSpawnPointObjectLayer) {
+		this.rareItemSpawnPointObjectLayer = rareItemSpawnPointObjectLayer;
+	}
+
 	public MapLayer getStaticCommanderSpawnStarterCastleObjectLayer() {
 		return staticCommanderSpawnStarterCastleObjectLayer;
 	}
@@ -374,51 +424,51 @@ public class Map {
 	}
 
 	public MapLayer getEnemySpawnLevel1ObjectLayer() {
-		return enemySpawnLevel1ObjectLayer;
+		return enemySpawnLavaZoneLowObjectLayer;
 	}
 
 	public void setEnemySpawnLevel1ObjectLayer(MapLayer enemySpawnLevel1ObjectLayer) {
-		this.enemySpawnLevel1ObjectLayer = enemySpawnLevel1ObjectLayer;
+		this.enemySpawnLavaZoneLowObjectLayer = enemySpawnLevel1ObjectLayer;
 	}
 
 	public MapObjects getEnemySpawnLevel1Objects() {
-		return enemySpawnLevel1Objects;
+		return enemySpawnLavaZoneLowObjects;
 	}
 
 	public void setEnemySpawnLevel1Objects(MapObjects enemySpawnLevel1Objects) {
-		this.enemySpawnLevel1Objects = enemySpawnLevel1Objects;
+		this.enemySpawnLavaZoneLowObjects = enemySpawnLevel1Objects;
 	}
 
 	public MapLayer getEnemySpawnLevel2ObjectLayer() {
-		return enemySpawnLevel2ObjectLayer;
+		return enemySpawnMudZoneLowObjectLayer;
 	}
 
 	public void setEnemySpawnLevel2ObjectLayer(MapLayer enemySpawnLevel2ObjectLayer) {
-		this.enemySpawnLevel2ObjectLayer = enemySpawnLevel2ObjectLayer;
+		this.enemySpawnMudZoneLowObjectLayer = enemySpawnLevel2ObjectLayer;
 	}
 
 	public MapObjects getEnemySpawnLeve12Objects() {
-		return enemySpawnLeve12Objects;
+		return enemySpawnMudZoneLowObjects;
 	}
 
 	public void setEnemySpawnLeve12Objects(MapObjects enemySpawnLeve12Objects) {
-		this.enemySpawnLeve12Objects = enemySpawnLeve12Objects;
+		this.enemySpawnMudZoneLowObjects = enemySpawnLeve12Objects;
 	}
 
 	public MapObjects setEnemySpawnLevel3Objects() {
-		return enemySpawnLevel3Objects;
+		return enemySpawnJungleZoneLowObjects;
 	}
 
 	public void setEnemySpawnLevel3Objects(MapObjects enemySpawnLevel3Objects) {
-		this.enemySpawnLevel3Objects = enemySpawnLevel3Objects;
+		this.enemySpawnJungleZoneLowObjects = enemySpawnLevel3Objects;
 	}
 
 	public MapLayer getEnemySpawnLevel3ObjectLayer() {
-		return enemySpawnLevel3ObjectLayer;
+		return enemySpawnJungleZoneLowObjectLayer;
 	}
 
 	public void setEnemySpawnLevel3ObjectLayer(MapLayer enemySpawnLevel3ObjectLayer) {
-		this.enemySpawnLevel3ObjectLayer = enemySpawnLevel3ObjectLayer;
+		this.enemySpawnJungleZoneLowObjectLayer = enemySpawnLevel3ObjectLayer;
 	}
 	
 }

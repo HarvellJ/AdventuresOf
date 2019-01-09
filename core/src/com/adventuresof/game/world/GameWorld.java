@@ -25,11 +25,13 @@ public abstract class GameWorld {
 	protected ArrayList<Item> items; // an array of in-game items - representing the items that exist in the world
 	protected ArrayList<Projectile> activeProjectiles;
 	protected ArrayList<InstantCastAbility> instantCastAbilities;
+	protected ArrayList<AnimatedMapObject> animatedMapObjects;
 
 	public GameWorld(String mapPath) {
 		map = new Map(mapPath);
 		this.activeProjectiles = new ArrayList<Projectile>();
 		this.instantCastAbilities = new ArrayList<InstantCastAbility>();
+		this.animatedMapObjects = new ArrayList<AnimatedMapObject>();
 		this.spawnNPCs();
 		this.spawnPlayer(); // load the player
 		items = new ArrayList<Item>(); // instantiate map item list (items that exist on the map)
@@ -54,6 +56,14 @@ public abstract class GameWorld {
 
 	public void setNPCs(ArrayList<NPC> nPCs) {
 		NPCs = nPCs;
+	}
+
+	public ArrayList<AnimatedMapObject> getAnimatedMapObjects() {
+		return animatedMapObjects;
+	}
+
+	public void setAnimatedMapObjects(ArrayList<AnimatedMapObject> animatedMapObjects) {
+		this.animatedMapObjects = animatedMapObjects;
 	}
 
 	public Map getMap() {
@@ -86,6 +96,7 @@ public abstract class GameWorld {
 		this.disposeOfObjects(); // disposes of objects marked as ready for disposal
 		this.updateGameProjectiles();
 		this.updateGameInstantCastSpells();
+		this.updateAnimatedMapObjects();
 		// move and update NPCs
 		this.moveNPCs(); // calls the move method on NPCs which just sets the target locations randomly
 		this.updateNPCs(); // actually updates the NPC's physical location
@@ -122,7 +133,7 @@ public abstract class GameWorld {
 		for (RectangleMapObject rectangleObject : this.map.getPlayerSpawnObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
 			// spawn in an 'enemy'
-			this.setPlayer(new Player(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, CharacterClass.ranger, "Derrick"));
+			this.setPlayer(new Player(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, CharacterClass.mage, "Derrick"));
 			break;
 		}
 	}
@@ -140,9 +151,13 @@ public abstract class GameWorld {
 	}
 
 	protected abstract void spawnNPCs();
-
+	
 	protected abstract void detectCollisionWithTriggers();
 
+	protected abstract void spawnAnimatedMapObjects();
+	
+	protected abstract void updateAnimatedMapObjects();
+	
 	private void disposeOfObjects() {
 		// remove perished NPCs
 		

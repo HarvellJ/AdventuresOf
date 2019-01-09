@@ -40,7 +40,8 @@ public class AdventuresOfGameWorld extends GameWorld{
 		this.NPCs = new ArrayList<NPC>();
 		this.spawnHostileNPCs();
 		this.spawnFriendlyNPCs();
-		this.spawnAnimalNPCs();
+		this.spawnAnimalNPCs();	
+		this.spawnAnimatedMapObjects();
 	}
 
 	public void update(float delta) {
@@ -78,6 +79,19 @@ public class AdventuresOfGameWorld extends GameWorld{
 			}
 		}
 		return null;
+	}
+	
+	protected void spawnAnimatedMapObjects() {
+		for (RectangleMapObject rectangleObject : this.map.getCampFireSpawnPointObjects().getByType(RectangleMapObject.class)) {
+			Rectangle rectangle = rectangleObject.getRectangle();
+				this.animatedMapObjects.add(new Campfire(rectangle.x, rectangle.y));							
+		}
+	}
+	
+	protected void updateAnimatedMapObjects() {
+		for(AnimatedMapObject animatedMapObject : this.animatedMapObjects) {
+			animatedMapObject.update();
+		}
 	}
 
 	/**

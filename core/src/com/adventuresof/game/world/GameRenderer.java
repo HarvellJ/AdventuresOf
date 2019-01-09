@@ -124,7 +124,6 @@ public class GameRenderer {
 		gameWorld.getPlayerCompanion().render(spriteBatch);
 		this.renderNPCs();
 		this.renderGameObjects();
-		
 		// dispose of sprite batch
 		spriteBatch.end();	
 		
@@ -170,6 +169,9 @@ public class GameRenderer {
 		}
 		for (InstantCastAbility instantCastAbility : this.gameWorld.getInstantCastAbilities()) {
 			instantCastAbility.render(spriteBatch);
+		}
+		for (AnimatedMapObject animatedMapObject : this.gameWorld.getAnimatedMapObjects()) {
+			animatedMapObject.render(spriteBatch);
 		}
 	}
 	
