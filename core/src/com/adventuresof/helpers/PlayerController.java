@@ -122,7 +122,7 @@ public class PlayerController implements InputProcessor{
 		//	gameRenderer.toggleInventory();
 
 		if (keycode == Input.Keys.SPACE) {
-			Quest test = new Quest("SlayerQuest");
+			Quest test = new Quest("SlayerQuest", "test");
 			System.out.println(test.toString());
 		}
 
