@@ -1,7 +1,10 @@
 package com.adventuresof.game.world;
 
 import java.util.ArrayList;
+import java.util.Random;
+
 import com.adventuresof.game.character.CharacterClass;
+import com.adventuresof.game.character.CharacterLevel;
 import com.adventuresof.game.character.GameCharacter;
 import com.adventuresof.game.character.NPC;
 import com.adventuresof.game.character.Player;
@@ -10,6 +13,7 @@ import com.adventuresof.game.combat.Projectile;
 import com.adventuresof.game.combat.SpellEnum;
 import com.adventuresof.game.item.Item;
 import com.adventuresof.game.item.ItemFactory;
+import com.adventuresof.game.item.ItemRarityEnum;
 import com.adventuresof.helpers.SoundManager;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Circle;
@@ -166,7 +170,7 @@ public abstract class GameWorld {
 		for(int i = 0; i < this.NPCs.size(); i++) {
 			if(this.NPCs.get(i).CanDispose()) {
 				// spawn a relevant drop based on NPC
-				this.spawnItem(this.NPCs.get(i).getHitBox());
+				this.spawnItem(this.NPCs.get(i).getHitBox(), this.NPCs.get(i).getBaseLevel());
 				this.NPCs.remove(i);
 				this.player.getNpcsKilled().add(this.NPCs.get(i));
 				System.out.println(this.NPCs.get(i).getName());
@@ -228,11 +232,19 @@ public abstract class GameWorld {
 	}
 
 	private void spawnChanceItemsIntoWorld() {
+		// spawn common/uncommon items
+		Random r = new Random();
 		for (RectangleMapObject rectangleObject : this.map.getItemSpawnPointObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
-			// generate a random by chance item from the drop table
-			this.spawnItem(rectangle);
-		}									    			
+			// generate a random number to determine item rarity (common/uncommon only here)
+			if(r.nextInt(3) > 2) {
+				this.spawnItem(rectangle, ItemRarityEnum.uncommon);
+			}else {
+				this.spawnItem(rectangle, ItemRarityEnum.common);
+			}
+		}		
+		
+		// spawn rares
 	}
 
 	private void moveNPCs() {
@@ -260,8 +272,18 @@ public abstract class GameWorld {
 		}
 	}
 
-	private void spawnItem(Rectangle rectangle) {
-		Item item = ItemFactory.spawnItemForMap();
+	private void spawnItem(Rectangle rectangle, ItemRarityEnum itemRarity) {
+		Item item = ItemFactory.spawnItemForMap(itemRarity);
+		if(item != null) {
+			item.setPositionX(rectangle.x);
+			item.setPositionY(rectangle.y);
+			item.setHitbox(new Rectangle(rectangle.x, rectangle.y, 50f, 50f));
+			this.items.add(item);
+		}	
+	}
+	
+	private void spawnItem(Rectangle rectangle, CharacterLevel characterLevel) {
+		Item item = ItemFactory.spawnItemFromNPC(characterLevel);
 		if(item != null) {
 			item.setPositionX(rectangle.x);
 			item.setPositionY(rectangle.y);

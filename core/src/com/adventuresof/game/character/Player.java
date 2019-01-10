@@ -6,8 +6,9 @@ import java.util.ArrayList;
 import com.adventuresof.game.animation.CharacterAnimation;
 import com.adventuresof.game.common.MovementSpeedEnum;
 import com.adventuresof.game.inventory.Inventory;
-import com.adventuresof.game.inventory.ItemEnum;
 import com.adventuresof.game.item.Item;
+import com.adventuresof.game.item.ItemEffectEnum;
+import com.adventuresof.game.item.ItemEnum;
 import com.adventuresof.game.quest.Quest;
 import com.adventuresof.game.world.GameWorld;
 import com.adventuresof.game.world.GameZone;
@@ -119,8 +120,22 @@ public class Player extends GameCharacter{
 
 	public void addItemToInventory(Item item) {
 		this.inventory.store(item, 1);
+		// if item is buff, display buff message
+		this.addItemBuff(item);
 	}
 
+	private void addItemBuff(Item item) {
+		if(item.getItem().getItemEffect() == ItemEffectEnum.defenceBoost) {
+			this.buffDefence(item.getItem().getPower());
+		}
+		else if(item.getItem().getItemEffect() == ItemEffectEnum.healthBoost){
+			this.buffHealth(item.getItem().getPower());
+		}
+		else if(item.getItem().getItemEffect() == ItemEffectEnum.damageBoost) {
+			this.buffDamage(item.getItem().getPower());
+		}
+	}
+	
 	public void addDiscoveredZone(GameZone zone) {
 		if(!this.hasDiscoveredZone(zone))
 			this.discoveredZones.add(zone);

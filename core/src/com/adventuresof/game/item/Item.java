@@ -1,6 +1,5 @@
 package com.adventuresof.game.item;
 
-import com.adventuresof.game.inventory.ItemEnum;
 import com.badlogic.gdx.math.Rectangle;
 
 public class Item {

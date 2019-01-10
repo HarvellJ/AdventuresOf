@@ -55,6 +55,11 @@ public abstract class GameCharacter extends MoveableObject {
 	protected Sprite hitSplt; 
 	private HealthBar healthBar;
 
+	// display
+	private ArrayList<String> buffMessageQueue; // used to queue buff messages that will be displayed in game by the character
+	private float timeLastBuffMessageDisplayed;
+	private float buffYPosition; // used for scrolling effect
+	
 	// collision stuff
 	private TiledMapTileLayer accessibleTiles; // represents the tiles that are accessible by the character
 	protected int characterHeight; // the character's height - used to draw the bounding rectangle (hit box)
@@ -75,13 +80,19 @@ public abstract class GameCharacter extends MoveableObject {
 	protected GameCharacter target; // the characters current target. This can be friendly or hostile
 	protected boolean isHostile; // toggles whether the character can be attacked or is passive
 	private CharacterLevel baseLevel; // the character level, used to determine their power
-
+	
+	private int healthBonusPoints;
+	private int defenceBonusPoints;
+	private int damageBonusPoints;
+	private int temporaryHealthBonusPoints;
+	private int temporaryDefenceBonusPoints;
+	private int temporaryDamageBonusPoints;
+	private float timeOfTemporaryBuff;
+	
 	// death stuff
 	private boolean isDying;
 	private float stateTimeOfDeath; // used to calculate time required for death animation
 	protected boolean canRespawn;
-
-
 
 
 	//================================================================================
@@ -99,7 +110,7 @@ public abstract class GameCharacter extends MoveableObject {
 
 		super(startX, startY);
 		
-		this.baseLevel = baseLevel;
+		this.setBaseLevel(baseLevel);
 		this.gameWorld = gameWorld;
 
 		this.characterClass = characterClass;
@@ -131,6 +142,7 @@ public abstract class GameCharacter extends MoveableObject {
 		// Instantiate the message queue
 		this.messageQueue = new ArrayList<String>();
 		this.damageMessageQueue = new ArrayList<String>();
+		this.buffMessageQueue = new ArrayList<String>();
 		// Default the character to idle state (prevents them running on the spot)
 		this.isIdle = true;
 
@@ -144,6 +156,96 @@ public abstract class GameCharacter extends MoveableObject {
 
 		healthBar = new HealthBar(this, new Texture("healthBackground.png"),
 				new Texture("healthForeground.png"));
+	}
+
+
+
+	/**
+	 * @return the temporaryDamageBonusPoints
+	 */
+	public int getTemporaryDamageBonusPoints() {
+		return temporaryDamageBonusPoints;
+	}
+
+
+
+	/**
+	 * @param temporaryDamageBonusPoints the temporaryDamageBonusPoints to set
+	 */
+	public void setTemporaryDamageBonusPoints(int temporaryDamageBonusPoints) {
+		this.temporaryDamageBonusPoints = temporaryDamageBonusPoints;
+	}
+
+
+
+	public int getTemporaryDefenceBonusPoints() {
+		return temporaryDefenceBonusPoints;
+	}
+
+
+
+	public void setTemporaryDefenceBonusPoints(int temporaryDefenceBonusPoints) {
+		this.temporaryDefenceBonusPoints = temporaryDefenceBonusPoints;
+	}
+
+
+
+	public int getDamageBonusPoints() {
+		return damageBonusPoints;
+	}
+
+
+
+	public int getTemporaryHealthBonusPoints() {
+		return temporaryHealthBonusPoints;
+	}
+
+
+
+	public void setTemporaryHealthBonusPoints(int temporaryHealthBonusPoints) {
+		this.temporaryHealthBonusPoints = temporaryHealthBonusPoints;
+	}
+
+
+
+	public void setDamageBonusPoints(int damageBonusPoints) {
+		this.damageBonusPoints = damageBonusPoints;
+	}
+
+
+
+	public int getDefenceBonusPoints() {
+		return defenceBonusPoints;
+	}
+
+
+
+	public void setDefenceBonusPoints(int defenceBonusPoints) {
+		this.defenceBonusPoints = defenceBonusPoints;
+	}
+
+
+
+	public int getHealthBonusPoints() {
+		return healthBonusPoints;
+	}
+
+
+
+	public void setHealthBonusPoints(int healthBonusPoints) {
+		this.healthBonusPoints = healthBonusPoints;
+	}
+
+
+
+	public CharacterLevel getBaseLevel() {
+		return baseLevel;
+	}
+
+
+
+	public void setBaseLevel(CharacterLevel baseLevel) {
+		this.baseLevel = baseLevel;
 	}
 
 
@@ -206,6 +308,10 @@ public abstract class GameCharacter extends MoveableObject {
 	public void addMessageToDamageQueue(String message) {
 		this.damageMessageQueue.add(message);
 	}
+	
+	public void addMessageToBuffQueue(String message) {
+		this.buffMessageQueue.add(message);
+	}
 
 	public float getAttackInterval() {
 		return attackInterval;
@@ -245,7 +351,7 @@ public abstract class GameCharacter extends MoveableObject {
 	//================================================================================
 	public void update() {    	
 		stateTime += Gdx.graphics.getDeltaTime(); // increment state time
-
+		this.resetTemporaryBuffs();
 		if(isDying) {
 			if (stateTimeOfDeath < this.stateTime - 2) {
 				if(canRespawn) {				
@@ -330,7 +436,7 @@ public abstract class GameCharacter extends MoveableObject {
 		// handle any text
 		this.displayMessage(spriteBatch);
 		this.displayDamage(spriteBatch);
-
+		this.displayBuffMessage(spriteBatch);
 		healthBar.render(spriteBatch);
 	}
 
@@ -508,6 +614,54 @@ public abstract class GameCharacter extends MoveableObject {
 	//================================================================================
 	// Combat
 	//================================================================================
+	
+	private void resetTemporaryBuffs() {
+		// reset any temporary buffs after 5 seconds
+		if(timeOfTemporaryBuff != 0 && timeOfTemporaryBuff < stateTime - 5) {
+			// dequeue item - display period expired
+			this.temporaryDamageBonusPoints = 0;
+			this.temporaryDefenceBonusPoints = 0;
+			this.temporaryHealthBonusPoints = 0;
+		}
+	}
+	
+	public void buffHealth(int amount) {
+		// buffs the character's health points
+		this.healthBonusPoints += amount;
+		this.addMessageToBuffQueue("+ " + amount + " Maximum Health");
+	}
+	
+	public void buffDamage(int amount) {
+		// buffs the character's damage points
+		this.damageBonusPoints += amount;
+		this.addMessageToBuffQueue("+ " + amount + " Maximum Damage");
+	}
+	
+	public void buffDefence(int amount) {
+		// buffs the characer's defence points
+		this.defenceBonusPoints += amount;
+		this.addMessageToBuffQueue("+ " + amount + " Armour");
+	}
+	
+	public void TemporarilyBuffHealth(int amount) {
+		// buffs the character's health points
+		this.temporaryHealthBonusPoints += amount;
+		this.addMessageToBuffQueue("+ " + amount + " Temporary Maximum Health");
+	}
+	
+	public void TemporarilyBuffDamage(int amount) {
+		// buffs the character's damage points
+		this.temporaryDamageBonusPoints += amount;
+		this.addMessageToBuffQueue("+ " + amount + " Temporary Maximum Damage");
+	}
+	
+	public void TemporarilyBuffDefence(int amount) {
+		// buffs the characer's defence points
+		this.temporaryDefenceBonusPoints += amount;
+		this.addMessageToBuffQueue("+ " + amount + " Temporary Armour");
+	}
+	
+	
 	public int generateRandomDamageAmount() {
 		// TODO - Make this damage based on some sort of input parameters. Right now its just randomly choosing between 0 and 100.
 		Random r = new Random();
@@ -647,6 +801,10 @@ public abstract class GameCharacter extends MoveableObject {
 	
 	private void performBuffAbility(SpellEnum spell) {
 		this.gameWorld.addInstantCastSpell(new InstantCastAbility(spell, this, this));
+		this.TemporarilyBuffHealth(spell.getDamage());
+		this.TemporarilyBuffDamage(spell.getDamage());
+		this.TemporarilyBuffDefence(spell.getDamage());
+		this.timeOfTemporaryBuff = this.stateTime;
 	}
 
 	private void lungeForward() {    	
@@ -744,7 +902,34 @@ public abstract class GameCharacter extends MoveableObject {
 			}
 		}   	
 	}
-
+	
+	/**
+	 * @param spriteBatch the SpriteBatch object used to render the message to screen
+	 * renders the next message in the message queue
+	 */
+	private void displayBuffMessage(SpriteBatch spriteBatch) {
+		// check if any messages in queue
+		if(buffMessageQueue.size() > 0) {
+			// check if a message has been displayed
+			if(timeLastBuffMessageDisplayed == 0) {   			
+				timeLastBuffMessageDisplayed = stateTime;
+			}
+			// show the message for a duration depending on its length
+			if(timeLastBuffMessageDisplayed < stateTime - 2) {
+				// dequeue item - display period expired
+				buffMessageQueue.remove(0);
+				buffYPosition = 0;
+				timeLastBuffMessageDisplayed = 0;
+			}
+			// re-check message queue size
+			if(buffMessageQueue.size() > 0) {
+				buffYPosition += 2;
+				BitmapFont font = new BitmapFont(); 
+				font.setColor(Color.GREEN);
+				font.draw(spriteBatch, buffMessageQueue.get(0), currentPosition.x - buffMessageQueue.get(0).length()*6/2, currentPosition.y + buffYPosition);
+			}
+		}   	
+	}
 
 	//================================================================================
 	// Health bar
