@@ -141,7 +141,7 @@ public class Player extends GameCharacter{
 		font.getData().setScale(2);
 		String timeSurvived = "Time survived: " + ((System.currentTimeMillis() - startTime) / 1000) + " seconds";
 		String gameOverText = "GameOver";
-		font.draw(spriteBatch, gameOverText, this.currentPosition.x - timeSurvived.length()*6/2, this.currentPosition.y);
+		font.draw(spriteBatch, gameOverText, this.currentPosition.x - timeSurvived.length()*6/2, this.currentPosition.y + 130);
 		font.draw(spriteBatch, timeSurvived,  this.currentPosition.x - timeSurvived.length()*6/2,  this.currentPosition.y + 80);
 	}
 	

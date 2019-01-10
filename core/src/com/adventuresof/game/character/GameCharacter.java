@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import com.adventuresof.game.animation.CharacterAnimation;
+import com.adventuresof.game.combat.DamageCalculator;
 import com.adventuresof.game.combat.InstantCastAbility;
 import com.adventuresof.game.combat.Projectile;
 import com.adventuresof.game.combat.SpellEnum;
@@ -633,7 +634,7 @@ public abstract class GameCharacter extends MoveableObject {
 	
 	public void buffHealth(int amount) {
 		// buffs the character's health points
-		this.healthBonusPoints += amount;
+		this.maxHealth += amount;
 		this.addMessageToBuffQueue("+ " + amount + " Maximum Health");
 	}
 	
@@ -649,10 +650,15 @@ public abstract class GameCharacter extends MoveableObject {
 		this.addMessageToBuffQueue("+ " + amount + " Armour");
 	}
 	
-	public void TemporarilyBuffHealth(int amount) {
-		// buffs the character's health points
-		this.temporaryHealthBonusPoints += amount;
-		this.addMessageToBuffQueue("+ " + amount + " Temporary Maximum Health");
+	public void heal(int amount) {
+		if(this.health + amount < this.maxHealth) {
+			this.health += amount;
+		}
+		else {
+			this.health = 100;
+		}
+		
+		this.addMessageToBuffQueue("+ " + amount + " Health");
 	}
 	
 	public void TemporarilyBuffDamage(int amount) {
@@ -681,15 +687,17 @@ public abstract class GameCharacter extends MoveableObject {
 		}	
 	}
 
-	public void damage(int damage, GameCharacter inflictedBy) {
+	public void damage(int maxDamage, GameCharacter inflictedBy) {
 		if(this.isHostile) {
-			this.inflictDamage(damage);
-			this.addMessageToDamageQueue(Integer.toString(damage));
+			int damageAmount = DamageCalculator.calculateDamage(maxDamage, inflictedBy, this);
+			this.inflictDamage(damageAmount);
+			this.addMessageToDamageQueue(Integer.toString(damageAmount));
 			if(this.health <= 0) {
 				this.isDying = true;
 				this.stateTimeOfDeath = this.stateTime;
+			}else {
+				this.setTarget(inflictedBy); // switch target to character whom inflicted the damage, so NPC's will chase the character
 			}
-			this.setTarget(inflictedBy); // switch target to character whom inflicted the damage, so NPC's will chase the character
 		}
 	}
 
@@ -807,9 +815,9 @@ public abstract class GameCharacter extends MoveableObject {
 	
 	private void performBuffAbility(SpellEnum spell) {
 		this.gameWorld.addInstantCastSpell(new InstantCastAbility(spell, this, this));
-		this.TemporarilyBuffHealth(spell.getDamage());
 		this.TemporarilyBuffDamage(spell.getDamage());
 		this.TemporarilyBuffDefence(spell.getDamage());
+		this.heal(5);
 		this.timeOfTemporaryBuff = this.stateTime;
 	}
 

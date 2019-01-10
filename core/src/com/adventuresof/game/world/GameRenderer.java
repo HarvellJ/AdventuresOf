@@ -120,10 +120,10 @@ public class GameRenderer {
 		this.renderGameItems();
 		
 		// render the characters
-		gameWorld.getPlayer().render(spriteBatch);
 		gameWorld.getPlayerCompanion().render(spriteBatch);
 		this.renderNPCs();
 		this.renderGameObjects();
+		gameWorld.getPlayer().render(spriteBatch);
 		// dispose of sprite batch
 		spriteBatch.end();	
 		
