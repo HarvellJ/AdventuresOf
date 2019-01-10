@@ -90,10 +90,12 @@ public abstract class GameCharacter extends MoveableObject {
 	private float timeOfTemporaryBuff;
 	
 	// death stuff
-	private boolean isDying;
+	protected boolean isDying;
 	private float stateTimeOfDeath; // used to calculate time required for death animation
 	protected boolean canRespawn;
-
+	protected boolean isDead;
+	protected float startTime;
+	
 
 	//================================================================================
 	// Constructors 
@@ -109,7 +111,7 @@ public abstract class GameCharacter extends MoveableObject {
 			CharacterLevel baseLevel) {
 
 		super(startX, startY);
-		
+		this.startTime = System.currentTimeMillis();
 		this.setBaseLevel(baseLevel);
 		this.gameWorld = gameWorld;
 
@@ -159,6 +161,9 @@ public abstract class GameCharacter extends MoveableObject {
 	}
 
 
+	public boolean isDead() {
+		return isDead;
+	}
 
 	/**
 	 * @return the temporaryDamageBonusPoints
@@ -363,6 +368,7 @@ public abstract class GameCharacter extends MoveableObject {
 					this.target = null;
 					this.damageMessageQueue = new ArrayList<String>();				
 				}else {
+					this.isDead = true;
 					this.canDispose = true;
 				}
 			}
