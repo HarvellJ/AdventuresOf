@@ -1,6 +1,5 @@
-package com.adventuresof.game.combat;
+package com.adventuresof.game.animation;
 
-import com.adventuresof.game.animation.SpellAnimation;
 public class LightningClawAnimation extends SpellAnimation{
 		// texture sheets
 		private static final String MOVEMENT_UP_SPRITE_SHEET = "spells//lightningClaw.png";

@@ -1,6 +1,5 @@
-package com.adventuresof.game.combat;
+package com.adventuresof.game.animation;
 
-import com.adventuresof.game.animation.SpellAnimation;
 /**
 *
 */

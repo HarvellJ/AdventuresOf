@@ -1,5 +1,4 @@
-package com.adventuresof.game.combat;
-import com.adventuresof.game.animation.SpellAnimation;
+package com.adventuresof.game.animation;
 
 public class FireBarrierAnimation extends SpellAnimation{
 
