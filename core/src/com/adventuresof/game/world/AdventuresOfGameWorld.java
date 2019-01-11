@@ -49,18 +49,6 @@ public class AdventuresOfGameWorld extends GameWorld{
 		// move player companion
 		//playerCompanion.move(this.player);
 		playerCompanion.update();
-
-		// quest related stuff
-		if(this.checkBandits(NPCs) == null) {
-			for (NPC npc : NPCs) {
-				if (npc.getName().equals("Guard")) {
-
-					ArrayList<String> conversation = new ArrayList<String>(Arrays.asList("Well done! You have killed the bandits and completed the quest!"));  
-
-					npc.setConversation(conversation);
-				}
-			}	
-		}
 	}
 
 	public PlayerCompanion getPlayerCompanion() {
@@ -99,16 +87,15 @@ public class AdventuresOfGameWorld extends GameWorld{
 	 */
 	private void spawnHostileNPCs() {
 
-		ArrayList<String> conversation = new ArrayList<String>(Arrays.asList("They have sent you to kill us haven't they...", "Well you won't get away with this without a fight..."));
 		Random r = new Random();
 		for (RectangleMapObject rectangleObject : this.map.getEnemySpawnLevel1Objects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
 			// spawn in an 'enemy'
 			if(r.nextInt(5) >= 2) {
-				this.NPCs.add(new Knight(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Knight", true, conversation, false));							
+				this.NPCs.add(new Knight(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Knight", false, null, false));							
 			}		
 			else {
-				this.NPCs.add(new KnightGold(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Knight", true, conversation, false));							
+				this.NPCs.add(new KnightGold(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Knight", false, null, false));							
 
 			}
 
@@ -140,46 +127,45 @@ public class AdventuresOfGameWorld extends GameWorld{
 	 */
 	private void spawnFriendlyNPCs() {
 		Random r = new Random();
-		ArrayList<String> conversation = new ArrayList<String>( Arrays.asList("Your mission...", "should you choose to accept it...", "Is to kill all of the bandits outside of this castle...", "You will find them to the South-West."));
 		for (RectangleMapObject rectangleObject : this.map.getGuardSpawnLavaCastleSpawnObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
-			this.NPCs.add(new LavaCastleGuard(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y,"Geoff", true, conversation, true, "Slayer Quest"));							
+			this.NPCs.add(new LavaCastleGuard(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y,"Geoff", false, null, true, "Slayer Quest"));							
 		}
 		for (RectangleMapObject rectangleObject : this.map.getGuardSpawnMudBaseCastleSpawnObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
-			this.NPCs.add(new MudCastleGuard(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Luke", true, conversation, true, "Collection Quest"));							
+			this.NPCs.add(new MudCastleGuard(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Luke", false, null, true, "Collection Quest"));							
 		}
 		for (RectangleMapObject rectangleObject : this.map.getGuardSpawnStarterCastleSpawnObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
 			if(r.nextInt(2) > 0) {
-				this.NPCs.add(new StarterCastleGuard(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Luke", true, conversation, false));	
+				this.NPCs.add(new StarterCastleGuard(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Luke", false, null, false));	
 			}else {
-				this.NPCs.add(new StarterCastleGuard(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Luke", true, conversation, false));	
+				this.NPCs.add(new StarterCastleGuard(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Luke", false, null, false));	
 			}
 		}	
 		for (RectangleMapObject rectangleObject : this.map.getVillagerSpawnStarterCastleSpawnObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
 			if(r.nextInt(2) > 0) {
-				this.NPCs.add(new NightElfMale(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Luke", true, conversation, false));	
+				this.NPCs.add(new NightElfMale(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Luke", false, null, false));	
 			}else {
-				this.NPCs.add(new NightElfFemale(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Luke", true, conversation, false));	
+				this.NPCs.add(new NightElfFemale(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Luke", false, null, false));	
 			}
 		}
 		for (RectangleMapObject rectangleObject : this.map.getStaticGuardSpawnStarterCastleSpawnObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
-			StarterCastleGuard staticGuard = new StarterCastleGuard(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Luke", true, conversation, true);
+			StarterCastleGuard staticGuard = new StarterCastleGuard(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Luke", false, null, true);
 			staticGuard.setCharacterDirection(Direction.left);
 			this.NPCs.add(staticGuard);				
 		}		
 		for (RectangleMapObject rectangleObject : this.map.getStaticShadowKnightSpawnStarterCastleSpawnObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
-			ShadowKnight staticShadowKnight = new ShadowKnight(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Luke", true, conversation, true);
+			ShadowKnight staticShadowKnight = new ShadowKnight(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Luke", false, null, true);
 			staticShadowKnight.setCharacterDirection(Direction.left);
 			this.NPCs.add(staticShadowKnight);				
 		}	
 		for (RectangleMapObject rectangleObject : this.map.getStaticCommanderSpawnStarterCastleSpawnObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
-			Commander staticCommander = new Commander(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Luke", true, conversation, true);
+			Commander staticCommander = new Commander(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Commander", false, null, true);
 			staticCommander.setCharacterDirection(Direction.right);
 			this.NPCs.add(staticCommander);				
 		}		
