@@ -50,22 +50,7 @@ public class MainGameScreen implements Screen {
 	private PlayerHUD playerHUD;
 	
 	public MainGameScreen() {		
-		this.gameWorld = new AdventuresOfGameWorld();
-		this.gameRenderer = new GameRenderer(gameWorld);
-		
-		
-		// setup camera
-		hudCamera = new OrthographicCamera();
-		hudCamera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		playerHUD = new PlayerHUD(hudCamera, gameWorld.getPlayer());
-		
-		// handle inputs - multiplexer used so HUD and game world can both respond to inputs
-		multiplexer = new InputMultiplexer(); 
-		multiplexer.addProcessor(playerHUD.stage);
-		multiplexer.addProcessor(new PlayerController(gameWorld, gameRenderer, playerHUD)); 
-		Gdx.input.setInputProcessor(multiplexer); 
-		// Music setup
-		SoundManager.playMusic("audio/music/Takeover.mp3");
+		this.initiateGame();
 	}
 
 	@Override
@@ -75,9 +60,14 @@ public class MainGameScreen implements Screen {
 
 	@Override
 	public void render(float delta) {
-		this.gameWorld.update(delta);
-		this.gameRenderer.render();
-		this.playerHUD.render(delta);
+		if(gameWorld.getPlayer().isDead()) {
+			// restart the game
+			this.initiateGame();
+		}else {
+			this.gameWorld.update(delta);
+			this.gameRenderer.render();
+			this.playerHUD.render(delta);
+		}
 	}		
 	
 	@Override
@@ -109,6 +99,24 @@ public class MainGameScreen implements Screen {
 	
 	public PlayerHUD getPlayerHUD () {
 		return this.playerHUD;
+	}
+	
+	private void initiateGame() {
+		this.gameWorld = new AdventuresOfGameWorld();
+		this.gameRenderer = new GameRenderer(gameWorld);
+		
+		// setup camera
+		hudCamera = new OrthographicCamera();
+		hudCamera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		playerHUD = new PlayerHUD(hudCamera, gameWorld.getPlayer());
+		
+		// handle inputs - multiplexer used so HUD and game world can both respond to inputs
+		multiplexer = new InputMultiplexer(); 
+		multiplexer.addProcessor(playerHUD.stage);
+		multiplexer.addProcessor(new PlayerController(gameWorld, gameRenderer, playerHUD)); 
+		Gdx.input.setInputProcessor(multiplexer); 
+		// Music setup
+		SoundManager.playMusic("audio/music/Takeover.mp3");
 	}
 
 }

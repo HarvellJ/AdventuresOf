@@ -13,6 +13,10 @@ import com.adventuresof.game.quest.Quest;
 import com.adventuresof.game.world.GameWorld;
 import com.adventuresof.game.world.GameZone;
 import com.adventuresof.helpers.AnimationFactory;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
 public class Player extends GameCharacter{
@@ -86,7 +90,7 @@ public class Player extends GameCharacter{
 				ATTACK_DOWN_START_FRAME, ATTACK_DOWN_FRAMES,
 				ATTACK_UP_START_FRAME, ATTACK_UP_FRAMES,
 				DEATH_ANIMATION_START_FRAME, DEATH_ANIMATION_FRAMES
-				), MovementSpeedEnum.NORMAL_FAST.getSpeed(), true, "You", characterClass, CharacterLevel.normal);
+				), MovementSpeedEnum.NORMAL_FAST.getSpeed(), false, "You", characterClass, CharacterLevel.normal);
 				
 		this.isHostile = true;
 		this.inventory = new Inventory();
@@ -123,7 +127,24 @@ public class Player extends GameCharacter{
 		// if item is buff, display buff message
 		this.addItemBuff(item);
 	}
-
+	
+	public void render(SpriteBatch spriteBatch) {
+		if(this.isDying) {
+			this.showGameOverMessage(spriteBatch);
+		}
+		super.render(spriteBatch);
+	}
+	
+	private void showGameOverMessage(SpriteBatch spriteBatch) {
+		BitmapFont font = new BitmapFont(); 
+		font.setColor(new Color(Color.RED));
+		font.getData().setScale(2);
+		String timeSurvived = "Time survived: " + ((System.currentTimeMillis() - startTime) / 1000) + " seconds";
+		String gameOverText = "GameOver";
+		font.draw(spriteBatch, gameOverText, this.currentPosition.x - timeSurvived.length()*6/2, this.currentPosition.y + 130);
+		font.draw(spriteBatch, timeSurvived,  this.currentPosition.x - timeSurvived.length()*6/2,  this.currentPosition.y + 80);
+	}
+	
 	private void addItemBuff(Item item) {
 		if(item.getItem().getItemEffect() == ItemEffectEnum.defenceBoost) {
 			this.buffDefence(item.getItem().getPower());

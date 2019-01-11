@@ -1,6 +1,13 @@
 package com.adventuresof.game.combat;
 
+import com.adventuresof.game.animation.ArrowAnimation;
+import com.adventuresof.game.animation.FireBarrierAnimation;
+import com.adventuresof.game.animation.FireballAnimation;
+import com.adventuresof.game.animation.IceBarrierAnimation;
+import com.adventuresof.game.animation.IceSpellAnimation;
+import com.adventuresof.game.animation.LightningClawAnimation;
 import com.adventuresof.game.animation.SpellAnimation;
+import com.adventuresof.game.animation.TornadoAnimation;
 import com.adventuresof.game.character.GameCharacter;
 import com.adventuresof.game.common.MovementSpeedEnum;
 

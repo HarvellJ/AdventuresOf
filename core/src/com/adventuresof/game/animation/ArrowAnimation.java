@@ -1,6 +1,5 @@
-package com.adventuresof.game.combat;
+package com.adventuresof.game.animation;
 
-import com.adventuresof.game.animation.SpellAnimation;
 import com.adventuresof.game.character.Direction;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
