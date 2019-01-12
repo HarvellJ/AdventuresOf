@@ -397,7 +397,8 @@ public abstract class GameCharacter extends MoveableObject {
 								&& Math.sqrt(Math.pow((Math.max(target.getCurrentPosition().x, this.getCurrentPosition().x) - Math.min(target.getCurrentPosition().x, this.getCurrentPosition().x)), 2) + Math.pow((Math.max(target.getCurrentPosition().y, this.getCurrentPosition().y) - Math.min(target.getCurrentPosition().y, this.getCurrentPosition().y)), 2)) < 400)
 						{
 							// target is within range distance, perform range attack (if possible)
-							this.performAbilityOne(this.target.getCurrentPosition().x, this.target.getCurrentPosition().y);						
+							this.performAbilityOne(this.target.getCurrentPosition().x, this.target.getCurrentPosition().y);		
+							this.setTargetLocation(new Vector3((float)target.getCurrentPosition().x - 45, (float)target.getCurrentPosition().y, 0));
 						}						
 						else {
 							this.setTargetLocation(new Vector3((float)target.getCurrentPosition().x - 45, (float)target.getCurrentPosition().y, 0));
@@ -734,6 +735,9 @@ public abstract class GameCharacter extends MoveableObject {
 			else if(this.characterClass.getAbilityOne().getSpellType() == SpellType.instantCast){
 				this.performInstantCastAbility(this.characterClass.getAbilityOne(), targetX, targetY);
 			}
+			else if(this.characterClass.getAbilityOne().getSpellType() == SpellType.multiProjectile) {
+				this.performMultiProjectileAbility(this.characterClass.getAbilityOne(), targetX, targetY);
+			}
 		}
 	}
 
@@ -752,6 +756,9 @@ public abstract class GameCharacter extends MoveableObject {
 			}
 			else if(this.characterClass.getAbilityOne().getSpellType() == SpellType.instantCast){
 				this.performInstantCastAbility(this.characterClass.getAbilityTwo(), targetX, targetY);
+			}
+			else if(this.characterClass.getAbilityOne().getSpellType() == SpellType.multiProjectile) {
+				this.performMultiProjectileAbility(this.characterClass.getAbilityOne(), targetX, targetY);
 			}
 		}
 	}
@@ -772,6 +779,9 @@ public abstract class GameCharacter extends MoveableObject {
 			else if(this.characterClass.getAbilityOne().getSpellType() == SpellType.instantCast){
 				this.performInstantCastAbility(this.characterClass.getAbilityThree(), targetX, targetY);
 			}
+			else if(this.characterClass.getAbilityOne().getSpellType() == SpellType.multiProjectile) {
+				this.performMultiProjectileAbility(this.characterClass.getAbilityOne(), targetX, targetY);
+			}
 		}
 	}
 
@@ -790,6 +800,9 @@ public abstract class GameCharacter extends MoveableObject {
 			}
 			else if(this.characterClass.getAbilityFour().getSpellType() == SpellType.instantCast){
 				this.performInstantCastAbility(this.characterClass.getAbilityFour(), targetX, targetY);
+			}
+			else if(this.characterClass.getAbilityOne().getSpellType() == SpellType.multiProjectile) {
+				this.performMultiProjectileAbility(this.characterClass.getAbilityOne(), targetX, targetY);
 			}
 		}
 	}
@@ -833,6 +846,12 @@ public abstract class GameCharacter extends MoveableObject {
 		this.timeOfTemporaryBuff = this.stateTime;
 	}
 
+	private void performMultiProjectileAbility(SpellEnum spell, float targetX, float targetY) {
+		this.gameWorld.performSpellCast(new Projectile(this.accessibleTiles, this.currentPosition.x, this.currentPosition.y, targetX, targetY, spell, this));
+		this.gameWorld.performSpellCast(new Projectile(this.accessibleTiles, this.currentPosition.x, this.currentPosition.y, targetX + 90, targetY + 90, spell, this));
+		this.gameWorld.performSpellCast(new Projectile(this.accessibleTiles, this.currentPosition.x, this.currentPosition.y, targetX - 90, targetY - 90, spell, this));
+	}
+	
 	private void lungeForward() {    	
 		if(currentCharacterDirection == Direction.up) {
 			this.currentPosition.y += 20;

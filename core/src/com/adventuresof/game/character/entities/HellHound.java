@@ -78,7 +78,7 @@ public class HellHound extends NPC {
 						ATTACK_DOWN_START_FRAME, ATTACK_DOWN_FRAMES,
 						ATTACK_UP_START_FRAME, ATTACK_UP_FRAMES,
 						DEATH_ANIMATION_START_FRAME, DEATH_ANIMATION_FRAMES
-						), MovementSpeed.NORMAL_MEDIUM, name, isTalkative, conversation, CharacterClass.hybrid, CharacterLevel.low);
+						), MovementSpeed.NORMAL_MEDIUM, name, isTalkative, conversation, CharacterClass.jungleZoneNPC_Mage, CharacterLevel.low);
 		this.setCharacterDirection(Direction.left);
 	}
 }

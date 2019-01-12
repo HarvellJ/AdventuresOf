@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.0" orientation="orthogonal" renderorder="right-down" width="516" height="688" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#00557f" nextlayerid="47" nextobjectid="251">
+<map version="1.2" tiledversion="1.2.0" orientation="orthogonal" renderorder="right-down" width="516" height="688" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#00557f" nextlayerid="47" nextobjectid="283">
  <tileset firstgid="1" source="DarkTiles.tsx"/>
  <tileset firstgid="610" source="ashlands_tileset.tsx"/>
  <tileset firstgid="1450" source="tf_jungle_tileset.tsx"/>
@@ -2985,15 +2985,50 @@
   <object id="246" name="campfire" x="3492" y="7608.67"/>
   <object id="249" name="campfire" x="3930.67" y="9894"/>
  </objectgroup>
- <objectgroup id="38" name="hostileNPCSpawns_Jungle_Med"/>
- <objectgroup id="39" name="hostileNPCSpawns_Jungle_High"/>
+ <objectgroup id="38" name="hostileNPCSpawns_Jungle_Med">
+  <object id="253" name="enemySpawnJungle" x="2500" y="7327" width="19" height="25"/>
+  <object id="254" name="enemySpawnJungle" x="2507" y="7263" width="21" height="23"/>
+  <object id="259" name="enemySpawnJungle" x="3612" y="6665" width="1" height="1"/>
+  <object id="260" name="enemySpawnJungle" x="2675" y="6444"/>
+  <object id="263" name="enemySpawnJungle" x="3031" y="7012"/>
+  <object id="264" name="enemySpawnJungle" x="2574" y="6824"/>
+  <object id="265" name="enemySpawnJungle" x="2515" y="5992"/>
+  <object id="266" name="enemySpawnJungle" x="2659" y="5974"/>
+  <object id="267" name="enemySpawnJungle" x="2899" y="5959"/>
+ </objectgroup>
+ <objectgroup id="39" name="hostileNPCSpawns_Jungle_High">
+  <object id="255" name="enemySpawnJungle" x="2543" y="6996"/>
+  <object id="256" name="enemySpawnJungle" x="2574" y="6571"/>
+  <object id="257" name="enemySpawnJungle" x="3735" y="6459"/>
+  <object id="258" name="enemySpawnJungle" x="3714" y="6533" width="1"/>
+  <object id="261" name="enemySpawnJungle" x="3208" y="7002" width="1"/>
+  <object id="268" name="enemySpawnJungle" x="2808" y="6063"/>
+  <object id="269" name="enemySpawnJungle" x="2807" y="5809"/>
+ </objectgroup>
  <objectgroup id="40" name="hostileNPCSpawns_Jungle_Boss">
   <object id="250" name="bossSpawn" x="3141" y="7034" width="16" height="20"/>
  </objectgroup>
  <objectgroup id="41" name="hostileNPCSpawns_mud_zone_Med"/>
  <objectgroup id="42" name="hostileNPCSpawns_mud_zone_High"/>
- <objectgroup id="43" name="hostileNPCSpawns_mud_zone_Boss"/>
- <objectgroup id="44" name="hostileNPCSpawns_lavacastle_Med"/>
+ <objectgroup id="43" name="hostileNPCSpawns_mud_zone_Boss">
+  <object id="252" name="bossSpawn" x="2108" y="3862"/>
+ </objectgroup>
+ <objectgroup id="44" name="hostileNPCSpawns_lavacastle_Med">
+  <object id="271" name="enemySpawnLavaZone" x="2749" y="1886" width="1"/>
+  <object id="272" name="enemySpawnLavaZone" x="3073" y="1873"/>
+  <object id="273" name="enemySpawnLavaZone" x="3187" y="1906"/>
+  <object id="274" name="enemySpawnLavaZone" x="2680" y="1931"/>
+  <object id="275" name="enemySpawnLavaZone" x="3162" y="2076"/>
+  <object id="276" name="enemySpawnLavaZone" x="2688" y="2046"/>
+  <object id="277" name="enemySpawnLavaZone" x="2860" y="2122"/>
+  <object id="278" name="enemySpawnLavaZone" x="2984" y="2123"/>
+  <object id="279" name="enemySpawnLavaZone" x="2311" y="2798"/>
+  <object id="280" name="enemySpawnLavaZone" x="2326" y="2865"/>
+  <object id="281" name="enemySpawnLavaZone" x="3292" y="3061"/>
+  <object id="282" name="enemySpawnLavaZone" x="3322" y="2933"/>
+ </objectgroup>
  <objectgroup id="45" name="hostileNPCSpawns_lavacastle_High"/>
- <objectgroup id="46" name="hostileNPCSpawns_lavacastle_Boss"/>
+ <objectgroup id="46" name="hostileNPCSpawns_lavacastle_Boss">
+  <object id="270" name="bossSpawn" x="2935" y="1858"/>
+ </objectgroup>
 </map>

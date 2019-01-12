@@ -183,11 +183,11 @@ public class Map {
 	    setEnemySpawnLavaCastleLowObjectLayer((MapLayer)tiledMap.getLayers().get(ENEMY_SPAWNS_LAVACASTLE_LOW));
 	    setEnemySpawnLavaCastleLowObjects(enemySpawnLavaZoneLowObjectLayer.getObjects());	 
 	    setEnemySpawnLavaZoneMedObjectLayer((MapLayer)tiledMap.getLayers().get(ENEMY_SPAWNS_LAVACASTLE_MED));
-	    setEnemySpawnLavaZoneMedObjects(enemySpawnLavaZoneLowObjectLayer.getObjects());	 
+	    setEnemySpawnLavaZoneMedObjects(enemySpawnLavaZoneMedObjectLayer.getObjects());	 
 	    setEnemySpawnLavaZoneHighObjectLayer((MapLayer)tiledMap.getLayers().get(ENEMY_SPAWNS_LAVACASTLE_HIGH));
-	    setEnemySpawnLavaZoneHighObjects(enemySpawnLavaZoneLowObjectLayer.getObjects());	 
+	    setEnemySpawnLavaZoneHighObjects(enemySpawnLavaZoneHighObjectLayer.getObjects());	 
 	    setEnemySpawnLavaZoneBossObjectLayer((MapLayer)tiledMap.getLayers().get(ENEMY_SPAWNS_LAVACASTLE_BOSS));
-	    setEnemySpawnLavaZoneBossObjects(enemySpawnLavaZoneLowObjectLayer.getObjects());	 
+	    setEnemySpawnLavaZoneBossObjects(enemySpawnLavaZoneBossObjectLayer.getObjects());	 
 	    
 	    setEnemySpawnMudZoneLowObjectLayer((MapLayer)tiledMap.getLayers().get(ENEMY_SPAWNS_MUDZONE_LOW));
 	    setEnemySpawnMudZoneLowObjects(enemySpawnMudZoneLowObjectLayer.getObjects());	 
