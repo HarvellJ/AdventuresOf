@@ -7,6 +7,7 @@ import java.util.Random;
 import com.adventuresof.game.character.entities.BloodElf;
 import com.adventuresof.game.character.entities.Commander;
 import com.adventuresof.game.character.entities.Dragon;
+import com.adventuresof.game.character.entities.HellHound;
 import com.adventuresof.game.character.entities.Horse;
 import com.adventuresof.game.character.entities.HorseKnight;
 import com.adventuresof.game.character.entities.Knight;
@@ -20,6 +21,7 @@ import com.adventuresof.game.character.entities.Phoenix;
 import com.adventuresof.game.character.entities.PlayerCompanion;
 import com.adventuresof.game.character.entities.ShadowKnight;
 import com.adventuresof.game.character.entities.StarterCastleGuard;
+import com.adventuresof.game.character.entities.TwoHeadedDragon;
 import com.adventuresof.game.common.enums.Direction;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Intersector;
@@ -31,9 +33,7 @@ public class AdventuresOfGameWorld extends GameWorld{
 
 	public AdventuresOfGameWorld() {
 		super("map//MainWorld.tmx");
-
 		this.setPlayerCompanion(new PlayerCompanion(this, map.getAccessibleMapLayer(), this.player));
-
 	}	
 
 	protected void spawnNPCs() {
@@ -68,14 +68,14 @@ public class AdventuresOfGameWorld extends GameWorld{
 		}
 		return null;
 	}
-	
+
 	protected void spawnAnimatedMapObjects() {
 		for (RectangleMapObject rectangleObject : this.map.getCampFireSpawnPointObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
-				this.animatedMapObjects.add(new Campfire(rectangle.x, rectangle.y));							
+			this.animatedMapObjects.add(new Campfire(rectangle.x, rectangle.y));							
 		}
 	}
-	
+
 	protected void updateAnimatedMapObjects() {
 		for(AnimatedMapObject animatedMapObject : this.animatedMapObjects) {
 			animatedMapObject.update();
@@ -86,37 +86,64 @@ public class AdventuresOfGameWorld extends GameWorld{
 	 * Instantiates the enemy NPCs into the game
 	 */
 	private void spawnHostileNPCs() {
+		this.spawnNPCsJungleZone();
+		this.spawnNPCsMudZone();
+		this.spawnNPCsLavaZone();
+	}
 
-		Random r = new Random();
-		for (RectangleMapObject rectangleObject : this.map.getEnemySpawnLavaCastleLowObjects().getByType(RectangleMapObject.class)) {
+	private void spawnNPCsJungleZone() {
+		// spawn low level NPCs
+		for (RectangleMapObject rectangleObject : this.map.getEnemySpawnJungleLowObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
 			// spawn in an 'enemy'
-			if(r.nextInt(5) >= 2) {
-				this.NPCs.add(new Knight(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Knight", false, null, false));							
-			}		
-			else {
-				this.NPCs.add(new KnightGold(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Knight", false, null, false));							
-
-			}
-
+			this.NPCs.add(new HellHound(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "HellHound", false, null, true));	
 		}
+		// spawn med level NPCs
+		for (RectangleMapObject rectangleObject : this.map.getEnemySpawnJungleZoneMedObjects().getByType(RectangleMapObject.class)) {
+			Rectangle rectangle = rectangleObject.getRectangle();
+			// spawn in an 'enemy'
+			this.NPCs.add(new BloodElf(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "BloodElf", false, null, true));	
+		}
+		// spawn high level NPCs
+		for (RectangleMapObject rectangleObject : this.map.getEnemySpawnJungleZoneHighObjects().getByType(RectangleMapObject.class)) {
+			Rectangle rectangle = rectangleObject.getRectangle();
+			// spawn in an 'enemy'
+			this.NPCs.add(new Phoenix(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Phoenix", false, null, true));	
+		}
+		
+		// spawn boss level NPCs
+		for (RectangleMapObject rectangleObject : this.map.getEnemySpawnJungleZoneBossObjects().getByType(RectangleMapObject.class)) {
+			Rectangle rectangle = rectangleObject.getRectangle();
+			// spawn in an 'enemy'
+			this.NPCs.add(new TwoHeadedDragon(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "TwoHeadedDragon", false, null, true));	
+		}
+	}
+
+	private void spawnNPCsMudZone() {
+		Random random = new Random();
 		for (RectangleMapObject rectangleObject : this.map.getEnemySpawnMudZoneLowObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
 			// spawn in an 'enemy'
-			if(r.nextInt(5) >= 2) {
+			if(random.nextInt(5) >= 2) {
 				this.NPCs.add(new Dragon(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Dragon", false, null, true));	
 			}
 			else {
 				this.NPCs.add(new KnightGold(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Knight", false, null, true));							
 			}
 		}
-		for (RectangleMapObject rectangleObject : this.map.getEnemySpawnJungleLowObjects().getByType(RectangleMapObject.class)) {
+	}
+
+	private void spawnNPCsLavaZone() {
+		Random random = new Random();
+		for (RectangleMapObject rectangleObject : this.map.getEnemySpawnLavaCastleLowObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
 			// spawn in an 'enemy'
-			if(r.nextInt(5) >= 2) {
-				this.NPCs.add(new Phoenix(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Phoenix", false, null, true));	
-			}else {
-				this.NPCs.add(new BloodElf(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Blood Elf", false, null, true));	
+			if(random.nextInt(5) >= 2) {
+				this.NPCs.add(new Knight(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Knight", false, null, false));							
+			}		
+			else {
+				this.NPCs.add(new KnightGold(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Knight", false, null, false));							
+
 			}
 
 		}

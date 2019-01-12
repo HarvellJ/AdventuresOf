@@ -63,7 +63,7 @@ public abstract class GameCharacter extends MoveableObject {
 	private ArrayList<String> buffMessageQueue; // used to queue buff messages that will be displayed in game by the character
 	private float timeLastBuffMessageDisplayed;
 	private float buffYPosition; // used for scrolling effect
-	
+
 	// collision stuff
 	private TiledMapTileLayer accessibleTiles; // represents the tiles that are accessible by the character
 	protected int characterHeight; // the character's height - used to draw the bounding rectangle (hit box)
@@ -84,7 +84,7 @@ public abstract class GameCharacter extends MoveableObject {
 	protected GameCharacter target; // the characters current target. This can be friendly or hostile
 	protected boolean isHostile; // toggles whether the character can be attacked or is passive
 	private CharacterLevel baseLevel; // the character level, used to determine their power
-	
+
 	private int healthBonusPoints;
 	private int defenceBonusPoints;
 	private int damageBonusPoints;
@@ -92,14 +92,14 @@ public abstract class GameCharacter extends MoveableObject {
 	private int temporaryDefenceBonusPoints;
 	private int temporaryDamageBonusPoints;
 	private float timeOfTemporaryBuff;
-	
+
 	// death stuff
 	protected boolean isDying;
 	private float stateTimeOfDeath; // used to calculate time required for death animation
 	protected boolean canRespawn;
 	protected boolean isDead;
 	protected float startTime;
-	
+
 
 	//================================================================================
 	// Constructors 
@@ -156,7 +156,10 @@ public abstract class GameCharacter extends MoveableObject {
 		this.isHostile = isHostile;
 
 		// default health to 100
-		this.health = 100;
+		this.health = baseLevel.getBaseHealth();
+		this.maxHealth = baseLevel.getBaseHealth();
+		this.damageBonusPoints = baseLevel.getBaseDamageBonus();
+		this.defenceBonusPoints = baseLevel.getBaseDefenceBonus();
 		this.isFrozen = false;
 		this.frozenTime = 0;
 
@@ -265,7 +268,7 @@ public abstract class GameCharacter extends MoveableObject {
 	public CharacterClass getCharacterClass() {
 		return characterClass;
 	}
-	
+
 	public boolean isDying() {
 		return isDying;
 	}
@@ -317,7 +320,7 @@ public abstract class GameCharacter extends MoveableObject {
 	public void addMessageToDamageQueue(String message) {
 		this.damageMessageQueue.add(message);
 	}
-	
+
 	public void addMessageToBuffQueue(String message) {
 		this.buffMessageQueue.add(message);
 	}
@@ -409,6 +412,12 @@ public abstract class GameCharacter extends MoveableObject {
 				this.moveObject();
 				//following any positional moves, update the characters bounding record
 				this.updateHitBox();
+			}else {
+				if(target != null && this.isHostile) {
+					if(!target.isDying() && (target.getHealth() > 0)) {
+						this.performAbilityOne(this.target.getCurrentPosition().x, this.target.getCurrentPosition().y);						
+					}
+				}
 			}
 		}
 
@@ -624,7 +633,7 @@ public abstract class GameCharacter extends MoveableObject {
 	//================================================================================
 	// Combat
 	//================================================================================
-	
+
 	private void resetTemporaryBuffs() {
 		// reset any temporary buffs after 5 seconds
 		if(timeOfTemporaryBuff != 0 && timeOfTemporaryBuff < stateTime - 5) {
@@ -634,25 +643,25 @@ public abstract class GameCharacter extends MoveableObject {
 			this.temporaryHealthBonusPoints = 0;
 		}
 	}
-	
+
 	public void buffHealth(int amount) {
 		// buffs the character's health points
 		this.maxHealth += amount;
 		this.addMessageToBuffQueue("+ " + amount + " Maximum Health");
 	}
-	
+
 	public void buffDamage(int amount) {
 		// buffs the character's damage points
 		this.damageBonusPoints += amount;
 		this.addMessageToBuffQueue("+ " + amount + " Maximum Damage");
 	}
-	
+
 	public void buffDefence(int amount) {
 		// buffs the characer's defence points
 		this.defenceBonusPoints += amount;
 		this.addMessageToBuffQueue("+ " + amount + " Armour");
 	}
-	
+
 	public void heal(int amount) {
 		if(this.health + amount < this.maxHealth) {
 			this.health += amount;
@@ -660,23 +669,23 @@ public abstract class GameCharacter extends MoveableObject {
 		else {
 			this.health = 100;
 		}
-		
+
 		this.addMessageToBuffQueue("+ " + amount + " Health");
 	}
-	
+
 	public void TemporarilyBuffDamage(int amount) {
 		// buffs the character's damage points
 		this.temporaryDamageBonusPoints += amount;
 		this.addMessageToBuffQueue("+ " + amount + " Temporary Maximum Damage");
 	}
-	
+
 	public void TemporarilyBuffDefence(int amount) {
 		// buffs the characer's defence points
 		this.temporaryDefenceBonusPoints += amount;
 		this.addMessageToBuffQueue("+ " + amount + " Temporary Armour");
 	}
-	
-	
+
+
 	public int generateRandomDamageAmount() {
 		// TODO - Make this damage based on some sort of input parameters. Right now its just randomly choosing between 0 and 100.
 		Random r = new Random();
@@ -784,7 +793,7 @@ public abstract class GameCharacter extends MoveableObject {
 			}
 		}
 	}
-	
+
 	public void hitWithInstantCastSpell(InstantCastAbility ability) {
 		this.damage(ability.getSpell().getDamage(), ability.getCastBy());
 		if(ability.getSpell() == SpellEnum.IceSpell) {
@@ -815,7 +824,7 @@ public abstract class GameCharacter extends MoveableObject {
 	private void performInstantCastAbility(SpellEnum spell, float targetX, float targetY) {
 		this.gameWorld.performInstantSpellCast(new Circle(targetX, targetY, spell.getAreaOfAffect()), spell);
 	}
-	
+
 	private void performBuffAbility(SpellEnum spell) {
 		this.gameWorld.addInstantCastSpell(new InstantCastAbility(spell, this, this));
 		this.TemporarilyBuffDamage(spell.getDamage());
@@ -919,7 +928,7 @@ public abstract class GameCharacter extends MoveableObject {
 			}
 		}   	
 	}
-	
+
 	/**
 	 * @param spriteBatch the SpriteBatch object used to render the message to screen
 	 * renders the next message in the message queue

@@ -16,8 +16,17 @@ public class DamageCalculator {
 		// calculate damage amount - generate a number between 1-100 representing a % of the max damage to deal
 		double calculatedRandomDamage = totalDamage * ((double)random.nextInt(100)/100);
 		
-		// return the calculated % damage value - the total defence points
-		return (int) calculatedRandomDamage - totalDefencePoints;
+		//33% chance of blocking 
+		if(random.nextInt(3)>1) {
+			if(totalDefencePoints > calculatedRandomDamage) {
+				return 0;				
+			}else {
+				return (int) calculatedRandomDamage - totalDefencePoints;
+			}
+		}
+		else {
+			return (int) calculatedRandomDamage;
+		}
 	}
 	
 }

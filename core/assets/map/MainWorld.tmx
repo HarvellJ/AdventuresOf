@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.0" orientation="orthogonal" renderorder="right-down" width="516" height="688" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#00557f" nextlayerid="47" nextobjectid="250">
+<map version="1.2" tiledversion="1.2.0" orientation="orthogonal" renderorder="right-down" width="516" height="688" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#00557f" nextlayerid="47" nextobjectid="251">
  <tileset firstgid="1" source="DarkTiles.tsx"/>
  <tileset firstgid="610" source="ashlands_tileset.tsx"/>
  <tileset firstgid="1450" source="tf_jungle_tileset.tsx"/>
@@ -2987,7 +2987,9 @@
  </objectgroup>
  <objectgroup id="38" name="hostileNPCSpawns_Jungle_Med"/>
  <objectgroup id="39" name="hostileNPCSpawns_Jungle_High"/>
- <objectgroup id="40" name="hostileNPCSpawns_Jungle_Boss"/>
+ <objectgroup id="40" name="hostileNPCSpawns_Jungle_Boss">
+  <object id="250" name="bossSpawn" x="3141" y="7034" width="16" height="20"/>
+ </objectgroup>
  <objectgroup id="41" name="hostileNPCSpawns_mud_zone_Med"/>
  <objectgroup id="42" name="hostileNPCSpawns_mud_zone_High"/>
  <objectgroup id="43" name="hostileNPCSpawns_mud_zone_Boss"/>

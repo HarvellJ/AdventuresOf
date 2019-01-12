@@ -25,7 +25,8 @@ public enum SpellEnum {
 
 	// ultimate abilities
 	IceSpell(new IceSpellAnimation(), 50, 50, 30, MovementSpeed.VERY_FAST, "audio/effects/ice.wav", SpellType.instantCast, CoolDownEnum.Medium,  "spells//needles-blue-3.png", true, 120),
-	LightningClaw(new LightningClawAnimation(), 50, 50, 20, MovementSpeed.VERY_FAST, "audio/effects/lightning.wav", SpellType.instantCast, CoolDownEnum.Medium,  "spells//shielding-eerie-3.png", false, 120);
+	LightningClaw(new LightningClawAnimation(), 50, 50, 20, MovementSpeed.VERY_FAST, "audio/effects/lightning.wav", SpellType.instantCast, CoolDownEnum.Medium,  "spells//shielding-eerie-3.png", false, 120),
+	FireSpell_Boss(new FireballAnimation(), 50, 50, 20, MovementSpeed.VERY_FAST, "audio/effects/fireLionSpell.wav", SpellType.projectile, CoolDownEnum.VeryShort,  "spells//rip-sky-3.png", true);
 
 
 	private SpellAnimation animation;

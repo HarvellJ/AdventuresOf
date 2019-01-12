@@ -1,7 +1,7 @@
 package com.adventuresof.game.combat;
 
 public enum CoolDownEnum {
-	
+	VeryShort(500), // for basic abilities - e.g. first ability
 	Short(1000), // for basic abilities - e.g. first ability
 	Medium(2000), 
 	Long(5000), 

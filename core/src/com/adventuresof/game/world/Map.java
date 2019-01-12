@@ -177,7 +177,7 @@ public class Map {
 	    // lava castle guards
 	    setGuardSpawnLavaCastleObjectLayer((MapLayer)tiledMap.getLayers().get(GUARD_SPAWNS_LAVA_CASTLE));
 	    setGuardSpawnLavaCastleSpawnObjects(guardSpawnLavaCastleObjectLayer.getObjects());	
-	    
+	     
 	    
 	    // store enemy spawn objects and layers
 	    setEnemySpawnLavaCastleLowObjectLayer((MapLayer)tiledMap.getLayers().get(ENEMY_SPAWNS_LAVACASTLE_LOW));

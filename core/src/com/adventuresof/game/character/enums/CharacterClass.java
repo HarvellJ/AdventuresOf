@@ -6,8 +6,9 @@ public enum CharacterClass {
 	melee(SpellEnum.Tornado, SpellEnum.Tornado, SpellEnum.FireBarrier, SpellEnum.Tornado, 150),
 	ranger(SpellEnum.Arrow, SpellEnum.Arrow, SpellEnum.Arrow, SpellEnum.LightningClaw, 0), 
 	mage(SpellEnum.Tornado, SpellEnum.Firelion, SpellEnum.IceBarrier, SpellEnum.IceSpell, 0),
-	hybrid(SpellEnum.Tornado, SpellEnum.Arrow, SpellEnum.Tornado, SpellEnum.Tornado, 0);
-	
+	hybrid(SpellEnum.Tornado, SpellEnum.Arrow, SpellEnum.Tornado, SpellEnum.Tornado, 0),
+	dragonBoss(SpellEnum.FireSpell_Boss, SpellEnum.FireSpell_Boss, SpellEnum.FireSpell_Boss, SpellEnum.FireSpell_Boss, 0);
+
 	// abilities get stronger in ascending order
 	// i.e. first ability is the character's basic ability, the fourth would be their ultimate ability
 	private SpellEnum abilityOne; // first ability
