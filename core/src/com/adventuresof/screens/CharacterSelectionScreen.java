@@ -29,6 +29,7 @@ public class CharacterSelectionScreen extends MainMenuScreen implements Screen {
 	private Image elfSprite;
 
 	public CharacterSelectionScreen(AdventuresOfGame _game) {
+		super(_game);
 		parent = _game;
 		FitViewport viewport = new FitViewport(160, 120);
 		uiStage = new Stage(viewport);
