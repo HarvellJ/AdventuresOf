@@ -27,6 +27,8 @@ public class CharacterSelectionScreen extends MainMenuScreen implements Screen {
 	private TextButton nextButton;
 	private TextButton previousButton;
 	private Image elfSprite;
+	
+	private static boolean touchDown = false;
 
 	public CharacterSelectionScreen(AdventuresOfGame _game) {
 		parent = _game;
@@ -47,6 +49,7 @@ public class CharacterSelectionScreen extends MainMenuScreen implements Screen {
 		uiStage.draw();
 		Gdx.input.setInputProcessor(uiStage);
 		addListeners();
+		addNextPreviousListeners();
 	}
 
 	@Override
@@ -89,10 +92,14 @@ public class CharacterSelectionScreen extends MainMenuScreen implements Screen {
 		startGame.addListener(new ChangeListener() {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
+				uiStage.clear();
 				parent.changeScreen(ScreenType.MAINGAMESCREEN);
 			}
 		});
 
+	}
+	
+	public void addNextPreviousListeners() {
 		nextButton.addListener(new ClickListener() {
 			@Override
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
@@ -100,9 +107,14 @@ public class CharacterSelectionScreen extends MainMenuScreen implements Screen {
 				if (GameProgress.currentCharacter == CharacterRecord.CHARACTERS.length) {
 					GameProgress.currentCharacter = 0;
 				}
-				uiStage.clear();
-				show();
-				addListeners();
+				if(touchDown==false) {
+					touchDown = true;
+					uiStage.clear();
+					show();
+					addNextPreviousListeners();	
+					touchDown = false;
+				}	
+		
 			}
 		});
 		previousButton.addListener(new ClickListener() {
@@ -112,9 +124,13 @@ public class CharacterSelectionScreen extends MainMenuScreen implements Screen {
 				if (GameProgress.currentCharacter < 0) {
 					GameProgress.currentCharacter = CharacterRecord.CHARACTERS.length - 1;
 				}
+				if(touchDown==false) {
+				touchDown = true;
 				uiStage.clear();
 				show();
-				addListeners();
+				addNextPreviousListeners();
+				touchDown = false;
+				}	
 			}
 		});
 	}

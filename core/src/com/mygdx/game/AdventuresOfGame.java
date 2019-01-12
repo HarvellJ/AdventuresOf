@@ -52,7 +52,9 @@ public class AdventuresOfGame extends Game {
 			this.setScreen(characterSelectionScreen);
 			break;
 		case MAINGAMESCREEN:
-			mainScreen = new MainGameScreen();
+			if(mainScreen == null)
+				mainScreen = new MainGameScreen();
+			//this.screen.dispose();
 			this.setScreen(mainScreen);
 			break;
 		case SETTINGS:

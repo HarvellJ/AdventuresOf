@@ -57,7 +57,7 @@ public class MainMenuScreen implements Screen{
 		table.row().pad(10, 0, 10, 0);
 		table.add(settings).fillX().uniformX();
 		table.row();
-		table.add(exit).fillX().uniformX();
+		table.add(exit).fillX().uniformX(); 
 	}
 
 	@Override
