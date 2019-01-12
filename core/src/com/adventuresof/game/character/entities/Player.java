@@ -29,11 +29,6 @@ public class Player extends GameCharacter{
 	private ArrayList<NPC> npcsKilled = new ArrayList<NPC>();
 	private String name;
 
-	// texture sheets
-	private static final String MOVEMENT_SPRITE_SHEET = "characters//blueWizard.png";
-	private static final String DEATH_SPRITE_SHEET = "characters//blueWizard.png";
-	private static final String COMBAT_SPRITE_SHEET = "characters//blueWizard.png";
-
 	// texture sheet sizes
 	private static final int MOVEMENT_SPRITE_SHEET_COLS = 4;
 	private static final int MOVEMENT_SPRITE_SHEET_ROWS = 4;
@@ -71,14 +66,14 @@ public class Player extends GameCharacter{
 	private static final int DEATH_ANIMATION_START_FRAME = 0;
 	private static final int DEATH_ANIMATION_FRAMES = 3;
 	
-	public Player(GameWorld gameWorld,TiledMapTileLayer accessibleTiles, float startPosX, float startPosY, CharacterClass characterClass, String name) {
+	public Player(GameWorld gameWorld,TiledMapTileLayer accessibleTiles, float startPosX, float startPosY, CharacterClass characterClass, String name, String spriteSheet) {
 		super(
 				gameWorld,
 				accessibleTiles,
 				startPosX, startPosY,
 				false,
 				50, 50,
-				new CharacterAnimation(MOVEMENT_SPRITE_SHEET, COMBAT_SPRITE_SHEET, DEATH_SPRITE_SHEET,
+				new CharacterAnimation(spriteSheet, spriteSheet, spriteSheet,
 				MOVEMENT_SPRITE_SHEET_ROWS, MOVEMENT_SPRITE_SHEET_COLS,
 				COMBAT_SPRITE_SHEET_ROWS, COMBAT_SPRITE_SHEET_COLS,
 				DEATH_SPRITE_SHEET_ROWS, DEATH_SPRITE_SHEET_COLS,

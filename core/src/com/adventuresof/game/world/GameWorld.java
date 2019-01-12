@@ -3,6 +3,7 @@ package com.adventuresof.game.world;
 import java.util.ArrayList;
 import java.util.Random;
 
+import com.adventuresof.game.character.CharacterRecord;
 import com.adventuresof.game.character.entities.GameCharacter;
 import com.adventuresof.game.character.entities.NPC;
 import com.adventuresof.game.character.entities.Player;
@@ -136,8 +137,11 @@ public abstract class GameWorld {
 	public void spawnPlayer() {
 		for (RectangleMapObject rectangleObject : this.map.getPlayerSpawnObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
-			// spawn in an 'enemy'
-			this.setPlayer(new Player(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, CharacterClass.mage, "Derrick"));
+			// spawn in player
+				this.setPlayer(new Player(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y,
+						CharacterRecord.CHARACTERS[GameProgress.currentCharacter].getCharacterClass(),
+						CharacterRecord.CHARACTERS[GameProgress.currentCharacter].name,
+						CharacterRecord.CHARACTERS[GameProgress.currentCharacter].getSpriteSheet()));
 			break;
 		}
 	}

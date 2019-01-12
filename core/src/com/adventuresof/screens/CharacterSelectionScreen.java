@@ -26,7 +26,7 @@ public class CharacterSelectionScreen extends MainMenuScreen implements Screen {
 	private Label titleLabel;
 	private TextButton nextButton;
 	private TextButton previousButton;
-	private Image elfSprite;
+	private Image characterSprite;
 	
 	private static boolean touchDown = false;
 
@@ -62,11 +62,11 @@ public class CharacterSelectionScreen extends MainMenuScreen implements Screen {
 		startGame.setPosition((uiStage.getWidth() - startGame.getWidth()) / 2, uiStage.getHeight() / 6);
 		uiStage.addActor(startGame);
 
-		elfSprite = new Image(
+		characterSprite = new Image(
 				parent.res.playerSprites.get(CharacterRecord.CHARACTERS[GameProgress.currentCharacter].name));
-		elfSprite.setPosition((uiStage.getWidth() - elfSprite.getWidth()) / 2,
-				(uiStage.getHeight() - elfSprite.getHeight()) / 2);
-		uiStage.addActor(elfSprite);
+		characterSprite.setPosition((uiStage.getWidth() - characterSprite.getWidth()) / 2,
+				(uiStage.getHeight() - characterSprite.getHeight()) / 2);
+		uiStage.addActor(characterSprite);
 
 		nextButton.setPosition(uiStage.getWidth() * 5 / 6 - nextButton.getWidth() / 2, uiStage.getHeight() * 3 / 6);
 		uiStage.addActor(nextButton);
