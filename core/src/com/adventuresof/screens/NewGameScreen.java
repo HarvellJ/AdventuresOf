@@ -36,6 +36,7 @@ public class NewGameScreen extends MainGameScreen implements Screen {
 		profileName = new Label("Enter Profile Name: ", skin);
 		startButton = new TextButton("Start", skin);
 		backButton = new TextButton("Back", skin);
+		cancelButton = new TextButton("Cancel", skin);
 		
 		_profileText  = new TextField("",skin);
 		_profileText.setMaxLength(20);
@@ -126,7 +127,6 @@ public class NewGameScreen extends MainGameScreen implements Screen {
 
 		@Override
 		public void hide() {
-			_overwriteDialog.hide();
 			_profileText.setText("");
 		}
 
