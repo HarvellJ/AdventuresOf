@@ -41,7 +41,7 @@ public class CharacterSelectionScreen extends MainMenuScreen implements Screen {
 		buttonStyle.fontColor = Color.WHITE;
 		labelStyle.font = parent.res.gamefont;
 		labelStyle.fontColor = Color.WHITE;
-		titleLabel = new Label("The Adventures Of Jake", labelStyle);
+		titleLabel = new Label("The Adventures Of ", labelStyle);
 		startGame = new TextButton("Start", buttonStyle);
 		nextButton = new TextButton(">>>", buttonStyle);
 		previousButton = new TextButton("<<<", buttonStyle);
