@@ -99,13 +99,13 @@ public class AdventuresOfGameWorld extends GameWorld{
 		for (RectangleMapObject rectangleObject : this.map.getEnemySpawnJungleLowObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
 			// spawn in an 'enemy'
-			this.NPCs.add(new HellHound(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "HellHound", false, null, true));	
+			this.NPCs.add(new HellHound(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Hell Hound", false, null, true));	
 		}
 		// spawn med level NPCs
 		for (RectangleMapObject rectangleObject : this.map.getEnemySpawnJungleZoneMedObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
 			// spawn in an 'enemy'
-			this.NPCs.add(new BloodElf(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "BloodElf", false, null, true));	
+			this.NPCs.add(new BloodElf(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Blood Elve", false, null, true));	
 		}
 		// spawn high level NPCs
 		for (RectangleMapObject rectangleObject : this.map.getEnemySpawnJungleZoneHighObjects().getByType(RectangleMapObject.class)) {
@@ -118,7 +118,7 @@ public class AdventuresOfGameWorld extends GameWorld{
 		for (RectangleMapObject rectangleObject : this.map.getEnemySpawnJungleZoneBossObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
 			// spawn in an 'enemy'
-			this.NPCs.add(new TwoHeadedDragon(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "JungleZoneBoss", false, null, true));	
+			this.NPCs.add(new TwoHeadedDragon(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Jungle Boss", false, null, true));	
 		}
 	}
 
@@ -142,7 +142,7 @@ public class AdventuresOfGameWorld extends GameWorld{
 		for (RectangleMapObject rectangleObject : this.map.getEnemySpawnMudZoneBossObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
 			// spawn in an 'enemy'
-				this.NPCs.add(new FlyingDragon(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "MudZoneBoss", false, null, true));				
+				this.NPCs.add(new FlyingDragon(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Mud Boss", false, null, true));				
 		}
 	}
 
@@ -150,25 +150,25 @@ public class AdventuresOfGameWorld extends GameWorld{
 		// low levels
 		for (RectangleMapObject rectangleObject : this.map.getEnemySpawnLavaCastleLowObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();	
-				this.NPCs.add(new Knight(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Knight", false, null, true));							
+				this.NPCs.add(new Knight(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Lava Knight", false, null, true));							
 		}
 		// med levels
 		for (RectangleMapObject rectangleObject : this.map.getEnemySpawnLavaZoneMedObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
 			// spawn in an 'enemy'
-				this.NPCs.add(new LavaRanger(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "LavaRanger", false, null, true));	
+				this.NPCs.add(new LavaRanger(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Lava Ranger", false, null, true));	
 		}
 		// high levels
 		for (RectangleMapObject rectangleObject : this.map.getEnemySpawnLavaZoneHighObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
 			// spawn in an 'enemy'
-			this.NPCs.add(new KnightGold(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "GildedKnight", false, null, true));							
+			this.NPCs.add(new KnightGold(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Gilded Knight", false, null, true));							
 		}
 		// boss
 		for (RectangleMapObject rectangleObject : this.map.getEnemySpawnLavaZoneBossObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
 			// spawn in an 'enemy'
-			this.NPCs.add(new LavaBoss(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "LavaZoneBoss", false, null, true));							
+			this.NPCs.add(new LavaBoss(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Lava Castle Boss", false, null, true));							
 		}
 	}
 
@@ -187,29 +187,25 @@ public class AdventuresOfGameWorld extends GameWorld{
 		}
 		for (RectangleMapObject rectangleObject : this.map.getGuardSpawnStarterCastleSpawnObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
-			if(r.nextInt(2) > 0) {
-				this.NPCs.add(new StarterCastleGuard(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Luke", false, null, false));	
-			}else {
-				this.NPCs.add(new StarterCastleGuard(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Luke", false, null, false));	
-			}
+				this.NPCs.add(new StarterCastleGuard(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Guard", false, null, false));			
 		}	
 		for (RectangleMapObject rectangleObject : this.map.getVillagerSpawnStarterCastleSpawnObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
 			if(r.nextInt(2) > 0) {
-				this.NPCs.add(new NightElfMale(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Luke", false, null, false));	
+				this.NPCs.add(new NightElfMale(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Villager", false, null, false));	
 			}else {
-				this.NPCs.add(new NightElfFemale(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Luke", false, null, false));	
+				this.NPCs.add(new NightElfFemale(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Villager", false, null, false));	
 			}
 		}
 		for (RectangleMapObject rectangleObject : this.map.getStaticGuardSpawnStarterCastleSpawnObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
-			StarterCastleGuard staticGuard = new StarterCastleGuard(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Luke", false, null, true);
+			StarterCastleGuard staticGuard = new StarterCastleGuard(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "", false, null, true);
 			staticGuard.setCharacterDirection(Direction.left);
 			this.NPCs.add(staticGuard);				
 		}		
 		for (RectangleMapObject rectangleObject : this.map.getStaticShadowKnightSpawnStarterCastleSpawnObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
-			ShadowKnight staticShadowKnight = new ShadowKnight(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Luke", false, null, true);
+			ShadowKnight staticShadowKnight = new ShadowKnight(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "", false, null, true);
 			staticShadowKnight.setCharacterDirection(Direction.left);
 			this.NPCs.add(staticShadowKnight);				
 		}	

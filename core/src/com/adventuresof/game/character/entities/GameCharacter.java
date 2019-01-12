@@ -58,7 +58,8 @@ public abstract class GameCharacter extends MoveableObject {
 	private float timeLastDamagedMessageDisplayed;
 	protected Sprite hitSplt; 
 	private HealthBar healthBar;
-
+	BitmapFont font;
+	private Vector3 namePosition;
 	// display
 	private ArrayList<String> buffMessageQueue; // used to queue buff messages that will be displayed in game by the character
 	private float timeLastBuffMessageDisplayed;
@@ -133,7 +134,7 @@ public abstract class GameCharacter extends MoveableObject {
 		// instantiate characters' current position as a blank vector3
 		currentPosition = new Vector3(startX, startY, 0);
 		this.spawnLocation = new Vector3(startX, startY, 0);
-
+		this.namePosition =  new Vector3(startX, startY, 0);
 		// they are alive...
 		this.isDying = false;
 		this.canDispose = false;
@@ -162,7 +163,7 @@ public abstract class GameCharacter extends MoveableObject {
 		this.defenceBonusPoints = baseLevel.getBaseDefenceBonus();
 		this.isFrozen = false;
 		this.frozenTime = 0;
-
+		font = new BitmapFont(); 
 		healthBar = new HealthBar(this, new Texture("healthBackground.png"),
 				new Texture("healthForeground.png"));
 	}
@@ -423,6 +424,7 @@ public abstract class GameCharacter extends MoveableObject {
 		}
 
 		healthBar.update();
+		this.updateNamePosition();
 	}
 
 	/**
@@ -457,6 +459,7 @@ public abstract class GameCharacter extends MoveableObject {
 		this.displayMessage(spriteBatch);
 		this.displayDamage(spriteBatch);
 		this.displayBuffMessage(spriteBatch);
+		this.displayCharacterName(spriteBatch);
 		healthBar.render(spriteBatch);
 	}
 
@@ -851,7 +854,7 @@ public abstract class GameCharacter extends MoveableObject {
 		this.gameWorld.performSpellCast(new Projectile(this.accessibleTiles, this.currentPosition.x, this.currentPosition.y, targetX + 90, targetY + 90, spell, this));
 		this.gameWorld.performSpellCast(new Projectile(this.accessibleTiles, this.currentPosition.x, this.currentPosition.y, targetX - 90, targetY - 90, spell, this));
 	}
-	
+
 	private void lungeForward() {    	
 		if(currentCharacterDirection == Direction.up) {
 			this.currentPosition.y += 20;
@@ -923,6 +926,11 @@ public abstract class GameCharacter extends MoveableObject {
 	// Character Messaging
 	//================================================================================
 
+	private void updateNamePosition() {
+		this.namePosition.x = currentPosition.x - name.length()*7/2;
+		this.namePosition.y = currentPosition.y - 10;
+	}
+	
 	/**
 	 * @param spriteBatch the SpriteBatch object used to render the message to screen
 	 * renders the next message in the message queue
@@ -943,10 +951,15 @@ public abstract class GameCharacter extends MoveableObject {
 			// re-check message queue size
 			if(messageQueue.size() > 0) {
 				BitmapFont font = new BitmapFont(); 
-				font.draw(spriteBatch, messageQueue.get(0), currentPosition.x - messageQueue.get(0).length()*6/2, currentPosition.y + 60);
+				font.draw(spriteBatch, messageQueue.get(0), currentPosition.x - messageQueue.get(0).length()*6/2, currentPosition.y + 80);
 			}
 		}   	
 	}
+
+	private void displayCharacterName(SpriteBatch spriteBatch) {		
+		font.draw(spriteBatch, this.name, this.namePosition.x, this.namePosition.y);					  	
+	}
+
 
 	/**
 	 * @param spriteBatch the SpriteBatch object used to render the message to screen
@@ -975,6 +988,8 @@ public abstract class GameCharacter extends MoveableObject {
 			}
 		}   	
 	}
+
+
 
 	//================================================================================
 	// Health bar
