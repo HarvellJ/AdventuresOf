@@ -91,7 +91,28 @@ public class Map {
     
 	private TiledMapTileLayer accessibleMapLayer; // Contains accessible tiles
 	
+	//Quest NPC spawn layer
+	private MapLayer baliffSpawnLayer;
+	private MapObjects baliffSpawnObjects;
+	private MapLayer queenSpawnLayer;
+	private MapObjects queenSpawnObjects;
+	private MapLayer kingsaideSpawnLayer;
+	private MapObjects kingsaideSpawnObjects;
+	private MapLayer magicmerchantSpawnLayer;
+	private MapObjects magicmerchantSpawnObjects;
+	private MapLayer princeSpawnLayer;
+	private MapObjects princeSpawnObjects;
+	private MapLayer prisonerSpawnLayer;
+	private MapObjects prisonerSpawnObjects;
+	 
 	// Map layers
+	
+	private final static int PRISONER_SPAWN = 35;
+	private final static int PRINCE_SPAWN = 34;
+	private final static int MAGICMERCHANT_SPAWN = 33;
+	private final static int KINGSAIDE_SPAWN = 32;
+	private final static int QUEEN_SPAWN = 31;
+	private final static int BALIFF_SPAWN = 30;
 	private final static int ENEMY_SPAWNS_LAVACASTLE_BOSS = 29; // The layer containing spawn points for the enemy NPC
 	private final static int ENEMY_SPAWNS_LAVACASTLE_HIGH = 28; // The layer containing spawn points for the enemy NPC
 	private final static int ENEMY_SPAWNS_LAVACASTLE_MED = 27; // The layer containing spawn points for the enemy NPC
@@ -210,6 +231,26 @@ public class Map {
 	    // store enemy spawn objects and layers
 	    setPlayerSpawnObjectLayer((MapLayer)tiledMap.getLayers().get(PLAYER_SPAWNS));
 	    setPlayerSpawnObjects(playerSpawnObjectLayer.getObjects());	
+	    
+	    //store quest npc spawns
+	    setBaliffSpawnLayer((MapLayer)tiledMap.getLayers().get(BALIFF_SPAWN));
+	    setBaliffSpawnObjects(baliffSpawnLayer.getObjects());
+	    
+	    setQueenSpawnLayer((MapLayer)tiledMap.getLayers().get(QUEEN_SPAWN));
+	    setQueenSpawnObjects(queenSpawnLayer.getObjects());
+	    
+	    setKingsaideSpawnLayer((MapLayer)tiledMap.getLayers().get(KINGSAIDE_SPAWN));
+	    setKingsaideSpawnObjects(kingsaideSpawnLayer.getObjects());
+	    
+	    setMagicmerchantSpawnLayer((MapLayer)tiledMap.getLayers().get(MAGICMERCHANT_SPAWN));
+	    setMagicmerchantSpawnObjects(magicmerchantSpawnLayer.getObjects());
+	    
+	    setPrinceSpawnLayer((MapLayer)tiledMap.getLayers().get(PRINCE_SPAWN));
+	    setPrinceSpawnObjects(princeSpawnLayer.getObjects());
+	    
+	    setPrisonerSpawnLayer((MapLayer)tiledMap.getLayers().get(PRISONER_SPAWN));
+	    setPrisonerSpawnObjects(prisonerSpawnLayer.getObjects());
+ 
 	}
 	
 	public MapLayer getEnemySpawnLavaZoneMedObjectLayer() {
@@ -657,6 +698,102 @@ public class Map {
 
 	public void setEnemySpawnJungleLowObjectLayer(MapLayer enemySpawnJungleLowObjectLayer) {
 		this.enemySpawnJungleZoneLowObjectLayer = enemySpawnJungleLowObjectLayer;
+	}
+
+	public MapLayer getBaliffSpawnLayer() {
+		return baliffSpawnLayer;
+	}
+
+	public void setBaliffSpawnLayer(MapLayer baliffSpawnLayer) {
+		this.baliffSpawnLayer = baliffSpawnLayer;
+	}
+
+	public MapObjects getBaliffSpawnObjects() {
+		return baliffSpawnObjects;
+	}
+
+	public void setBaliffSpawnObjects(MapObjects baliffSpawnObjects) {
+		this.baliffSpawnObjects = baliffSpawnObjects;
+	}
+
+	public MapLayer getQueenSpawnLayer() {
+		return queenSpawnLayer;
+	}
+
+	public void setQueenSpawnLayer(MapLayer queenSpawnLayer) {
+		this.queenSpawnLayer = queenSpawnLayer;
+	}
+
+	public MapObjects getQueenSpawnObjects() {
+		return queenSpawnObjects;
+	}
+
+	public void setQueenSpawnObjects(MapObjects queenSpawnObjects) {
+		this.queenSpawnObjects = queenSpawnObjects;
+	}
+
+	public MapLayer getKingsaideSpawnLayer() {
+		return kingsaideSpawnLayer;
+	}
+
+	public void setKingsaideSpawnLayer(MapLayer kingsaideSpawnLayer) {
+		this.kingsaideSpawnLayer = kingsaideSpawnLayer;
+	}
+
+	public MapObjects getKingsaideSpawnObjects() {
+		return kingsaideSpawnObjects;
+	}
+
+	public void setKingsaideSpawnObjects(MapObjects kingsaideSpawnObjects) {
+		this.kingsaideSpawnObjects = kingsaideSpawnObjects;
+	}
+
+	public MapLayer getMagicmerchantSpawnLayer() {
+		return magicmerchantSpawnLayer;
+	}
+
+	public void setMagicmerchantSpawnLayer(MapLayer MagicmerchantSpawnLayer) {
+		this.magicmerchantSpawnLayer = MagicmerchantSpawnLayer;
+	}
+
+	public MapObjects getMagicmerchantSpawnObjects() {
+		return magicmerchantSpawnObjects;
+	}
+
+	public void setMagicmerchantSpawnObjects(MapObjects magicmerchantSpawnObjects) {
+		this.magicmerchantSpawnObjects = magicmerchantSpawnObjects;
+	}
+
+	public MapLayer getPrinceSpawnLayer() {
+		return princeSpawnLayer;
+	}
+
+	public void setPrinceSpawnLayer(MapLayer princeSpawnLayer) {
+		this.princeSpawnLayer = princeSpawnLayer;
+	}
+
+	public MapObjects getPrinceSpawnObjects() {
+		return princeSpawnObjects;
+	}
+
+	public void setPrinceSpawnObjects(MapObjects princeSpawnObjects) {
+		this.princeSpawnObjects = princeSpawnObjects;
+	}
+
+	public MapLayer getPrisonerSpawnLayer() {
+		return prisonerSpawnLayer;
+	}
+
+	public void setPrisonerSpawnLayer(MapLayer prisonerSpawnLayer) {
+		this.prisonerSpawnLayer = prisonerSpawnLayer;
+	}
+
+	public MapObjects getPrisonerSpawnObjects() {
+		return prisonerSpawnObjects;
+	}
+
+	public void setPrisonerSpawnObjects(MapObjects prisonerSpawnObjects) {
+		this.prisonerSpawnObjects = prisonerSpawnObjects;
 	}
 	
 }
