@@ -171,9 +171,9 @@ public abstract class GameWorld {
 			if(this.NPCs.get(i).CanDispose()) {
 				// spawn a relevant drop based on NPC
 				this.spawnItem(this.NPCs.get(i).getHitBox(), this.NPCs.get(i).getBaseLevel());
+				System.out.println(this.NPCs.get(i).getName());
 				this.NPCs.remove(i);
 				this.player.getNpcsKilled().add(this.NPCs.get(i));
-				System.out.println(this.NPCs.get(i).getName());
 			}
 		}
 		
