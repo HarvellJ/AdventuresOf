@@ -179,7 +179,7 @@ public class AdventuresOfGameWorld extends GameWorld{
 		Random r = new Random();
 		for (RectangleMapObject rectangleObject : this.map.getGuardSpawnLavaCastleSpawnObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
-			this.NPCs.add(new LavaCastleGuard(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y,"Geoff", false, null, true, "Slayer Quest"));							
+			this.NPCs.add(new LavaCastleGuard(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y,"Guard", false, null, false, null));							
 		}
 		for (RectangleMapObject rectangleObject : this.map.getGuardSpawnMudBaseCastleSpawnObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
@@ -211,7 +211,7 @@ public class AdventuresOfGameWorld extends GameWorld{
 		}	
 		for (RectangleMapObject rectangleObject : this.map.getStaticCommanderSpawnStarterCastleSpawnObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
-			Commander staticCommander = new Commander(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Commander", false, null, true);
+			Commander staticCommander = new Commander(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Commander", false, null, true, "Slayer Quest");
 			staticCommander.setCharacterDirection(Direction.right);
 			this.NPCs.add(staticCommander);				
 		}		

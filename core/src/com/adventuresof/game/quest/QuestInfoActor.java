@@ -46,26 +46,20 @@ public class QuestInfoActor extends Window {
     	for (Quest quest : player.getQuests()) { 
 			
 			if(quest.getTitle().equals(selectedQuestTitle)) {
-//			if(selectedQuestTitle.equals("String: 1")) {
 
 				this.title = quest.getTitle();
 				this.description = quest.getDescription();
 				this.tasks = quest.getTasks();
-				
-//				this.textArea = new TextArea("", skin);
-//				this.textArea.setDisabled(true);
-//				this.textArea.setText("");
-//				this.textArea.setWidth(800);
-//				this.textArea.setHeight(120);
-				
-//				textArea.setText(this.title);
+			
 				clear();
-//				add(this.title);
 				
 				Table uiTable = new Table(skin);
 				uiTable.setFillParent(true);
 				uiTable.pad(10);
-				uiTable.add(this.title).bottom().colspan(3);
+				uiTable.row();
+				uiTable.add("");
+				uiTable.row();
+				uiTable.add(this.title);
 				uiTable.row();
 				uiTable.add(this.description).expandX().expandY();
 				uiTable.row();
@@ -77,16 +71,23 @@ public class QuestInfoActor extends Window {
 					
 					i++;
 					
-					String taskDescription = task.getDescription() == null ? "" : " - " + task.getDescription();
+					if (task.getProgress().equals(ProgressEnum.INCOMPLETE)) {
+						String taskDescription = task.getDescription() == null ? "" : " - " + task.getDescription();
+						
+						uiTable.row();
+						uiTable.add("Step " + i + ": " + task.getTitle() + taskDescription);
+						break;
+					} 
+//					else {
+//						uiTable.row();
+//						uiTable.add("Quest Complete!");
+//						break;
+//					}
 					
-					uiTable.row();
-					uiTable.add("Step " + i + ":" + task.getTitle() + taskDescription);
 				}
 				
 				add(uiTable);
-				
-				//add(textArea);
-				
+								
 		        pack();
 				
 		        setVisible(true);

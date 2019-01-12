@@ -49,12 +49,6 @@ public class TaskController {
 	}
 	
 	private Boolean slayerCheck () {
-		//npcName = name of the monster you need to slay
-		//target = number of that specific monster you have to slay
-		//TO DO: some way of checking whether that specific monster has been killed
-			//once target has been reached set task status to complete
-		
-		//this.task.setProgress(ProgressEnum.COMPLETE);
 		
 		String result = "";
 		ArrayList<NPC> npcsKilled = this.gameWorld.getPlayer().getNpcsKilled();
@@ -76,7 +70,12 @@ public class TaskController {
 		if (task.getTotalSlayed() >= task.getQuantity()) {
 			this.npc.setConversation(task.getConversation());
 			result = this.hud.displayChat(this.npc, this.gameWorld);
-		} 
+		} else {
+			int leftToKill = task.getQuantity() - task.getTotalSlayed();
+			ArrayList<String> altConversation = new ArrayList<String>(Arrays.asList("You still have " + leftToKill + " " + task.getTarget() + "(s) left to kill."));
+			this.npc.setConversation(altConversation);
+			this.hud.displayChat(this.npc, this.gameWorld);
+		}
 		
 		if(result.equals("end")) {	
 			this.task.setProgress(ProgressEnum.COMPLETE);
@@ -89,9 +88,6 @@ public class TaskController {
 	}
 	
 	public Boolean conversationCheck () {
-		//npcName = name of npc you must talk to
-		//TO DO: some way of checking that you have spoken to the NPC.
-			//check the length of the array vs the total messages displayed?
 		
 		this.npc.setConversation(this.task.getConversation());
 		
@@ -100,9 +96,6 @@ public class TaskController {
 		
 		if(result.equals("end")) {	
 			this.task.setProgress(ProgressEnum.COMPLETE);
-//			ArrayList<String> emptyArray = new ArrayList<String>(Arrays.asList(""));
-//			this.npc.setConversation(emptyArray);
-//			this.hud.displayChat(this.npc, this.gameWorld);
 
 			return true;
 		} else {
@@ -112,11 +105,6 @@ public class TaskController {
 	}
 	
 	private Boolean collectionCheck () {
-		//npcName = name of the npc that has sent you to collect an item
-		//itemName = name of the item you have been sent to collect
-		//TO DO: when speaking to the npc check whether the item is in the inventory
-			//if so set task status to complete
-			//if not repeat conversation
 		
 		String result = "";
 		
@@ -125,7 +113,12 @@ public class TaskController {
 		if(this.task.getQuantity() <= this.inventory.checkInventory(item)) {
 			this.npc.setConversation(task.getConversation());
 			result = this.hud.displayChat(this.npc, this.gameWorld);
-		};
+		} else {
+			int leftToCollection = task.getQuantity() - this.inventory.checkInventory(item);
+			ArrayList<String> altConversation = new ArrayList<String>(Arrays.asList("You still have " + leftToCollection + " " + task.getItem() + "(s) left to collect."));
+			this.npc.setConversation(altConversation);
+			this.hud.displayChat(this.npc, this.gameWorld);
+		}
 		
 		if(result.equals("end")) {
 			this.inventory.remove(item, this.task.getQuantity());
