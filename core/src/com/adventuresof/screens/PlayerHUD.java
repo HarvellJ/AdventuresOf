@@ -7,12 +7,14 @@ import com.adventuresof.game.character.NPC;
 import com.adventuresof.game.character.Player;
 import com.adventuresof.game.inventory.Inventory;
 import com.adventuresof.game.inventory.InventoryActor;
+import com.adventuresof.game.quest.ProgressEnum;
 import com.adventuresof.game.quest.Quest;
 import com.adventuresof.game.quest.QuestInfoActor;
 import com.adventuresof.game.world.GameWorld;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -73,47 +75,68 @@ public class PlayerHUD implements Screen{
 		this.textArea.setWidth(800);
 		this.textArea.setHeight(120);
 		
-		//setup continue button.
-		this.button = new TextButton("Click to continue",skin);
-		this.button.setVisible(false);
+		list = new List<String>(skin);
+		String[] strings = new String[player.getQuests().size()];
+		for (int i = 0; i < strings.length; i++) {
+							
+				switch(player.getQuests().get(i).getProgress()) {
+				
+				case COMPLETE : strings[i] = player.getQuests().get(i).getTitle() + " (COMPLETE)";
+					break;
+				case IN_PROGRESS : strings[i] = player.getQuests().get(i).getTitle() + " (IN PROGRESS)";
+					break;
+				case INCOMPLETE: strings[i] = player.getQuests().get(i).getTitle() + " (INCOMPLETE)";
+					break;
+			}
+			
+		}
 		
-        list = new List<String>(skin);
-        String[] strings = new String[player.getQuests().size()];
-        for (int i = 0; i < strings.length; i++) {
-            strings[i] = player.getQuests().get(i).getTitle();
- 
-        }
-        
-        gameWidth = Gdx.graphics.getWidth();
-        gameHeight = Gdx.graphics.getHeight();
-        
-        list.setItems(strings);
+		gameWidth = Gdx.graphics.getWidth();
+		gameHeight = Gdx.graphics.getHeight();
+		
+		list.setItems(strings);
 		final QuestInfoActor questInfoActor = new QuestInfoActor(skin, player);
-        
-        list.addListener(new ChangeListener() {
-
+		
+		list.addListener(new ChangeListener() {
+			
 			@Override
-    		public void changed(ChangeEvent event, Actor actor) {
-    			System.out.println(list.getSelected());
-    			questInfoActor.setQuestInfo(list.getSelected());
-    			questInfoActor.setPosition(gameWidth / 2 - scrollPane.getWidth() / 4,
-		        		gameHeight / 2 - scrollPane.getHeight() / 4);
-    			stage.addActor(questInfoActor);
-    			
-    		}
-    	});
-        
-
-        
-        scrollPane = new ScrollPane(list,skin);
-        scrollPane.setBounds(0, 0, gameWidth, gameHeight + 100);
-        scrollPane.setSmoothScrolling(false);
-        scrollPane.setPosition(gameWidth / 2 - scrollPane.getWidth() / 4,
-                gameHeight / 2 - scrollPane.getHeight() / 4);
-        scrollPane.setTransform(true);
-        scrollPane.setScale(0.5f);
+			public void changed(ChangeEvent event, Actor actor) {
+				System.out.println(list.getSelected());
+				questInfoActor.setQuestInfo(list.getSelected().substring(0, list.getSelected().indexOf("(")-1));
+				questInfoActor.setPosition(gameWidth / 2 - scrollPane.getWidth() / 4,
+						gameHeight / 2 - scrollPane.getHeight() / 4);
+				
+				stage.addActor(questInfoActor);
+			}
+		});
+		
+		scrollPane = new ScrollPane(list,skin);
+		scrollPane.setBounds(0, 0, gameWidth, gameHeight + 100);
+		scrollPane.setSmoothScrolling(false);
+		scrollPane.setPosition(gameWidth / 2 - scrollPane.getWidth() / 4,
+				gameHeight / 2 - scrollPane.getHeight() / 4);
+		scrollPane.setTransform(true);
+		scrollPane.setScale(0.5f);
+		scrollPane.setVisible(false);
+		stage.addActor(scrollPane);
+		
+		//setup Achievement Diary button.
+		this.button = new TextButton("Achievement Diary",skin);
+		this.button.setVisible(true);
+		
+		button.addListener( new ClickListener() {
+		    @Override
+		    public void clicked(InputEvent event, float x, float y) {
+		        if (button.isChecked()) {
+		        	scrollPane.setVisible(true);
+		        } else {
+		        	scrollPane.setVisible(false);
+		        	questInfoActor.setVisible(false);
+		        }
+		    }
+		} );
+		
         //scrollPane.setScale(0.5f);
-        //stage.addActor(scrollPane);
         
 		//setup pane layout using table
 //		Table paneTable = new Table();
@@ -126,10 +149,17 @@ public class PlayerHUD implements Screen{
 //		pane.setWidth(800);
 		
 		uiTable.pad(10);
+		uiTable.add().colspan(3).expandY();
+		uiTable.add().expandX().expandY();
+		uiTable.add().bottom().expandY();
+		uiTable.row();
+		uiTable.add().colspan(3);
+		uiTable.add().expandX().expandY();
+		uiTable.add(button).bottom();
+		uiTable.row();
 		uiTable.add().bottom().colspan(3);
 		uiTable.add().expandX().expandY();
 		uiTable.add(inventoryActor).bottom();
-		//uiTable.add(questLogActor).left();
 		stage.addActor(textArea);	
 		
 	}

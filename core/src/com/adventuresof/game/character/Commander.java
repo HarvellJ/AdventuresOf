@@ -52,7 +52,7 @@ public class Commander extends NPC{
 	private static final int DEATH_ANIMATION_FRAMES = 3;
 
 	public Commander(GameWorld gameWorld, TiledMapTileLayer accessibleTiles, float startX, float startY, String name, 
-			boolean isTalkative, ArrayList<String> conversation, boolean isStatic) {
+			boolean isTalkative, ArrayList<String> conversation, boolean hasQuest, String questName) {
 		super(
 				gameWorld,
 				accessibleTiles, 
@@ -74,7 +74,7 @@ public class Commander extends NPC{
 						ATTACK_DOWN_START_FRAME, ATTACK_DOWN_FRAMES,
 						ATTACK_UP_START_FRAME, ATTACK_UP_FRAMES,
 						DEATH_ANIMATION_START_FRAME, DEATH_ANIMATION_FRAMES
-						), MovementSpeedEnum.NORMAL_MEDIUM, name, isTalkative, conversation, false, "", CharacterClass.melee, CharacterLevel.high);
+						), MovementSpeedEnum.NORMAL_MEDIUM, name, isTalkative, conversation, hasQuest, questName, CharacterClass.melee, CharacterLevel.high);
 	}
 
 }
