@@ -26,9 +26,7 @@ public class NewGameScreen extends MainGameScreen implements Screen {
 	
 	private TextButton startButton;
 	private Label profileName;
-	private Label overwriteLabel;
 	private TextButton cancelButton;
-	private TextButton overwriteButton;
 	private TextButton backButton;
 
 	
@@ -42,16 +40,6 @@ public class NewGameScreen extends MainGameScreen implements Screen {
 		
 		_profileText  = new TextField("",skin);
 		_profileText.setMaxLength(20);
-		
-		_overwriteDialog = new Dialog("Overwrite?", skin);
-		Label overwriteLabel = new Label("Overwrite existing profile name?", skin);
-		cancelButton = new TextButton("Cancel", skin);
-		
-		TextButton overwriteButton = new TextButton("Overwrite", skin);
-		_overwriteDialog.setKeepWithinStage(true);
-		_overwriteDialog.setModal(true);
-		_overwriteDialog.setMovable(false);
-		_overwriteDialog.text(overwriteLabel);
 		
 		stage.act(Gdx.graphics.getDeltaTime());
 		stage.draw();
@@ -94,27 +82,6 @@ public class NewGameScreen extends MainGameScreen implements Screen {
 										 }
 									 }
 			);
-
-//			overwriteButton.addListener(new ClickListener() {
-//
-//											@Override
-//											public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-//												return true;
-//											}
-//
-//											@Override
-//											public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-//												String messageText = _profileText.getText();
-//												ProfileManager.getInstance().writeProfileToStorage(messageText, "", true);
-//												ProfileManager.getInstance().setCurrentProfile(messageText);
-//												ProfileManager.getInstance().setIsNewProfile(true);
-//												_overwriteDialog.hide();
-//												NewGameScreen.this.notify(AudioObserver.AudioCommand.MUSIC_STOP, AudioObserver.AudioTypeEvent.MUSIC_TITLE);
-//												_game.setScreen(_game.getScreenType(ScreenType.MainGame));
-//											}
-//
-//										}
-//			);
 
 			startButton.addListener(new ClickListener() {
 
@@ -159,18 +126,10 @@ public class NewGameScreen extends MainGameScreen implements Screen {
 		stage.getViewport().update(width, height, true);
 	}
 
-//		@Override
-//		public void show() {
-//			_overwriteDialog.hide();
-//			_profileText.setText("");
-//			Gdx.input.setInputProcessor(_stage);
-//		}
-
 		@Override
 		public void hide() {
 			_overwriteDialog.hide();
 			_profileText.setText("");
-//			Gdx.input.setInputProcessor(null);
 		}
 
 		@Override
