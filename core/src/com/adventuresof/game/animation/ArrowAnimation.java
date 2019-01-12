@@ -1,6 +1,6 @@
 package com.adventuresof.game.animation;
 
-import com.adventuresof.game.character.Direction;
+import com.adventuresof.game.common.enums.Direction;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;

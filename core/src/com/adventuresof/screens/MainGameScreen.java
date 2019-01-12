@@ -1,9 +1,9 @@
 package com.adventuresof.screens;
 
-import com.adventuresof.game.character.GameCharacter;
-import com.adventuresof.game.character.NPC;
-import com.adventuresof.game.character.Player;
 import com.adventuresof.game.world.GameRenderer;
+import com.adventuresof.game.character.entities.GameCharacter;
+import com.adventuresof.game.character.entities.NPC;
+import com.adventuresof.game.character.entities.Player;
 import com.adventuresof.game.world.AdventuresOfGameWorld;
 import com.adventuresof.helpers.PlayerController;
 import com.adventuresof.helpers.SoundManager;

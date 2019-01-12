@@ -1,9 +1,9 @@
 package com.adventuresof.game.combat;
 
 import com.adventuresof.game.animation.SpellAnimation;
-import com.adventuresof.game.character.Direction;
-import com.adventuresof.game.character.GameCharacter;
+import com.adventuresof.game.character.entities.GameCharacter;
 import com.adventuresof.game.common.GameObject;
+import com.adventuresof.game.common.enums.Direction;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;

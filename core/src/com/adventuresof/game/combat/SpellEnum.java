@@ -8,24 +8,24 @@ import com.adventuresof.game.animation.IceSpellAnimation;
 import com.adventuresof.game.animation.LightningClawAnimation;
 import com.adventuresof.game.animation.SpellAnimation;
 import com.adventuresof.game.animation.TornadoAnimation;
-import com.adventuresof.game.character.GameCharacter;
-import com.adventuresof.game.common.MovementSpeedEnum;
+import com.adventuresof.game.character.entities.GameCharacter;
+import com.adventuresof.game.common.enums.MovementSpeed;
 
 public enum SpellEnum {
 	// basic level abilities
-	Tornado(new TornadoAnimation(),  50, 50, 10, MovementSpeedEnum.FAST, "audio/effects/windSpell.wav", SpellType.projectile, CoolDownEnum.Short, "spells//air-burst-air-1.png", true),
+	Tornado(new TornadoAnimation(),  50, 50, 10, MovementSpeed.FAST, "audio/effects/windSpell.wav", SpellType.projectile, CoolDownEnum.Short, "spells//air-burst-air-1.png", true),
 
 	// secondary level abilities
-	Arrow(new ArrowAnimation(), 50, 50, 20, MovementSpeedEnum.VERY_FAST, "audio/effects/Bow.wav", SpellType.projectile, CoolDownEnum.Medium,  "spells//slice-sky-3.png", true),
-	Firelion(new FireballAnimation(), 50, 50, 20, MovementSpeedEnum.VERY_FAST, "audio/effects/fireLionSpell.wav", SpellType.projectile, CoolDownEnum.Medium,  "spells//rip-sky-3.png", true),
+	Arrow(new ArrowAnimation(), 50, 50, 20, MovementSpeed.VERY_FAST, "audio/effects/Bow.wav", SpellType.projectile, CoolDownEnum.Medium,  "spells//slice-sky-3.png", true),
+	Firelion(new FireballAnimation(), 50, 50, 20, MovementSpeed.VERY_FAST, "audio/effects/fireLionSpell.wav", SpellType.projectile, CoolDownEnum.Medium,  "spells//rip-sky-3.png", true),
 
 	// powerful level abilities
-	IceBarrier(new IceBarrierAnimation(), 50, 50, 20, MovementSpeedEnum.VERY_FAST, "audio/effects/magicShield.wav", SpellType.buff, CoolDownEnum.Medium,  "spells//shielding-eerie-3.png", false),
-	FireBarrier(new FireBarrierAnimation(), 50, 50, 20, MovementSpeedEnum.VERY_FAST, "audio/effects/magicShield.wav", SpellType.buff, CoolDownEnum.Medium,  "spells//shielding-fire-3.png", false, 80),
+	IceBarrier(new IceBarrierAnimation(), 50, 50, 20, MovementSpeed.VERY_FAST, "audio/effects/magicShield.wav", SpellType.buff, CoolDownEnum.Medium,  "spells//shielding-eerie-3.png", false),
+	FireBarrier(new FireBarrierAnimation(), 50, 50, 20, MovementSpeed.VERY_FAST, "audio/effects/magicShield.wav", SpellType.buff, CoolDownEnum.Medium,  "spells//shielding-fire-3.png", false, 80),
 
 	// ultimate abilities
-	IceSpell(new IceSpellAnimation(), 50, 50, 30, MovementSpeedEnum.VERY_FAST, "audio/effects/ice.wav", SpellType.instantCast, CoolDownEnum.Medium,  "spells//needles-blue-3.png", true, 120),
-	LightningClaw(new LightningClawAnimation(), 50, 50, 20, MovementSpeedEnum.VERY_FAST, "audio/effects/lightning.wav", SpellType.instantCast, CoolDownEnum.Medium,  "spells//shielding-eerie-3.png", false, 120);
+	IceSpell(new IceSpellAnimation(), 50, 50, 30, MovementSpeed.VERY_FAST, "audio/effects/ice.wav", SpellType.instantCast, CoolDownEnum.Medium,  "spells//needles-blue-3.png", true, 120),
+	LightningClaw(new LightningClawAnimation(), 50, 50, 20, MovementSpeed.VERY_FAST, "audio/effects/lightning.wav", SpellType.instantCast, CoolDownEnum.Medium,  "spells//shielding-eerie-3.png", false, 120);
 
 
 	private SpellAnimation animation;
@@ -40,7 +40,7 @@ public enum SpellEnum {
 	private boolean isHostile;
 	private int areaOfAffect; // represents the size of the spell targeting zone (especially useful sfor things such as AOE abilities)
 	
-	SpellEnum(SpellAnimation animation, float width, float height, int damage, MovementSpeedEnum movementSpeed, 
+	SpellEnum(SpellAnimation animation, float width, float height, int damage, MovementSpeed movementSpeed, 
 			String soundEffect, SpellType spellType, CoolDownEnum coolDown, String actionBarImage, boolean isHostile, int areaOfAffect) {
 		this.animation = animation;
 		this.actionBarImage = actionBarImage;
@@ -55,7 +55,7 @@ public enum SpellEnum {
 		this.areaOfAffect = areaOfAffect;
 	}
 	
-	SpellEnum(SpellAnimation animation, float width, float height, int damage, MovementSpeedEnum movementSpeed, 
+	SpellEnum(SpellAnimation animation, float width, float height, int damage, MovementSpeed movementSpeed, 
 			String soundEffect, SpellType spellType, CoolDownEnum coolDown, String actionBarImage, boolean isHostile) {
 		this(animation, width, height, damage, movementSpeed, soundEffect, spellType, coolDown, actionBarImage, isHostile, 20);
 	}

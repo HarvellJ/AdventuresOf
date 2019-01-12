@@ -4,23 +4,23 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
-import com.adventuresof.game.character.BloodElf;
-import com.adventuresof.game.character.Commander;
-import com.adventuresof.game.character.Direction;
-import com.adventuresof.game.character.Dragon;
-import com.adventuresof.game.character.Horse;
-import com.adventuresof.game.character.HorseKnight;
-import com.adventuresof.game.character.Knight;
-import com.adventuresof.game.character.KnightGold;
-import com.adventuresof.game.character.LavaCastleGuard;
-import com.adventuresof.game.character.MudCastleGuard;
-import com.adventuresof.game.character.NPC;
-import com.adventuresof.game.character.NightElfFemale;
-import com.adventuresof.game.character.NightElfMale;
-import com.adventuresof.game.character.Phoenix;
-import com.adventuresof.game.character.PlayerCompanion;
-import com.adventuresof.game.character.ShadowKnight;
-import com.adventuresof.game.character.StarterCastleGuard;
+import com.adventuresof.game.character.entities.BloodElf;
+import com.adventuresof.game.character.entities.Commander;
+import com.adventuresof.game.character.entities.Dragon;
+import com.adventuresof.game.character.entities.Horse;
+import com.adventuresof.game.character.entities.HorseKnight;
+import com.adventuresof.game.character.entities.Knight;
+import com.adventuresof.game.character.entities.KnightGold;
+import com.adventuresof.game.character.entities.LavaCastleGuard;
+import com.adventuresof.game.character.entities.MudCastleGuard;
+import com.adventuresof.game.character.entities.NPC;
+import com.adventuresof.game.character.entities.NightElfFemale;
+import com.adventuresof.game.character.entities.NightElfMale;
+import com.adventuresof.game.character.entities.Phoenix;
+import com.adventuresof.game.character.entities.PlayerCompanion;
+import com.adventuresof.game.character.entities.ShadowKnight;
+import com.adventuresof.game.character.entities.StarterCastleGuard;
+import com.adventuresof.game.common.enums.Direction;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
@@ -101,7 +101,7 @@ public class AdventuresOfGameWorld extends GameWorld{
 
 		ArrayList<String> conversation = new ArrayList<String>(Arrays.asList("They have sent you to kill us haven't they...", "Well you won't get away with this without a fight..."));
 		Random r = new Random();
-		for (RectangleMapObject rectangleObject : this.map.getEnemySpawnLevel1Objects().getByType(RectangleMapObject.class)) {
+		for (RectangleMapObject rectangleObject : this.map.getEnemySpawnLavaCastleLowObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
 			// spawn in an 'enemy'
 			if(r.nextInt(5) >= 2) {
@@ -113,7 +113,7 @@ public class AdventuresOfGameWorld extends GameWorld{
 			}
 
 		}
-		for (RectangleMapObject rectangleObject : this.map.getEnemySpawnLeve12Objects().getByType(RectangleMapObject.class)) {
+		for (RectangleMapObject rectangleObject : this.map.getEnemySpawnMudZoneLowObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
 			// spawn in an 'enemy'
 			if(r.nextInt(5) >= 2) {
@@ -123,7 +123,7 @@ public class AdventuresOfGameWorld extends GameWorld{
 				this.NPCs.add(new KnightGold(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Knight", false, null, true));							
 			}
 		}
-		for (RectangleMapObject rectangleObject : this.map.setEnemySpawnLevel3Objects().getByType(RectangleMapObject.class)) {
+		for (RectangleMapObject rectangleObject : this.map.getEnemySpawnJungleLowObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
 			// spawn in an 'enemy'
 			if(r.nextInt(5) >= 2) {

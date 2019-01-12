@@ -8,6 +8,7 @@ public abstract class MoveableObject extends GameObject {
 	
 	// movement variables
 	protected Vector3 pointToMoveTo; // used to move the character to a point
+	
 	protected float speed;
 	protected Vector3 spawnLocation; // used for things such as calculating distance travelled and respawn points 
 	

@@ -3,7 +3,7 @@ package com.adventuresof.game.quest;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import com.adventuresof.game.character.NPC;
+import com.adventuresof.game.character.entities.NPC;
 import com.adventuresof.game.inventory.Inventory;
 import com.adventuresof.game.item.Item;
 import com.adventuresof.game.item.ItemEnum;

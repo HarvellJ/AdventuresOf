@@ -3,8 +3,8 @@ package com.adventuresof.screens;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import com.adventuresof.game.character.NPC;
-import com.adventuresof.game.character.Player;
+import com.adventuresof.game.character.entities.NPC;
+import com.adventuresof.game.character.entities.Player;
 import com.adventuresof.game.inventory.Inventory;
 import com.adventuresof.game.inventory.InventoryActor;
 import com.adventuresof.game.quest.Quest;

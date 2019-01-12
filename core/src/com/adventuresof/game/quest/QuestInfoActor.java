@@ -1,6 +1,6 @@
 package com.adventuresof.game.quest;
 
-import com.adventuresof.game.character.Player;
+import com.adventuresof.game.character.entities.Player;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;

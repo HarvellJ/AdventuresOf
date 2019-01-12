@@ -3,11 +3,11 @@ package com.adventuresof.game.world;
 import java.util.ArrayList;
 import java.util.Random;
 
-import com.adventuresof.game.character.CharacterClass;
-import com.adventuresof.game.character.CharacterLevel;
-import com.adventuresof.game.character.GameCharacter;
-import com.adventuresof.game.character.NPC;
-import com.adventuresof.game.character.Player;
+import com.adventuresof.game.character.entities.GameCharacter;
+import com.adventuresof.game.character.entities.NPC;
+import com.adventuresof.game.character.entities.Player;
+import com.adventuresof.game.character.enums.CharacterClass;
+import com.adventuresof.game.character.enums.CharacterLevel;
 import com.adventuresof.game.combat.InstantCastAbility;
 import com.adventuresof.game.combat.Projectile;
 import com.adventuresof.game.combat.SpellEnum;

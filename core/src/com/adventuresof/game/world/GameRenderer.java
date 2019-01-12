@@ -1,6 +1,6 @@
 package com.adventuresof.game.world;
 
-import com.adventuresof.game.character.NPC;
+import com.adventuresof.game.character.entities.NPC;
 import com.adventuresof.game.combat.InstantCastAbility;
 import com.adventuresof.game.combat.Projectile;
 import com.adventuresof.game.common.GameObject;

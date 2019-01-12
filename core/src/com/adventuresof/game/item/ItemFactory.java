@@ -3,7 +3,7 @@ package com.adventuresof.game.item;
 import java.util.ArrayList;
 import java.util.Random;
 
-import com.adventuresof.game.character.CharacterLevel;
+import com.adventuresof.game.character.enums.CharacterLevel;
 
 public class ItemFactory {
 

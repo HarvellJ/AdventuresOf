@@ -2,7 +2,7 @@ package com.adventuresof.game.combat;
 
 import java.util.Random;
 
-import com.adventuresof.game.character.GameCharacter;
+import com.adventuresof.game.character.entities.GameCharacter;
 
 public class DamageCalculator {
 
