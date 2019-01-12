@@ -2,7 +2,6 @@ package com.adventuresof.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -62,25 +61,6 @@ public class NewGameScreen extends MainGameScreen implements Screen {
 	}
 	
 	public void show() {
-
-		//Layout
-//		_overwriteDialog.row();
-//		_overwriteDialog.button(overwriteButton).bottom().left();
-//		_overwriteDialog.button(cancelButton).bottom().right();
-
-//		Table topTable = new Table();
-//		topTable.setFillParent(true);
-//		topTable.add(profileName).left();
-//		topTable.add(_profileText).center();
-//		topTable.add(startButton).right();
-//
-//
-//		Table bottomTable = new Table();
-//		bottomTable.setHeight(startButton.getHeight());
-//		bottomTable.setWidth(Gdx.graphics.getWidth());
-//		bottomTable.center();
-//		bottomTable.add(startButton).padRight(50);
-//		bottomTable.add(backButton);
 		
 		Table table = new Table();
 		table.setFillParent(true);
