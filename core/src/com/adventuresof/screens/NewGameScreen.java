@@ -56,12 +56,12 @@ public class NewGameScreen extends MainGameScreen implements Screen {
 		
 		stage.act(Gdx.graphics.getDeltaTime());
 		stage.draw();
+		Gdx.input.setInputProcessor(stage);
 		addListeners();
 		
 	}
 	
 	public void show() {
-		Gdx.input.setInputProcessor(stage);
 
 		//Layout
 //		_overwriteDialog.row();
@@ -190,7 +190,7 @@ public class NewGameScreen extends MainGameScreen implements Screen {
 		public void hide() {
 			_overwriteDialog.hide();
 			_profileText.setText("");
-			Gdx.input.setInputProcessor(null);
+//			Gdx.input.setInputProcessor(null);
 		}
 
 		@Override

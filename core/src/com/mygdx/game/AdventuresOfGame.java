@@ -70,23 +70,23 @@ public class AdventuresOfGame extends Game {
 	public void changeScreen(ScreenType s) {
 		switch (s) {
 		case MAINMENU:
-			if (menuScreen == null) menuScreen = new MainMenuScreen(this);
+			menuScreen = new MainMenuScreen(this);
 			this.setScreen(menuScreen);
 			break;
 		case CHARACTERSELECTION:
-			if (characterSelectionScreen == null) characterSelectionScreen = new CharacterSelectionScreen(this);
+			characterSelectionScreen = new CharacterSelectionScreen(this);
 			this.setScreen(characterSelectionScreen);
 			break;
 		case MAINGAMESCREEN:
-			if(mainScreen == null) mainScreen = new MainGameScreen();
+			mainScreen = new MainGameScreen();
 			this.setScreen(mainScreen);
 			break;
 		case SETTINGS:
-			if (settingsScreen == null) settingsScreen = new SettingsScreen(this);
+			settingsScreen = new SettingsScreen(this);
 			this.setScreen(settingsScreen);
 			break;
 		case NEWGAMESCREEN:
-			if (newGameScreen == null) newGameScreen = new NewGameScreen(this);
+			newGameScreen = new NewGameScreen(this);
 			this.setScreen(newGameScreen);
 			break;
 		default: 

@@ -47,12 +47,12 @@ public class CharacterSelectionScreen extends MainMenuScreen implements Screen {
 		previousButton = new TextButton("<<<", buttonStyle);
 		uiStage.act(Gdx.graphics.getDeltaTime());
 		uiStage.draw();
+		Gdx.input.setInputProcessor(uiStage);
 		addListeners();
 	}
 
 	@Override
 	public void show() {
-		Gdx.input.setInputProcessor(uiStage);
 
 //		titleLabel.setWrap(true);
 		titleLabel.setFontScale(0.50f, 0.50f);
