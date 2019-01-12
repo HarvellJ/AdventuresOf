@@ -35,7 +35,6 @@ public class CharacterSelectionScreen extends MainMenuScreen implements Screen {
 		TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
 		Label.LabelStyle labelStyle = new Label.LabelStyle();
 
-//		skin = new Skin(Gdx.files.internal("skins/star-soldier-ui.json"));
 		buttonStyle.font = parent.res.gamefont;
 		buttonStyle.fontColor = Color.WHITE;
 		labelStyle.font = parent.res.gamefont;
@@ -53,7 +52,6 @@ public class CharacterSelectionScreen extends MainMenuScreen implements Screen {
 	@Override
 	public void show() {
 
-//		titleLabel.setWrap(true);
 		titleLabel.setFontScale(0.50f, 0.50f);
 		titleLabel.setPosition((uiStage.getWidth() * 5 / 3 - titleLabel.getWidth()) / 2, uiStage.getHeight() * 5 / 6);
 		uiStage.addActor(titleLabel);

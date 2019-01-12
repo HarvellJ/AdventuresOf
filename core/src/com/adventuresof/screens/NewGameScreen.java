@@ -28,7 +28,6 @@ public class NewGameScreen extends MainGameScreen implements Screen {
 	private Label profileName;
 	private TextButton cancelButton;
 	private TextButton backButton;
-
 	
 	public NewGameScreen(AdventuresOfGame game){
 		parent = game;
@@ -63,7 +62,6 @@ public class NewGameScreen extends MainGameScreen implements Screen {
 		table.add(backButton).fillX().uniformX();
 
 		stage.addActor(table);
-//		stage.addActor(bottomTable);
 	
 	}
 		
