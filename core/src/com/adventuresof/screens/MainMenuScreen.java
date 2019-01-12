@@ -16,13 +16,18 @@ import com.mygdx.game.AdventuresOfGame;
 
 public class MainMenuScreen implements Screen{
 
-	private AdventuresOfGame parent;
-	private Stage stage;
+	protected AdventuresOfGame parent;
+	public Stage stage;
 	private Skin skin;
 	private TextButton newGame;
 	private Label titleLabel;
 	private TextButton settings;
 	private TextButton exit;
+	
+	public MainMenuScreen()
+	{
+		
+	}
 	
 	public MainMenuScreen(AdventuresOfGame game) {
 		parent = game;
@@ -34,6 +39,7 @@ public class MainMenuScreen implements Screen{
 		exit = new TextButton("Exit", skin);
 		stage.act(Gdx.graphics.getDeltaTime());
 		stage.draw();
+		Gdx.input.setInputProcessor(stage);
 		addListeners();
 		
 		// Music setup
@@ -42,7 +48,6 @@ public class MainMenuScreen implements Screen{
 	
 	@Override
 	public void show() {
-		Gdx.input.setInputProcessor(stage);
 		Table table = new Table();
 		table.setFillParent(true);
 		stage.addActor(table);
@@ -68,11 +73,11 @@ public class MainMenuScreen implements Screen{
 		stage.getViewport().update(width, height, true);
 	}
 	
-	private void addListeners() {
+	public void addListeners() {
 		newGame.addListener(new ChangeListener() {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
-				parent.changeScreen(ScreenType.MAINGAMESCREEN);
+				parent.changeScreen(ScreenType.NEWGAMESCREEN);
 			}
 		});
 		
