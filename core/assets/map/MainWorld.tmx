@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.0" orientation="orthogonal" renderorder="right-down" width="516" height="688" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#00557f" nextlayerid="49" nextobjectid="290">
+<map version="1.2" tiledversion="1.2.0" orientation="orthogonal" renderorder="right-down" width="516" height="688" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#00557f" nextlayerid="49" nextobjectid="291">
  <tileset firstgid="1" source="DarkTiles.tsx"/>
  <tileset firstgid="610" source="ashlands_tileset.tsx"/>
  <tileset firstgid="1450" source="tf_jungle_tileset.tsx"/>
@@ -3017,5 +3017,7 @@
   <object id="282" name="enemySpawnLavaZone" x="3322" y="2933"/>
  </objectgroup>
  <objectgroup id="45" name="hostileNPCSpawns_lavacastle_High"/>
- <objectgroup id="46" name="hostileNPCSpawns_lavacastle_Boss"/>
+ <objectgroup id="46" name="hostileNPCSpawns_lavacastle_Boss">
+  <object id="290" name="bossSpawn" x="2920" y="1832" width="21" height="27"/>
+ </objectgroup>
 </map>
