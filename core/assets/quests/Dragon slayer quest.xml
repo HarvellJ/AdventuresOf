@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Quest>
+    <QuestTitle>Dragon Slayer</QuestTitle>
+    <QuestDescription>Dragons have been attacking people in the woods and are advancing towards the castle, can you help them out?</QuestDescription>
+    <Tasks>
+        <Task>
+            <TaskTitle>Talk to a castle guard</TaskTitle>
+            <TaskText>The castle guards can be found just beyond the castle bridge.</TaskText>
+            <Type>Conversation</Type>
+            <NPC>Guard</NPC>            
+            <Conversation>
+                <Dialogue>Castle Guard: {CHARACTER_NAME}, We're so glad you're here. We've been pinned down by this army of Blood Elves but we've had reports that Dragon are approaching from the wasteland.</Dialogue>
+                <Dialogue>Castle Guard: We'll be screwed if we let them get much closer!</Dialogue>
+                <Dialogue>{CHARACTER_NAME}: Okay... calm down... you hold down the bridge and I'll see what I can do about those Dragons.</Dialogue>
+                <Dialogue>Castle Guard: Remember, Dragons are tough creatures... don't let them too close... Good Luck!</Dialogue>
+            </Conversation>
+        </Task>
+        <Task>
+            <TaskTitle>Kill 5 Dragons</TaskTitle>
+			<TaskText>The wasteland can be found beyond the mud castle. The Dragons were last seen roaming that area. Once you have done this speak with a Guard to complete the quest.</TaskText>
+            <Type>Slayer</Type>
+            <NPC>Guard</NPC>
+            <Target>Dragon</Target>
+            <Quantity>5</Quantity>
+            <Conversation>
+                <Dialogue>Castle Guard: {CHARACTER_NAME} your're alive! I never thought you'd make it. Have you dealt with the Dragons?</Dialogue>
+                <Dialogue>{CHARACTER_NAME}: If you never thought I would make it why did you send me to slay the dragons... </Dialogue>
+                <Dialogue>Castle Guard: well...</Dialogue>
+                <Dialogue>{CHARACTER_NAME}: Nevertheless the Dragons should be haulted for the time being. That is at least until they regroup and decide to attack again.</Dialogue>
+				<Dialogue>Castle Guard: Hopefully by then we will be ready to go on the offensive! Especially with your help.</Dialogue>
+            </Conversation>
+        </Task>
+    </Tasks>
+</Quest>
