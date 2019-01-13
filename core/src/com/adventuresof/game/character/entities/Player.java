@@ -100,6 +100,7 @@ public class Player extends GameCharacter{
 		Quest dragonSlayerQuest = new Quest("DragonSlayerQuest", this.name);
 		Quest bountyHunterQuest = new Quest("BountyHunterQuest", this.name);
 		Quest magicGemQuest = new Quest("magicGemQuest", this.name);
+		Quest stolenCrown = new Quest("stolenCrownQuest", this.name);
 		Quest killApollo = new Quest("KillApollo", this.name);
 		Quest killTheBasilisk = new Quest("killTheBasilisk", this.name);
 		Quest killTheTwinHeadedDragon = new Quest("killTheTwinHeadedDragon", this.name);
@@ -109,6 +110,7 @@ public class Player extends GameCharacter{
 		quests.add(dragonSlayerQuest);
 		quests.add(bountyHunterQuest);
 		quests.add(magicGemQuest);
+		quests.add(stolenCrown);
 		quests.add(killApollo);
 		quests.add(killTheBasilisk);
 		quests.add(killTheTwinHeadedDragon);
