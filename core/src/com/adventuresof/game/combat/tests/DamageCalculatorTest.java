@@ -22,11 +22,18 @@ public class DamageCalculatorTest {
 	public void calculateDamage_damageWithNoDefenceValue_calculated() {
 		// Seed the random number so we can predict expected results
 		DamageCalculator.random = new Random(1);
-
-		int defence = 0;
+		
 		int maxDamage = 20;
 		int bonusDamage = 0;
 		int tempBonusDamage = 0;
+		int defence = 0;
+		int tempDefence = 0;
+		
+		int result = DamageCalculator.calculateDamage(maxDamage, bonusDamage, tempBonusDamage, defence, tempDefence);
+		
+		double calculatedDamage = maxDamage * ((double)DamageCalculator.random.nextInt(100)/100);
+		
+		assertEquals((int)calculatedDamage, result);
 	}
 
 	// test damage - max and bonus damage vs 0 defence:
@@ -37,6 +44,7 @@ public class DamageCalculatorTest {
 	// 0 temporary defence
 	// result should be equal to (max damage + bonus damage) * a random % value) 
 
+	
 	// test damage - max, bonus and temp damage vs 0 defence:
 	// 20 max damage
 	// 10 bonus damage
