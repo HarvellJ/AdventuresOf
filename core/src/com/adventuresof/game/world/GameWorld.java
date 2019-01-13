@@ -94,7 +94,7 @@ public abstract class GameWorld {
 	public void setItems(ArrayList<Item> items) {
 		this.items = items;
 	}
-	
+
 	public void update(float delta, ArrayList<NPC> NPCs) {
 		//this.detectObjectCollisions();
 		player.update(); // move player
@@ -110,17 +110,19 @@ public abstract class GameWorld {
 		this.detectCollisionOfProjectilesAndCharacters(); // detect spell hits
 		this.detectCollisionWithTriggers(); 						
 	}		
-	
+
 	public void performInstantSpellCast(Circle targetingCircle, SpellEnum spell) {
 		for(NPC npc : this.NPCs) {
-			if (Intersector.overlaps(targetingCircle, npc.getHitBox())) {
-				if(npc.isHostile()) {
-					InstantCastAbility ability = new InstantCastAbility(spell, npc, this.player);
-					this.instantCastAbilities.add(ability);
-					npc.hitWithInstantCastSpell(ability);
-					SoundManager.playSoundEffect(ability.getSoundEffect());
-				}
-			}	
+			if(!Double.isNaN(npc.getHitBox().x )) {
+				if (Intersector.overlaps(targetingCircle, npc.getHitBox())) {
+					if(npc.isHostile()) {
+						InstantCastAbility ability = new InstantCastAbility(spell, npc, this.player);
+						this.instantCastAbilities.add(ability);
+						npc.hitWithInstantCastSpell(ability);
+						SoundManager.playSoundEffect(ability.getSoundEffect());
+					}
+				}	
+			}
 		}	
 	}
 
@@ -128,7 +130,7 @@ public abstract class GameWorld {
 		this.instantCastAbilities.add(ability);
 		SoundManager.playSoundEffect(ability.getSoundEffect());
 	}
-	
+
 	public void performSpellCast(Projectile projectile){
 		this.activeProjectiles.add(projectile);
 		SoundManager.playSoundEffect(projectile.getSoundEffect());
@@ -138,10 +140,10 @@ public abstract class GameWorld {
 		for (RectangleMapObject rectangleObject : this.map.getPlayerSpawnObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
 			// spawn in player
-				this.setPlayer(new Player(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y,
-						CharacterRecord.CHARACTERS[GameProgress.currentCharacter].getCharacterClass(),
-						CharacterRecord.CHARACTERS[GameProgress.currentCharacter].name,
-						CharacterRecord.CHARACTERS[GameProgress.currentCharacter].getSpriteSheet()));
+			this.setPlayer(new Player(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y,
+					CharacterRecord.CHARACTERS[GameProgress.currentCharacter].getCharacterClass(),
+					GameProgress.characterName,
+					CharacterRecord.CHARACTERS[GameProgress.currentCharacter].getSpriteSheet()));
 			break;
 		}
 	}
@@ -159,18 +161,18 @@ public abstract class GameWorld {
 	}
 
 	protected abstract void spawnNPCs();
-	
+
 	protected abstract void detectCollisionWithTriggers();
 
 	protected abstract void spawnAnimatedMapObjects();
-	
+
 	protected abstract void updateAnimatedMapObjects();
-	
+
 	private void disposeOfObjects() {
 		// remove perished NPCs
-		
+
 		ArrayList<NPC> tempArray = new ArrayList<NPC>();
-		
+
 		for(int i = 0; i < this.NPCs.size(); i++) {
 			if(this.NPCs.get(i).CanDispose()) {
 				// spawn a relevant drop based on NPC
@@ -180,7 +182,7 @@ public abstract class GameWorld {
 				this.NPCs.remove(i);
 			}
 		}
-		
+
 		// remove objects - e.g. spell animations and stuff alike
 		for(int i = 0; i < this.activeProjectiles.size(); i++) {
 			if(this.activeProjectiles.get(i).CanDispose())
@@ -247,7 +249,7 @@ public abstract class GameWorld {
 				this.spawnItem(rectangle, ItemRarityEnum.common);
 			}
 		}		
-		
+
 		// spawn rares
 	}
 
@@ -285,7 +287,7 @@ public abstract class GameWorld {
 			this.items.add(item);
 		}	
 	}
-	
+
 	private void spawnItem(Rectangle rectangle, CharacterLevel characterLevel) {
 		Item item = ItemFactory.spawnItemFromNPC(characterLevel);
 		if(item != null) {

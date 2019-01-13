@@ -10,6 +10,7 @@ public class SoundManager {
 	private static Sound sound;
 	private static float musicVolume = 0.5f;
 	public static boolean musicStatus = true;
+	public static String currentlyPlaying = "";
 
 	// Audio for Music	
 	public static void playMusic(String filePath) {
@@ -19,6 +20,7 @@ public class SoundManager {
 				music.stop();
 				music.dispose();
 			}
+			currentlyPlaying = filePath;
 			music = Gdx.audio.newMusic(Gdx.files.internal(filePath));
 			music.setLooping(true);
 			music.setVolume(musicVolume);

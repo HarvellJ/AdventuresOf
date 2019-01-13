@@ -41,7 +41,7 @@ public class CharacterSelectionScreen extends MainMenuScreen implements Screen {
 		buttonStyle.fontColor = Color.WHITE;
 		labelStyle.font = parent.res.gamefont;
 		labelStyle.fontColor = Color.WHITE;
-		titleLabel = new Label("The Adventures Of ", labelStyle);
+		titleLabel = new Label("The Adventures Of " + GameProgress.characterName, labelStyle);
 		startGame = new TextButton("Start", buttonStyle);
 		nextButton = new TextButton(">>>", buttonStyle);
 		previousButton = new TextButton("<<<", buttonStyle);
@@ -63,7 +63,7 @@ public class CharacterSelectionScreen extends MainMenuScreen implements Screen {
 		uiStage.addActor(startGame);
 
 		characterSprite = new Image(
-				parent.res.playerSprites.get(CharacterRecord.CHARACTERS[GameProgress.currentCharacter].name));
+				parent.res.playerSprites.get(CharacterRecord.CHARACTERS[GameProgress.currentCharacter].iconName));
 		characterSprite.setPosition((uiStage.getWidth() - characterSprite.getWidth()) / 2,
 				(uiStage.getHeight() - characterSprite.getHeight()) / 2);
 		uiStage.addActor(characterSprite);

@@ -26,6 +26,7 @@ import com.adventuresof.game.character.entities.ShadowKnight;
 import com.adventuresof.game.character.entities.StarterCastleGuard;
 import com.adventuresof.game.character.entities.TwoHeadedDragon;
 import com.adventuresof.game.common.enums.Direction;
+import com.adventuresof.helpers.SoundManager;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
@@ -52,6 +53,7 @@ public class AdventuresOfGameWorld extends GameWorld{
 		// move player companion
 		//playerCompanion.move(this.player);
 		playerCompanion.update();
+		this.detectCollisionWithTriggers();
 	}
 
 	public PlayerCompanion getPlayerCompanion() {
@@ -233,31 +235,20 @@ public class AdventuresOfGameWorld extends GameWorld{
 		for (RectangleMapObject rectangleObject : this.map.getTriggerObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
 			if (Intersector.overlaps(rectangle, player.getHitBox())) {
-				if (rectangleObject.getName().equals("startZoneMovementTrigger")) {
+				if (rectangleObject.getName().equals("wasteLand")) {
 					// render guidance text to screen
-					if(!this.player.hasDiscoveredZone(GameZone.STARTZONE)) {
-						this.player.addDiscoveredZone(GameZone.STARTZONE);
-					}
+					if(SoundManager.currentlyPlaying != "audio/music/wastelandShowdown.mp3")
+						SoundManager.playMusic("audio/music/wastelandShowdown.mp3");
 				}
-				else if (rectangleObject.getName().equals("itemZoneTrigger")) {
+				else if (rectangleObject.getName().equals("LavaCastle")) {
 					// render guidance text to screen
-					if(!this.player.hasDiscoveredZone(GameZone.ITEMZONE)) {
-						this.player.addDiscoveredZone(GameZone.ITEMZONE);
-
-					}
+					if(SoundManager.currentlyPlaying != "audio/music/heroicDemise.mp3")
+						SoundManager.playMusic("audio/music/heroicDemise.mp3");
 				}
-				else if (rectangleObject.getName().equals("itemZoneCompleteTrigger")) {
+				else if (rectangleObject.getName().equals("Jungle")) {
 					// render guidance text to screen
-					if(!this.player.hasDiscoveredZone(GameZone.ITEMZONECOMPLETIONZONE)) {
-						this.player.addDiscoveredZone(GameZone.ITEMZONECOMPLETIONZONE);
-					}
-				}
-				else if (rectangleObject.getName().equals("combatZoneTrigger")) {
-					// render guidance text to screen
-					if(!this.player.hasDiscoveredZone(GameZone.COMBATARENA)) {
-						this.player.addDiscoveredZone(GameZone.COMBATARENA);
-
-					}
+					if(SoundManager.currentlyPlaying != "audio/music/noMoreMagic.mp3")
+						SoundManager.playMusic("audio/music/noMoreMagic.mp3");
 				}
 			}
 		}

@@ -761,7 +761,7 @@ public abstract class GameCharacter extends MoveableObject {
 				this.performInstantCastAbility(this.characterClass.getAbilityTwo(), targetX, targetY);
 			}
 			else if(this.characterClass.getAbilityOne().getSpellType() == SpellType.multiProjectile) {
-				this.performMultiProjectileAbility(this.characterClass.getAbilityOne(), targetX, targetY);
+				this.performMultiProjectileAbility(this.characterClass.getAbilityTwo(), targetX, targetY);
 			}
 		}
 	}
@@ -783,7 +783,7 @@ public abstract class GameCharacter extends MoveableObject {
 				this.performInstantCastAbility(this.characterClass.getAbilityThree(), targetX, targetY);
 			}
 			else if(this.characterClass.getAbilityOne().getSpellType() == SpellType.multiProjectile) {
-				this.performMultiProjectileAbility(this.characterClass.getAbilityOne(), targetX, targetY);
+				this.performMultiProjectileAbility(this.characterClass.getAbilityThree(), targetX, targetY);
 			}
 		}
 	}
@@ -805,7 +805,7 @@ public abstract class GameCharacter extends MoveableObject {
 				this.performInstantCastAbility(this.characterClass.getAbilityFour(), targetX, targetY);
 			}
 			else if(this.characterClass.getAbilityOne().getSpellType() == SpellType.multiProjectile) {
-				this.performMultiProjectileAbility(this.characterClass.getAbilityOne(), targetX, targetY);
+				this.performMultiProjectileAbility(this.characterClass.getAbilityFour(), targetX, targetY);
 			}
 		}
 	}

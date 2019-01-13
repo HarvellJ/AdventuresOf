@@ -43,7 +43,7 @@ public class MainMenuScreen implements Screen{
 		addListeners();
 		
 		// Music setup
-		SoundManager.playMusic("audio/music/Random_Battle.mp3");
+		SoundManager.playMusic("audio/music/soliloquy.mp3");
 	}
 	
 	@Override

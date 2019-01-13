@@ -116,7 +116,7 @@ public class MainGameScreen implements Screen {
 		multiplexer.addProcessor(new PlayerController(gameWorld, gameRenderer, playerHUD)); 
 		Gdx.input.setInputProcessor(multiplexer); 
 		// Music setup
-		SoundManager.playMusic("audio/music/Takeover.mp3");
+		SoundManager.playMusic("audio/music/noMoreMagic.mp3");
 	}
 
 }

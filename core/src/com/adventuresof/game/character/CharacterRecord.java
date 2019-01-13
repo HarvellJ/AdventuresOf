@@ -4,12 +4,12 @@ import com.adventuresof.game.character.enums.CharacterClass;
 
 public class CharacterRecord {
 
-	public final String name;
+	public final String iconName;
 	private String spriteSheet;
 	private CharacterClass characterClass;
 	
 	public CharacterRecord(String _name, String spriteSheet, CharacterClass characterClass) {
-		name = _name;
+		this.iconName = _name;
 		this.spriteSheet = spriteSheet;
 		this.characterClass = characterClass;
 	}
@@ -55,5 +55,7 @@ public class CharacterRecord {
 	public void setCharacterClass(CharacterClass characterClass) {
 		this.characterClass = characterClass;
 	}
+
+
 
 }

@@ -3,6 +3,7 @@ package com.adventuresof.game.world;
 public class GameProgress {
 	
     public static int currentCharacter = 0;
+    public static String characterName = "";
     public static int stages[]; // how far the character has progressed
 
 

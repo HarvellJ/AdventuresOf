@@ -87,7 +87,7 @@ public class Player extends GameCharacter{
 				ATTACK_DOWN_START_FRAME, ATTACK_DOWN_FRAMES,
 				ATTACK_UP_START_FRAME, ATTACK_UP_FRAMES,
 				DEATH_ANIMATION_START_FRAME, DEATH_ANIMATION_FRAMES
-				), MovementSpeed.NORMAL_FAST.getSpeed(), false, "You", characterClass, CharacterLevel.normal);
+				), MovementSpeed.NORMAL_FAST.getSpeed(), false, name, characterClass, CharacterLevel.normal);
 				
 		this.isHostile = true;
 		this.inventory = new Inventory();

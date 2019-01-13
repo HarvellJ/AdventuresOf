@@ -1,5 +1,7 @@
 package com.adventuresof.screens;
 
+import com.adventuresof.game.character.CharacterRecord;
+import com.adventuresof.game.world.GameProgress;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -91,6 +93,7 @@ public class NewGameScreen extends MainGameScreen implements Screen {
 
 										@Override
 										public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+												   GameProgress.characterName = _profileText.getText();
 												   parent.changeScreen(ScreenType.CHARACTERSELECTION);
 										}
 										});
