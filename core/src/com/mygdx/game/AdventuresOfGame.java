@@ -56,7 +56,7 @@ public class AdventuresOfGame extends Game {
 			break;
 		case MAINGAMESCREEN:
 			if(mainScreen == null)
-				mainScreen = new MainGameScreen();
+			mainScreen = new MainGameScreen(this);
 			this.setScreen(mainScreen);
 			break;
 		case SETTINGS:
@@ -71,17 +71,13 @@ public class AdventuresOfGame extends Game {
 			creditScreen = new CreditScreen(this);
 			this.setScreen(creditScreen);
 			break;
-		case ENDSCREEN:
-			endScreen = new EndScreen(this);
-			this.setScreen(endScreen);
-			break;
 		default: 
 		}
 	}
 	
-	public void showEndScreen(float timeSurvived) {
-        endScreen = new EndScreen(timeSurvived);
-        this.setScreen(endScreen);
+	public void showEndScreen(float completionTime) {
+		endScreen = new EndScreen(this, completionTime);
+		this.setScreen(endScreen);
 	}
 	
 	public ApplicationPreferences getPreferences() {

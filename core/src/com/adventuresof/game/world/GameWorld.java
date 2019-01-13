@@ -15,6 +15,8 @@ import com.adventuresof.game.combat.enums.Spell;
 import com.adventuresof.game.item.Item;
 import com.adventuresof.game.item.ItemFactory;
 import com.adventuresof.game.item.ItemRarityEnum;
+import com.adventuresof.game.quest.ProgressEnum;
+import com.adventuresof.game.quest.Quest;
 import com.adventuresof.helpers.SoundManager;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Circle;
@@ -31,6 +33,7 @@ public abstract class GameWorld {
 	protected ArrayList<Projectile> activeProjectiles;
 	protected ArrayList<InstantCastAbility> instantCastAbilities;
 	protected ArrayList<AnimatedMapObject> animatedMapObjects;
+	protected boolean gameComplete;
 
 	public GameWorld(String mapPath) {
 		map = new Map(mapPath);
@@ -42,6 +45,7 @@ public abstract class GameWorld {
 		items = new ArrayList<Item>(); // instantiate map item list (items that exist on the map)
 		this.spawnChanceItemsIntoWorld();
 		this.spawnQuestItems();
+		this.gameComplete = false;
 	}
 
 	public ArrayList<Projectile> getActiveProjectiles() {
@@ -96,6 +100,14 @@ public abstract class GameWorld {
 		this.items = items;
 	}
 
+	public boolean isGameComplete() {
+		return gameComplete;
+	}
+
+	public void setGameComplete(boolean gameComplete) {
+		this.gameComplete = gameComplete;
+	}
+	
 	public void update(float delta, ArrayList<NPC> NPCs) {
 		//this.detectObjectCollisions();
 		player.update(); // move player
@@ -109,7 +121,8 @@ public abstract class GameWorld {
 		// now check for any collisions following update calls to characters
 		this.detectCollectionOfItemObjects(); // detect player collision with items
 		this.detectCollisionOfProjectilesAndCharacters(); // detect spell hits
-		this.detectCollisionWithTriggers(); 						
+		this.detectCollisionWithTriggers(); 
+		this.checkProgress();
 	}		
 
 	public void performInstantSpellCast(Circle targetingCircle, Spell spell) {
@@ -171,6 +184,18 @@ public abstract class GameWorld {
 
 	protected abstract void updateAnimatedMapObjects();
 
+	private void checkProgress() {
+		boolean isComplete = true;
+		// loop through quests and check for ones that are not complete
+		for(Quest quest : this.getPlayer().getQuests()) {
+			if(quest.getProgress() != ProgressEnum.COMPLETE) {
+				isComplete = false;
+			}
+		}
+		// set game completion flag accordingly
+		this.gameComplete = isComplete;
+	}
+	
 	private void disposeOfObjects() {
 		// remove perished NPCs
 

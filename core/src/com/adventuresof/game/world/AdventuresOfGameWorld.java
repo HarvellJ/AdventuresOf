@@ -256,7 +256,7 @@ public class AdventuresOfGameWorld extends GameWorld{
 		}
 		for (RectangleMapObject rectangleObject : this.map.getQueenSpawnObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
-			Queen queen = new Queen(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Queen", false, null);
+			Queen queen = new Queen(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Queen", false, null, true, "Stolen Crown");
 			queen.setCharacterDirection(Direction.right);
 			this.NPCs.add(queen);				
 		}
@@ -274,7 +274,7 @@ public class AdventuresOfGameWorld extends GameWorld{
 		}
 		for (RectangleMapObject rectangleObject : this.map.getPrinceSpawnObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
-			Prince prince = new Prince(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Prince", false, null);
+			Prince prince = new Prince(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Prince", false, null, true, "Stolen Crown");
 			prince.setCharacterDirection(Direction.right);
 			this.NPCs.add(prince);				
 		}

@@ -1,37 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <Quest>
-    <QuestTitle>Stolen Crown Quest</QuestTitle>
+    <QuestTitle>Stolen Crown</QuestTitle>
     <QuestDescription>The Queens crown has been stolen by a bandit</QuestDescription>
     <Tasks>
         <Task>
-            <TaskTitle>Talk to the queen</TaskTitle>
-            <TaskText>Go to the royal quarters and ask the queen about her crown</TaskText>
+            <TaskTitle>Talk to the Queen</TaskTitle>
+            <TaskText>The Queen can be found roaming around the castle</TaskText>
+            <Type>Conversation</Type>
+            <NPC>Queen</NPC>
             <Conversation>
-                <Dialogue>{QUEEN} Oh No!! Can you help my crown has been stolen</Dialogue>
-                <Dialogue>{CHARACTER_NAME} I can, where did you last see it? </Dialogue>
-                <Dialogue>{QUEEN} Bandits broke in and stole it while we were sleeping and have now fled the castle, I think the guard seen where they went </Dialogue>
-				<Dialogue>{CHARACTER_NAME} Ok I will go and talk to the guard </Dialogue>
+                <Dialogue>Queen: Oh No!! Can you help, my crown has been stolen</Dialogue>
+                <Dialogue>{CHARACTER_NAME}: I can, where did you last see it? </Dialogue>
+                <Dialogue>Queen: A Dragon flew into the castle and took it straight off my head. My son reported seeing it land amongst the woods in the grassland.</Dialogue>
+				<Dialogue>{CHARACTER_NAME}: Ok I will go and speak with the Prince.</Dialogue>
             </Conversation>
         </Task>
         <Task>
-            <TaskTitle>Talk to the guard at the gate</TaskTitle>
+            <TaskTitle>Talk to the Prince</TaskTitle>
+            <TaskText>The prince can be found roaming around the castle</TaskText>
+            <Type>Conversation</Type>
+            <NPC>Prince</NPC>
             <Conversation>
-                <Dialogue>{CHARACTER_NAME} Hello sir, the queens crown was stolen in the night and the bandits fled the castle, did you see where they went?</Dialogue>
-                <Dialogue>{CASTLE_GUARD} I did, the bandits fled toward the dark forest in the east </Dialogue>
-				<Dialogue>{CHARACTER_NAME} Thanks for your help</Dialogue>
+                <Dialogue>{CHARACTER_NAME}: Hello Sir, your mother said that you had seen where the dragon had landed.</Dialogue>
+                <Dialogue>Prince: I did, I followed it to the woods outside the castle towards the north-east. When I saw how many there were I had to flee.</Dialogue>
+				<Dialogue>{CHARACTER_NAME}: No problem I will find them and return the stolen crown.</Dialogue>
             </Conversation>
         </Task>
 		<Task>
-            <TaskTitle>Pursue the bandits</TaskTitle>
-			<TaskText>Find the bandits responsible for the crime, kill them and return the crown to the queen</TaskText>
-        </Task>
-		<Task>
-            <TaskTitle>return the crown to the queen</TaskTitle>
+            <TaskTitle>retrieve the crown from the woods and return it to the queen</TaskTitle>
+            <Type>Collect</Type>
+            <Item>Gem</Item>
+            <Quantity>1</Quantity>
+            <NPC>Queen</NPC>
             <Conversation>
-                <Dialogue>{QUEEN} My crown !! Thanks you ever so much</Dialogue>
-                <Dialogue>{QUEEN} Please take this potion as a reward, it makes any damage you inflict on enemies more powerful </Dialogue>
-				<Dialogue>{CHARACTER_NAME} Thank you</Dialogue>		
+                <Dialogue>Queen: My crown !! Thanks you ever so much</Dialogue>
+				<Dialogue>{CHARACTER_NAME}: Next time try and keep it firmly on your head when a dragon flys by.</Dialogue>		
             </Conversation>
         </Task>
     </Tasks>

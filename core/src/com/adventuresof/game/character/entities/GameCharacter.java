@@ -379,6 +379,14 @@ public abstract class GameCharacter extends MoveableObject {
 		this.attackInterval = attackInterval;
 	}
 
+	public float getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(float startTime) {
+		this.startTime = startTime;
+	}
+
 	public String getName() {
 		return name;
 	}

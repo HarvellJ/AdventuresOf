@@ -10,6 +10,8 @@ import com.adventuresof.game.common.enums.MovementSpeed;
 import com.adventuresof.game.inventory.Inventory;
 import com.adventuresof.game.item.Item;
 import com.adventuresof.game.item.ItemEffectEnum;
+import com.adventuresof.game.item.ItemEnum;
+import com.adventuresof.game.quest.ProgressEnum;
 import com.adventuresof.game.quest.Quest;
 import com.adventuresof.game.world.GameWorld;
 import com.adventuresof.game.world.GameZone;
@@ -101,6 +103,7 @@ public class Player extends GameCharacter{
 		Quest dragonSlayerQuest = new Quest("DragonSlayerQuest", this.name);
 		Quest bountyHunterQuest = new Quest("BountyHunterQuest", this.name);
 		Quest magicGemQuest = new Quest("magicGemQuest", this.name);
+		Quest stolenCrown = new Quest("stolenCrownQuest", this.name);
 		Quest killApollo = new Quest("KillApollo", this.name);
 		Quest killTheBasilisk = new Quest("killTheBasilisk", this.name);
 		Quest killTheTwinHeadedDragon = new Quest("killTheTwinHeadedDragon", this.name);
@@ -110,6 +113,7 @@ public class Player extends GameCharacter{
 		quests.add(dragonSlayerQuest);
 		quests.add(bountyHunterQuest);
 		quests.add(magicGemQuest);
+		quests.add(stolenCrown);
 		quests.add(killApollo);
 		quests.add(killTheBasilisk);
 		quests.add(killTheTwinHeadedDragon);
@@ -136,6 +140,34 @@ public class Player extends GameCharacter{
 		this.inventory.store(item, 1);
 		// if item is buff, display buff message
 		this.addItemBuff(item);
+	}
+	
+	public void update() {
+		// check slayed NPC's for bosses and update quest progress
+		for(NPC npc : this.npcsKilled) {
+			if(npc.getName().equals("Basilisk")) {
+				for(Quest quest : this.quests) {
+					if(quest.getTitle().equals("killTheBasilisk")) {
+						quest.setProgress(ProgressEnum.COMPLETE);
+					}
+				}
+			}
+			else if(npc.getName().equals("Twin-headed Dragon")) {
+				for(Quest quest : this.quests) {
+					if(quest.getTitle().equals("killTheTwinHeadedDragon")) {
+						quest.setProgress(ProgressEnum.COMPLETE);
+					}
+				}
+			}
+			else if(npc.getName().equals("Apollo")) {
+				for(Quest quest : this.quests) {
+					if(quest.getTitle().equals("KillApollo")) {
+						quest.setProgress(ProgressEnum.COMPLETE);
+					}
+				}
+			}		
+		}
+		super.update();
 	}
 	
 	public void render(SpriteBatch spriteBatch) {
