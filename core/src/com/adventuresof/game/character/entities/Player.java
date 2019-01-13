@@ -98,10 +98,12 @@ public class Player extends GameCharacter{
 		Quest slayerQuest = new Quest("SlayerQuest", this.name);
 		Quest collectionQuest = new Quest("collectionQuest", this.name);
 		Quest dragonSlayerQuest = new Quest("Dragon slayer quest", this.name);
+		Quest bountyHunterQuest = new Quest("Bounty Hunter Quest", this.name);
 		
 		quests.add(slayerQuest);
 		quests.add(collectionQuest);
 		quests.add(dragonSlayerQuest);
+		quests.add(bountyHunterQuest);
 		
 	}
 

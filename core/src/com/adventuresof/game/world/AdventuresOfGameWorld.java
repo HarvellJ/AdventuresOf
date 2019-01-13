@@ -191,7 +191,7 @@ public class AdventuresOfGameWorld extends GameWorld{
 		}
 		for (RectangleMapObject rectangleObject : this.map.getGuardSpawnMudBaseCastleSpawnObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
-			this.NPCs.add(new MudCastleGuard(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Guard", false, null, false));							
+			this.NPCs.add(new MudCastleGuard(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Passageway Guard", false, null, true, "Bounty Hunter"));							
 		}
 		for (RectangleMapObject rectangleObject : this.map.getGuardSpawnStarterCastleSpawnObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
@@ -225,7 +225,7 @@ public class AdventuresOfGameWorld extends GameWorld{
 		}
 		for (RectangleMapObject rectangleObject : this.map.getBaliffSpawnObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
-			Baliff baliff = new Baliff(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Baliff", false, null, true, "Slayer Quest");
+			Baliff baliff = new Baliff(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Baliff", false, null, true, "Bounty Hunter");
 			baliff.setCharacterDirection(Direction.right);
 			this.NPCs.add(baliff);				
 		}
@@ -255,7 +255,7 @@ public class AdventuresOfGameWorld extends GameWorld{
 		}
 		for (RectangleMapObject rectangleObject : this.map.getPrisonerSpawnObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
-			Prisoner prisoner = new Prisoner(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Prisoner", false, null, true, "Slayer Quest");
+			Prisoner prisoner = new Prisoner(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Prisoner", false, null, true, "Bounty Hunter");
 			prisoner.setCharacterDirection(Direction.right);
 			this.NPCs.add(prisoner);				
 		}

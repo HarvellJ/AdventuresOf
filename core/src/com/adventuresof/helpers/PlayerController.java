@@ -170,6 +170,7 @@ public class PlayerController implements InputProcessor{
 
 				if (npc.hasQuest()) {
 					
+					
 					Player player = this.gameWorld.getPlayer();
 										
 					Quest npcQuest = null;
@@ -177,40 +178,48 @@ public class PlayerController implements InputProcessor{
 					for (Quest quest : player.getQuests()) {
 						
 						if (npc.getQuestName().equals(quest.getTitle())) {
+							System.out.println("hit 3");
 							npcQuest = quest;
 							break;
 						}
 					}
 					
 					if (npcQuest.getProgress() != ProgressEnum.COMPLETE) {
+						System.out.println("hit 4");
 						
 						int tasksComplete = 0;
+						Task currentTask = null;
 						
 						for (Task task : npcQuest.getTasks()) {
-							if (task.getProgress().equals(ProgressEnum.INCOMPLETE) && task.getNpcName().equals(npc.getName())) {
-								System.out.println(task.toString());
-									TaskController taskController = new TaskController(task, hud, npc, this.gameWorld, player.getInventory());
-									if (taskController.handleTask()) {
-												
-										for (Task task1 : npcQuest.getTasks()) {
-													
-														
-											if (task1.getProgress().equals(ProgressEnum.COMPLETE)) {
-														tasksComplete++;
-											}
-											
-											if (tasksComplete == npcQuest.getTasks().size()) {
-												npcQuest.setProgress(ProgressEnum.COMPLETE);
-												playerHUD.displayText("Quest complete");
-												break;
-											}
-										}
-									};
 							
-									break;
+							if(task.getProgress().equals(ProgressEnum.INCOMPLETE)) {
+								currentTask = task;
+								break;
 							}
 						}
-						
+							
+							
+						if (currentTask.getNpcName().equals(npc.getName())) {
+							System.out.println(currentTask.toString());
+								TaskController taskController = new TaskController(currentTask, hud, npc, this.gameWorld, player.getInventory());
+								
+								if (taskController.handleTask()) {
+											
+									for (Task task1 : npcQuest.getTasks()) {
+												
+													
+										if (task1.getProgress().equals(ProgressEnum.COMPLETE)) {
+													tasksComplete++;
+										}
+										
+										if (tasksComplete == npcQuest.getTasks().size()) {
+											npcQuest.setProgress(ProgressEnum.COMPLETE);
+											playerHUD.displayText("Quest complete");
+											break;
+										}
+									}
+								};
+						}
 					}
 
 				} else if (npc.isTalkative()) {

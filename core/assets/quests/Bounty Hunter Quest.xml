@@ -1,43 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <Quest>
-    <QuestTitle>Bounty Hunter Quest</QuestTitle>
+    <QuestTitle>Bounty Hunter</QuestTitle>
     <QuestDescription>A prisoner has escaped and needs to be tried for his crimes, bring him back to the castle</QuestDescription>
     <Tasks>
         <Task>
             <TaskTitle>Talk to the baliff</TaskTitle>
-            <TaskText> </TaskText>
+            <TaskText>The baliff can be found just beyond the bridge.</TaskText>
+            <Type>Conversation</Type>
+            <NPC>Baliff</NPC>                        
             <Conversation>
-				<Dialogue>{CHARACTER_NAME} I hear we have a criminal on the loose </Dialogue>
-				<Dialogue>{BALIFF} Yes he has fled the castle just as he was about to be tried, can you help? </Dialogue>
-				<Dialogue>{CHARACTER_NAME} I can did you see which way he went? </Dialogue>
-				<Dialogue>{BALIFF} I did not but the guard at the gate may have </Dialogue>
+				<Dialogue>{CHARACTER_NAME}: I hear we have a criminal on the loose </Dialogue>
+				<Dialogue>Baliff: Yes he has fled the castle just as he was about to stand trial, can you help? </Dialogue>
+				<Dialogue>{CHARACTER_NAME}: Did you see which way he went? </Dialogue>
+				<Dialogue>Baliff: I did not. Try asking the guards at the mud passageway. They'll tell you whether he has made his way to the wasteland. If not you know he is somewhere in the grassland.</Dialogue>
             </Conversation>
         </Task>
 		<Task>
-            <TaskTitle>Talk to the guard at the gate</TaskTitle>
+            <TaskTitle>Talk to one of the guards at the mud passageway</TaskTitle>
+            <Type>Conversation</Type>
+            <NPC>Passageway Guard</NPC>
 			<Conversation>
-                <Dialogue>{CHARACTER_NAME} Hello, did a prisoner go past this way? </Dialogue>
-                <Dialogue>{CASTLE_GUARD} He did, he was in a rush out to the east</Dialogue>
-				<Dialogue>{CHARACTER_NAME} Thanks </Dialogue>
+                <Dialogue>{CHARACTER_NAME}: Hello, did a prisoner go past this way? </Dialogue>
+                <Dialogue>Guard: We haven't seen anyone pass through here in days. No one dares venture into the wasteland.</Dialogue>
+				<Dialogue>{CHARACTER_NAME}: That must mean that the prisoner is still in the grasslands.</Dialogue>
             </Conversation>
         </Task>
 		<Task>
-            <TaskTitle>Find the prisoner</TaskTitle>
+            <TaskTitle>Find the prisoner somewhere in the grasslands</TaskTitle>
+            <Type>Conversation</Type>
+            <NPC>Prisoner</NPC>
 			<Conversation>
-                <Dialogue>{CHARACTER_NAME} Oi, I have got you, come with me </Dialogue>
-                <Dialogue>{PRISONER} Oh no, have you been sent by the courts?</Dialogue>
-				<Dialogue>{CHARACTER_NAME} I have, to arrest you and bring you back to be tried for your crimes </Dialogue>
-				<Dialogue>{PRISONER} I only fled as the gate was left open</Dialogue>
-				<Dialogue>{CHARACTER_NAME} If you come with me now, you will not receive extra punishemnt for fleeing </Dialogue>
-				<Dialogue>{PRISONER} OK, I am a bit lost though</Dialogue>
+                <Dialogue>{CHARACTER_NAME}: Oi, I have got you, come with me </Dialogue>
+                <Dialogue>Prisoner: Oh no, have you been sent by the courts?</Dialogue>
+				<Dialogue>{CHARACTER_NAME}: The baliff has sent me to arrest you and bring you back to be tried for your crimes </Dialogue>
+				<Dialogue>Prisoner: I only fled as the gate were left open</Dialogue>
+				<Dialogue>{CHARACTER_NAME}: If you come with me now, you will not receive extra punishment for fleeing </Dialogue>
+				<Dialogue>Prisoner: OK, I am a bit lost though</Dialogue>
             </Conversation>
         </Task>
 		<Task>
-            <TaskTitle>Lead the prisoner back to the baliff</TaskTitle>
+            <TaskTitle>Lead the prisoner back to the castle and talk to the baliff</TaskTitle>
+            <Type>Conversation</Type>
+            <NPC>Baliff</NPC>
 			<Conversation>
-                <Dialogue>{BALIFF} You have got him, well done </Dialogue>
-				<Dialogue>{CHARACTER_NAME} No problem, he cooperated in his return </Dialogue>
+                <Dialogue>Baliff: You have got him, well done.</Dialogue>
+				<Dialogue>{CHARACTER_NAME}: No problem, he cooperated in his return.</Dialogue>
+				<Dialogue>Baliff: You're coming with me scumbag!</Dialogue>
+				<Dialogue>Prisoner: urgh!</Dialogue>
             </Conversation>
         </Task>
     </Tasks>

@@ -94,7 +94,8 @@ public class TaskController {
 		String result = this.hud.displayChat(this.npc, this.gameWorld);
 		
 		
-		if(result.equals("end")) {	
+		if(result.equals("end")) {
+			System.out.println("hit 2");
 			this.task.setProgress(ProgressEnum.COMPLETE);
 
 			return true;
