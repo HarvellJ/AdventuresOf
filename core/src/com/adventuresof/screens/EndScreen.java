@@ -24,13 +24,12 @@ public class EndScreen implements Screen{
 	private Label textLabel;
 
 	
-	public EndScreen(AdventuresOfGame game) {
+	public EndScreen(AdventuresOfGame game, float completionTime) {
 		parent = game;
-		float timeSurvived;
 		stage = new Stage(new ScreenViewport());
 		skin = new Skin(Gdx.files.internal("skins/star-soldier-ui.json"));
 		titleLabel = new Label("CONGRATULATIONS", skin);
-		textLabel = new Label("Your completion time is:" + "<variable>" , skin);
+		textLabel = new Label("Your completion time is:" + completionTime/1000 , skin);
 		exit = new TextButton("Exit", skin);
 		stage.act(Gdx.graphics.getDeltaTime());
 		stage.draw();

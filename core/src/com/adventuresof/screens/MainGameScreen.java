@@ -72,7 +72,7 @@ public class MainGameScreen implements Screen {
 				this.playerHUD.render(delta);
 			}
 		}else {
-			//change screen
+			parent.showEndScreen(System.currentTimeMillis() - this.gameWorld.getPlayer().getStartTime());
 		}
 	}		
 
