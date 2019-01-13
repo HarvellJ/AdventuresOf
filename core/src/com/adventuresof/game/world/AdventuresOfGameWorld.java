@@ -191,11 +191,11 @@ public class AdventuresOfGameWorld extends GameWorld{
 		}
 		for (RectangleMapObject rectangleObject : this.map.getGuardSpawnMudBaseCastleSpawnObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
-			this.NPCs.add(new MudCastleGuard(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Luke", false, null, true, "Collection Quest"));							
+			this.NPCs.add(new MudCastleGuard(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Guard", false, null, false));							
 		}
 		for (RectangleMapObject rectangleObject : this.map.getGuardSpawnStarterCastleSpawnObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
-				this.NPCs.add(new StarterCastleGuard(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Guard", false, null, false));			
+				this.NPCs.add(new StarterCastleGuard(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Guard", true, null, false, "Dragon Slayer"));			
 		}	
 		for (RectangleMapObject rectangleObject : this.map.getVillagerSpawnStarterCastleSpawnObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
@@ -207,7 +207,7 @@ public class AdventuresOfGameWorld extends GameWorld{
 		}
 		for (RectangleMapObject rectangleObject : this.map.getStaticGuardSpawnStarterCastleSpawnObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
-			StarterCastleGuard staticGuard = new StarterCastleGuard(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "", false, null, true);
+			StarterCastleGuard staticGuard = new StarterCastleGuard(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Guard", false, null, true, null);
 			staticGuard.setCharacterDirection(Direction.left);
 			this.NPCs.add(staticGuard);				
 		}		

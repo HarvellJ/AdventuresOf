@@ -58,7 +58,33 @@ public class StarterCastleGuard extends NPC{
 	private static final int DEATH_ANIMATION_FRAMES = 3;
 
 	public StarterCastleGuard(GameWorld gameWorld, TiledMapTileLayer accessibleTiles, float startX, float startY, String name, 
-			boolean isTalkative, ArrayList<String> conversation, boolean isStatic) {
+			boolean isTalkative, ArrayList<String> conversation, boolean isStatic, String questName) {
+		super(
+				gameWorld,
+				accessibleTiles, 
+				startX, startY, 
+				isStatic, 
+				false,
+				50, 50,				
+				new CharacterAnimation(MOVEMENT_SPRITE_SHEET, COMBAT_SPRITE_SHEET, DEATH_SPRITE_SHEET,
+						MOVEMENT_SPRITE_SHEET_ROWS, MOVEMENT_SPRITE_SHEET_COLS,
+						COMBAT_SPRITE_SHEET_ROWS, COMBAT_SPRITE_SHEET_COLS,
+						DEATH_SPRITE_SHEET_ROWS, DEATH_SPRITE_SHEET_COLS,
+						MOVE_LEFT_START_FRAME, MOVE_LEFT_FRAMES,
+						MOVE_RIGHT_START_FRAME, MOVE_RIGHT_FRAMES,
+						MOVE_DOWN_START_FRAME, MOVE_DOWN_FRAMES,
+						MOVE_UP_START_FRAME, MOVE_UP_FRAMES,
+						IDLE_LEFT_START_FRAME, IDLE_RIGHT_START_FRAME, IDLE_DOWN_START_FRAME, IDLE_UP_START_FRAME,
+						ATTACK_LEFT_START_FRAME, ATTCK_LEFT_FRAMES, 
+						ATTACK_RIGHT_START_FRAME, ATTACK_RIGHT_FRAMES,
+						ATTACK_DOWN_START_FRAME, ATTACK_DOWN_FRAMES,
+						ATTACK_UP_START_FRAME, ATTACK_UP_FRAMES,
+						DEATH_ANIMATION_START_FRAME, DEATH_ANIMATION_FRAMES
+						), MovementSpeed.NORMAL_MEDIUM, name, isTalkative, conversation, true, questName, CharacterClass.melee, CharacterLevel.high);
+	}
+	
+	public StarterCastleGuard(GameWorld gameWorld, TiledMapTileLayer accessibleTiles, float startX, float startY, String name, 
+			boolean isTalkative, ArrayList<String> conversation, boolean isStatic, boolean hasQuest) {
 		super(
 				gameWorld,
 				accessibleTiles, 

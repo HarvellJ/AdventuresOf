@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Quest>
+    <QuestTitle>Messenger Quest</QuestTitle>
+    <QuestDescription>An important message is to be passed to the village on the other side of the dark forest, but bandits are currently on loose in the forest</QuestDescription>
+    <Tasks>
+        <Task>
+            <TaskTitle>Talk to the kings aide</TaskTitle>
+            <TaskText> </TaskText>
+            <Conversation>
+                <Dialogue>{KINGS_AIDE} Hello, can you help me pass an important message to the village on the south of the dark forest </Dialogue>
+				<Dialogue>{CHARACTER_NAME} I can, what is the message </Dialogue>
+				<Dialogue>{KINGS_AIDE} Here on this sheet, a knight from the other village will meet you on the opposite side of the forest </Dialogue>
+				<Dialogue>{CHARACTER_NAME} Ok I will pass the message to him when I get there </Dialogue>
+				<Dialogue>{KINGS_AIDE} That would be lovely, be careful the dark forest is currently full of bandits </Dialogue>
+            </Conversation>
+        </Task>
+		<Task>
+            <TaskTitle>Take the message to the knight</TaskTitle>
+			<Conversation>
+                <Dialogue>{KNIGHT} Hello, are you hear to deliver the message</Dialogue>
+                <Dialogue>{CHARACTER_NAME} I am, here you go </Dialogue>
+                <Dialogue>{KNIGHT} Thanks very much, I will pass this to the chief of the village</Dialogue>
+				<Dialogue>{CHARACTER_NAME} Thanks </Dialogue>
+            </Conversation>
+        </Task>
+		<Task>
+            <TaskTitle>Tell kings aide the message is passed</TaskTitle>
+			<Conversation>
+                <Dialogue>{KINGS_AIDE} You are back! was the message passed?</Dialogue>
+                <Dialogue>{CHARACTER_NAME} I met the guard on the other side of the forest and he says he will take the message to the chief </Dialogue>
+                <Dialogue>{KINGS_AIDE} Great, that was very helpful of you. How was the journey?</Dialogue>
+				<Dialogue>{CHARACTER_NAME} There was a few bandits along the way but I got there </Dialogue>
+				<Dialogue>{KINGS_AIDE} You have done yourself proud, thanks very much</Dialogue>
+            </Conversation>
+        </Task>
+    </Tasks>
+</Quest>
