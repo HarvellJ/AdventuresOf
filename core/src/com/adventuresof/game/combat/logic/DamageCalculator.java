@@ -14,7 +14,7 @@ public class DamageCalculator {
 		// total up total defence and health points of defender
 		int totalDefencePoints = bonusDefencePoints + temporaryBonusDefencePoints;
 		// calculate damage amount - generate a number between 1-100 representing a % of the max damage to deal
-		double calculatedRandomDamage = totalDamage * ((double)random.nextInt(100)/100);
+		double calculatedRandomDamage = totalDamage * ((double)DamageCalculator.random.nextInt(100)/100);;
 
 		if(totalDefencePoints > calculatedRandomDamage) {
 			totalDefencePoints = (int)calculatedRandomDamage; // there is a chance of blocking entire amount				
@@ -24,7 +24,7 @@ public class DamageCalculator {
 
 		if(totalDefencePoints > 0) {
 			// block a random % of defence points if they are > 0
-			retVal = calculatedRandomDamage - (totalDefencePoints * ((double)random.nextInt(100)/100));
+			retVal = calculatedRandomDamage - (totalDefencePoints * ((double)DamageCalculator.random.nextInt(100)/100));
 		}
 
 		return (int)retVal;
