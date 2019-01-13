@@ -81,10 +81,16 @@ public class PlayerCompanion extends NPC {
 		this.addMessageToMessageQueue("Hello there!");
 		this.addMessageToMessageQueue("Here is some guidance for your adventure:");
 		this.addMessageToMessageQueue("To move, Right click and you will move to the selected location");
-		this.addMessageToMessageQueue("To cast spells, press 1 - for tornado - or 2 - for freeze spell - and then left click where you wish to cast it");
+		this.addMessageToMessageQueue("To cast spells, press 1, 2, 3 or 4 and then if required, left click where you wish to cast it");
+		this.addMessageToMessageQueue("Some spells will cast instantly, such as powerups and heals");
 		this.addMessageToMessageQueue("You can talk to characters by right clicking on them - try it - see what they have to say!");
 		this.addMessageToMessageQueue("Some will have quests for you to do");
-		this.addMessageToMessageQueue("You need to survive and make it to the next town. Good luck!");
+		this.addMessageToMessageQueue("To complete your adventure:");
+		this.addMessageToMessageQueue("You need to slay all three bosses that walk these lands and complete all quests!");
+		this.addMessageToMessageQueue("Among the way, you can collect items that will give you power to beat the bosses and take back these lands!");
+		this.addMessageToMessageQueue("You can track progress in the Achievment Diary window (right of screen).");
+		this.addMessageToMessageQueue("Good luck!");
 
+		
 	}
 }
