@@ -1,9 +1,12 @@
 package com.adventuresof.game.common.entities;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector3;
 
+/**
+ * A class to represent the movement of objects
+ * 
+ */
 public abstract class MoveableObject extends GameObject {
 	
 	// movement variables

@@ -5,6 +5,10 @@ import java.util.Random;
 
 import com.adventuresof.game.character.enums.CharacterLevel;
 
+/**
+ * Item factory Class
+ * 
+ */
 public class ItemFactory {
 
 	public static Random random = new Random();

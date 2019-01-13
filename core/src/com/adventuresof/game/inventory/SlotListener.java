@@ -1,5 +1,9 @@
 package com.adventuresof.game.inventory;
 
+/**
+ * Slot Listener Class
+ * 
+ */
 public interface SlotListener {
 
     /**

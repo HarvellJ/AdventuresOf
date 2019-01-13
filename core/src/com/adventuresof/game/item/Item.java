@@ -2,6 +2,10 @@ package com.adventuresof.game.item;
 
 import com.badlogic.gdx.math.Rectangle;
 
+/**
+ * Item Class
+ * 
+ */
 public class Item {
 
 		private ItemEnum item;

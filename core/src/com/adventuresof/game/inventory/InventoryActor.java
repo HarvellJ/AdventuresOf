@@ -1,10 +1,13 @@
 package com.adventuresof.game.inventory;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 
+/**
+ * Inventory actor class
+ * 
+ */
 public class InventoryActor extends Window {
 
 	    public InventoryActor(Inventory inventory, DragAndDrop dragAndDrop, Skin skin) {

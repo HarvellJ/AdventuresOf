@@ -1,7 +1,9 @@
 package com.adventuresof.game.item;
 
-import com.badlogic.gdx.math.Rectangle;
-
+/**
+ * Item Enum Class
+ * 
+ */
 public enum ItemEnum {
 	// Common items
 	SHIELD_COMMON("items//shield_common.png", ItemEffectEnum.defenceBoost, ItemRarityEnum.common, 1), 

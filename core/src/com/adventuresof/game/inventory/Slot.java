@@ -3,6 +3,9 @@ package com.adventuresof.game.inventory;
 import com.adventuresof.game.item.Item;
 import com.badlogic.gdx.utils.Array;
 
+/**
+ * Slot Class
+ */
 public class Slot {
 
     private Item item;

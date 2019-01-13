@@ -6,10 +6,13 @@ import java.util.Arrays;
 import com.adventuresof.game.character.entities.NPC;
 import com.adventuresof.game.inventory.Inventory;
 import com.adventuresof.game.item.Item;
-import com.adventuresof.game.item.ItemEnum;
 import com.adventuresof.game.world.AdventuresOfGameWorld;
 import com.adventuresof.screens.PlayerHUD;
 
+/**
+ * Task Controller Class
+ * 
+ */
 public class TaskController {
 	
 	private Task task;
