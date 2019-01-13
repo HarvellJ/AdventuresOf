@@ -101,11 +101,11 @@ public class Player extends GameCharacter{
 		Quest collectionQuest = new Quest("CollectionQuest", this.name);
 		Quest dragonSlayerQuest = new Quest("DragonSlayerQuest", this.name);
 		Quest bountyHunterQuest = new Quest("BountyHunterQuest", this.name);
-		Quest magicGemQuest = new Quest("magicGemQuest", this.name);
-		Quest stolenCrown = new Quest("stolenCrownQuest", this.name);
+		Quest magicGemQuest = new Quest("MagicGemQuest", this.name);
+		Quest stolenCrown = new Quest("StolenCrownQuest", this.name);
 		Quest killApollo = new Quest("KillApollo", this.name);
-		Quest killTheBasilisk = new Quest("killTheBasilisk", this.name);
-		Quest killTheTwinHeadedDragon = new Quest("killTheTwinHeadedDragon", this.name);
+		Quest killTheBasilisk = new Quest("KillTheBasilisk", this.name);
+		Quest killTheTwinHeadedDragon = new Quest("KillTheTwinHeadedDragon", this.name);
 		
 		quests.add(slayerQuest);
 		quests.add(collectionQuest);
