@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Quest>
+    <QuestTitle>Basilisk Hunting</QuestTitle>
+    <QuestDescription>Boss fight</QuestDescription>    
+    <Tasks>
+        <Task>
+            <TaskTitle>Kill the Basilisk</TaskTitle>
+            <Type>Slayer</Type>
+            <Target>Basilisk</Target>
+            <Quantity>1</Quantity>
+        </Task>
+    </Tasks>
+</Quest>
