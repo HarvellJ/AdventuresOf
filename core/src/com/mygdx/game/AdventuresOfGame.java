@@ -56,7 +56,7 @@ public class AdventuresOfGame extends Game {
 			break;
 		case MAINGAMESCREEN:
 			if(mainScreen == null)
-				mainScreen = new MainGameScreen();
+				mainScreen = new MainGameScreen(this);
 			//this.screen.dispose();
 			this.setScreen(mainScreen);
 			break;

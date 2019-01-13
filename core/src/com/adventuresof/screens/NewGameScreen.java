@@ -17,7 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.AdventuresOfGame;
 
-public class NewGameScreen extends MainGameScreen implements Screen {
+public class NewGameScreen implements Screen {
 
 	public Stage stage;
 	private AdventuresOfGame _game;

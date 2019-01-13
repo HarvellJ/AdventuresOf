@@ -31,6 +31,7 @@ public abstract class GameWorld {
 	protected ArrayList<Projectile> activeProjectiles;
 	protected ArrayList<InstantCastAbility> instantCastAbilities;
 	protected ArrayList<AnimatedMapObject> animatedMapObjects;
+	protected boolean gameComplete;
 
 	public GameWorld(String mapPath) {
 		map = new Map(mapPath);
@@ -42,6 +43,7 @@ public abstract class GameWorld {
 		items = new ArrayList<Item>(); // instantiate map item list (items that exist on the map)
 		this.spawnChanceItemsIntoWorld();
 		this.spawnQuestItems();
+		this.gameComplete = false;
 	}
 
 	public ArrayList<Projectile> getActiveProjectiles() {
@@ -96,6 +98,14 @@ public abstract class GameWorld {
 		this.items = items;
 	}
 
+	public boolean isGameComplete() {
+		return gameComplete;
+	}
+
+	public void setGameComplete(boolean gameComplete) {
+		this.gameComplete = gameComplete;
+	}
+	
 	public void update(float delta, ArrayList<NPC> NPCs) {
 		//this.detectObjectCollisions();
 		player.update(); // move player
