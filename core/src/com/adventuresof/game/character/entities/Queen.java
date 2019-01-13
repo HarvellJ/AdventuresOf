@@ -54,7 +54,7 @@ public class Queen extends NPC{
 		private static final int DEATH_ANIMATION_FRAMES = 3;
 	
 	public Queen(GameWorld gameWorld, TiledMapTileLayer accessibleTiles, float startX, float startY, String name, 
-			boolean isTalkative, ArrayList<String> conversation, boolean hasQuest, String questName) {
+			boolean isTalkative, ArrayList<String> conversation) {
 		super(
 				gameWorld,
 				accessibleTiles, 
@@ -76,6 +76,6 @@ public class Queen extends NPC{
 						ATTACK_DOWN_START_FRAME, ATTACK_DOWN_FRAMES,
 						ATTACK_UP_START_FRAME, ATTACK_UP_FRAMES,
 						DEATH_ANIMATION_START_FRAME, DEATH_ANIMATION_FRAMES
-						), MovementSpeed.NORMAL_MEDIUM, name, isTalkative, conversation, hasQuest, questName, CharacterClass.melee, CharacterLevel.high);
+						), MovementSpeed.NORMAL_MEDIUM, name, isTalkative, conversation, CharacterClass.melee, CharacterLevel.high);
 	}
 }
