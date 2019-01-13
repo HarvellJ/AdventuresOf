@@ -23,7 +23,7 @@
 		<Task>
             <TaskTitle>Collect the rare gem</TaskTitle>
             <Type>Collect</Type>
-            <Item>Sword</Item>
+            <Item>Gem</Item>
             <Quantity>1</Quantity>
             <NPC>Magic Merchant</NPC>
 			<Conversation>

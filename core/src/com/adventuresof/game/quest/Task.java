@@ -94,12 +94,10 @@ public class Task {
 			Node item = (Element) ((NodeList) itemList).item(0);
 			
 			//setting the appropriate ItemEnum based on the xml field
-			if(item.getTextContent().equals("Armor"))
-				this.item = ItemEnum.ARMOR_UNCOMMON;			
-			else if(item.getTextContent().equals("Shield"))
-				this.item = ItemEnum.SHIELD_UNCOMMON;
-			else if(item.getTextContent().equals("Sword"))
-				this.item = ItemEnum.SWORD_UNCOMMON;	
+			if(item.getTextContent().equals("Gem"))
+				this.item = ItemEnum.GEM;			
+			else if(item.getTextContent().equals("Crown"))
+				this.item = ItemEnum.CROWN;
 		}
 		
 		//retrieving the item quantity from the task element
