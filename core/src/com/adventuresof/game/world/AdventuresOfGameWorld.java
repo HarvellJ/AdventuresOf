@@ -151,7 +151,7 @@ public class AdventuresOfGameWorld extends GameWorld{
 		for (RectangleMapObject rectangleObject : this.map.getEnemySpawnJungleZoneBossObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
 			// spawn in an 'enemy'
-			this.NPCs.add(new TwoHeadedDragon(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Jungle Boss", false, null, true));	
+			this.NPCs.add(new TwoHeadedDragon(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Twin-headed Dragon", false, null, true));	
 		} 
 	}   
 
@@ -175,7 +175,7 @@ public class AdventuresOfGameWorld extends GameWorld{
 		for (RectangleMapObject rectangleObject : this.map.getEnemySpawnMudZoneBossObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
 			// spawn in an 'enemy'
-				this.NPCs.add(new FlyingDragon(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Mud Boss", false, null, true));				
+				this.NPCs.add(new FlyingDragon(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Basilisk", false, null, true));				
 		}
 	}
 
@@ -201,7 +201,7 @@ public class AdventuresOfGameWorld extends GameWorld{
 		for (RectangleMapObject rectangleObject : this.map.getEnemySpawnLavaZoneBossObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
 			// spawn in an 'enemy'
-			this.NPCs.add(new LavaBoss(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Lava Castle Boss", false, null, true));							
+			this.NPCs.add(new LavaBoss(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Apollo", false, null, true));							
 		}
 	}
 
@@ -262,13 +262,13 @@ public class AdventuresOfGameWorld extends GameWorld{
 		}
 		for (RectangleMapObject rectangleObject : this.map.getKingsaideSpawnObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
-			KingsAide kingsaide = new KingsAide(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "KingsAide", false, null, true, "Slayer Quest");
+			KingsAide kingsaide = new KingsAide(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Kings Aide", false, null, true, "Slayer Quest");
 			kingsaide.setCharacterDirection(Direction.right);
 			this.NPCs.add(kingsaide);				
 		}
 		for (RectangleMapObject rectangleObject : this.map.getMagicmerchantSpawnObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
-			MagicMerchant magicmerchant = new MagicMerchant(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "MagicMerchant", false, null, true, "Slayer Quest");
+			MagicMerchant magicmerchant = new MagicMerchant(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Magic Merchant", false, null, true, "The Magic Gem");
 			magicmerchant.setCharacterDirection(Direction.right);
 			this.NPCs.add(magicmerchant);				
 		}

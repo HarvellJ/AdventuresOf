@@ -1,34 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <Quest>
-    <QuestTitle>Magic Gem Quest</QuestTitle>
+    <QuestTitle>The Magic Gem</QuestTitle>
     <QuestDescription>The Local magic merchant is in need of assistance</QuestDescription>
     <Tasks>
         <Task>
             <TaskTitle>Talk to the local magic merchant</TaskTitle>
             <TaskText>  Go and talk to the local magic merchant he is normally located near the east walls of the castle</TaskText>
+            <Type>Conversation</Type>
+            <NPC>Magic Merchant</NPC>
             <Conversation>
-                <Dialogue>{MAGIC_MERCHANT} Are you the one who has been helping people out around here?</Dialogue>
-                <Dialogue>{CHARACTER_NAME} I certainly am </Dialogue>
-                <Dialogue>{MAGIC_MERCHANT} Brilliant, would you like to help me? </Dialogue>
-				<Dialogue>{CHARACTER_NAME} I would, what would you like? </Dialogue>
-				<Dialogue>{MAGIC_MERCHANT} Wonderful, apparently a very rare magic gem has appeared on the far side of the forest near to the silver caves ... </Dialogue>
-				<Dialogue>{MAGIC_MERCHANT} ... as it is dangerous outside the castle walls could you go and check and retrieve it for me if it is there? </Dialogue>
-				<Dialogue>{CHARACTER_NAME} I can </Dialogue>
-				<Dialogue>{MAGIC_MERCHANT} Great, see you back here soon then </Dialogue>
+                <Dialogue>Magic Merchant: Are you the one who has been helping people out around here?</Dialogue>
+                <Dialogue>{CHARACTER_NAME}: I certainly am </Dialogue>
+                <Dialogue>Magic Merchant: Brilliant, would you like to help me? </Dialogue>
+				<Dialogue>{CHARACTER_NAME}: I would, what would you like? </Dialogue>
+				<Dialogue>Magic Merchant: Wonderful, apparently a very rare magic gem has appeared on the far side of the forest near to the silver caves ... </Dialogue>
+				<Dialogue>Magic Merchant: ... as it is dangerous outside the castle walls could you go and check and retrieve it for me if it is there? </Dialogue>
+				<Dialogue>{CHARACTER_NAME}: I can </Dialogue>
+				<Dialogue>Magic Merchant: Great, see you back here soon then </Dialogue>
             </Conversation>
         </Task>
-        <Task>
-            <TaskTitle>Find the rare magic gem</TaskTitle>
-			<TaskText>  The merchant reckons the gem is to the south of the forest beyond the caves. Go and retrieve it </TaskText>
-        </Task>
 		<Task>
-            <TaskTitle>Give the gem to the magice merchant</TaskTitle>
+            <TaskTitle>Collect the rare gem</TaskTitle>
+            <Type>Collect</Type>
+            <Item>Sword</Item>
+            <Quantity>1</Quantity>
+            <NPC>Magic Merchant</NPC>
 			<Conversation>
-                <Dialogue>{MAGIC_MERCHANT} Aha! You have the gem</Dialogue>
-                <Dialogue>{CHARACTER_NAME} Yes here you go </Dialogue>
-                <Dialogue>{MAGIC_MERCHANT} Wonderful, you are a great help, I will let people know you helped me</Dialogue>
-				<Dialogue>{CHARACTER_NAME} Thanks </Dialogue>
+                <Dialogue>Magic Merchant: Aha! You have the gem</Dialogue>
+                <Dialogue>{CHARACTER_NAME}: Yes here you go </Dialogue>
+                <Dialogue>Magic Merchant: Wonderful, you are a great help, I will let people know you helped me</Dialogue>
+				<Dialogue>{CHARACTER_NAME}: Thanks </Dialogue>
             </Conversation>
         </Task>
     </Tasks>
