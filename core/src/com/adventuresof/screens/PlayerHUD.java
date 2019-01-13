@@ -15,12 +15,15 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -50,6 +53,7 @@ public class PlayerHUD implements Screen{
     private SpriteBatch batcher;
     float gameWidth, gameHeight;
 	private Player player;
+	private final Skin skin;
 	
 
 	
@@ -60,13 +64,11 @@ public class PlayerHUD implements Screen{
 		uiTable.setFillParent(true);
 		stage.addActor(uiTable);
 		DragAndDrop dragAndDrop = new DragAndDrop();
-		final Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
+		this.skin = new Skin(Gdx.files.internal("uiskin.json"));
 		inventoryActor = new InventoryActor(player.getInventory(), dragAndDrop, skin);
 		//questLogActor = new QuestLogActor(skin);
 		this.player = player;
 //		stage.addActor(inventoryActor);
-		
-		
 		
 		//setup textArea
 		this.textArea = new TextArea("", skin);
@@ -160,7 +162,23 @@ public class PlayerHUD implements Screen{
 		uiTable.add().bottom().colspan(3);
 		uiTable.add().expandX().expandY();
 		uiTable.add(inventoryActor).bottom();
-		stage.addActor(textArea);	
+		stage.addActor(textArea);
+		Texture yourTexture = new Texture(player.getCharacterClass().getAbilityOne().getActionBarImage());
+		Image image = new Image(yourTexture);
+		image.setWidth(75);
+		image.setHeight(75);
+		image.setPosition(gameWidth - inventoryActor.getWidth(),
+				0);
+		//image.scaleBy(-2, -2);
+		stage.addActor(image);
+		
+//		if (abilityFourLastActivated < (System.currentTimeMillis() - this.characterClass.getAbilityFour().getCoolDown().getCoolDownDuration()) {
+//			image.setVisible(true);
+//			
+//		} else {
+//			image.setVisibility(false);
+//		}
+		
 		
 	}
 	
@@ -211,8 +229,16 @@ public class PlayerHUD implements Screen{
 	@Override
 	public void render(float delta) {
 		//update inventory
-		 stage.act();
-	     stage.draw();		
+		
+		TextArea coolDown = new TextArea("", skin);
+		if ((int)(System.currentTimeMillis() - player.getAbilityFourLastActivated())/1000 <= 5) {
+			coolDown.setText(Long.toString((int)(System.currentTimeMillis() - player.getAbilityFourLastActivated())/1000));
+		} else {
+			coolDown.setText("0");
+		}
+		stage.addActor(coolDown); 
+		stage.act();
+	    stage.draw();		
 	}
 
 	@Override

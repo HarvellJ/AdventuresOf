@@ -29,6 +29,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle; 
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 /**
  *
@@ -461,6 +462,11 @@ public abstract class GameCharacter extends MoveableObject {
 		this.displayBuffMessage(spriteBatch);
 		this.displayCharacterName(spriteBatch);
 		healthBar.render(spriteBatch);
+		
+		
+//		Sprite sprite = new Sprite(yourTexture);
+//		sprite.draw(spriteBatch);
+		//spriteBatch.draw(yourTexture, 100, 100);
 	}
 
 
@@ -1039,5 +1045,46 @@ public abstract class GameCharacter extends MoveableObject {
 				healthForeground.draw(spriteBatch);
 			}
 		}
+	}
+
+
+
+	public long getAbilityOneLastActivated() {
+		return abilityOneLastActivated;
+	}
+
+
+	public void setAbilityOneLastActivated(long abilityOneLastActivated) {
+		this.abilityOneLastActivated = abilityOneLastActivated;
+	}
+
+
+	public long getAbilityTwoLastActivated() {
+		return abilityTwoLastActivated;
+	}
+
+
+	public void setAbilityTwoLastActivated(long abilityTwoLastActivated) {
+		this.abilityTwoLastActivated = abilityTwoLastActivated;
+	}
+
+
+	public long getAbilityThreeLastActivated() {
+		return abilityThreeLastActivated;
+	}
+
+
+	public void setAbilityThreeLastActivated(long abilityThreeLastActivated) {
+		this.abilityThreeLastActivated = abilityThreeLastActivated;
+	}
+
+
+	public long getAbilityFourLastActivated() {
+		return abilityFourLastActivated;
+	}
+
+
+	public void setAbilityFourLastActivated(long abilityFourLastActivated) {
+		this.abilityFourLastActivated = abilityFourLastActivated;
 	}
 }
