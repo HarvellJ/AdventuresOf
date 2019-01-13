@@ -14,6 +14,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.AdventuresOfGame;
 
+/**
+ * The End of Game Completion Screen
+ * 
+ */
 public class EndScreen implements Screen{
 
 	protected AdventuresOfGame parent;

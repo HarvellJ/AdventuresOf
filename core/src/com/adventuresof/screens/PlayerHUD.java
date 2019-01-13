@@ -1,14 +1,10 @@
 package com.adventuresof.screens;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 import com.adventuresof.game.character.entities.NPC;
 import com.adventuresof.game.character.entities.Player;
-import com.adventuresof.game.inventory.Inventory;
 import com.adventuresof.game.inventory.InventoryActor;
-import com.adventuresof.game.quest.ProgressEnum;
-import com.adventuresof.game.quest.Quest;
 import com.adventuresof.game.quest.QuestInfoActor;
 import com.adventuresof.game.world.GameWorld;
 import com.badlogic.gdx.Gdx;
@@ -16,12 +12,10 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
@@ -34,9 +28,12 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+/**
+ * The Players Heads Up Display in Game
+ * 
+ */
 public class PlayerHUD implements Screen{
 
 	private InventoryActor inventoryActor;
@@ -69,9 +66,7 @@ public class PlayerHUD implements Screen{
 		DragAndDrop dragAndDrop = new DragAndDrop();
 		this.skin = new Skin(Gdx.files.internal("uiskin.json"));
 		inventoryActor = new InventoryActor(player.getInventory(), dragAndDrop, skin);
-		//questLogActor = new QuestLogActor(skin);
 		this.player = player;
-//		stage.addActor(inventoryActor);
 		
 		//setup textArea
 		this.textArea = new TextArea("", skin);
@@ -184,18 +179,6 @@ public class PlayerHUD implements Screen{
 		    }
 		} );
 		
-        //scrollPane.setScale(0.5f);
-        
-		//setup pane layout using table
-//		Table paneTable = new Table();
-//		paneTable.add(textArea).width(800);
-//		paneTable.row();
-//		paneTable.add(button).bottom().width(800);
-		
-		//setup actual pane using table
-//		ScrollPane pane = new ScrollPane(paneTable, skin);
-//		pane.setWidth(800);
-		
 		uiTable.pad(10);
 		uiTable.add().colspan(3).expandY();
 		uiTable.add().expandX().expandY();
@@ -284,7 +267,6 @@ public class PlayerHUD implements Screen{
 	
 	@Override
 	public void show() {
-		// TODO Auto-generated method stub
 	
 	}
 
@@ -348,25 +330,21 @@ public class PlayerHUD implements Screen{
 
 	@Override
 	public void pause() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void resume() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void hide() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
 		
 	}
 	

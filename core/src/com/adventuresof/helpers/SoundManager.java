@@ -4,6 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 
+/**
+ * Information about the music/sound effects
+ * 
+ */
 public class SoundManager {
 
 	private static Music music;

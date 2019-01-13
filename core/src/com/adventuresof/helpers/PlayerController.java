@@ -1,22 +1,25 @@
 package com.adventuresof.helpers;
 
 
-import com.adventuresof.game.quest.ProgressEnum;
 import com.adventuresof.game.character.entities.NPC;
 import com.adventuresof.game.character.entities.Player;
 import com.adventuresof.game.combat.enums.SpellType;
+import com.adventuresof.game.quest.ProgressEnum;
 import com.adventuresof.game.quest.Quest;
 import com.adventuresof.game.quest.Task;
 import com.adventuresof.game.quest.TaskController;
-import com.adventuresof.game.world.GameRenderer;
 import com.adventuresof.game.world.AdventuresOfGameWorld;
+import com.adventuresof.game.world.GameRenderer;
 import com.adventuresof.screens.PlayerHUD;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector3;
 
+/**
+ * Player Controller Class
+ * Input information
+ */
 public class PlayerController implements InputProcessor{
 
 	private AdventuresOfGameWorld gameWorld;

@@ -13,6 +13,10 @@ import com.adventuresof.screens.ScreenType;
 import com.adventuresof.screens.SettingsScreen;
 import com.badlogic.gdx.Game;
 
+/**
+ * Main Game Class
+ * 
+ */
 public class AdventuresOfGame extends Game {
 	
 	private MainMenuScreen menuScreen;

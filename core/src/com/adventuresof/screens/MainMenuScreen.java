@@ -14,6 +14,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.AdventuresOfGame;
 
+/**
+ * The Main Menu Screen
+ * 
+ */
 public class MainMenuScreen implements Screen{
 
 	protected AdventuresOfGame parent;

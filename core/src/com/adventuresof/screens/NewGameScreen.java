@@ -1,6 +1,5 @@
 package com.adventuresof.screens;
 
-import com.adventuresof.game.character.CharacterRecord;
 import com.adventuresof.game.world.GameProgress;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -17,6 +16,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mygdx.game.AdventuresOfGame;
 
+/**
+ * The New Game Screen
+ * 
+ */
 public class NewGameScreen implements Screen {
 
 	public Stage stage;

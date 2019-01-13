@@ -8,6 +8,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
+/**
+ * Resource class to store the character Sprites for Character Selection
+ * 
+ */
 public class Resources {
 
 	public BitmapFont gamefont;

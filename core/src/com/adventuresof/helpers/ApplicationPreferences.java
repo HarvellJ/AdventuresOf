@@ -3,6 +3,10 @@ package com.adventuresof.helpers;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 
+/**
+ * Music and Sound effect control
+ * 
+ */
 public class ApplicationPreferences {
 
 	private static final String PREF_MUSIC_VOLUME = "volume";

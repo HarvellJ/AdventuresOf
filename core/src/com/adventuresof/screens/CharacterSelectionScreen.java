@@ -17,11 +17,14 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.mygdx.game.AdventuresOfGame;
 
+/**
+ * The Character Selection Screen
+ * 
+ */
 public class CharacterSelectionScreen extends MainMenuScreen implements Screen {
 
 	protected AdventuresOfGame parent;
 	private Stage uiStage;
-//	private Skin skin;
 	private TextButton startGame;
 	private Label titleLabel;
 	private TextButton nextButton;
@@ -143,19 +146,16 @@ public class CharacterSelectionScreen extends MainMenuScreen implements Screen {
 
 	@Override
 	public void pause() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void resume() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void hide() {
-		// TODO Auto-generated method stub
 
 	}
 
