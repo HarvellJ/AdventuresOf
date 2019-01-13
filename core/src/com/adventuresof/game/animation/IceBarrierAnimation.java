@@ -1,5 +1,9 @@
 package com.adventuresof.game.animation;
 
+/**
+ * Extends the spell animation class to create an IceBarrierAnimation. 
+ * Contains the data specific to the IceBarrierAnimation 
+ */
 public class IceBarrierAnimation extends SpellAnimation{
 
 		// texture sheets

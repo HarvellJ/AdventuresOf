@@ -4,6 +4,7 @@ import com.adventuresof.helpers.AnimationFactory;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+
 public class StaticMapItemAnimation {
 
 	// movement

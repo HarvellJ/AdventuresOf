@@ -1,5 +1,9 @@
 package com.adventuresof.game.animation;
 
+/**
+ * Extends the spell animation class to create a SpikesAnimation. 
+ * Contains the data specific to the SpikesAnimation 
+ */
 public class SpikesAnimation extends SpellAnimation{
 	// texture sheets
 	private static final String MOVEMENT_UP_SPRITE_SHEET = "spells//spikes.png";
@@ -11,6 +15,7 @@ public class SpikesAnimation extends SpellAnimation{
 	private static final int MOVEMENT_SPRITE_SHEET_COLS = 10;
 	private static final int MOVEMENT_SPRITE_SHEET_ROWS = 4;
 
+	// animation specific details
 	private static final int MOVE_LEFT_START_FRAME = 11;
 	private static final int MOVE_LEFT_FRAMES = 9;
 	private static final int MOVE_RIGHT_START_FRAME = 11;

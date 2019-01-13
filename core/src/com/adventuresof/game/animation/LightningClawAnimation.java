@@ -1,5 +1,9 @@
 package com.adventuresof.game.animation;
 
+/**
+ * Extends the spell animation class to create an LightningClawAnimation. 
+ * Contains the data specific to the LightningClawAnimation 
+ */
 public class LightningClawAnimation extends SpellAnimation{
 		// texture sheets
 		private static final String MOVEMENT_UP_SPRITE_SHEET = "spells//lightningClaw.png";

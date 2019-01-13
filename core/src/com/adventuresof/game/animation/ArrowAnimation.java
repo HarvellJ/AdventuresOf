@@ -10,7 +10,8 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
 /**
- *
+ * Extends the spell animation class to create an ArrowAnimation. 
+ * Contains the data specific to the ArrowAnimation 
  */
 public class ArrowAnimation extends SpellAnimation{
 

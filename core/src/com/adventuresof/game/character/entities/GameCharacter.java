@@ -105,6 +105,22 @@ public abstract class GameCharacter extends MoveableObject {
 	//================================================================================
 	// Constructors 
 	//================================================================================
+	/**
+	 * @param gameWorld The world in which the character exists
+	 * @param accessibleTiles The tiles that a character can move to
+	 * @param startX The starting X co-ordinate for this character
+	 * @param startY The starting Y co-ordinate for this character
+	 * @param isHostile A value indicating where this character is hostile (whether they can engage in combat)
+	 * @param characterWidth The character's width - used for things like hitboxes
+	 * @param characterHeight The character's height 
+	 * @param characterAnimation - The CharacterAnimation object for this character
+	 * @param speed The speed at which this character can move
+	 * @param canRespawn A boolean indicating whether or not this character can respawn upon death
+	 * @param name The name of this character
+	 * @param characterClass The class of this character - determines things such as starting health and abilities
+	 * @param baseLevel The base level of this character
+	 * Constructor method for GameCharacter
+	 */
 	public GameCharacter(
 			GameWorld gameWorld,
 			TiledMapTileLayer accessibleTiles,
@@ -168,7 +184,9 @@ public abstract class GameCharacter extends MoveableObject {
 				new Texture("healthForeground.png"));
 	}
 
-
+	//================================================================================
+	// Accessor methods
+	//================================================================================
 	public boolean isDead() {
 		return isDead;
 	}
@@ -261,11 +279,6 @@ public abstract class GameCharacter extends MoveableObject {
 		this.baseLevel = baseLevel;
 	}
 
-
-
-	//================================================================================
-	// Accessor methods
-	//================================================================================
 	public CharacterClass getCharacterClass() {
 		return characterClass;
 	}
@@ -535,6 +548,9 @@ public abstract class GameCharacter extends MoveableObject {
 	// Movement
 	//================================================================================
 
+	/* (non-Javadoc)
+	 * @see com.adventuresof.game.common.entities.MoveableObject#moveObject()
+	 */
 	public void moveObject() {
 		// check the point to move to value is set, if not, there is no need to move this frame.
 		if(pointToMoveTo != null) {
@@ -577,6 +593,10 @@ public abstract class GameCharacter extends MoveableObject {
 		}
 	}
 
+	/**
+	 * Performs the calculation to determine the characters direction based on requested movement
+	 * Result: sets the current character direction
+	 */
 	private void calculateCharacterDirection() {
 		double xDistanceToTravel;
 		double yDistanceToTravel;
@@ -638,6 +658,9 @@ public abstract class GameCharacter extends MoveableObject {
 	// Combat
 	//================================================================================
 
+	/**
+	 * Resets buffs that were temporary as a result of things like spells. 
+	 */
 	private void resetTemporaryBuffs() {
 		// reset any temporary buffs after 5 seconds
 		if(timeOfTemporaryBuff != 0 && timeOfTemporaryBuff < stateTime - 5) {
@@ -648,24 +671,40 @@ public abstract class GameCharacter extends MoveableObject {
 		}
 	}
 
+	/**
+	 * Buffs the character's maximum health value by a given amount
+	 * @param amount The amount to buff the health by
+	 */
 	public void buffHealth(int amount) {
 		// buffs the character's health points
 		this.maxHealth += amount;
 		this.addMessageToBuffQueue("+ " + amount + " Maximum Health");
 	}
 
+	/**
+	 * Buffs the character's bonus damage points
+	 * @param amount The amount to buff by
+	 */
 	public void buffDamage(int amount) {
 		// buffs the character's damage points
 		this.damageBonusPoints += amount;
 		this.addMessageToBuffQueue("+ " + amount + " Maximum Damage");
 	}
 
+	/**
+	 * Buffs the character's bonus defence points
+	 * @param amount The amount to buff by
+	 */
 	public void buffDefence(int amount) {
 		// buffs the characer's defence points
 		this.defenceBonusPoints += amount;
 		this.addMessageToBuffQueue("+ " + amount + " Armour");
 	}
 
+	/**
+	 * Heals the character
+	 * @param amount The amount to heal by
+	 */
 	public void heal(int amount) {
 		if(this.health + amount < this.maxHealth) {
 			this.health += amount;
@@ -677,25 +716,29 @@ public abstract class GameCharacter extends MoveableObject {
 		this.addMessageToBuffQueue("+ " + amount + " Health");
 	}
 
+	/**
+	 * Temporarily buffs the characters bonus damage points
+	 * @param amount The amount to buff by
+	 */
 	public void TemporarilyBuffDamage(int amount) {
 		// buffs the character's damage points
 		this.temporaryDamageBonusPoints += amount;
 		this.addMessageToBuffQueue("+ " + amount + " Temporary Maximum Damage");
 	}
 
+	/**
+	 * Temporarily buffs the characters bonus defence points
+	 * @param amount The amount to buff by
+	 */
 	public void TemporarilyBuffDefence(int amount) {
 		// buffs the characer's defence points
 		this.temporaryDefenceBonusPoints += amount;
 		this.addMessageToBuffQueue("+ " + amount + " Temporary Armour");
 	}
 
-
-	public int generateRandomDamageAmount() {
-		// TODO - Make this damage based on some sort of input parameters. Right now its just randomly choosing between 0 and 100.
-		Random r = new Random();
-		return r.nextInt(30);
-	}
-
+	/**
+	 * Freezes the character, preventing them from moving
+	 */
 	public void freeze() {
 		if(this.isHostile) {
 			this.isFrozen = true;
@@ -703,9 +746,18 @@ public abstract class GameCharacter extends MoveableObject {
 		}	
 	}
 
+	/**
+	 * Inflicts damage on the character via damage calculations taking into account the maxDamage
+	 * @param maxDamage The max damage value that can be inflicted
+	 * @param inflictedBy The character who inflicted the damage
+	 */
 	public void damage(int maxDamage, GameCharacter inflictedBy) {
 		if(this.isHostile) {
-			int damageAmount = DamageCalculator.calculateDamage(maxDamage, inflictedBy, this);
+			int damageAmount = DamageCalculator.calculateDamage(maxDamage,
+																inflictedBy.getDamageBonusPoints(), 
+																inflictedBy.getTemporaryDamageBonusPoints(),
+																this.getDefenceBonusPoints(),
+																this.getTemporaryDefenceBonusPoints());
 			this.inflictDamage(damageAmount);
 			this.addMessageToDamageQueue(Integer.toString(damageAmount));
 			if(this.health <= 0) {
@@ -717,11 +769,19 @@ public abstract class GameCharacter extends MoveableObject {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see com.adventuresof.game.common.entities.MoveableObject#updateHitBox()
+	 */
 	public void updateHitBox() {
 		this.getHitBox().set(this.currentPosition.x, this.currentPosition.y, this.characterHeight, this.characterWidth);
 	}
 
 
+	/**
+	 * Casts the character's first ability on given co-ordinates
+	 * @param targetX The X co-ordinate of where to cast the ability
+	 * @param targetY The Y co-ordinate of where to cast the ability
+	 */
 	public void performAbilityOne(float targetX, float targetY) {
 		// check cooldown - if cooldown is ok, then cast
 		if(this.abilityOneLastActivated < (System.currentTimeMillis() - this.characterClass.getAbilityOne().getCoolDown().getCoolDownDuration())) {
@@ -744,6 +804,11 @@ public abstract class GameCharacter extends MoveableObject {
 		}
 	}
 
+	/**
+	 * Casts the character's second ability on given co-ordinates
+	 * @param targetX The X co-ordinate of where to cast the ability
+	 * @param targetY The Y co-ordinate of where to cast the ability
+	 */
 	public void performAbilityTwo(float targetX, float targetY) {
 		// check cooldown - if cooldown is ok, then cast
 		if(this.abilityTwoLastActivated < (System.currentTimeMillis() - this.characterClass.getAbilityTwo().getCoolDown().getCoolDownDuration())) {
@@ -766,6 +831,11 @@ public abstract class GameCharacter extends MoveableObject {
 		}
 	}
 
+	/**
+	 * Casts the character's third ability on given co-ordinates
+	 * @param targetX The X co-ordinate of where to cast the ability
+	 * @param targetY The Y co-ordinate of where to cast the ability
+	 */
 	public void performAbilityThree(float targetX, float targetY) {
 		// check cooldown - if cooldown is ok, then cast
 		if(this.abilityThreeLastActivated < (System.currentTimeMillis() - this.characterClass.getAbilityThree().getCoolDown().getCoolDownDuration())) {
@@ -788,6 +858,11 @@ public abstract class GameCharacter extends MoveableObject {
 		}
 	}
 
+	/**
+	 * Casts the character's fourth ability on given co-ordinates
+	 * @param targetX The X co-ordinate of where to cast the ability
+	 * @param targetY The Y co-ordinate of where to cast the ability
+	 */
 	public void performAbilityFour(float targetX, float targetY) {
 		// check cooldown - if cooldown is ok, then cast
 		if(this.abilityFourLastActivated < (System.currentTimeMillis() - this.characterClass.getAbilityFour().getCoolDown().getCoolDownDuration())) {
@@ -810,6 +885,10 @@ public abstract class GameCharacter extends MoveableObject {
 		}
 	}
 
+	/**
+	 * Casts an instant cast ability on this character
+	 * @param ability The ability to cast on the character
+	 */
 	public void hitWithInstantCastSpell(InstantCastAbility ability) {
 		this.damage(ability.getSpell().getDamage(), ability.getCastBy());
 		if(ability.getSpell() == Spell.IceSpell) {
@@ -817,6 +896,9 @@ public abstract class GameCharacter extends MoveableObject {
 		}
 	}
 
+	/**
+	 * Causes this character to perform a melee attack, lunging forward and backwards in quick succession 
+	 */
 	private void performMeleeAttack() {
 		if(lungeForwardPerformed - this.stateTime <= 0) {
 			this.lungeForward();	
@@ -829,18 +911,34 @@ public abstract class GameCharacter extends MoveableObject {
 		}
 	}
 
+	/**
+	 * Causes the character to perform a melee ability
+	 * @param spell The spell to cast
+	 */
 	private void performMeleeAbility(Spell spell) {
 
 	}
 
+	/**
+	 * Causes the character to perform a ranged ability
+	 * @param spell The spell to cast
+	 */
 	private void performRangeAbility(Spell spell, float targetX, float targetY) {
 		this.gameWorld.performSpellCast(new Projectile(this.accessibleTiles, this.currentPosition.x, this.currentPosition.y, targetX, targetY, spell, this));
 	}
 
+	/**
+	 * Causes the character to perform an instant cast ability
+	 * @param spell The spell to cast
+	 */
 	private void performInstantCastAbility(Spell spell, float targetX, float targetY) {
 		this.gameWorld.performInstantSpellCast(new Circle(targetX, targetY, spell.getAreaOfAffect()), spell);
 	}
 
+	/**
+	 * Causes the character to perform a buff ability
+	 * @param spell The spell to cast
+	 */
 	private void performBuffAbility(Spell spell) {
 		this.gameWorld.addInstantCastSpell(new InstantCastAbility(spell, this, this));
 		this.TemporarilyBuffDamage(spell.getDamage());
@@ -849,12 +947,20 @@ public abstract class GameCharacter extends MoveableObject {
 		this.timeOfTemporaryBuff = this.stateTime;
 	}
 
+	/**
+	 * Causes the character to perform a multi-projectile ability (similar to ranged ability, but fires multiple times in different directions) 
+	 * @param spell The spell to cast
+	 */
 	private void performMultiProjectileAbility(Spell spell, float targetX, float targetY) {
 		this.gameWorld.performSpellCast(new Projectile(this.accessibleTiles, this.currentPosition.x, this.currentPosition.y, targetX, targetY, spell, this));
 		this.gameWorld.performSpellCast(new Projectile(this.accessibleTiles, this.currentPosition.x, this.currentPosition.y, targetX + 90, targetY + 90, spell, this));
 		this.gameWorld.performSpellCast(new Projectile(this.accessibleTiles, this.currentPosition.x, this.currentPosition.y, targetX - 90, targetY - 90, spell, this));
 	}
 
+	/**
+	 * Causes the character to lunge forward
+	 * Used in things such as melee animations
+	 */
 	private void lungeForward() {    	
 		if(currentCharacterDirection == Direction.up) {
 			this.currentPosition.y += 20;
@@ -870,6 +976,10 @@ public abstract class GameCharacter extends MoveableObject {
 		}
 	}
 
+	/**
+	 * Causes the character to lunge backwards
+	 * Used in things such as melee animations
+	 */
 	private void lungeBackward() {
 
 		if(currentCharacterDirection == Direction.up) {
@@ -886,6 +996,10 @@ public abstract class GameCharacter extends MoveableObject {
 		}		
 	}
 
+	/**
+	 * Inflicts damage on this character
+	 * @param amount The amount of damage to inflict
+	 */
 	private void inflictDamage(int amount) {
 		this.health -= amount;
 	}
@@ -926,11 +1040,14 @@ public abstract class GameCharacter extends MoveableObject {
 	// Character Messaging
 	//================================================================================
 
+	/**
+	 * Updates the position of the name tag for the character
+	 */
 	private void updateNamePosition() {
 		this.namePosition.x = currentPosition.x - name.length()*7/2;
 		this.namePosition.y = currentPosition.y - 10;
 	}
-	
+
 	/**
 	 * @param spriteBatch the SpriteBatch object used to render the message to screen
 	 * renders the next message in the message queue
@@ -956,6 +1073,10 @@ public abstract class GameCharacter extends MoveableObject {
 		}   	
 	}
 
+	/**
+	 * Displays the character's name tag
+	 * @param spriteBatch The spritebatch used to draw the font
+	 */
 	private void displayCharacterName(SpriteBatch spriteBatch) {		
 		font.draw(spriteBatch, this.name, this.namePosition.x, this.namePosition.y);					  	
 	}
@@ -996,6 +1117,10 @@ public abstract class GameCharacter extends MoveableObject {
 	//================================================================================
 
 
+	/**
+	 * Represents a health bar object 
+	 * Used as a display for a character's health.
+	 */
 	private class HealthBar {
 		private Sprite healthBackground;
 		private Sprite healthForeground;
@@ -1016,6 +1141,10 @@ public abstract class GameCharacter extends MoveableObject {
 			healthForeground.setY(owner.getCurrentPosition().y + yBuffer);
 			healthForeground.setOrigin(0, 0);			
 		}
+		
+		/**
+		 * Updates the healthbar in terms of things such as location (called every frame)
+		 */
 		public void update() {
 			healthBackground.setX(owner.getCurrentPosition().x + xBuffer);
 			healthBackground.setY(owner.getCurrentPosition().y + yBuffer);
@@ -1032,6 +1161,10 @@ public abstract class GameCharacter extends MoveableObject {
 
 		}
 
+		/**
+		 * Renders the healthbar to the screen
+		 * @param spriteBatch The spritebatch used to render the healthbar
+		 */
 		public void render(SpriteBatch spriteBatch) {
 			// only show health bars for hostile characters - its used an indicator for the player to know whether this character is "hostile"
 			if(isHostile) {

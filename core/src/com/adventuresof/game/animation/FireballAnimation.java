@@ -1,5 +1,9 @@
 package com.adventuresof.game.animation;
 
+/**
+ * Extends the spell animation class to create an FireballAnimation. 
+ * Contains the data specific to the FireballAnimation 
+ */
 public class FireballAnimation extends SpellAnimation{
 	// texture sheets
 	private static final String MOVEMENT_UP_SPRITE_SHEET = "spells//firelion_up.png";
