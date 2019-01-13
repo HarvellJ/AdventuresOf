@@ -165,14 +165,7 @@ public class Player extends GameCharacter{
 				return true;		
 		}
 		return false;
-	}
-	
-	public void performIceSpell(NPC npc) {
-		// inflict damage
-		int damageAmount = this.generateRandomDamageAmount();
-		npc.damage(damageAmount, this);
-		npc.freeze();
-	}  
+	} 
 	
 	public ArrayList<Quest> getQuests() {
 		return quests;

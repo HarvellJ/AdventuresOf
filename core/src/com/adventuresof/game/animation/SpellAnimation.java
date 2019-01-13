@@ -4,8 +4,13 @@ import com.adventuresof.helpers.AnimationFactory;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-public class SpellAnimation {
-
+/**
+ * Creates and holds all of the animation data for a given spell.
+ */
+public abstract class SpellAnimation {
+	//================================================================================
+	// Variables
+	//================================================================================
 	// movement
 	private Animation<TextureRegion> RightAnimation;
 	private Animation<TextureRegion> LeftAnimation;
@@ -26,9 +31,27 @@ public class SpellAnimation {
 	int moveRightStart, moveRightFrames;
 	int moveDownStart, moveDownFrames;
 	int moveUpStart, moveUpFrames;
-	// idle values
 
-	// movement, attack and death animations - for when all animations are on same sheet
+	
+	//================================================================================
+	// Constructors
+	//================================================================================
+	/**
+	 * @param movementTextureSheet_up The texture sheet containing sprites for when spell is moving upwards
+	 * @param movementTextureSheet_down The texture sheet containing sprites for when spell is moving downwards
+	 * @param movementTextureSheet_left The texture sheet containing sprites for when spell is moving left
+	 * @param movementTextureSheet_right The texture sheet containing sprites for when spell is moving right
+	 * @param sheetRows The amount of rows within each animation sheets, assumes each are in same format i.e. 4 rows for each direction sheet
+	 * @param sheetCols The amount of columns within each animation sheets, assumes each are in same format i.e. 4 columns for each direction sheet
+	 * @param moveLeftStart The starting frame within animation sheet of movement in direction of left
+	 * @param moveLeftFrames The frames representing the full duration of the animation
+	 * @param moveRightStart The starting frame within animation sheet of movement in direction of right
+	 * @param moveRightFrames The frames representing the full duration of the animation
+	 * @param moveDownStart The starting frame within animation sheet of movement in direction of down
+	 * @param moveDownFrames The frames representing the full duration of the animation
+	 * @param moveUpStart The starting frame within animation sheet of movement in direction of up
+	 * @param moveUpFrames The frames representing the full duration of the animation
+	 */
 	public SpellAnimation(
 			String movementTextureSheet_up, 
 			String movementTextureSheet_down, 
@@ -61,8 +84,10 @@ public class SpellAnimation {
 
 		this.initializeAnimations();
 	}
-
-
+	
+	//================================================================================
+	// Properties
+	//================================================================================
 	public Animation<TextureRegion> getRightAnimation() {
 		return RightAnimation;
 	}
@@ -79,10 +104,20 @@ public class SpellAnimation {
 		return DownAnimation;
 	}
 
+	//================================================================================
+	// Methods
+	//================================================================================	
+
+	/**
+	 * initializes the animations
+	 */
 	private void initializeAnimations() {
 		this.createMovementAnimations();
 	}		
 
+	/**
+	 * creates the movement animations 
+	 */
 	private void createMovementAnimations() {
 		this.LeftAnimation = AnimationFactory.createAnimation(this.movementTextureSheet_left, this.movementTextureSheetCols, this.movementTextureSheetRows, this.moveLeftFrames, this.moveLeftStart, 0.08f);
 		this.RightAnimation = AnimationFactory.createAnimation(this.movementTextureSheet_right, this.movementTextureSheetCols, this.movementTextureSheetRows, this.moveRightFrames, this.moveRightStart, 0.08f);

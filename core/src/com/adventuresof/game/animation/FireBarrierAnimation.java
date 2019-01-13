@@ -1,5 +1,9 @@
 package com.adventuresof.game.animation;
 
+/**
+ * Extends the spell animation class to create an FireBarrierAnimation. 
+ * Contains the data specific to the FireBarrierAnimation 
+ */
 public class FireBarrierAnimation extends SpellAnimation{
 
 	// texture sheets

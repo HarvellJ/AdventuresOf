@@ -7,26 +7,28 @@ import com.adventuresof.game.character.entities.GameCharacter;
 public class DamageCalculator {
 
 	public static Random random = new Random();
-	
-	public static int calculateDamage(int maxDamage, GameCharacter inflictedBy, GameCharacter inflictedOn) {
+
+	public static int calculateDamage(int maxDamage, int bonusDamagePoints, int temporaryBonusDamagePoints, int bonusDefencePoints, int temporaryBonusDefencePoints) {
 		// total up the total damage points (for attacker) and add to max damage
-		int totalDamage = maxDamage + inflictedBy.getDamageBonusPoints() + inflictedBy.getTemporaryDamageBonusPoints();
+		int totalDamage = maxDamage + bonusDamagePoints + temporaryBonusDamagePoints;
 		// total up total defence and health points of defender
-		int totalDefencePoints = inflictedOn.getDefenceBonusPoints();
+		int totalDefencePoints = bonusDefencePoints + temporaryBonusDefencePoints;
 		// calculate damage amount - generate a number between 1-100 representing a % of the max damage to deal
 		double calculatedRandomDamage = totalDamage * ((double)random.nextInt(100)/100);
-		
-		//33% chance of blocking 
-		if(random.nextInt(3)>1) {
-			if(totalDefencePoints > calculatedRandomDamage) {
-				return 0;				
-			}else {
-				return (int) calculatedRandomDamage - totalDefencePoints;
-			}
+
+		if(totalDefencePoints > calculatedRandomDamage) {
+			totalDefencePoints = (int)calculatedRandomDamage; // there is a chance of blocking entire amount				
 		}
-		else {
-			return (int) calculatedRandomDamage;
+
+		double retVal = calculatedRandomDamage;
+
+		if(totalDefencePoints > 0) {
+			// block a random % of defence points if they are > 0
+			retVal = calculatedRandomDamage - (totalDefencePoints * ((double)random.nextInt(100)/100));
 		}
+
+		return (int)retVal;
+
 	}
-	
+
 }
