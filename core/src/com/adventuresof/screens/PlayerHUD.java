@@ -91,24 +91,14 @@ public class PlayerHUD implements Screen{
 			
 		}
 		
+		list.setItems(strings);
+//		list.setScale(10, 10);
+		list.pack();
+		
 		gameWidth = Gdx.graphics.getWidth();
 		gameHeight = Gdx.graphics.getHeight();
 		
-		list.setItems(strings);
 		final QuestInfoActor questInfoActor = new QuestInfoActor(skin, player);
-		
-		list.addListener(new ChangeListener() {
-			
-			@Override
-			public void changed(ChangeEvent event, Actor actor) {
-				System.out.println(list.getSelected());
-				questInfoActor.setQuestInfo(list.getSelected().substring(0, list.getSelected().indexOf("(")-1));
-				questInfoActor.setPosition(gameWidth / 2 - scrollPane.getWidth() / 4,
-						gameHeight / 2 - scrollPane.getHeight() / 4);
-				
-				stage.addActor(questInfoActor);
-			}
-		});
 		
 		scrollPane = new ScrollPane(list,skin);
 		scrollPane.setBounds(0, 0, gameWidth, gameHeight + 100);
@@ -121,13 +111,52 @@ public class PlayerHUD implements Screen{
 		stage.addActor(scrollPane);
 		
 		//setup Achievement Diary button.
+		
 		this.button = new TextButton("Achievement Diary",skin);
 		this.button.setVisible(true);
+		final Skin listSkin = new Skin(Gdx.files.internal("uiskin.json"));
+		listSkin.getFont("default-font").getData().setScale(2);
+		list = new List<String>(listSkin);
 		
 		button.addListener( new ClickListener() {
 		    @Override
 		    public void clicked(InputEvent event, float x, float y) {
 		        if (button.isChecked()) {
+		    		
+		    		String[] strings = new String[player.getQuests().size()];
+		    		for (int i = 0; i < strings.length; i++) {
+		    							
+		    				switch(player.getQuests().get(i).getProgress()) {
+		    				
+		    				case COMPLETE : strings[i] = player.getQuests().get(i).getTitle() + " (COMPLETE)";
+		    					break;
+		    				case IN_PROGRESS : strings[i] = player.getQuests().get(i).getTitle() + " (IN PROGRESS)";
+		    					break;
+		    				case INCOMPLETE: strings[i] = player.getQuests().get(i).getTitle() + " (INCOMPLETE)";
+		    					break;
+		    			}
+		    			
+		    		}
+
+		    		list.setItems(strings);
+		    		list.pack();		    		
+		    		list.addListener(new ChangeListener() {
+		    			
+		    			@Override
+		    			public void changed(ChangeEvent event, Actor actor) {
+		    				System.out.println(list.getSelected());
+		    			
+		    					questInfoActor.setQuestInfo(list.getSelected().substring(0, list.getSelected().indexOf("(")-1));
+		    					questInfoActor.setPosition(gameWidth / 2 - scrollPane.getWidth() / 5,
+		    							gameHeight / 2 - scrollPane.getHeight() / 4);
+		    					
+		    					stage.addActor(questInfoActor);
+		    					
+		    			}
+		    		});
+		    		
+		    		scrollPane.setActor(list);
+		    		
 		        	scrollPane.setVisible(true);
 		        } else {
 		        	scrollPane.setVisible(false);
@@ -161,6 +190,12 @@ public class PlayerHUD implements Screen{
 		uiTable.add().expandX().expandY();
 		uiTable.add(inventoryActor).bottom();
 		stage.addActor(textArea);	
+		
+	}
+	
+	public void updateDiaries() {
+		
+		
 		
 	}
 	

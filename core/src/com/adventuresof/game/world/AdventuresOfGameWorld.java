@@ -107,7 +107,7 @@ public class AdventuresOfGameWorld extends GameWorld{
 		for (RectangleMapObject rectangleObject : this.map.getEnemySpawnJungleZoneMedObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
 			// spawn in an 'enemy'
-			this.NPCs.add(new BloodElf(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Blood Elve", false, null, true));	
+			this.NPCs.add(new BloodElf(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Blood Elf", false, null, true));	
 		}
 		// spawn high level NPCs
 		for (RectangleMapObject rectangleObject : this.map.getEnemySpawnJungleZoneHighObjects().getByType(RectangleMapObject.class)) {
@@ -213,7 +213,7 @@ public class AdventuresOfGameWorld extends GameWorld{
 		}	
 		for (RectangleMapObject rectangleObject : this.map.getStaticCommanderSpawnStarterCastleSpawnObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
-			Commander staticCommander = new Commander(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Commander", false, null, true, "Slayer Quest");
+			Commander staticCommander = new Commander(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Commander", false, null, true, "Elven Trouble");
 			staticCommander.setCharacterDirection(Direction.right);
 			this.NPCs.add(staticCommander);				
 		}		

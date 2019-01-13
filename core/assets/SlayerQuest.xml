@@ -1,31 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <Quest>
-    <QuestTitle>Slayer Quest</QuestTitle>
-    <QuestDescription>Bandits are on the lose and attacking people outside of the castle, deal with them</QuestDescription>
+    <QuestTitle>Elven Trouble</QuestTitle>
+    <QuestDescription>The Blood Elves are growing in numbers. Speak to a Commander to find out how you can help.</QuestDescription>
     <Tasks>
         <Task>
-            <TaskTitle>Talk to a knight</TaskTitle>
-            <TaskText>Knight can be found at the right walls of the castle</TaskText>
+            <TaskTitle>Talk to a Commander</TaskTitle>
+            <TaskText>A Commander can be found at the castle</TaskText>
             <Type>Conversation</Type>
             <NPC>Commander</NPC>
             <Conversation>
-                <Dialogue>{CHARACTER_NAME}: Have you been having trouble with bandits?</Dialogue>
-                <Dialogue>Commander: Yes there are 20 of them outside the castle walls attacking and killing villagers, they were too strong for us, can you help? </Dialogue>
-                <Dialogue>{CHARACTER_NAME}: Yes I can, where are they?</Dialogue>
-				<Dialogue>Commander: We last seen them not far from the castle gates to the south east </Dialogue>
-				<Dialogue>{CHARACTER_NAME}: Thanks, I'll go see what I can do</Dialogue>
+                <Dialogue>{CHARACTER_NAME}: Commander what seems to be the problem?</Dialogue>
+                <Dialogue>Commander: The Blood Elves have set up camp just outside the castle walls. </Dialogue>
+                <Dialogue>Commander: I've deployed some guards to watch the gate but they won't be able to hold out much longer. </Dialogue>
+                <Dialogue>Commander: Do you think you will be able to help them out? </Dialogue>
+                <Dialogue>{CHARACTER_NAME}: Sure thing, where are they?</Dialogue>
+				<Dialogue>Commander: They have set up amongst some trees just beyond the bridge.</Dialogue>
+				<Dialogue>{CHARACTER_NAME}: Thanks, I'll go see what I can do.</Dialogue>
             </Conversation>
         </Task>
         <Task>
-            <TaskTitle>Kill 20 bandits</TaskTitle>
+            <TaskTitle>Kill 3 Blood Elves</TaskTitle>
+            <TaskText>Once you have done this speak to a Commander to complete the quest.</TaskText>
             <Type>Slayer</Type>
             <NPC>Commander</NPC>
-            <Target>Phoenix</Target>
+            <Target>Blood Elf</Target>
             <Quantity>3</Quantity>
             <Conversation>
-                <Dialogue>{CHARACTER_NAME}: The bandits will no longer be an issue</Dialogue>
-                <Dialogue>Commander: Thanks {CHARACTER_NAME}, you have saved the people a lot of worry </Dialogue>
+                <Dialogue>{CHARACTER_NAME}: The Blood Elves are now on the back foot. Your defences should be able to hold out for the meantime but it won't be long before they strengthen their numbers. </Dialogue>
+                <Dialogue>Commander: Thanks {CHARACTER_NAME}, you have saved the people a lot of worry. Now might be a good time to go on the offensive. </Dialogue>
             </Conversation>
         </Task>
     </Tasks>
