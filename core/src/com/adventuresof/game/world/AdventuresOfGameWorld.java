@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
+import com.adventuresof.game.character.entities.Baliff;
 import com.adventuresof.game.character.entities.BloodElf;
 import com.adventuresof.game.character.entities.Commander;
 import com.adventuresof.game.character.entities.Dragon;
@@ -11,17 +12,22 @@ import com.adventuresof.game.character.entities.FlyingDragon;
 import com.adventuresof.game.character.entities.HellHound;
 import com.adventuresof.game.character.entities.Horse;
 import com.adventuresof.game.character.entities.HorseKnight;
+import com.adventuresof.game.character.entities.KingsAide;
 import com.adventuresof.game.character.entities.Knight;
 import com.adventuresof.game.character.entities.KnightGold;
 import com.adventuresof.game.character.entities.LavaBoss;
 import com.adventuresof.game.character.entities.LavaCastleGuard;
 import com.adventuresof.game.character.entities.LavaRanger;
+import com.adventuresof.game.character.entities.MagicMerchant;
 import com.adventuresof.game.character.entities.MudCastleGuard;
 import com.adventuresof.game.character.entities.NPC;
 import com.adventuresof.game.character.entities.NightElfFemale;
 import com.adventuresof.game.character.entities.NightElfMale;
 import com.adventuresof.game.character.entities.Phoenix;
 import com.adventuresof.game.character.entities.PlayerCompanion;
+import com.adventuresof.game.character.entities.Prince;
+import com.adventuresof.game.character.entities.Prisoner;
+import com.adventuresof.game.character.entities.Queen;
 import com.adventuresof.game.character.entities.ShadowKnight;
 import com.adventuresof.game.character.entities.StarterCastleGuard;
 import com.adventuresof.game.character.entities.TwoHeadedDragon;
@@ -107,22 +113,22 @@ public class AdventuresOfGameWorld extends GameWorld{
 		for (RectangleMapObject rectangleObject : this.map.getEnemySpawnJungleZoneMedObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
 			// spawn in an 'enemy'
-			this.NPCs.add(new BloodElf(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Blood Elve", false, null, true));	
+			this.NPCs.add(new BloodElf(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Blood Elf", false, null, true));	
 		}
 		// spawn high level NPCs
 		for (RectangleMapObject rectangleObject : this.map.getEnemySpawnJungleZoneHighObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
 			// spawn in an 'enemy'
 			this.NPCs.add(new Phoenix(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Phoenix", false, null, true));	
-		}
+		} 
 		
 		// spawn boss level NPCs
 		for (RectangleMapObject rectangleObject : this.map.getEnemySpawnJungleZoneBossObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
 			// spawn in an 'enemy'
 			this.NPCs.add(new TwoHeadedDragon(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Jungle Boss", false, null, true));	
-		}
-	}
+		} 
+	}   
 
 	private void spawnNPCsMudZone() {
 		// low levels
@@ -130,7 +136,7 @@ public class AdventuresOfGameWorld extends GameWorld{
 			Rectangle rectangle = rectangleObject.getRectangle();
 			// spawn in an 'enemy'
 				this.NPCs.add(new Dragon(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Dragon", false, null, true));	
-			
+		
 		}
 		// med levels
 		for (RectangleMapObject rectangleObject : this.map.getEnemySpawnMudZoneMedObjects().getByType(RectangleMapObject.class)) {
@@ -213,10 +219,46 @@ public class AdventuresOfGameWorld extends GameWorld{
 		}	
 		for (RectangleMapObject rectangleObject : this.map.getStaticCommanderSpawnStarterCastleSpawnObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
-			Commander staticCommander = new Commander(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Commander", false, null, true, "Slayer Quest");
+			Commander staticCommander = new Commander(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Commander", false, null, true, "Elven Trouble");
 			staticCommander.setCharacterDirection(Direction.right);
 			this.NPCs.add(staticCommander);				
-		}		
+		}
+		for (RectangleMapObject rectangleObject : this.map.getBaliffSpawnObjects().getByType(RectangleMapObject.class)) {
+			Rectangle rectangle = rectangleObject.getRectangle();
+			Baliff baliff = new Baliff(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Baliff", false, null, true, "Slayer Quest");
+			baliff.setCharacterDirection(Direction.right);
+			this.NPCs.add(baliff);				
+		}
+		for (RectangleMapObject rectangleObject : this.map.getQueenSpawnObjects().getByType(RectangleMapObject.class)) {
+			Rectangle rectangle = rectangleObject.getRectangle();
+			Queen queen = new Queen(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Queen", false, null, true, "Slayer Quest");
+			queen.setCharacterDirection(Direction.right);
+			this.NPCs.add(queen);				
+		}
+		for (RectangleMapObject rectangleObject : this.map.getKingsaideSpawnObjects().getByType(RectangleMapObject.class)) {
+			Rectangle rectangle = rectangleObject.getRectangle();
+			KingsAide kingsaide = new KingsAide(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "KingsAide", false, null, true, "Slayer Quest");
+			kingsaide.setCharacterDirection(Direction.right);
+			this.NPCs.add(kingsaide);				
+		}
+		for (RectangleMapObject rectangleObject : this.map.getMagicmerchantSpawnObjects().getByType(RectangleMapObject.class)) {
+			Rectangle rectangle = rectangleObject.getRectangle();
+			MagicMerchant magicmerchant = new MagicMerchant(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "MagicMerchant", false, null, true, "Slayer Quest");
+			magicmerchant.setCharacterDirection(Direction.right);
+			this.NPCs.add(magicmerchant);				
+		}
+		for (RectangleMapObject rectangleObject : this.map.getPrinceSpawnObjects().getByType(RectangleMapObject.class)) {
+			Rectangle rectangle = rectangleObject.getRectangle();
+			Prince prince = new Prince(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Prince", false, null, true, "Slayer Quest");
+			prince.setCharacterDirection(Direction.right);
+			this.NPCs.add(prince);				
+		}
+		for (RectangleMapObject rectangleObject : this.map.getPrisonerSpawnObjects().getByType(RectangleMapObject.class)) {
+			Rectangle rectangle = rectangleObject.getRectangle();
+			Prisoner prisoner = new Prisoner(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Prisoner", false, null, true, "Slayer Quest");
+			prisoner.setCharacterDirection(Direction.right);
+			this.NPCs.add(prisoner);				
+		}
 	}
 
 	/**
