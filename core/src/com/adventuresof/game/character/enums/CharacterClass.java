@@ -3,8 +3,8 @@ package com.adventuresof.game.character.enums;
 import com.adventuresof.game.combat.enums.Spell;
 
 public enum CharacterClass {
-	melee(Spell.Tornado, Spell.Tornado, Spell.FireBarrier, Spell.Tornado, 150),
-	ranger(Spell.Arrow, Spell.Arrow, Spell.Arrow, Spell.LightningClaw, 0), 
+	melee(Spell.ThrowingMace, Spell.Powerup, Spell.FireBarrier, Spell.IceSpikes, 150),
+	ranger(Spell.Arrow, Spell.ArrowMulti, Spell.Powerup, Spell.LightningClaw, 0), 
 	mage(Spell.Tornado, Spell.Firelion, Spell.IceBarrier, Spell.IceSpell, 0),
 	hybrid(Spell.Tornado, Spell.Arrow, Spell.Tornado, Spell.Tornado, 0),
 	// NPC classes

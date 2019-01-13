@@ -822,10 +822,10 @@ public abstract class GameCharacter extends MoveableObject {
 			else if(this.characterClass.getAbilityTwo().getSpellType() == SpellType.buff){
 				this.performBuffAbility(this.characterClass.getAbilityTwo());
 			}
-			else if(this.characterClass.getAbilityOne().getSpellType() == SpellType.instantCast){
+			else if(this.characterClass.getAbilityTwo().getSpellType() == SpellType.instantCast){
 				this.performInstantCastAbility(this.characterClass.getAbilityTwo(), targetX, targetY);
 			}
-			else if(this.characterClass.getAbilityOne().getSpellType() == SpellType.multiProjectile) {
+			else if(this.characterClass.getAbilityTwo().getSpellType() == SpellType.multiProjectile) {
 				this.performMultiProjectileAbility(this.characterClass.getAbilityTwo(), targetX, targetY);
 			}
 		}
@@ -849,10 +849,10 @@ public abstract class GameCharacter extends MoveableObject {
 			else if(this.characterClass.getAbilityThree().getSpellType() == SpellType.buff){
 				this.performBuffAbility(this.characterClass.getAbilityThree());
 			}
-			else if(this.characterClass.getAbilityOne().getSpellType() == SpellType.instantCast){
+			else if(this.characterClass.getAbilityThree().getSpellType() == SpellType.instantCast){
 				this.performInstantCastAbility(this.characterClass.getAbilityThree(), targetX, targetY);
 			}
-			else if(this.characterClass.getAbilityOne().getSpellType() == SpellType.multiProjectile) {
+			else if(this.characterClass.getAbilityThree().getSpellType() == SpellType.multiProjectile) {
 				this.performMultiProjectileAbility(this.characterClass.getAbilityThree(), targetX, targetY);
 			}
 		}
@@ -879,7 +879,7 @@ public abstract class GameCharacter extends MoveableObject {
 			else if(this.characterClass.getAbilityFour().getSpellType() == SpellType.instantCast){
 				this.performInstantCastAbility(this.characterClass.getAbilityFour(), targetX, targetY);
 			}
-			else if(this.characterClass.getAbilityOne().getSpellType() == SpellType.multiProjectile) {
+			else if(this.characterClass.getAbilityFour().getSpellType() == SpellType.multiProjectile) {
 				this.performMultiProjectileAbility(this.characterClass.getAbilityFour(), targetX, targetY);
 			}
 		}
@@ -946,7 +946,7 @@ public abstract class GameCharacter extends MoveableObject {
 		this.gameWorld.addInstantCastSpell(new InstantCastAbility(spell, this, this));
 		this.TemporarilyBuffDamage(spell.getDamage());
 		this.TemporarilyBuffDefence(spell.getDamage());
-		this.heal(5);
+		this.heal((int)(spell.getDamage()*0.25));
 		this.timeOfTemporaryBuff = System.currentTimeMillis();
 	}
 
