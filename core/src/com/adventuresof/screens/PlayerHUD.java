@@ -55,8 +55,11 @@ public class PlayerHUD implements Screen{
 	private Player player;
 	private final Skin skin;
 	
+	TextArea coolDown3;
+	TextArea coolDown1;
+	TextArea coolDown2;
+	TextArea coolDown4;
 
-	
 	public PlayerHUD(Camera camera, final Player player) {
 		viewport = new ScreenViewport(camera);
 		this.stage = new Stage(viewport);
@@ -76,6 +79,11 @@ public class PlayerHUD implements Screen{
 		this.textArea.setText("");
 		this.textArea.setWidth(800);
 		this.textArea.setHeight(120);
+		
+		this.coolDown1 = new TextArea("", skin);
+		this.coolDown2 = new TextArea("", skin);
+		this.coolDown3 = new TextArea("", skin);
+		this.coolDown4 = new TextArea("", skin);
 		
 		list = new List<String>(skin);
 		String[] strings = new String[player.getQuests().size()];
@@ -125,11 +133,49 @@ public class PlayerHUD implements Screen{
 		//setup Achievement Diary button.
 		this.button = new TextButton("Achievement Diary",skin);
 		this.button.setVisible(true);
+		final Skin listSkin = new Skin(Gdx.files.internal("uiskin.json"));
+		listSkin.getFont("default-font").getData().setScale(2);
+		list = new List<String>(listSkin);
 		
 		button.addListener( new ClickListener() {
 		    @Override
 		    public void clicked(InputEvent event, float x, float y) {
 		        if (button.isChecked()) {
+		    		
+		    		String[] strings = new String[player.getQuests().size()];
+		    		for (int i = 0; i < strings.length; i++) {
+		    							
+		    				switch(player.getQuests().get(i).getProgress()) {
+		    				
+		    				case COMPLETE : strings[i] = player.getQuests().get(i).getTitle() + " (COMPLETE)";
+		    					break;
+		    				case IN_PROGRESS : strings[i] = player.getQuests().get(i).getTitle() + " (IN PROGRESS)";
+		    					break;
+		    				case INCOMPLETE: strings[i] = player.getQuests().get(i).getTitle() + " (INCOMPLETE)";
+		    					break;
+		    			}
+		    			
+		    		}
+
+		    		list.setItems(strings);
+		    		list.pack();		    		
+		    		list.addListener(new ChangeListener() {
+		    			
+		    			@Override
+		    			public void changed(ChangeEvent event, Actor actor) {
+		    				System.out.println(list.getSelected());
+		    			
+		    					questInfoActor.setQuestInfo(list.getSelected().substring(0, list.getSelected().indexOf("(")-1));
+		    					questInfoActor.setPosition(gameWidth / 2 - scrollPane.getWidth() / 4,
+		    							gameHeight / 2 - scrollPane.getHeight() / 4);
+		    					
+		    					stage.addActor(questInfoActor);
+		    					
+		    			}
+		    		});
+		    		
+		    		scrollPane.setActor(list);
+		    		
 		        	scrollPane.setVisible(true);
 		        } else {
 		        	scrollPane.setVisible(false);
@@ -245,8 +291,6 @@ public class PlayerHUD implements Screen{
 	@Override
 	public void render(float delta) {
 		//update inventory
-		
-		TextArea coolDown1 = new TextArea("", skin);
 		if ((int)(System.currentTimeMillis() - player.getAbilityOneLastActivated())/1000 <= player.getCharacterClass().getAbilityOne().getCoolDown().getCoolDownDuration()/1000) {
 			coolDown1.setText(Long.toString((int)(player.getAbilityOneLastActivated() - System.currentTimeMillis() + player.getCharacterClass().getAbilityOne().getCoolDown().getCoolDownDuration())/1000));
 			coolDown1.setColor(Color.RED);
@@ -259,7 +303,6 @@ public class PlayerHUD implements Screen{
 		stage.addActor(coolDown1); 
 
 	    
-		TextArea coolDown2 = new TextArea("", skin);
 		if ((int)(System.currentTimeMillis() - player.getAbilityTwoLastActivated())/1000 <= player.getCharacterClass().getAbilityTwo().getCoolDown().getCoolDownDuration()/1000) {
 			coolDown2.setText(Long.toString((int)(player.getAbilityTwoLastActivated()- System.currentTimeMillis() + player.getCharacterClass().getAbilityTwo().getCoolDown().getCoolDownDuration())/1000));
 			coolDown2.setColor(Color.RED);
@@ -272,7 +315,6 @@ public class PlayerHUD implements Screen{
 		stage.addActor(coolDown2); 
 
 	    
-		TextArea coolDown3 = new TextArea("", skin);
 		if ((int)(System.currentTimeMillis() - player.getAbilityThreeLastActivated())/1000 <= player.getCharacterClass().getAbilityThree().getCoolDown().getCoolDownDuration()/1000) {
 			coolDown3.setText(Long.toString((int)(player.getAbilityThreeLastActivated() - System.currentTimeMillis() + player.getCharacterClass().getAbilityThree().getCoolDown().getCoolDownDuration())/1000));
 			coolDown3.setColor(Color.RED);
@@ -285,7 +327,6 @@ public class PlayerHUD implements Screen{
 		stage.addActor(coolDown3); 
 	
 		
-		TextArea coolDown4 = new TextArea("", skin);
 		if ((int)(System.currentTimeMillis() - player.getAbilityFourLastActivated())/1000 <= player.getCharacterClass().getAbilityFour().getCoolDown().getCoolDownDuration()/1000) {
 			coolDown4.setText(Long.toString((int)(player.getAbilityFourLastActivated() - System.currentTimeMillis() + player.getCharacterClass().getAbilityFour().getCoolDown().getCoolDownDuration())/1000));
 			coolDown4.setColor(Color.RED);

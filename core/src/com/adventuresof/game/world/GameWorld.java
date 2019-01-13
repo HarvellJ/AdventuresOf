@@ -41,6 +41,7 @@ public abstract class GameWorld {
 		this.spawnPlayer(); // load the player
 		items = new ArrayList<Item>(); // instantiate map item list (items that exist on the map)
 		this.spawnChanceItemsIntoWorld();
+		this.spawnQuestItems();
 	}
 
 	public ArrayList<Projectile> getActiveProjectiles() {
@@ -160,6 +161,8 @@ public abstract class GameWorld {
 		return null;
 	}
 
+	protected abstract void spawnQuestItems();
+	
 	protected abstract void spawnNPCs();
 
 	protected abstract void detectCollisionWithTriggers();

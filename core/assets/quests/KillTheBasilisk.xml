@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Quest>
+    <QuestTitle>Twin-Headed Dragon Hunting</QuestTitle>
+    <QuestDescription>Boss fight</QuestDescription>
+    <Tasks>
+        <Task>
+            <TaskTitle>Kill the Twin-Headed Dragon</TaskTitle>
+            <Type>Slayer</Type>
+            <Target>Twin-Headed Dragon</Target>
+            <Quantity>1</Quantity>
+        </Task>
+    </Tasks>
+</Quest>
