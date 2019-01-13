@@ -21,7 +21,7 @@ public enum Spell {
 	FireBarrier_NPC(new FireBarrierAnimation(), 50, 50, 20, MovementSpeed.VERY_FAST, "audio/effects/magicShield.wav", SpellType.buff, CoolDownEnum.Long,  "spells//shielding-fire-3.png", false, 80),
 	Arrow_NPC(new ArrowAnimation(), 50, 50, 20, MovementSpeed.VERY_FAST, "audio/effects/Bow.wav", SpellType.projectile, CoolDownEnum.Medium,  "spells//slice-sky-3.png", true),
 	Arrow(new ArrowAnimation(), 50, 50, 20, MovementSpeed.VERY_FAST, "audio/effects/Bow.wav", SpellType.projectile, CoolDownEnum.Short,  "spells//slice-sky-3.png", true),
-	Powerup(new PowerupAnimation(), 50, 50, 40, MovementSpeed.VERY_FAST, "audio/effects/magicShield.wav", SpellType.buff, CoolDownEnum.Long,  "spells//wind-grasp-aced-3.png", false, 80),
+	Powerup(new PowerupAnimation(), 50, 50, 40, MovementSpeed.VERY_FAST, "audio/effects/magicShield.wav", SpellType.buff, CoolDownEnum.Long,  "spells//wind-grasp-acid-3.png", false, 80),
 
 	// secondary level abilities
 	ArrowMulti(new ArrowAnimation(), 50, 50, 20, MovementSpeed.VERY_FAST, "audio/effects/Bow.wav", SpellType.multiProjectile, CoolDownEnum.Medium,  "spells//slice-orange-3.png", true),
@@ -33,12 +33,12 @@ public enum Spell {
 	FireBarrier(new FireBarrierAnimation(), 50, 50, 50, MovementSpeed.VERY_FAST, "audio/effects/magicShield.wav", SpellType.buff, CoolDownEnum.VeryLong,  "spells//shielding-fire-3.png", false, 80),
 
 	// ultimate abilities
-	IceSpell(new IceSpellAnimation(), 50, 50, 30, MovementSpeed.VERY_FAST, "audio/effects/ice.wav", SpellType.instantCast, CoolDownEnum.Medium,  "spells//needles-blue-3.png", true, 120),
+	IceSpell(new IceSpellAnimation(), 50, 50, 30, MovementSpeed.VERY_FAST, "audio/effects/ice.wav", SpellType.instantCast, CoolDownEnum.Long,  "spells//needles-blue-3.png", true, 120),
 	LightningClaw(new LightningClawAnimation(), 50, 50, 20, MovementSpeed.VERY_FAST, "audio/effects/lightning.wav", SpellType.instantCast, CoolDownEnum.Medium,  "spells//shielding-eerie-3.png", false, 120),
 	FireSpell_Boss(new FireballAnimation(), 50, 50, 20, MovementSpeed.VERY_FAST, "audio/effects/fireLionSpell.wav", SpellType.projectile, CoolDownEnum.VeryShort,  "spells//rip-sky-3.png", true),
 	SpikeSpell_Boss(new MudSpikesAnimation(), 50, 50, 20, MovementSpeed.FAST, "audio/effects/fireLionSpell.wav", SpellType.multiProjectile, CoolDownEnum.Short,  "spells//rip-sky-3.png", true),
 	Arrow_Boss(new ArrowAnimation(), 50, 50, 20, MovementSpeed.VERY_FAST, "audio/effects/Bow.wav", SpellType.multiProjectile, CoolDownEnum.Short,  "spells//slice-sky-3.png", true),
-	IceSpikes(new IceSpikesAnimation(), 50, 50, 30, MovementSpeed.VERY_FAST, "audio/effects/fireLionSpell.wav", SpellType.multiProjectile, CoolDownEnum.Long,  "spells//wind-grasp-eerie-3.png", false);
+	IceSpikes(new IceSpikesAnimation(), 50, 50, 30, MovementSpeed.VERY_FAST, "audio/effects/fireLionSpell.wav", SpellType.multiProjectile, CoolDownEnum.Long,  "spells//needles-blue-1.png", false);
 
 
 	private SpellAnimation animation;

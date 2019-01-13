@@ -323,6 +323,38 @@ public abstract class GameCharacter extends MoveableObject {
 		this.hitBox = boundingRectangle;
 	}
 
+	public long getAbilityOneLastActivated() {
+		return abilityOneLastActivated;
+	}
+
+	public void setAbilityOneLastActivated(long abilityOneLastActivated) {
+		this.abilityOneLastActivated = abilityOneLastActivated;
+	}
+
+	public long getAbilityTwoLastActivated() {
+		return abilityTwoLastActivated;
+	}
+
+	public void setAbilityTwoLastActivated(long abilityTwoLastActivated) {
+		this.abilityTwoLastActivated = abilityTwoLastActivated;
+	}
+
+	public long getAbilityThreeLastActivated() {
+		return abilityThreeLastActivated;
+	}
+
+	public void setAbilityThreeLastActivated(long abilityThreeLastActivated) {
+		this.abilityThreeLastActivated = abilityThreeLastActivated;
+	}
+
+	public long getAbilityFourLastActivated() {
+		return abilityFourLastActivated;
+	}
+
+	public void setAbilityFourLastActivated(long abilityFourLastActivated) {
+		this.abilityFourLastActivated = abilityFourLastActivated;
+	}
+
 	protected void createAnimations() {
 
 	}
