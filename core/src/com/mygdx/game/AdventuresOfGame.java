@@ -4,6 +4,7 @@ import com.adventuresof.helpers.ApplicationPreferences;
 import com.adventuresof.helpers.SoundManager;
 import com.adventuresof.screens.CharacterSelectionScreen;
 import com.adventuresof.screens.CreditScreen;
+import com.adventuresof.screens.EndScreen;
 import com.adventuresof.screens.MainGameScreen;
 import com.adventuresof.screens.MainMenuScreen;
 import com.adventuresof.screens.NewGameScreen;
@@ -21,7 +22,7 @@ public class AdventuresOfGame extends Game {
 	private CharacterSelectionScreen characterSelectionScreen;
 	private NewGameScreen newGameScreen;
 	private CreditScreen creditScreen;
-
+	private EndScreen endScreen;
 
     public Resources res;
 
@@ -37,7 +38,6 @@ public class AdventuresOfGame extends Game {
 		}		
 		menuScreen = new MainMenuScreen(this);
 		this.setScreen(menuScreen);
-//		this.setScreen(new MainGameScreen());
 	}
 
 	public void render () {
@@ -57,7 +57,6 @@ public class AdventuresOfGame extends Game {
 		case MAINGAMESCREEN:
 			if(mainScreen == null)
 				mainScreen = new MainGameScreen();
-			//this.screen.dispose();
 			this.setScreen(mainScreen);
 			break;
 		case SETTINGS:
@@ -72,8 +71,17 @@ public class AdventuresOfGame extends Game {
 			creditScreen = new CreditScreen(this);
 			this.setScreen(creditScreen);
 			break;
+		case ENDSCREEN:
+			endScreen = new EndScreen(this);
+			this.setScreen(endScreen);
+			break;
 		default: 
 		}
+	}
+	
+	public void showEndScreen(float timeSurvived) {
+        endScreen = new EndScreen(timeSurvived);
+        this.setScreen(endScreen);
 	}
 	
 	public ApplicationPreferences getPreferences() {
@@ -85,4 +93,3 @@ public class AdventuresOfGame extends Game {
         res.dispose();
     }
 }
-
