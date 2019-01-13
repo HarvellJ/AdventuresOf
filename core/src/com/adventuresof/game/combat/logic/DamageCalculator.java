@@ -4,6 +4,10 @@ import java.util.Random;
 
 import com.adventuresof.game.character.entities.GameCharacter;
 
+/**
+ * Calculates the damage the player will deal
+ * 
+ */
 public class DamageCalculator {
 
 	public static Random random = new Random();

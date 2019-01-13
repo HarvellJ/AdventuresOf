@@ -10,6 +10,10 @@ import com.adventuresof.game.common.enums.MovementSpeed;
 import com.adventuresof.game.world.GameWorld;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
+/**
+ * A class to represent the Gold Knight character.
+ * 
+ */
 public class KnightGold extends NPC {
 
 	// texture sheets

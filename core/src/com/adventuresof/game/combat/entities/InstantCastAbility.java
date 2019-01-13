@@ -12,6 +12,10 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
+/**
+ * Deals with the casting of abilities
+ * 
+ */
 public class InstantCastAbility extends GameObject{
 
 	private Spell spellType;

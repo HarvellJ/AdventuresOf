@@ -12,6 +12,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
+/**
+ * A class to represent the Mud Castle Guard character.
+ * 
+ */
 public class MudCastleGuard extends NPC{
 
 	// texture sheets

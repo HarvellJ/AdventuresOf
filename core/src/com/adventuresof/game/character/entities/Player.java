@@ -10,18 +10,19 @@ import com.adventuresof.game.common.enums.MovementSpeed;
 import com.adventuresof.game.inventory.Inventory;
 import com.adventuresof.game.item.Item;
 import com.adventuresof.game.item.ItemEffectEnum;
-import com.adventuresof.game.item.ItemEnum;
 import com.adventuresof.game.quest.ProgressEnum;
 import com.adventuresof.game.quest.Quest;
 import com.adventuresof.game.world.GameWorld;
 import com.adventuresof.game.world.GameZone;
-import com.adventuresof.helpers.AnimationFactory;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
+/**
+ * A class to represent the Players character.
+ * 
+ */
 public class Player extends GameCharacter{
 
 	private Inventory inventory; // Stores items the player has collected

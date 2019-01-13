@@ -3,6 +3,10 @@ package com.adventuresof.game.inventory;
 import com.adventuresof.game.item.Item;
 import com.badlogic.gdx.utils.Array;
 
+/**
+ * Main Inventory class. 
+ * 
+ */
 public class Inventory {
 
 	    private Array<Slot> slots;

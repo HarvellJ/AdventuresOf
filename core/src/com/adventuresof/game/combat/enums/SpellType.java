@@ -1,5 +1,9 @@
 package com.adventuresof.game.combat.enums;
 
+/**
+ * Stores the types of spells in game
+ * 
+ */
 public enum SpellType {
 	projectile, // represents ranged abilities that the character can fire
 	buff, // represents abilities the character can cast on themselves

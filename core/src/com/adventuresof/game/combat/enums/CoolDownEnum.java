@@ -1,5 +1,9 @@
 package com.adventuresof.game.combat.enums;
 
+/**
+ * Keeps track of information regarding the ability cool down. 
+ * 
+ */
 public enum CoolDownEnum {
 	VeryShort(500), // for basic abilities - e.g. first ability
 	Short(1000), // for basic abilities - e.g. first ability

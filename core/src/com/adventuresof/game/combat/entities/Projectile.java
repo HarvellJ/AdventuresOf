@@ -3,17 +3,19 @@ package com.adventuresof.game.combat.entities;
 import com.adventuresof.game.animation.SpellAnimation;
 import com.adventuresof.game.character.entities.GameCharacter;
 import com.adventuresof.game.combat.enums.Spell;
-import com.adventuresof.game.common.entities.GameObject;
 import com.adventuresof.game.common.entities.MoveableObject;
 import com.adventuresof.game.common.enums.Direction;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
+/**
+ * Deals with the projectiles. 
+ * 
+ */
 public class Projectile extends MoveableObject{
 	
 	private Spell spellType;

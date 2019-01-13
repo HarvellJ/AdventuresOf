@@ -1,15 +1,17 @@
 package com.adventuresof.game.quest;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import com.adventuresof.game.item.Item;
 import com.adventuresof.game.item.ItemEnum;
 
+/**
+ * Quest Task Class
+ * 
+ */
 public class Task {
 	
 	private String title;

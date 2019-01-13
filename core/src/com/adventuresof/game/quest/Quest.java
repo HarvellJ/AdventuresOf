@@ -16,6 +16,10 @@ import org.xml.sax.SAXException;
 
 import com.badlogic.gdx.Gdx;
 
+/**
+ *  Class to store information about the Quests
+ * 
+ */
 public class Quest {
 
 	private String title;

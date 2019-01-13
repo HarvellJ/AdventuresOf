@@ -8,6 +8,11 @@ import com.adventuresof.game.common.enums.Direction;
 import com.adventuresof.game.common.enums.MovementSpeed;
 import com.adventuresof.game.world.GameWorld;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+
+/**
+ * A class to represent the Horse character.
+ * 
+ */
 public class Horse extends NPC {
 
 	// texture sheets

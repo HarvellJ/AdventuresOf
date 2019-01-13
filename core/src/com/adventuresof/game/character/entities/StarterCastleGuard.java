@@ -13,6 +13,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
+/**
+ * A class to represent the Castle Guard character.
+ * 
+ */
 public class StarterCastleGuard extends NPC{
 
 	// texture sheets
