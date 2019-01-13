@@ -1,7 +1,6 @@
 package com.adventuresof.game.character.entities;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import com.adventuresof.game.animation.CharacterAnimation;
 import com.adventuresof.game.character.enums.CharacterClass;
@@ -11,23 +10,19 @@ import com.adventuresof.game.combat.entities.Projectile;
 import com.adventuresof.game.combat.enums.Spell;
 import com.adventuresof.game.combat.enums.SpellType;
 import com.adventuresof.game.combat.logic.DamageCalculator;
-import com.adventuresof.game.common.entities.GameObject;
 import com.adventuresof.game.common.entities.MoveableObject;
 import com.adventuresof.game.common.enums.Direction;
 import com.adventuresof.game.world.GameWorld;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Circle;
-import com.badlogic.gdx.math.Rectangle; 
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
 /**

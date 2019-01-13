@@ -10,7 +10,6 @@ import com.adventuresof.game.common.enums.MovementSpeed;
 import com.adventuresof.game.inventory.Inventory;
 import com.adventuresof.game.item.Item;
 import com.adventuresof.game.item.ItemEffectEnum;
-import com.adventuresof.game.item.ItemEnum;
 import com.adventuresof.game.quest.ProgressEnum;
 import com.adventuresof.game.quest.Quest;
 import com.adventuresof.game.world.GameWorld;
