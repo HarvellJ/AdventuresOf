@@ -33,7 +33,7 @@ public class EndScreen implements Screen{
 		stage = new Stage(new ScreenViewport());
 		skin = new Skin(Gdx.files.internal("skins/star-soldier-ui.json"));
 		titleLabel = new Label("CONGRATULATIONS", skin);
-		textLabel = new Label("Your completion time is:" + completionTime/1000 , skin);
+		textLabel = new Label("Your completion time is: " + (int)completionTime/1000 + " seconds", skin);
 		exit = new TextButton("Exit", skin);
 		stage.act(Gdx.graphics.getDeltaTime());
 		stage.draw();
