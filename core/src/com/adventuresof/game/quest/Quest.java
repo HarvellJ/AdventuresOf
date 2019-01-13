@@ -28,7 +28,7 @@ public class Quest {
 		
 		try {
 			DocumentBuilder builder = factory.newDocumentBuilder();
-			Document doc = builder.parse(questName + ".xml");
+			Document doc = builder.parse("quests//" + questName + ".xml");
 			
 			NodeList questList = doc.getElementsByTagName("Quest");
 			Element quest = (Element) questList.item(0);
