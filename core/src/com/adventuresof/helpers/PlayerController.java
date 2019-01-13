@@ -54,6 +54,7 @@ public class PlayerController implements InputProcessor{
 					this.gameRenderer.setShowTargetCircle(true, this.gameWorld.getPlayer().getCharacterClass().getAbilityOne().getAreaOfAffect());
 					this.abilityOneActivated = true;
 				}else{
+					this.gameRenderer.setShowTargetCircle(false, 0);
 					this.gameWorld.getPlayer().performAbilityOne(this.gameWorld.getPlayer().getCurrentPosition().x, this.gameWorld.getPlayer().getCurrentPosition().y);			
 				}
 			}else {
@@ -73,6 +74,7 @@ public class PlayerController implements InputProcessor{
 					this.abilityTwoActivated = true;
 				}
 				else{
+					this.gameRenderer.setShowTargetCircle(false, 0);
 					this.gameWorld.getPlayer().performAbilityTwo(this.gameWorld.getPlayer().getCurrentPosition().x, this.gameWorld.getPlayer().getCurrentPosition().y);			
 				}
 			}else {

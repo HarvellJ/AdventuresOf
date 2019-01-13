@@ -32,6 +32,10 @@ import com.adventuresof.game.character.entities.ShadowKnight;
 import com.adventuresof.game.character.entities.StarterCastleGuard;
 import com.adventuresof.game.character.entities.TwoHeadedDragon;
 import com.adventuresof.game.common.enums.Direction;
+import com.adventuresof.game.item.Item;
+import com.adventuresof.game.item.ItemEnum;
+import com.adventuresof.game.item.ItemFactory;
+import com.adventuresof.game.item.ItemRarityEnum;
 import com.adventuresof.helpers.SoundManager;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Intersector;
@@ -102,6 +106,27 @@ public class AdventuresOfGameWorld extends GameWorld{
 		this.spawnNPCsLavaZone();
 	}
 
+	protected void spawnQuestItems() {
+		for (RectangleMapObject rectangleObject : this.map.getRareItemSpawnPointObjects().getByType(RectangleMapObject.class)) {
+			Rectangle rectangle = rectangleObject.getRectangle();
+			// spawn in an 'enemy'
+			if (rectangleObject.getName().equals("gem")) {
+				Item item = new Item(ItemEnum.GEM);
+				item.setPositionX(rectangle.x);
+				item.setPositionY(rectangle.y);
+				item.setHitbox(new Rectangle(rectangle.x, rectangle.y, 50f, 50f));
+				this.items.add(item);	
+			}
+			if (rectangleObject.getName().equals("crown")) {
+				Item item = new Item(ItemEnum.CROWN);
+				item.setPositionX(rectangle.x);
+				item.setPositionY(rectangle.y);
+				item.setHitbox(new Rectangle(rectangle.x, rectangle.y, 50f, 50f));
+				this.items.add(item);	
+			}
+		}
+	}
+	
 	private void spawnNPCsJungleZone() {
 		// spawn low level NPCs
 		for (RectangleMapObject rectangleObject : this.map.getEnemySpawnJungleLowObjects().getByType(RectangleMapObject.class)) {
