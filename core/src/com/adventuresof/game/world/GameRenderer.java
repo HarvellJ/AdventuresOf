@@ -1,9 +1,9 @@
 package com.adventuresof.game.world;
 
 import com.adventuresof.game.character.entities.NPC;
-import com.adventuresof.game.combat.InstantCastAbility;
-import com.adventuresof.game.combat.Projectile;
-import com.adventuresof.game.common.GameObject;
+import com.adventuresof.game.combat.entities.InstantCastAbility;
+import com.adventuresof.game.combat.entities.Projectile;
+import com.adventuresof.game.common.entities.GameObject;
 import com.adventuresof.game.item.Item;
 import com.adventuresof.game.item.ItemEnum;
 import com.badlogic.gdx.Gdx;

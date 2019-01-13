@@ -1,4 +1,4 @@
-package com.adventuresof.game.combat;
+package com.adventuresof.game.combat.logic;
 
 import java.util.Random;
 

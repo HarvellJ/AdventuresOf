@@ -1,9 +1,10 @@
-package com.adventuresof.game.combat;
+package com.adventuresof.game.combat.entities;
 
 import com.adventuresof.game.animation.SpellAnimation;
 import com.adventuresof.game.character.entities.GameCharacter;
-import com.adventuresof.game.common.GameObject;
-import com.adventuresof.game.common.MoveableObject;
+import com.adventuresof.game.combat.enums.Spell;
+import com.adventuresof.game.common.entities.GameObject;
+import com.adventuresof.game.common.entities.MoveableObject;
 import com.adventuresof.game.common.enums.Direction;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -15,7 +16,7 @@ import com.badlogic.gdx.math.Vector3;
 
 public class Projectile extends MoveableObject{
 	
-	private SpellEnum spellType;
+	private Spell spellType;
 	private SpellAnimation directionalProjectileAnimation;
     protected float projectileWidth;
     protected float projectileHeight;	
@@ -28,7 +29,7 @@ public class Projectile extends MoveableObject{
     private String soundEffect; // stores the path to the sound effect for this projectile
     
 	public Projectile(TiledMapTileLayer accessibleTiles,
-			float startX, float startY, float endX, float endY, SpellEnum spellType, GameCharacter firedBy) {
+			float startX, float startY, float endX, float endY, Spell spellType, GameCharacter firedBy) {
 		super(startX - 57, startY - 25); // adjustments in start positions just to account for differences in sprite sizes
 		this.firedBy = firedBy;
 		this.spellType = spellType;

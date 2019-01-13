@@ -1,7 +1,7 @@
 package com.adventuresof.game.world;
 
 import com.adventuresof.game.animation.StaticMapItemAnimation;
-import com.adventuresof.game.common.GameObject;
+import com.adventuresof.game.common.entities.GameObject;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;

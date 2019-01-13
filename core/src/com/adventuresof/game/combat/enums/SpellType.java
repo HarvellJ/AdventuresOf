@@ -1,4 +1,4 @@
-package com.adventuresof.game.combat;
+package com.adventuresof.game.combat.enums;
 
 public enum SpellType {
 	projectile, // represents ranged abilities that the character can fire

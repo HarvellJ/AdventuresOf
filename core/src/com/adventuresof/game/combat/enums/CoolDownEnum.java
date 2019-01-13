@@ -1,4 +1,4 @@
-package com.adventuresof.game.combat;
+package com.adventuresof.game.combat.enums;
 
 public enum CoolDownEnum {
 	VeryShort(500), // for basic abilities - e.g. first ability

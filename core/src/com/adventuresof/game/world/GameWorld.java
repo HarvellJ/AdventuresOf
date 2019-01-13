@@ -9,9 +9,9 @@ import com.adventuresof.game.character.entities.NPC;
 import com.adventuresof.game.character.entities.Player;
 import com.adventuresof.game.character.enums.CharacterClass;
 import com.adventuresof.game.character.enums.CharacterLevel;
-import com.adventuresof.game.combat.InstantCastAbility;
-import com.adventuresof.game.combat.Projectile;
-import com.adventuresof.game.combat.SpellEnum;
+import com.adventuresof.game.combat.entities.InstantCastAbility;
+import com.adventuresof.game.combat.entities.Projectile;
+import com.adventuresof.game.combat.enums.Spell;
 import com.adventuresof.game.item.Item;
 import com.adventuresof.game.item.ItemFactory;
 import com.adventuresof.game.item.ItemRarityEnum;
@@ -111,7 +111,7 @@ public abstract class GameWorld {
 		this.detectCollisionWithTriggers(); 						
 	}		
 
-	public void performInstantSpellCast(Circle targetingCircle, SpellEnum spell) {
+	public void performInstantSpellCast(Circle targetingCircle, Spell spell) {
 		for(NPC npc : this.NPCs) {
 			if(!Double.isNaN(npc.getHitBox().x )) {
 				if (Intersector.overlaps(targetingCircle, npc.getHitBox())) {

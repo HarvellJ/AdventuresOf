@@ -6,13 +6,13 @@ import java.util.Random;
 import com.adventuresof.game.animation.CharacterAnimation;
 import com.adventuresof.game.character.enums.CharacterClass;
 import com.adventuresof.game.character.enums.CharacterLevel;
-import com.adventuresof.game.combat.DamageCalculator;
-import com.adventuresof.game.combat.InstantCastAbility;
-import com.adventuresof.game.combat.Projectile;
-import com.adventuresof.game.combat.SpellEnum;
-import com.adventuresof.game.combat.SpellType;
-import com.adventuresof.game.common.GameObject;
-import com.adventuresof.game.common.MoveableObject;
+import com.adventuresof.game.combat.entities.InstantCastAbility;
+import com.adventuresof.game.combat.entities.Projectile;
+import com.adventuresof.game.combat.enums.Spell;
+import com.adventuresof.game.combat.enums.SpellType;
+import com.adventuresof.game.combat.logic.DamageCalculator;
+import com.adventuresof.game.common.entities.GameObject;
+import com.adventuresof.game.common.entities.MoveableObject;
 import com.adventuresof.game.common.enums.Direction;
 import com.adventuresof.game.world.GameWorld;
 import com.badlogic.gdx.Gdx;
@@ -812,7 +812,7 @@ public abstract class GameCharacter extends MoveableObject {
 
 	public void hitWithInstantCastSpell(InstantCastAbility ability) {
 		this.damage(ability.getSpell().getDamage(), ability.getCastBy());
-		if(ability.getSpell() == SpellEnum.IceSpell) {
+		if(ability.getSpell() == Spell.IceSpell) {
 			this.freeze();
 		}
 	}
@@ -829,19 +829,19 @@ public abstract class GameCharacter extends MoveableObject {
 		}
 	}
 
-	private void performMeleeAbility(SpellEnum spell) {
+	private void performMeleeAbility(Spell spell) {
 
 	}
 
-	private void performRangeAbility(SpellEnum spell, float targetX, float targetY) {
+	private void performRangeAbility(Spell spell, float targetX, float targetY) {
 		this.gameWorld.performSpellCast(new Projectile(this.accessibleTiles, this.currentPosition.x, this.currentPosition.y, targetX, targetY, spell, this));
 	}
 
-	private void performInstantCastAbility(SpellEnum spell, float targetX, float targetY) {
+	private void performInstantCastAbility(Spell spell, float targetX, float targetY) {
 		this.gameWorld.performInstantSpellCast(new Circle(targetX, targetY, spell.getAreaOfAffect()), spell);
 	}
 
-	private void performBuffAbility(SpellEnum spell) {
+	private void performBuffAbility(Spell spell) {
 		this.gameWorld.addInstantCastSpell(new InstantCastAbility(spell, this, this));
 		this.TemporarilyBuffDamage(spell.getDamage());
 		this.TemporarilyBuffDefence(spell.getDamage());
@@ -849,7 +849,7 @@ public abstract class GameCharacter extends MoveableObject {
 		this.timeOfTemporaryBuff = this.stateTime;
 	}
 
-	private void performMultiProjectileAbility(SpellEnum spell, float targetX, float targetY) {
+	private void performMultiProjectileAbility(Spell spell, float targetX, float targetY) {
 		this.gameWorld.performSpellCast(new Projectile(this.accessibleTiles, this.currentPosition.x, this.currentPosition.y, targetX, targetY, spell, this));
 		this.gameWorld.performSpellCast(new Projectile(this.accessibleTiles, this.currentPosition.x, this.currentPosition.y, targetX + 90, targetY + 90, spell, this));
 		this.gameWorld.performSpellCast(new Projectile(this.accessibleTiles, this.currentPosition.x, this.currentPosition.y, targetX - 90, targetY - 90, spell, this));

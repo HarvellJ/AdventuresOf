@@ -4,7 +4,7 @@ package com.adventuresof.helpers;
 import com.adventuresof.game.quest.ProgressEnum;
 import com.adventuresof.game.character.entities.NPC;
 import com.adventuresof.game.character.entities.Player;
-import com.adventuresof.game.combat.SpellType;
+import com.adventuresof.game.combat.enums.SpellType;
 import com.adventuresof.game.quest.Quest;
 import com.adventuresof.game.quest.Task;
 import com.adventuresof.game.quest.TaskController;

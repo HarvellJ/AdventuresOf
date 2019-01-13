@@ -1,8 +1,9 @@
-package com.adventuresof.game.combat;
+package com.adventuresof.game.combat.entities;
 
 import com.adventuresof.game.animation.SpellAnimation;
 import com.adventuresof.game.character.entities.GameCharacter;
-import com.adventuresof.game.common.GameObject;
+import com.adventuresof.game.combat.enums.Spell;
+import com.adventuresof.game.common.entities.GameObject;
 import com.adventuresof.game.common.enums.Direction;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -13,7 +14,7 @@ import com.badlogic.gdx.math.Vector3;
 
 public class InstantCastAbility extends GameObject{
 
-	private SpellEnum spellType;
+	private Spell spellType;
 	private SpellAnimation spellAnimation;
 	private float stateTime;
 	protected int damage;
@@ -34,7 +35,7 @@ public class InstantCastAbility extends GameObject{
 	boolean hasAnimationProgressed;
 
 	public InstantCastAbility(
-			SpellEnum spellType,
+			Spell spellType,
 			GameCharacter target, GameCharacter castBy) {
 
 		this.castBy = castBy;
@@ -65,7 +66,7 @@ public class InstantCastAbility extends GameObject{
 		return target;
 	}
 
-	public SpellEnum getSpell() {
+	public Spell getSpell() {
 		return spellType;
 	}
 

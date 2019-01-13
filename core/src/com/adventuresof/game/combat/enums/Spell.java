@@ -1,4 +1,4 @@
-package com.adventuresof.game.combat;
+package com.adventuresof.game.combat.enums;
 
 import com.adventuresof.game.animation.ArrowAnimation;
 import com.adventuresof.game.animation.FireBarrierAnimation;
@@ -12,7 +12,7 @@ import com.adventuresof.game.animation.SpikesAnimation;
 import com.adventuresof.game.character.entities.GameCharacter;
 import com.adventuresof.game.common.enums.MovementSpeed;
 
-public enum SpellEnum {
+public enum Spell {
 	// basic level abilities
 	Tornado(new TornadoAnimation(),  50, 50, 10, MovementSpeed.FAST, "audio/effects/windSpell.wav", SpellType.multiProjectile, CoolDownEnum.Short, "spells//air-burst-air-1.png", true),
 	SpikeSpell(new SpikesAnimation(), 50, 50, 20, MovementSpeed.FAST, "audio/effects/fireLionSpell.wav", SpellType.projectile, CoolDownEnum.Short,  "spells//rip-sky-3.png", true),
@@ -47,7 +47,7 @@ public enum SpellEnum {
 	private boolean isHostile;
 	private int areaOfAffect; // represents the size of the spell targeting zone (especially useful sfor things such as AOE abilities)
 	
-	SpellEnum(SpellAnimation animation, float width, float height, int damage, MovementSpeed movementSpeed, 
+	Spell(SpellAnimation animation, float width, float height, int damage, MovementSpeed movementSpeed, 
 			String soundEffect, SpellType spellType, CoolDownEnum coolDown, String actionBarImage, boolean isHostile, int areaOfAffect) {
 		this.animation = animation;
 		this.actionBarImage = actionBarImage;
@@ -62,7 +62,7 @@ public enum SpellEnum {
 		this.areaOfAffect = areaOfAffect;
 	}
 	
-	SpellEnum(SpellAnimation animation, float width, float height, int damage, MovementSpeed movementSpeed, 
+	Spell(SpellAnimation animation, float width, float height, int damage, MovementSpeed movementSpeed, 
 			String soundEffect, SpellType spellType, CoolDownEnum coolDown, String actionBarImage, boolean isHostile) {
 		this(animation, width, height, damage, movementSpeed, soundEffect, spellType, coolDown, actionBarImage, isHostile, 20);
 	}

@@ -1,4 +1,4 @@
-package com.adventuresof.game.common;
+package com.adventuresof.game.common.entities;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 

@@ -1,33 +1,33 @@
 package com.adventuresof.game.character.enums;
 
-import com.adventuresof.game.combat.SpellEnum;
+import com.adventuresof.game.combat.enums.Spell;
 
 public enum CharacterClass {
-	melee(SpellEnum.Tornado, SpellEnum.Tornado, SpellEnum.FireBarrier, SpellEnum.Tornado, 150),
-	ranger(SpellEnum.Arrow, SpellEnum.Arrow, SpellEnum.Arrow, SpellEnum.LightningClaw, 0), 
-	mage(SpellEnum.Tornado, SpellEnum.Firelion, SpellEnum.IceBarrier, SpellEnum.IceSpell, 0),
-	hybrid(SpellEnum.Tornado, SpellEnum.Arrow, SpellEnum.Tornado, SpellEnum.Tornado, 0),
+	melee(Spell.Tornado, Spell.Tornado, Spell.FireBarrier, Spell.Tornado, 150),
+	ranger(Spell.Arrow, Spell.Arrow, Spell.Arrow, Spell.LightningClaw, 0), 
+	mage(Spell.Tornado, Spell.Firelion, Spell.IceBarrier, Spell.IceSpell, 0),
+	hybrid(Spell.Tornado, Spell.Arrow, Spell.Tornado, Spell.Tornado, 0),
 	// NPC classes
-	lavaZoneNPC_Ranger(SpellEnum.Arrow_NPC, SpellEnum.Arrow_NPC, SpellEnum.Arrow_NPC, SpellEnum.Arrow_NPC, 0), 
-	lavaZoneNPC_Boss(SpellEnum.Arrow_Boss, SpellEnum.Arrow_Boss, SpellEnum.Arrow_Boss, SpellEnum.Arrow_Boss, 0), 
+	lavaZoneNPC_Ranger(Spell.Arrow_NPC, Spell.Arrow_NPC, Spell.Arrow_NPC, Spell.Arrow_NPC, 0), 
+	lavaZoneNPC_Boss(Spell.Arrow_Boss, Spell.Arrow_Boss, Spell.Arrow_Boss, Spell.Arrow_Boss, 0), 
 
-	mudZoneNPC(SpellEnum.SpikeSpell, SpellEnum.SpikeSpell, SpellEnum.SpikeSpell, SpellEnum.SpikeSpell, 0),
-	mudZoneBoss(SpellEnum.SpikeSpell_Boss, SpellEnum.SpikeSpell_Boss, SpellEnum.SpikeSpell_Boss, SpellEnum.SpikeSpell_Boss, 0),
+	mudZoneNPC(Spell.SpikeSpell, Spell.SpikeSpell, Spell.SpikeSpell, Spell.SpikeSpell, 0),
+	mudZoneBoss(Spell.SpikeSpell_Boss, Spell.SpikeSpell_Boss, Spell.SpikeSpell_Boss, Spell.SpikeSpell_Boss, 0),
 
-	jungleZoneNPC_Mage(SpellEnum.Firelion, SpellEnum.Firelion, SpellEnum.Firelion, SpellEnum.Firelion, 0),
-	jungleZoneNPC_Melee(SpellEnum.FireBarrier_NPC, SpellEnum.FireBarrier_NPC, SpellEnum.FireBarrier_NPC, SpellEnum.FireBarrier_NPC, 0),
-	jungleZoneBoss(SpellEnum.FireSpell_Boss, SpellEnum.FireSpell_Boss, SpellEnum.FireSpell_Boss, SpellEnum.FireSpell_Boss, 0);
+	jungleZoneNPC_Mage(Spell.Firelion, Spell.Firelion, Spell.Firelion, Spell.Firelion, 0),
+	jungleZoneNPC_Melee(Spell.FireBarrier_NPC, Spell.FireBarrier_NPC, Spell.FireBarrier_NPC, Spell.FireBarrier_NPC, 0),
+	jungleZoneBoss(Spell.FireSpell_Boss, Spell.FireSpell_Boss, Spell.FireSpell_Boss, Spell.FireSpell_Boss, 0);
 
 	// abilities get stronger in ascending order
 	// i.e. first ability is the character's basic ability, the fourth would be their ultimate ability
-	private SpellEnum abilityOne; // first ability
-	private SpellEnum abilityTwo; // secondary ability
-	private SpellEnum abilityThree; // third ability
-	private SpellEnum abilityFour; // fourth ability
+	private Spell abilityOne; // first ability
+	private Spell abilityTwo; // secondary ability
+	private Spell abilityThree; // third ability
+	private Spell abilityFour; // fourth ability
 
 	private int healthBoost;
 	
-	CharacterClass(SpellEnum abilityOne, SpellEnum abilityTwo, SpellEnum abilityThree, SpellEnum abilityFour, int healthBoost) {
+	CharacterClass(Spell abilityOne, Spell abilityTwo, Spell abilityThree, Spell abilityFour, int healthBoost) {
 		this.abilityOne = abilityOne;
 		this.abilityTwo = abilityTwo;
 		this.abilityThree = abilityThree;
@@ -35,19 +35,19 @@ public enum CharacterClass {
 		this.healthBoost = healthBoost;
 	}
 
-	public SpellEnum getAbilityOne() {
+	public Spell getAbilityOne() {
 		return abilityOne;
 	}
 
-	public SpellEnum getAbilityTwo() {
+	public Spell getAbilityTwo() {
 		return abilityTwo;
 	}
 
-	public SpellEnum getAbilityThree() {
+	public Spell getAbilityThree() {
 		return abilityThree;
 	}
 
-	public SpellEnum getAbilityFour() {
+	public Spell getAbilityFour() {
 		return abilityFour;
 	}
 
