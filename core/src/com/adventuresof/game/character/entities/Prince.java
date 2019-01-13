@@ -9,6 +9,10 @@ import com.adventuresof.game.common.enums.MovementSpeed;
 import com.adventuresof.game.world.GameWorld;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
+/**
+ * A class to represent the Prince character.
+ * 
+ */
 public class Prince extends NPC{
 
 	// texture sheets

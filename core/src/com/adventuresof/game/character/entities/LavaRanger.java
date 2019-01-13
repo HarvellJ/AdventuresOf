@@ -11,6 +11,10 @@ import com.adventuresof.game.common.enums.MovementSpeed;
 import com.adventuresof.game.world.GameWorld;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
+/**
+ * A class to represent the Lava Ranger character.
+ * 
+ */
 public class LavaRanger extends NPC {
 
 	// texture sheets

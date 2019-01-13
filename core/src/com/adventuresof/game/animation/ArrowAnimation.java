@@ -1,14 +1,5 @@
 package com.adventuresof.game.animation;
 
-import com.adventuresof.game.common.enums.Direction;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.math.Circle;
-import com.badlogic.gdx.math.Rectangle; 
-import com.badlogic.gdx.math.Vector3;
-
 /**
  * Extends the spell animation class to create an ArrowAnimation. 
  * Contains the data specific to the ArrowAnimation 

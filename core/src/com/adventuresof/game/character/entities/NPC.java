@@ -13,7 +13,7 @@ import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector3;
 
 /**
- *
+ * Information about the NPC's
  */
 public abstract class NPC extends GameCharacter {
 

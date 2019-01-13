@@ -12,6 +12,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
+/**
+ * A class to represent the Lava Castle Guard character.
+ * 
+ */
 public class LavaCastleGuard extends NPC{
 
 	// texture sheets

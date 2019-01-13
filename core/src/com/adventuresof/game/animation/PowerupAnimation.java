@@ -1,5 +1,9 @@
 package com.adventuresof.game.animation;
 
+/**
+ * Extends the spell animation class to create a PowerpAnimation. 
+ * Contains the data specific to the PowerupAnimation 
+ */
 public class PowerupAnimation extends SpellAnimation{
 
 	// texture sheets

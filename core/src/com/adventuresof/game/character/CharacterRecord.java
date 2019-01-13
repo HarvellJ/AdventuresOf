@@ -2,6 +2,10 @@ package com.adventuresof.game.character;
 
 import com.adventuresof.game.character.enums.CharacterClass;
 
+/**
+ * Keeps track of information regarding the players character. 
+ * The input name and which character selected.
+ */
 public class CharacterRecord {
 
 	public final String iconName;

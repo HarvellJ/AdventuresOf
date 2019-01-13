@@ -9,6 +9,10 @@ import com.adventuresof.game.world.GameWorld;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import java.util.ArrayList;
 
+/**
+ * A class to represent the Male Night Elf character.
+ * 
+ */
 public class NightElfMale extends NPC {
 
 	// texture sheets

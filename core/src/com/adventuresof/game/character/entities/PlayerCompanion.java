@@ -10,6 +10,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
+/**
+ * A class to represent the Companion character.
+ * 
+ */
 public class PlayerCompanion extends NPC {
 
 	// texture sheets

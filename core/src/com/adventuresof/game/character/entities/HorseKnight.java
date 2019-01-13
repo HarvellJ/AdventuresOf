@@ -10,6 +10,10 @@ import com.adventuresof.game.common.enums.MovementSpeed;
 import com.adventuresof.game.world.GameWorld;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
+/**
+ * A class to represent the HorseKnight character.
+ * 
+ */
 public class HorseKnight extends NPC {
 
 	// texture sheets

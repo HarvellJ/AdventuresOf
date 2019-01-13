@@ -31,7 +31,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
 /**
- *
+ * Information about the Character In-game
  */
 public abstract class GameCharacter extends MoveableObject {
 
