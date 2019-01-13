@@ -295,7 +295,7 @@ public class PlayerHUD implements Screen{
 			coolDown1.setText(Long.toString((int)(player.getAbilityOneLastActivated() - System.currentTimeMillis() + player.getCharacterClass().getAbilityOne().getCoolDown().getCoolDownDuration())/1000));
 			coolDown1.setColor(Color.RED);
 		} else {
-			coolDown1.setText("Ready!");
+			coolDown1.setText("1. Ready!");
 			coolDown1.setColor(Color.GREEN);
 		}
 		coolDown1.setPosition(810, 80);
@@ -307,7 +307,7 @@ public class PlayerHUD implements Screen{
 			coolDown2.setText(Long.toString((int)(player.getAbilityTwoLastActivated()- System.currentTimeMillis() + player.getCharacterClass().getAbilityTwo().getCoolDown().getCoolDownDuration())/1000));
 			coolDown2.setColor(Color.RED);
 		} else {
-			coolDown2.setText("Ready!");
+			coolDown2.setText("2. Ready!");
 			coolDown2.setColor(Color.GREEN);
 		}
 		coolDown2.setPosition(905, 80);
@@ -319,7 +319,7 @@ public class PlayerHUD implements Screen{
 			coolDown3.setText(Long.toString((int)(player.getAbilityThreeLastActivated() - System.currentTimeMillis() + player.getCharacterClass().getAbilityThree().getCoolDown().getCoolDownDuration())/1000));
 			coolDown3.setColor(Color.RED);
 		} else {
-			coolDown3.setText("Ready!");
+			coolDown3.setText("3. Ready!");
 			coolDown3.setColor(Color.GREEN);
 		}
 		coolDown3.setPosition(1000, 80);
@@ -331,7 +331,7 @@ public class PlayerHUD implements Screen{
 			coolDown4.setText(Long.toString((int)(player.getAbilityFourLastActivated() - System.currentTimeMillis() + player.getCharacterClass().getAbilityFour().getCoolDown().getCoolDownDuration())/1000));
 			coolDown4.setColor(Color.RED);
 		} else {
-			coolDown4.setText("Ready!");
+			coolDown4.setText("4. Ready!");
 			coolDown4.setColor(Color.GREEN);
 		}
 		coolDown4.setPosition(1095, 80);

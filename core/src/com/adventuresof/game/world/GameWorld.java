@@ -198,9 +198,6 @@ public abstract class GameWorld {
 	
 	private void disposeOfObjects() {
 		// remove perished NPCs
-
-		ArrayList<NPC> tempArray = new ArrayList<NPC>();
-
 		for(int i = 0; i < this.NPCs.size(); i++) {
 			if(this.NPCs.get(i).CanDispose()) {
 				// spawn a relevant drop based on NPC

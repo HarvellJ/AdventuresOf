@@ -145,21 +145,21 @@ public class Player extends GameCharacter{
 		for(NPC npc : this.npcsKilled) {
 			if(npc.getName().equals("Basilisk")) {
 				for(Quest quest : this.quests) {
-					if(quest.getTitle().equals("killTheBasilisk")) {
+					if(quest.getTitle().equals("Basilisk Hunting")) {
 						quest.setProgress(ProgressEnum.COMPLETE);
 					}
 				}
 			}
 			else if(npc.getName().equals("Twin-headed Dragon")) {
 				for(Quest quest : this.quests) {
-					if(quest.getTitle().equals("killTheTwinHeadedDragon")) {
+					if(quest.getTitle().equals("Twin-Headed Dragon Hunting ")) {
 						quest.setProgress(ProgressEnum.COMPLETE);
 					}
 				}
 			}
 			else if(npc.getName().equals("Apollo")) {
 				for(Quest quest : this.quests) {
-					if(quest.getTitle().equals("KillApollo")) {
+					if(quest.getTitle().equals("Apollo Hunting")) {
 						quest.setProgress(ProgressEnum.COMPLETE);
 					}
 				}
