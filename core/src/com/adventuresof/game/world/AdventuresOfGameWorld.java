@@ -1,7 +1,6 @@
 package com.adventuresof.game.world;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
 
 import com.adventuresof.game.character.entities.Baliff;
@@ -11,7 +10,6 @@ import com.adventuresof.game.character.entities.Dragon;
 import com.adventuresof.game.character.entities.FlyingDragon;
 import com.adventuresof.game.character.entities.HellHound;
 import com.adventuresof.game.character.entities.Horse;
-import com.adventuresof.game.character.entities.HorseKnight;
 import com.adventuresof.game.character.entities.KingsAide;
 import com.adventuresof.game.character.entities.Knight;
 import com.adventuresof.game.character.entities.KnightGold;
@@ -34,13 +32,15 @@ import com.adventuresof.game.character.entities.TwoHeadedDragon;
 import com.adventuresof.game.common.enums.Direction;
 import com.adventuresof.game.item.Item;
 import com.adventuresof.game.item.ItemEnum;
-import com.adventuresof.game.item.ItemFactory;
-import com.adventuresof.game.item.ItemRarityEnum;
 import com.adventuresof.helpers.SoundManager;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 
+/**
+ * Class contains the information about the world
+ * 
+ */
 public class AdventuresOfGameWorld extends GameWorld{
 
 	protected PlayerCompanion playerCompanion;

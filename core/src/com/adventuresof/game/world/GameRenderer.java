@@ -3,9 +3,7 @@ package com.adventuresof.game.world;
 import com.adventuresof.game.character.entities.NPC;
 import com.adventuresof.game.combat.entities.InstantCastAbility;
 import com.adventuresof.game.combat.entities.Projectile;
-import com.adventuresof.game.common.entities.GameObject;
 import com.adventuresof.game.item.Item;
-import com.adventuresof.game.item.ItemEnum;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -14,12 +12,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.objects.CircleMapObject;
-import com.badlogic.gdx.maps.objects.RectangleMapObject;
-import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
 
+/**
+ * Renders the game world
+ * 
+ */
 public class GameRenderer {
 	
 	private ShapeRenderer shapeRendererHUD; // renders shapes on the player's HUD

@@ -4,10 +4,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import com.adventuresof.game.character.CharacterRecord;
-import com.adventuresof.game.character.entities.GameCharacter;
 import com.adventuresof.game.character.entities.NPC;
 import com.adventuresof.game.character.entities.Player;
-import com.adventuresof.game.character.enums.CharacterClass;
 import com.adventuresof.game.character.enums.CharacterLevel;
 import com.adventuresof.game.combat.entities.InstantCastAbility;
 import com.adventuresof.game.combat.entities.Projectile;
@@ -24,6 +22,10 @@ import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
+/**
+ * Game World Class
+ * 
+ */
 public abstract class GameWorld {
 
 	protected Map map; // The map for this game world

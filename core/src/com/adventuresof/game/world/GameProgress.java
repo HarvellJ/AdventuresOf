@@ -1,5 +1,9 @@
 package com.adventuresof.game.world;
 
+/**
+ * Information regarding the progress of the game
+ * Contains the chosen character name
+ */
 public class GameProgress {
 	
     public static int currentCharacter = 0;

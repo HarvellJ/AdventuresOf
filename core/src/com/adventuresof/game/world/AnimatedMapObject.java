@@ -7,6 +7,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 
+/**
+ * Animated Map Object Class
+ * 
+ */
 public class AnimatedMapObject extends GameObject{
 
 	protected StaticMapItemAnimation animation;

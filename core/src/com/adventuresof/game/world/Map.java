@@ -1,8 +1,5 @@
 package com.adventuresof.game.world;
 
-import com.adventuresof.game.character.entities.NPC;
-import com.adventuresof.game.character.entities.Player;
-import com.adventuresof.game.character.entities.PlayerCompanion;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -11,6 +8,10 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
+/**
+ * Map Class
+ * 
+ */
 public class Map {	
 	// the map itself
 	private TiledMap tiledMap;
