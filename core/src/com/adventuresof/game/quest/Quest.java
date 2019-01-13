@@ -14,6 +14,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import com.badlogic.gdx.Gdx;
+
 public class Quest {
 
 	private String title;
@@ -24,11 +26,12 @@ public class Quest {
 	
 	public Quest (String questName, String name) {
 		
+		
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		
 		try {
 			DocumentBuilder builder = factory.newDocumentBuilder();
-			Document doc = builder.parse(questName + ".xml");
+			Document doc = builder.parse(Gdx.files.internal(questName + ".xml").read());
 			
 			NodeList questList = doc.getElementsByTagName("Quest");
 			Element quest = (Element) questList.item(0);
