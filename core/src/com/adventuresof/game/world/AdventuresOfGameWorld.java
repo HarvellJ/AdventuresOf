@@ -220,7 +220,7 @@ public class AdventuresOfGameWorld extends GameWorld{
 		}
 		for (RectangleMapObject rectangleObject : this.map.getGuardSpawnStarterCastleSpawnObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
-				this.NPCs.add(new StarterCastleGuard(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Guard", true, null, false, "Dragon Slayer"));			
+				this.NPCs.add(new StarterCastleGuard(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Guard", true, null, true, "Dragon Slayer"));			
 		}	
 		for (RectangleMapObject rectangleObject : this.map.getVillagerSpawnStarterCastleSpawnObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
@@ -256,13 +256,13 @@ public class AdventuresOfGameWorld extends GameWorld{
 		}
 		for (RectangleMapObject rectangleObject : this.map.getQueenSpawnObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
-			Queen queen = new Queen(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Queen", false, null, true, "Slayer Quest");
+			Queen queen = new Queen(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Queen", false, null);
 			queen.setCharacterDirection(Direction.right);
 			this.NPCs.add(queen);				
 		}
 		for (RectangleMapObject rectangleObject : this.map.getKingsaideSpawnObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
-			KingsAide kingsaide = new KingsAide(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Kings Aide", false, null, true, "Slayer Quest");
+			KingsAide kingsaide = new KingsAide(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Kings Aide", false, null);
 			kingsaide.setCharacterDirection(Direction.right);
 			this.NPCs.add(kingsaide);				
 		}
@@ -274,7 +274,7 @@ public class AdventuresOfGameWorld extends GameWorld{
 		}
 		for (RectangleMapObject rectangleObject : this.map.getPrinceSpawnObjects().getByType(RectangleMapObject.class)) {
 			Rectangle rectangle = rectangleObject.getRectangle();
-			Prince prince = new Prince(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Prince", false, null, true, "Slayer Quest");
+			Prince prince = new Prince(this, map.getAccessibleMapLayer(), rectangle.x, rectangle.y, "Prince", false, null);
 			prince.setCharacterDirection(Direction.right);
 			this.NPCs.add(prince);				
 		}
