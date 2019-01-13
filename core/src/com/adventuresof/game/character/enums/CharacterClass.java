@@ -2,6 +2,10 @@ package com.adventuresof.game.character.enums;
 
 import com.adventuresof.game.combat.enums.Spell;
 
+/**
+ * Information regarding the chosen Character. 
+ * Deals with Abilities and Power ups.
+ */
 public enum CharacterClass {
 	melee(Spell.ThrowingMace, Spell.Powerup, Spell.FireBarrier, Spell.IceSpikes, 150),
 	ranger(Spell.Arrow, Spell.ArrowMulti, Spell.Powerup, Spell.LightningClaw, 0), 

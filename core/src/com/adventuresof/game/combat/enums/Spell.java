@@ -14,6 +14,10 @@ import com.adventuresof.game.animation.PowerupAnimation;
 import com.adventuresof.game.animation.ProjectileMaceAnimation;
 import com.adventuresof.game.common.enums.MovementSpeed;
 
+/**
+ * Contains all of the spell information
+ * 
+ */
 public enum Spell {
 	// basic level abilities
 	Tornado(new TornadoAnimation(),  50, 50, 10, MovementSpeed.FAST, "audio/effects/windSpell.wav", SpellType.multiProjectile, CoolDownEnum.Short, "spells//air-burst-air-1.png", true),

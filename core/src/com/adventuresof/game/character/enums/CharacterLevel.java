@@ -1,5 +1,9 @@
 package com.adventuresof.game.character.enums;
 
+/**
+ * Keeps track of information regarding the players character. 
+ * The character level and damage.
+ */
 public enum CharacterLevel {
 	low(40, 1, 2), // used for standard NPCs
 	normal(100, 2, 5), // used for average power characters - such as player
