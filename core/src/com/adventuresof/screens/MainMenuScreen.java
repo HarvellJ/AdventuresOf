@@ -23,6 +23,7 @@ public class MainMenuScreen implements Screen{
 	private Label titleLabel;
 	private TextButton settings;
 	private TextButton exit;
+	private TextButton credits;
 	
 	public MainMenuScreen()
 	{
@@ -37,6 +38,7 @@ public class MainMenuScreen implements Screen{
 		newGame = new TextButton("New Game", skin);
 		settings = new TextButton("Settings", skin);
 		exit = new TextButton("Exit", skin);
+		credits = new TextButton("Credits", skin);
 		stage.act(Gdx.graphics.getDeltaTime());
 		stage.draw();
 		Gdx.input.setInputProcessor(stage);
@@ -56,6 +58,8 @@ public class MainMenuScreen implements Screen{
 		table.add(newGame).fillX().uniformX();
 		table.row().pad(10, 0, 10, 0);
 		table.add(settings).fillX().uniformX();
+		table.row();
+		table.add(credits).fillX().uniformX(); 
 		table.row();
 		table.add(exit).fillX().uniformX(); 
 	}
@@ -85,6 +89,13 @@ public class MainMenuScreen implements Screen{
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
 				parent.changeScreen(ScreenType.SETTINGS);
+			}
+		});
+		
+		credits.addListener(new ChangeListener() {
+			@Override
+			public void changed(ChangeEvent event, Actor actor) {
+				parent.changeScreen(ScreenType.CREDITS);
 			}
 		});
 		

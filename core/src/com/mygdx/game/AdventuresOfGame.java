@@ -3,6 +3,7 @@ package com.mygdx.game;
 import com.adventuresof.helpers.ApplicationPreferences;
 import com.adventuresof.helpers.SoundManager;
 import com.adventuresof.screens.CharacterSelectionScreen;
+import com.adventuresof.screens.CreditScreen;
 import com.adventuresof.screens.MainGameScreen;
 import com.adventuresof.screens.MainMenuScreen;
 import com.adventuresof.screens.NewGameScreen;
@@ -19,6 +20,8 @@ public class AdventuresOfGame extends Game {
 	private ApplicationPreferences preferences;
 	private CharacterSelectionScreen characterSelectionScreen;
 	private NewGameScreen newGameScreen;
+	private CreditScreen creditScreen;
+
 
     public Resources res;
 
@@ -64,6 +67,10 @@ public class AdventuresOfGame extends Game {
 		case NEWGAMESCREEN:
 			newGameScreen = new NewGameScreen(this);
 			this.setScreen(newGameScreen);
+			break;
+		case CREDITS:
+			creditScreen = new CreditScreen(this);
+			this.setScreen(creditScreen);
 			break;
 		default: 
 		}
