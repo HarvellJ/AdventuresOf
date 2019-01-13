@@ -24,8 +24,8 @@ public enum Spell {
 	Firelion(new FireballAnimation(), 50, 50, 20, MovementSpeed.VERY_FAST, "audio/effects/fireLionSpell.wav", SpellType.projectile, CoolDownEnum.Medium,  "spells//rip-sky-3.png", true),
 
 	// powerful level abilities
-	IceBarrier(new IceBarrierAnimation(), 50, 50, 20, MovementSpeed.VERY_FAST, "audio/effects/magicShield.wav", SpellType.buff, CoolDownEnum.Medium,  "spells//shielding-eerie-3.png", false),
-	FireBarrier(new FireBarrierAnimation(), 50, 50, 20, MovementSpeed.VERY_FAST, "audio/effects/magicShield.wav", SpellType.buff, CoolDownEnum.Medium,  "spells//shielding-fire-3.png", false, 80),
+	IceBarrier(new IceBarrierAnimation(), 50, 50, 20, MovementSpeed.VERY_FAST, "audio/effects/magicShield.wav", SpellType.buff, CoolDownEnum.VeryLong,  "spells//shielding-eerie-3.png", false),
+	FireBarrier(new FireBarrierAnimation(), 50, 50, 50, MovementSpeed.VERY_FAST, "audio/effects/magicShield.wav", SpellType.buff, CoolDownEnum.VeryLong,  "spells//shielding-fire-3.png", false, 80),
 
 	// ultimate abilities
 	IceSpell(new IceSpellAnimation(), 50, 50, 30, MovementSpeed.VERY_FAST, "audio/effects/ice.wav", SpellType.instantCast, CoolDownEnum.Medium,  "spells//needles-blue-3.png", true, 120),

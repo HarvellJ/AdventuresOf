@@ -92,7 +92,7 @@ public abstract class GameCharacter extends MoveableObject {
 	private int temporaryHealthBonusPoints;
 	private int temporaryDefenceBonusPoints;
 	private int temporaryDamageBonusPoints;
-	private float timeOfTemporaryBuff;
+	private long timeOfTemporaryBuff;
 
 	// death stuff
 	protected boolean isDying;
@@ -663,7 +663,7 @@ public abstract class GameCharacter extends MoveableObject {
 	 */
 	private void resetTemporaryBuffs() {
 		// reset any temporary buffs after 5 seconds
-		if(timeOfTemporaryBuff != 0 && timeOfTemporaryBuff < stateTime - 5) {
+		if(timeOfTemporaryBuff < (System.currentTimeMillis() - 5000)) {
 			// dequeue item - display period expired
 			this.temporaryDamageBonusPoints = 0;
 			this.temporaryDefenceBonusPoints = 0;
@@ -903,7 +903,10 @@ public abstract class GameCharacter extends MoveableObject {
 		if(lungeForwardPerformed - this.stateTime <= 0) {
 			this.lungeForward();	
 			this.lungeForwardPerformed = this.stateTime + attackInterval;
-			this.target.damage(10, this);
+			if(this.characterClass == CharacterClass.melee) 
+				this.target.damage(25, this);
+			else 
+				this.target.damage(10, this);
 		}
 		else if(lungeBackwardPerformed - this.stateTime <= 0) {
 			this.lungeBackward();	
@@ -944,7 +947,7 @@ public abstract class GameCharacter extends MoveableObject {
 		this.TemporarilyBuffDamage(spell.getDamage());
 		this.TemporarilyBuffDefence(spell.getDamage());
 		this.heal(5);
-		this.timeOfTemporaryBuff = this.stateTime;
+		this.timeOfTemporaryBuff = System.currentTimeMillis();
 	}
 
 	/**
